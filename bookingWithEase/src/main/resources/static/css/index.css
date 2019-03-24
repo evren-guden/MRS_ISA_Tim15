@@ -1,0 +1,49 @@
+body {
+	background-image: url(../images/background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+h1{
+	color: orange;
+	text-align: center;
+}
+
+table{
+	align: center;
+}
+
+div.transbox {
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 5%;
+  background-color: white;
+  border: 1px solid black;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+  text-align: center;
+  font-size: 22px;
+}
+
+td{
+	align: "left";
+}
+
+.formBtn{
+	font-size: 20px;
+}
+
+
+.left {
+  margin: 2px;
+/*  border-right: solid 1px; */
+  float: left;
+  width: 25%;
+}
+
+.center{
+ margin-left: 25%;
+ width: 75%;
+}
+
