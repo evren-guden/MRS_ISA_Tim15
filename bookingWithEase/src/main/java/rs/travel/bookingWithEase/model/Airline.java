@@ -1,7 +1,7 @@
 package rs.travel.bookingWithEase.model;
 
 import org.springframework.stereotype.Component;
-//
+
 @Component
 public class Airline extends Company {
 
