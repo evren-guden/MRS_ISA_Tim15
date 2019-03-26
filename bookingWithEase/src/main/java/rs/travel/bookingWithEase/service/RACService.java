@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.travel.bookingWithEase.dto.RentACarDTO;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.RentACar;
 import rs.travel.bookingWithEase.repository.RACRepository;
@@ -33,6 +34,11 @@ public class RACService implements IRACService{
 
 		return rentacars.create(rentACar);
 		
+	}
+	
+	@Override
+	public Collection<RentACar> search(RentACarDTO rentACar) {
+		return this.rentacars.search(rentACar);
 	}
 
 }

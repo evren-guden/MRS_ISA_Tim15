@@ -8,6 +8,7 @@
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/rentacar.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
@@ -22,19 +23,19 @@
 				search</button>
 		</div>
 		<div id="div-rac-search" style="display: none">
-			<form action="" method="get">
+			<form id="form-src">
 				<table>
 					<tr>
 						<td>Id:</td>
-						<td><input type="text" id="edit-rac-id"></td>
+						<td><input type="text" name="id" id="src-rac-id"></td>
 					</tr>
 					<tr>
 						<td>Name:</td>
-						<td><input type="text" id="edit-rac-name"></td>
+						<td><input type="text" name="name" id="src-rac-name"></td>
 					</tr>
 					<tr>
 						<td>Address:</td>
-						<td><input type="text" id="edit-rac-addr"></td>
+						<td><input type="text" name="address" id="src-rac-addr"></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -44,6 +45,7 @@
 			</form>
 		</div>
 
+		<table id="tab-rac" border="1"></table>
 	</div>
 </body>
 

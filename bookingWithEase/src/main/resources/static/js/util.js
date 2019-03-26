@@ -7,5 +7,6 @@ function getFormData(formId)
         var record = s_data[i];
         formData[record.name] = record.value;
     }
+    
     return formData;
 }

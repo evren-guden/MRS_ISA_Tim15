@@ -2,6 +2,7 @@ package rs.travel.bookingWithEase.repository;
 
 import java.util.Collection;
 
+import rs.travel.bookingWithEase.dto.RentACarDTO;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.RentACar;
 
@@ -11,4 +12,5 @@ public interface IRACRepository {
 
 	RentACar create(Company company);
 	
+	Collection<RentACar> search(RentACarDTO rentACar);
 }
