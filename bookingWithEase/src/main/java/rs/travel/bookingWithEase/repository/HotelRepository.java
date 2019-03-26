@@ -16,6 +16,14 @@ public class HotelRepository implements IHotelRepository {
 	
 	private final ConcurrentMap<Long,Hotel> hotels = new ConcurrentHashMap<Long,Hotel>();
 	
+	public HotelRepository()
+	{	
+		hotels.put(100l, new Hotel(100l,"Turist","Kraljevo","Najbolji!",5));
+		hotels.put(200l, new Hotel(200l,"Park","Novi Sad","Najbolji!",5));
+		hotels.put(300l, new Hotel(300l,"Palisad","Zlatibor","Najbolji!",5));
+		
+	}
+	
 	@Override
 	public Collection<Hotel> findAll() {
 		return this.hotels.values();
