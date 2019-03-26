@@ -27,7 +27,7 @@ public class VehicleService implements IVehicleService {
 		if (findedVehicle == null) {
 			throw new Exception("Ne postoji vozilo servis sa tim identifikatorom.");
 		}
-		findedVehicle.setRegistration_number(vehicle.getRegistration_number());
+		findedVehicle.setRegistrationNumber(vehicle.getRegistrationNumber());
 		findedVehicle.setGear(vehicle.getGear());
 		findedVehicle.setType(vehicle.getType());
 		findedVehicle.setColor(vehicle.getColor());

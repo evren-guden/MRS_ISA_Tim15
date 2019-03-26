@@ -3,11 +3,11 @@ package rs.travel.bookingWithEase.model;
 public class Vehicle {
 
 	private Long id;
-	private String registration_number;
+	private String registrationNumber;
 	private String type;
 	private String gear;
 	private String color;
-	
+
 	public Vehicle() {
 	}
 
@@ -17,14 +17,6 @@ public class Vehicle {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getRegistration_number() {
-		return registration_number;
-	}
-
-	public void setRegistration_number(String registration_number) {
-		this.registration_number = registration_number;
 	}
 
 	public String getType() {
@@ -50,5 +42,13 @@ public class Vehicle {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	
+
+	public String getRegistrationNumber() {
+		return registrationNumber;
+	}
+
+	public void setRegistrationNumber(String registrationNumber) {
+		this.registrationNumber = registrationNumber;
+	}
+
 }

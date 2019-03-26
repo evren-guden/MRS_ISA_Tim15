@@ -42,7 +42,7 @@ public class VehicleRepository implements IVehicleRepository {
 		veh.setId((long) 1);
 		veh.setColor("Red");
 		veh.setGear("Automatic");
-		veh.setRegistration_number("AA-1");
+		veh.setRegistrationNumber("AA-1");
 		veh.setType("type1");
 		this.vehicles.put((long) 1, veh);
 		
@@ -50,7 +50,7 @@ public class VehicleRepository implements IVehicleRepository {
 		veh.setId((long) 2);
 		veh.setColor("Green");
 		veh.setGear("Automatic");
-		veh.setRegistration_number("Ab-1");
+		veh.setRegistrationNumber("Ab-1");
 		veh.setType("type2");
 		this.vehicles.put((long) 2, veh);
 		
@@ -58,7 +58,7 @@ public class VehicleRepository implements IVehicleRepository {
 		veh.setId((long) 3);
 		veh.setColor("Red");
 		veh.setGear("Manual");
-		veh.setRegistration_number("BA-1");
+		veh.setRegistrationNumber("BA-1");
 		veh.setType("type3");
 		this.vehicles.put((long) 3, veh);
 	}
