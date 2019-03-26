@@ -32,7 +32,7 @@ public class VehicleRepository implements IVehicleRepository {
 
 	@Override
 	public Vehicle find(Long id) {
-		return this.find(id);
+		return this.vehicles.get(id);
 	}
 
 	@Override

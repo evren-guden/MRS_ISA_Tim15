@@ -17,50 +17,66 @@ function fillTable(data) {
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#tab-vehicles');
 	$('#tab-vehicles').empty();
-	$('#tab-vehicles')
-			.append(
-					'<tr><th>Id</th><th>Color</th><th>Type</th><th>Gear</th><th>Registration number</th></tr>');
-	$.each(veh_list, function(index, vehicle) {
-		console.log("each");
-		var form = $('<td><form class="formsedit" id="form' + vehicle.id
-				+ '"><input name="id" value=' + vehicle.id
-				+ ' disabled></form></td><td><input form="form' + vehicle.id
-				+ '" name="color" value=' + vehicle.color
-				+ '></td><td><input form="form' + vehicle.id
-				+ '" name="type" value=' + vehicle.type
-				+ '></td><td><input form="form' + vehicle.id
-				+ '" name="gear" value=' + vehicle.gear
-				+ '></td><td><input form="form' + vehicle.id
-				+ '" name="registrationNumber" value=' + vehicle.registrationNumber
-				+ '></td><td><button type="submit" id="bform'+ vehicle.id +'" form="form' + vehicle.id
-				+ '" class="editforms">Edit</td>');
-		var tr = $('<tr></tr>');
+	// $('#tab-vehicles')
+	// .append(
+	// '<tr><th>Id</th><th>Color</th><th>Type</th><th>Gear</th><th>Registration
+	// number</th></tr>');
+	var cont = $('#help');
+	cont.empty();
+	$.each(veh_list,
+			function(index, vehicle) {
+				console.log("each");
+				var cont2 = $('<div></div>');
+				var form = $('<form class="formsedit" id="form' + vehicle.id
+						+ '"><input name="ident" value=' + vehicle.id
+						+ ' readonly><input name="color" value='
+						+ vehicle.color + '><input name="type" value='
+						+ vehicle.type + '><input name="gear" value='
+						+ vehicle.gear
+						+ '><input name="registrationNumber" value='
+						+ vehicle.registrationNumber
+						+ '><input type="submit" id="bform' + vehicle.id
+						+ '"></form>');
 
-		tr.append(form);
-		table.append(tr);
-	}
-	
+				cont2.append(form);
+				cont.append(cont2);
+			}
+
 	);
-	
-$('.formsedit').on('submit', function(e) {
+
+	$('.formsedit').on('submit', function(e) {
 		e.preventDefault();
+		console.log(this.id);
 		var iden = this.id;
-		var formData = getFormData(iden);
+		// var formData = getFormData(iden);
+
+		var formData = {};
+		var s_data = $('#' + this.id).serializeArray();
+
+		for (var i = 0; i < s_data.length; i++) {
+			var record = s_data[i];
+			if (record.name === "ident") {
+				formData["id"] = record.value;
+			} else {
+				formData[record.name] = record.value;
+			}
+		}
+
 		console.log(iden);
 		var jsonData = JSON.stringify(formData);
 		console.log(jsonData);
 		$.ajax({
 			type : 'post',
 			url : "/vehicles/edit",
-			contentType: 'application/json',
-			dataType: 'json',
+			contentType : 'application/json',
+			dataType : 'json',
+			data: jsonData,
 			success : findVehicles,
 			error : function(data) {
 				alert(data);
 			}
 		});
 	});
-	
 
 }
 
@@ -75,4 +91,3 @@ $(document).on('click', '#init-vehs', function(e) {
 		}
 	});
 });
-
