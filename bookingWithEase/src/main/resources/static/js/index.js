@@ -18,3 +18,7 @@ $(document).on('click', '#rent-a-car', function(e){
     window.location.href = "rentacar.html";
 });
 
+$(document).on('click', '#vehicles', function(e){
+    e.preventDefault();
+    window.location.href = "vehicles.html";
+});
