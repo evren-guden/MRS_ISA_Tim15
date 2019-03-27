@@ -23,20 +23,20 @@ function fillTable(data) {
 	// number</th></tr>');
 	var cont = $('#help');
 	cont.empty();
-	
+
 	$.each(veh_list,
 			function(index, vehicle) {
-				console.log("each");
+
 				var cont2 = $('<div></div>');
 				var form = $('<form class="formsedit" id="form' + vehicle.id
 						+ '"><input name="ident" value=' + vehicle.id
-						+ ' readonly><input name="color" value='
-						+ vehicle.color + '><input name="type" value='
-						+ vehicle.type + '><input name="gear" value='
+						+ ' readonly><input name="color" value="'
+						+ vehicle.color + '"><input name="type" value="'
+						+ vehicle.type + '"><input name="gear" value="'
 						+ vehicle.gear
-						+ '><input name="registrationNumber" value='
+						+ '"><input name="registrationNumber" value="'
 						+ vehicle.registrationNumber
-						+ '><input type="submit" id="bform' + vehicle.id
+						+ '"><input type="submit" id="bform' + vehicle.id
 						+ '"></form>');
 
 				cont2.append(form);
@@ -47,7 +47,6 @@ function fillTable(data) {
 
 	$('.formsedit').on('submit', function(e) {
 		e.preventDefault();
-		console.log(this.id);
 		var iden = this.id;
 		// var formData = getFormData(iden);
 
@@ -63,15 +62,13 @@ function fillTable(data) {
 			}
 		}
 
-		console.log(iden);
 		var jsonData = JSON.stringify(formData);
-		console.log(jsonData);
 		$.ajax({
 			type : 'post',
 			url : "/vehicles/edit",
 			contentType : 'application/json',
 			dataType : 'json',
-			data: jsonData,
+			data : jsonData,
 			success : findVehicles,
 			error : function(data) {
 				alert(data);
@@ -80,7 +77,6 @@ function fillTable(data) {
 	});
 
 }
-
 
 $(document).on('click', '#init-vehs', function(e) {
 	$.ajax({

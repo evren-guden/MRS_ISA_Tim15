@@ -27,13 +27,13 @@ public class VehicleController {
 	public ResponseEntity<Collection<Vehicle>> getAll(){
 		
 		Collection<Vehicle> vehicles = service.findAll();
-		
+
 		return new ResponseEntity<Collection<Vehicle>>(vehicles, HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle){
-		System.out.println("update");
+		
 		Vehicle veh = null;
 		try {
 			veh = service.update(vehicle);

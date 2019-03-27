@@ -30,11 +30,11 @@ function fillTable(data) {
 	
 		var cont2 = $('<div></div>');
 		var form = $('<form align=left class="formsedit" id="form' + airline.id
-				+ '"><input name="ident" value=' + airline.id
-				+ ' readonly><input name="name" value=' + airline.name
-				+ '><input name="address" value=' + airline.address
-				+ '><input name="description" value=' + airline.description
-				+ '><input type="submit" id="bform'+ airline.id +'"></form>');
+				+ '"><input name="ident" value="' + airline.id
+				+ '" readonly><input name="name" value="' + airline.name
+				+ '"><input name="address" value="' + airline.address
+				+ '"><input name="description" value="' + airline.description
+				+ '"><input type="submit" id="bform'+ airline.id +'"></form>');
 
 		cont2.append(form);
 		cont.append(cont2);
@@ -62,7 +62,6 @@ $('.formsedit').on('submit', function(e) {
 			}
 		}
 		
-		console.log(iden);
 		var jsonData = JSON.stringify(formData);
 		console.log("ovde" + jsonData);
 		$.ajax({
