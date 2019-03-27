@@ -22,3 +22,8 @@ $(document).on('click', '#vehicles', function(e){
     e.preventDefault();
     window.location.href = "vehicles.html";
 });
+$(document).on('click', '#flight', function(e){
+    e.preventDefault();
+    window.location.href = "flight.html";
+});
+
