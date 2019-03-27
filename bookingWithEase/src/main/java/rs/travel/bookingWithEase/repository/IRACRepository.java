@@ -1,16 +1,10 @@
 package rs.travel.bookingWithEase.repository;
 
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import rs.travel.bookingWithEase.dto.RentACarDTO;
-import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.RentACar;
 
-public interface IRACRepository {
+public interface IRACRepository extends JpaRepository<RentACar, Long> {
 	
-	Collection<RentACar> findAll();
-
-	RentACar create(Company company);
 	
-	Collection<RentACar> search(RentACarDTO rentACar);
 }

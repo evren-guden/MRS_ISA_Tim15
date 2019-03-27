@@ -1,16 +1,9 @@
 package rs.travel.bookingWithEase.repository;
 
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import rs.travel.bookingWithEase.model.Vehicle;
 
-public interface IVehicleRepository {
+public interface IVehicleRepository extends JpaRepository<Vehicle, Long>{
 
-	Collection<Vehicle> findAll();
-	
-	Vehicle find(Long id);
-	
-	Vehicle update(Vehicle vehicle);
-	
-	void initValues();
 }

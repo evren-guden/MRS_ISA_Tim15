@@ -1,44 +1,42 @@
 package rs.travel.bookingWithEase.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.RentACarDTO;
-import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.RentACar;
-import rs.travel.bookingWithEase.repository.RACRepository;
+import rs.travel.bookingWithEase.repository.IRACRepository;
 
 @Service
-public class RACService implements IRACService{
+public class RACService{
 	
 	@Autowired
-	private RACRepository rentacars;
+	private IRACRepository rentacarsRepository;
 	
-	
-	@Override
-	public Collection<RentACar> findAll()
-	{
-		return rentacars.findAll();
-		
+	public Optional<RentACar> findOne(Long id) {
+		return rentacarsRepository.findById(id);
 	}
-	
-	@Override
-	public RentACar create(Company company) throws Exception
-	{	
-		RentACar rentACar = new RentACar(company);
-		if (rentACar.getId() != null) {
-			throw new Exception(" ");
-		}
 
-		return rentacars.create(rentACar);
-		
+	public List<RentACar> findAll() {
+		return rentacarsRepository.findAll();
 	}
 	
-	@Override
-	public Collection<RentACar> search(RentACarDTO rentACar) {
-		return this.rentacars.search(rentACar);
+	public RentACar save(RentACar rentACar) {
+		return rentacarsRepository.save(rentACar);
 	}
+
+	public void delete(Long id) {
+		rentacarsRepository.deleteById(id);
+	}
+
+	public Collection<RentACar> search(RentACarDTO rentACar) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 }

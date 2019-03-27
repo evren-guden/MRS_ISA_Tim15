@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.service.VehicleService;
@@ -36,7 +35,7 @@ public class VehicleController {
 		
 		Vehicle veh = null;
 		try {
-			veh = service.update(vehicle);
+			veh = service.save(vehicle);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,11 +48,5 @@ public class VehicleController {
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/initial", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Vehicle>> initial() {
-		service.initValues();
-		Collection<Vehicle> vehicles = service.findAll();
 
-		return new ResponseEntity<Collection<Vehicle>>(vehicles, HttpStatus.OK);
-	}
 }
