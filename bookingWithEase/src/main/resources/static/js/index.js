@@ -3,6 +3,16 @@ $(document).on('click', '#new_company', function(e){
     window.location.href = "companyRegistration.html";
 });
 
+$(document).on('click', '#new_admin', function(e){
+    e.preventDefault();
+    window.location.href = "adminRegistration.html";
+});
+
+$(document).on('click', '#users', function(e){
+    e.preventDefault();
+    window.location.href = "users.html";
+});
+
 $(document).on('click', '#airlines', function(e){
     e.preventDefault();
     window.location.href = "airlines.html";
@@ -22,6 +32,7 @@ $(document).on('click', '#vehicles', function(e){
     e.preventDefault();
     window.location.href = "vehicles.html";
 });
+
 $(document).on('click', '#flight', function(e){
     e.preventDefault();
     window.location.href = "flight.html";
