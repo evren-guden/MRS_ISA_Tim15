@@ -9,5 +9,9 @@ public interface IAirlineService {
 	
 	Collection<Airline> findAll();
 	
+	Airline find(Long id);
+	
 	Airline create(Company company) throws Exception;
+	
+	Airline update(Airline airline) throws Exception;
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import rs.travel.bookingWithEase.model.Airline;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.RentACar;
+import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.repository.AirlineRepository;
 
 @Service
@@ -32,5 +33,26 @@ public class AirlineService implements IAirlineService{
 
 		return airlines.create(airline);
 		
+	}
+	
+	@Override
+	public Airline find(Long id) {
+		return airlines.find(id);
+	}
+
+	
+	@Override
+	public Airline update(Airline airline) throws Exception {
+		Airline findedAirline = find(airline.getId());
+
+		if (findedAirline == null) {
+			throw new Exception("Ne postoji vozilo servis sa tim identifikatorom.");
+		}
+		findedAirline.setId(airline.getId());
+		findedAirline.setName(airline.getName());
+		findedAirline.setAddress(airline.getAddress());
+		findedAirline.setDescription(airline.getDescription());
+
+		return airlines.update(findedAirline);
 	}
 }

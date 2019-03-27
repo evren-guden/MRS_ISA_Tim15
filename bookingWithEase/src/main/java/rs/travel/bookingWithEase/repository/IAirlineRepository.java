@@ -11,4 +11,8 @@ public interface IAirlineRepository {
 
 	Airline create(Company company);
 	
+	Airline find(Long id);
+	
+	Airline update(Airline airline);
+	
 }

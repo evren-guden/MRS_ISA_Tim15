@@ -23,6 +23,7 @@ function fillTable(data) {
 	// number</th></tr>');
 	var cont = $('#help');
 	cont.empty();
+	
 	$.each(veh_list,
 			function(index, vehicle) {
 				console.log("each");

@@ -17,7 +17,14 @@ public class RACRepository implements IRACRepository{
 	private static AtomicLong counter = new AtomicLong();
 
 	private final ConcurrentMap<Long, RentACar> rac = new ConcurrentHashMap<Long, RentACar>();
-
+	
+	public RACRepository()
+	{
+		rac.put(100l, new RentACar(100l,"RAC1","Novi Sad"," ",5));
+		rac.put(200l, new RentACar(200l,"RAC2","Novi Sad"," ",5));
+		rac.put(300l, new RentACar(300l,"RAC3","Beograd"," ",5));
+	}
+	
 	@Override
 	public Collection<RentACar> findAll() {
 		return this.rac.values();

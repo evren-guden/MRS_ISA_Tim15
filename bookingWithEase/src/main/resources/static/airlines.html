@@ -8,44 +8,29 @@
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/airlines.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
 <title>Airlines</title>
 <body data-gr-c-s-loaded="true">
 	<h1>Airlines</h1>
-	<div class="transbox">
-		<div id="div-show-search">
-			<form>
-				<input type="button" name="dugme" value="Dodaj novi let" onClick="Akcija">
-			</form>
-			<form>
-		<input type="button" name="dugme" value="Izmeni podatke" onClick="Akcija">
-	</form>
-		</div>
-		<div id="div-rac-search" style="display: none">
-			<form id="form-src">
-			
 
-				<table>
-					<tbody><tr>
-						<td>Id:</td>
-						<td><input type="text" name="id" id="src-rac-id"></td>
-					</tr>
-					<tr>
-						<td>Name:</td>
-						<td><input type="text" name="name" id="src-rac-name"></td>
-					</tr>
-					<tr>
-						<td>Address:</td>
-						<td><input type="text" name="address" id="src-rac-addr"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" value="Search"></td>
-					</tr>
-				</tbody></table>
-			</form>
-		</div>
-
-		<table id="tab-rac" border="1"><tbody><tr><th>Id</th><th>Name</th><th>Address</th></tr></tbody></table>
+		
+	<div class="transbox2">
+		<table id="airlinesTable" border="1" align = center>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Description</th>
+			</tr>
+		</table>
+		<div id="help"></div>
 	</div>
+		
+	
+	
+</body>
+
+</html>
