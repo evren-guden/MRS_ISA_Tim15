@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	
 	// ucitavanje podataka o letovima
 	ucitajPodatke("../flights/deliveryAll", "flightsDisplay");
 	
@@ -61,6 +60,7 @@ $(document).ready(function() {
 
 
 function ucitajPodatke(putanjaController, idTabeleZaPrikaz) {
+
 	let tabela = $("#" + idTabeleZaPrikaz);
 	$.ajax({
 		type: "GET",
@@ -87,9 +87,7 @@ function prikazi(podatak, tabelaZaPrikaz) {
 	noviRed.append("<td>" + podatak.lengthTravel + "</td>");
 	noviRed.append("<td>" + podatak.numberTransitions.transitions + "</td>");
 	noviRed.append("<td>" + podatak.priceTicket + "</td>");
-	
-	
-	noviRed.append("<td>" + podatak. + "</td>");
+	//noviRed.append("<td>" + podatak. + "</td>");
 
 	tabelaZaPrikaz.append(noviRed);
 }

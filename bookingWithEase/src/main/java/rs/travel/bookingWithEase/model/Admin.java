@@ -1,8 +1,20 @@
 package rs.travel.bookingWithEase.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
 public class Admin extends User {
 	
 	private ADMIN_TYPE type;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Company company;
 
 	public Admin() {
 		super();

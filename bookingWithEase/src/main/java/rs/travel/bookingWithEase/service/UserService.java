@@ -1,42 +1,37 @@
 package rs.travel.bookingWithEase.service;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
-import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.model.ADMIN_TYPE;
 import rs.travel.bookingWithEase.model.Admin;
-import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.User;
-import rs.travel.bookingWithEase.repository.UserRepository;
+import rs.travel.bookingWithEase.repository.IUserRepository;
 
 @Service
-public class UserService implements IUserService {
+public class UserService {
 	
 	@Autowired
-	private UserRepository users;
+	private IUserRepository users;
 	
-	@Override
-	public Collection<User> findAll() {
+	public Optional<User> findOne(Long id) {
+		return users.findById(id);
+	}
+
+	public List<User> findAll() {
 		return users.findAll();
 	}
-
-	@Override
-	public User find(Long id) {
-		return users.find(id);
+	
+	public User save(User user) {
+		return users.save(user);
 	}
 
-	@Override
-	public User create(User user) throws Exception {
-		
-		if (user.getId() != null) {
-			throw new Exception("");
-		}
-
-		return users.create(user);
+	public void delete(Long id) {
+		users.deleteById(id);
 	}
 	
 	public User dtoToUser(AdminUserDTO adminUserDto) {

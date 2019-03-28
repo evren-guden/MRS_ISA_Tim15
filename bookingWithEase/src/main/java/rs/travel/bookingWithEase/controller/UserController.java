@@ -33,7 +33,7 @@ public class UserController {
 	public User add(@RequestBody AdminUserDTO adminUserDto) throws Exception
 	{
 		User newUser = userService.dtoToUser(adminUserDto);
-		return userService.create(newUser);
+		return userService.save(newUser);
 
 	}
 	

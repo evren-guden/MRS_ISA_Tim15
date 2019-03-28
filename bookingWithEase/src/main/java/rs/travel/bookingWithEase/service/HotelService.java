@@ -1,53 +1,43 @@
 package rs.travel.bookingWithEase.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rs.travel.bookingWithEase.model.Company;
+import rs.travel.bookingWithEase.dto.RentACarDTO;
 import rs.travel.bookingWithEase.model.Hotel;
-import rs.travel.bookingWithEase.repository.HotelRepository;
+import rs.travel.bookingWithEase.model.RentACar;
+import rs.travel.bookingWithEase.repository.IHotelRepository;
 
 @Service
-public class HotelService implements IHotelService {
+public class HotelService{
 	
 	@Autowired
-	private HotelRepository hotels;
+	private IHotelRepository hotels;
 	
-	@Override
-	public Collection<Hotel> findAll() {
-		
+	public Optional<Hotel> findOne(Long id) {
+		return hotels.findById(id);
+	}
+
+	public List<Hotel> findAll() {
 		return hotels.findAll();
 	}
 	
-	@Override
-	public Hotel find(Long id) {
-		return hotels.find(id);
-		
+	public Hotel save(Hotel hotel) {
+		return hotels.save(hotel);
 	}
-	
-	@Override
-	public Hotel create(Company company) throws Exception {
-		
-		Hotel hotel = new Hotel(company);
-		if (hotel.getId() != null) {
-			throw new Exception("");
-		}
 
-		return hotels.create(hotel);
-		
+	public void delete(Long id) {
+		hotels.deleteById(id);
 	}
-	
-	@Override
-	public Hotel update(Hotel hotel) throws Exception {
-		
+
+	public Collection<RentACar> search(RentACarDTO rentACar) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void delete(Long id) {
-		
-	}
 
 }

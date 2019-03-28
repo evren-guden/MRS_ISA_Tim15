@@ -1,15 +1,9 @@
 package rs.travel.bookingWithEase.repository;
 
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import rs.travel.bookingWithEase.model.User;
 
-public interface IUserRepository {
+public interface IUserRepository extends JpaRepository<User, Long> {
 	
-	Collection<User> findAll();
-
-	User create(User user);
-
-	User find(Long id);
-
 }

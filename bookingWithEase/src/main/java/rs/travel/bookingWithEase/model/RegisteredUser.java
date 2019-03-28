@@ -1,7 +1,22 @@
 package rs.travel.bookingWithEase.model;
 
-public class RegisteredUser extends User {
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+public class RegisteredUser extends User {
+	
+	@OneToMany(mappedBy="user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<RoomReservation> roomReservations = new HashSet<RoomReservation>();
+	
 	public RegisteredUser() {
 		super();
 	}

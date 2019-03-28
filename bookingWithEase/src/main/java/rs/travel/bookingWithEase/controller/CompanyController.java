@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.model.Company;
+import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.RentACar;
 import rs.travel.bookingWithEase.service.AirlineService;
 import rs.travel.bookingWithEase.service.CompanyService;
@@ -44,7 +45,7 @@ public class CompanyController {
 			System.out.println("Airline added");
 			break;
 		case "hotel":
-			hotelService.create(company);
+			hotelService.save(new Hotel(company));
 			System.out.println("Hotel added");
 			break;
 		case "rentacar":

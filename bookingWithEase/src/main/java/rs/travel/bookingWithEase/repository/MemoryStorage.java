@@ -4,9 +4,11 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 import rs.travel.bookingWithEase.model.Flight;
 
+@Repository
 public class MemoryStorage implements DatabaseManager {
 	protected ConcurrentHashMap<Long, Flight> flight;
 

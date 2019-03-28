@@ -1,35 +1,46 @@
 package rs.travel.bookingWithEase.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
 @Component
-@MappedSuperclass
+@Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Company implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	protected Long id;
 	protected String name;
 	protected String address;
 	protected String description;
 	protected double rating;
 	
+	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	protected Set<Admin> admins = new HashSet<Admin>();
+	
 	public Company() {
 		super();
 	}
 	
 	public Company(String name, String address, String description)
-	{
+	{	
 		this.name = name;
 		this.address = address;
 		this.description = description;

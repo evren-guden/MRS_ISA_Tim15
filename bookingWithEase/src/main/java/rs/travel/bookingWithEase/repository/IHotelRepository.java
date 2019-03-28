@@ -1,19 +1,10 @@
 package rs.travel.bookingWithEase.repository;
 
-import java.util.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import rs.travel.bookingWithEase.model.Hotel;
 
-public interface IHotelRepository {
+public interface IHotelRepository extends JpaRepository<Hotel, Long>{
 	
-	Collection<Hotel> findAll();
-
-	Hotel create(Hotel hotel);
-
-	Hotel find(Long id);
-
-	Hotel update(Hotel hotel);
-
-	void delete(Long id);
 	
 }
