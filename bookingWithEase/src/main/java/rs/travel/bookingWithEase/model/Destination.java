@@ -2,38 +2,22 @@ package rs.travel.bookingWithEase.model;
 
 public class Destination {
 
-	private String idAerodromes;
-	private String nameAerodroms;
-	private Location address;
+	String nameDestination;
 
-	public Destination(String idAerodromes, String nameAerodroms, Location address) {
+	public String getNameDestination() {
+		return nameDestination;
+	}
+
+	public void setNameDestination(String nameDestination) {
+		this.nameDestination = nameDestination;
+	}
+
+	public Destination(String nameDestination) {
 		super();
-		this.idAerodromes = idAerodromes;
-		this.nameAerodroms = nameAerodroms;
-		this.address = address;
+		this.nameDestination = nameDestination;
 	}
 
-	public String getIdAerodromes() {
-		return idAerodromes;
-	}
-
-	public void setIdAerodromes(String idAerodromes) {
-		this.idAerodromes = idAerodromes;
-	}
-
-	public String getNameAerodroms() {
-		return nameAerodroms;
-	}
-
-	public void setNameAerodroms(String nameAerodroms) {
-		this.nameAerodroms = nameAerodroms;
-	}
-
-	public Location getAddress() {
-		return address;
-	}
-
-	public void setAddress(Location address) {
-		this.address = address;
+	public Destination() {
+		super();
 	}
 }

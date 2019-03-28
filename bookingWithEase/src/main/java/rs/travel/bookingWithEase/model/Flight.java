@@ -8,7 +8,7 @@ public class Flight {
 	private Destination startDestination;
 	private Destination endDestination;
 	private Date dateFligh;
-	private Date DateLand;
+	private Date dateLand;
 	private Date timeTravel;
 	private double lengthTravel;
 	private HashMap<String, Destination> transitions;
@@ -49,11 +49,11 @@ public class Flight {
 	}
 
 	public Date getDateLand() {
-		return DateLand;
+		return dateLand;
 	}
 
 	public void setDateLand(Date dateLand) {
-		DateLand = dateLand;
+		this.dateLand = dateLand;
 	}
 
 	public Date getTimeTravel() {
@@ -104,7 +104,7 @@ public class Flight {
 		this.startDestination = startDestination;
 		this.endDestination = endDestination;
 		this.dateFligh = dateFligh;
-		DateLand = dateLand;
+		this.dateLand = dateLand;
 		this.timeTravel = timeTravel;
 		this.lengthTravel = lengthTravel;
 		this.transitions = transitions;
@@ -114,5 +114,4 @@ public class Flight {
 
 	public Flight() {
 		super();
-	}
-}
+	}}
