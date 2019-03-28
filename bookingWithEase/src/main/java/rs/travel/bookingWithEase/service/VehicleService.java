@@ -1,49 +1,35 @@
 package rs.travel.bookingWithEase.service;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.model.Vehicle;
-import rs.travel.bookingWithEase.repository.VehicleRepository;
+import rs.travel.bookingWithEase.repository.IVehicleRepository;
 
 @Service
-public class VehicleService implements IVehicleService {
+public class VehicleService{
 
 	@Autowired
-	private VehicleRepository repository;
+	private IVehicleRepository vehicleRepository;
 
-	@Override
-	public Collection<Vehicle> findAll() {
-		Collection<Vehicle> vehicles = repository.findAll();
-		return vehicles;
+	
+	public Optional<Vehicle> findOne(Long id) {
+		return vehicleRepository.findById(id);
 	}
 
-	@Override
-	public Vehicle update(Vehicle vehicle) throws Exception {
-		Vehicle findedVehicle = find(vehicle.getId());
-
-		if (findedVehicle == null) {
-			throw new Exception("Ne postoji vozilo servis sa tim identifikatorom.");
-		}
-		findedVehicle.setRegistrationNumber(vehicle.getRegistrationNumber());
-		findedVehicle.setGear(vehicle.getGear());
-		findedVehicle.setType(vehicle.getType());
-		findedVehicle.setColor(vehicle.getColor());
-
-		return repository.update(findedVehicle);
+	public List<Vehicle> findAll() {
+		return vehicleRepository.findAll();
+	}
+	
+	public Vehicle save(Vehicle vehicle) {
+		return vehicleRepository.save(vehicle);
 	}
 
-	@Override
-	public Vehicle find(Long id) {
-		return repository.find(id);
-	}
-
-	@Override
-	public void initValues() {
-		repository.initValues();
-		
+	public void delete(Long id) {
+		vehicleRepository.deleteById(id);
 	}
 
 }

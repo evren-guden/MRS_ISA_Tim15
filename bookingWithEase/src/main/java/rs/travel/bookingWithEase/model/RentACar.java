@@ -3,17 +3,27 @@ package rs.travel.bookingWithEase.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
 import org.springframework.stereotype.Component;
 
 @Component
+@Entity
 public class RentACar extends Company {
 
 	private static final long serialVersionUID = 1L;
 
-	private Location location;
-	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
+	// private Location location;
+
+	@OneToMany(mappedBy = "rac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Branch> branches = new HashSet<Branch>();
 
+	@OneToMany(mappedBy = "rentacar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
+	
 	public RentACar() {
 	}
 
@@ -28,22 +38,6 @@ public class RentACar extends Company {
 		this.address = company.address;
 		this.description = company.description;
 		this.rating = company.rating;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
-	public Set<Vehicle> getVehicles() {
-		return vehicles;
-	}
-
-	public void setVehicles(Set<Vehicle> vehicles) {
-		this.vehicles = vehicles;
 	}
 
 	public Set<Branch> getBranches() {

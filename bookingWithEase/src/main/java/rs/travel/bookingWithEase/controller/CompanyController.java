@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.model.Company;
-import rs.travel.bookingWithEase.service.*;
+import rs.travel.bookingWithEase.model.RentACar;
+import rs.travel.bookingWithEase.service.AirlineService;
+import rs.travel.bookingWithEase.service.CompanyService;
+import rs.travel.bookingWithEase.service.HotelService;
+import rs.travel.bookingWithEase.service.RACService;
 
 @RestController
 @RequestMapping(value = "/companies")
@@ -44,11 +48,10 @@ public class CompanyController {
 			System.out.println("Hotel added");
 			break;
 		case "rentacar":
-			rentacarService.create(company);
+			rentacarService.save(new RentACar(company));
 			System.out.println("Rentacar added");
 			break;
 		}
-
 		return company;
 	}
 

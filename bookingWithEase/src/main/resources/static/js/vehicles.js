@@ -78,13 +78,3 @@ function fillTable(data) {
 
 }
 
-$(document).on('click', '#init-vehs', function(e) {
-	$.ajax({
-		type : 'GET',
-		url : "/vehicles/initial",
-		success : fillTable,
-		error : function(data) {
-			alert(data);
-		}
-	});
-});
