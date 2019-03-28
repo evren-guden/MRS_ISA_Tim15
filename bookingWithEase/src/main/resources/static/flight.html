@@ -1,31 +1,77 @@
-<!DOCTYPE html>
-
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Add new flight</title>
+		<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+		<link rel="stylesheet" href="css/index.css" />
+		<script type="text/javascript" src="js/util.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/flights.js"></script>
+	</head>
+	<body>
+		<h1>Add new flight</h1>
+		<div class="transbox3">
+		<form id = "addFlightForm">
+			<table>
+				<tr>
+					<td>ID:</td>
+					<td><input type = "text" id = "idF"/></td>
+				</tr>
+				<tr>
+					<td>startDestination:</td>
+					<td><input type = "text" id = "startD"/></td>
+				</tr>
+				<tr>
+					<td>endDestination:</td>
+					<td><input type = "text" id = "endD"/></td>
+				</tr>
+				<tr>
+					<td>dateFligh:</td>
+					<td><input type = "date" id = "dateF"/></td>
+				</tr>
+				<tr>
+					<td>DateLand:</td>
+					<td><input type = "date" id = "dateL"/></td>
+				</tr>
+				<tr>
+					<td> lengthTravel:</td>
+					<td><input type = "date" id = "lengthTravel"/></td>
+				</tr>
+				<tr>
+					<td>numberoftransitions:</td>
+					<td><input type = "number" id = "transitions" min="0"/></td>
+				</tr>
+				
+				<tr>
+					<td>priceTicket:</td>
+					<td><input type = "number" id = "priceE" min="1"/></td>
+				</tr>
+				
+			<tr>
+			<td></td>
+			<td><input type="submit" value="Add"/></td>
+			</tr>
 
-<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
-<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script type="text/javascript" src="js/util.js"></script>
-<link rel="stylesheet" href="css/index.css" />
-<title>Flight</title>
-</head>
-<body>
-	<h1>Flight</h1>
-	
-	<div class="transbox">
-		<button id="init-v">Initial values</button>
-		<table id="tab-flight" border="1">
+			</table>
+		</form>
+		<br>
+		
+		<table border="2" id = "letoviPrikaz">
 			<tr>
 				<th>ID</th>
 				<th>startDestination</th>
 				<th>endDestination</th>
+				<th>dateFligh</th>
+				<th>DateLand</th>
 				<th>lengthTravel</th>
+				<th>numberoftransitions</th>
+				<th>priceTicket</th>
+				
 				
 			</tr>
-			
 		</table>
+		<div id="help"></div>
 	</div>
-</body>
+	</body>
 </html>

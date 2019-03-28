@@ -38,6 +38,18 @@ div.transbox {
   font-size: 22px;
 }
 
+.transbox3 {
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-top: 1%;
+  background-color: white;
+  border: 1px solid black;
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+  text-align: center;
+  font-size: 22px;
+}
+
 td{
 	align: "left";
 }
