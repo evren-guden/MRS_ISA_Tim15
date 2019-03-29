@@ -1,23 +1,31 @@
 package rs.travel.bookingWithEase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
+
 public class Destination {
+	@Column(name = "name")
+	private String name;
 
-	String nameDestination;
-
-	public String getNameDestination() {
-		return nameDestination;
+	public String getName() {
+		return name;
 	}
 
-	public void setNameDestination(String nameDestination) {
-		this.nameDestination = nameDestination;
-	}
-
-	public Destination(String nameDestination) {
-		super();
-		this.nameDestination = nameDestination;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Destination() {
 		super();
 	}
+
+	public Destination(String name) {
+		super();
+		this.name = name;
+	}
+
+	
+	
 }

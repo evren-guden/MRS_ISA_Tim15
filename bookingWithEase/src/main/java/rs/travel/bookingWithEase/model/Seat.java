@@ -1,9 +1,21 @@
 package rs.travel.bookingWithEase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
 public class Seat {
+	
+	@Column(name = "row")
 	private int row;
+	
+	@Column(name = "number")
 	private int number;
+	
+	@Column(name = "clss")
 	private CLASSS clss; // klasa
+	
+	@Column(name = "occupied")
 	private Boolean occupied;
 
 	public int getRow() {

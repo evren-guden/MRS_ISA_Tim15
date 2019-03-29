@@ -1,9 +1,23 @@
 package rs.travel.bookingWithEase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Ticket {
+	@Id
+	@GeneratedValue
 	private Long idTicket;
+	
+	@Column(name = "traveler")
 	private User traveler;
+	
+	@Column(name = "seat")
 	private Seat seat;
+	
+	@Column(name = "flight")
 	private Flight flight;
 
 	public Ticket(Long idTicket, User traveler, Seat seat, Flight flight, double price) {

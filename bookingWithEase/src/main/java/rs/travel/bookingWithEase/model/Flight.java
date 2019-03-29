@@ -2,19 +2,60 @@ package rs.travel.bookingWithEase.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+
+@Entity
 public class Flight {
-	private Long id;
-	private Destination startDestination;
-	private Destination endDestination;
-	private Date dateFligh;
-	private Date dateLand;
-	private Date timeTravel;
-	private double lengthTravel;
-	private HashMap<String, Destination> transitions;
-	private double priceTicket;
 
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	@Column(name = "dateFligh")
+	private Date dateFligh;
+
+	@Column(name = "dateLand")
+	private Date dateLand;
+
+	@Column(name = "timeTravel")
+	private Date timeTravel;
+
+	@Column(name = "lengthTravel")
+	private double lengthTravel;
+
+	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private HashMap<String, Destination> transitions;
+
+	@Column(name = "priceTicket")
+	private double priceTicket;
+	
+	
+	@Column(name = "informationLuggage")
 	private String informationLuggage;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Airline airline;;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "start_id")
+	private Destination startDestination;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "final_id")
+	private Destination endDestination;
 
 	public Long getId() {
 		return id;
@@ -114,4 +155,8 @@ public class Flight {
 
 	public Flight() {
 		super();
-	}}
+	}
+	
+	
+	
+}
