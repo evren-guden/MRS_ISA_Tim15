@@ -3,15 +3,12 @@ $(document).ready(function() {
 });
 
 
-$(document).on('click', '#new_destination', function(e){
-    e.preventDefault();
-    window.location.href = "RegistrationDestination.html";
-});
 
-function getAirlines() {
+
+function getDestination() {
 	$.ajax({
 		type : 'GET',
-		url : "/airlines",
+		url : "/destination",
 		dataType : "json",
 		success : fillTable,
 		error : function(data) {
@@ -21,25 +18,25 @@ function getAirlines() {
 }
 
 function fillTable(data) {
-	var airlines = data == null ? []
+	var destination = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
-	var table = $('#airlinesTable');
-	$('#airlinesTable').empty();
+	var table = $('#destinationTable');
+	$('#destinationTable').empty();
 
 	var cont = $('#help');
 	cont.empty();
-	var form = $('<form align =left><input value=ID><input value= NAME><input value = ADDRESS><input value=DESCRIPTION></form>');
+	var form = $('<form align =left><input value=ID><input value= NAME><input value = ADDRESS></form>');
 	cont.append(form);
 
-	$.each(airlines, function(index, airline) {
+	$.each(destination, function(index, destination) {
 	
 		var cont2 = $('<div></div>');
-		var form = $('<form align=left class="formsedit" id="form' + airline.id
-				+ '"><input name="ident" value="' + airline.id
-				+ '" readonly><input name="name" value="' + airline.name
-				+ '"><input name="address" value="' + airline.address
-				+ '"><input name="description" value="' + airline.description
-				+ '"><input type="submit" id="bform'+ airline.id +'"></form>');
+		var form = $('<form align=left class="formsedit" id="form' + destination.id
+				+ '"><input name="ident" value=' + destination.id
+				+ ' readonly><input name="name" value=' + destination.name
+				+ '><input name="address" value=' + destination.address
+				
+				+ '><input type="submit" id="bform'+ destination.id +'"></form>');
 
 		cont2.append(form);
 		cont.append(cont2);
@@ -67,15 +64,16 @@ $('.formsedit').on('submit', function(e) {
 			}
 		}
 		
+		console.log(iden);
 		var jsonData = JSON.stringify(formData);
 		console.log("ovde" + jsonData);
 		$.ajax({
 			type : 'POST',
-			url : "/airlines/edit",
+			url : "/destination/edit",
 			contentType: 'application/json',
 			dataType: 'json',
 			data: jsonData,
-			success : getAirlines,
+			success : getDestination,
 			error : function(data) {
 				alert(data);
 			}

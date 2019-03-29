@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<link rel="stylesheet" href="css/index.css" />
+		
+		<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>	
+		
+		<script type="text/javascript" src="js/util.js"></script>
+		<script type="text/javascript" src="js/RegistrationDestination.js"></script>
+		
+		
+
+		<title>BookingWithEase</title>
+	</head>
+
+	<body>
+		<h1>Registration of new destinations</h1>
+	</body>
+	
+	<div class="transbox">
+	<form id="destRegForm">
+		<table align="center">
+			
+			
+			<tr>
+				<td align="left"> Airport ID: </td>
+				<td> <input type="text" name="id"required/> </td>
+			</tr>
+			
+			<tr> 
+				<td align="left"> Airport name: </td>
+				<td> <input type="text" name="name" required/> </td>
+			</tr>
+			
+			<tr> 
+				<td align="left">Address: </td>
+				<td> <input type="text" name="address" required/> </td>
+			</tr>
+			
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td align="right"> <input class="formBtn" type="submit" id="registerDestination" value="Register">
+				 <input class="formBtn" type="button" id="cancelDestReg" name="cancelDestReg" value="Cancel"></td>
+			</tr>	
+			
+		
+		</table>
+	
+	</form>
+	</div>
+
+</html>
