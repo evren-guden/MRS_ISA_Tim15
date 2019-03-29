@@ -156,6 +156,88 @@ public class Flight {
 	public Flight() {
 		super();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((airline == null) ? 0 : airline.hashCode());
+		result = prime * result + ((dateFligh == null) ? 0 : dateFligh.hashCode());
+		result = prime * result + ((dateLand == null) ? 0 : dateLand.hashCode());
+		result = prime * result + ((endDestination == null) ? 0 : endDestination.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((informationLuggage == null) ? 0 : informationLuggage.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(lengthTravel);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(priceTicket);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((startDestination == null) ? 0 : startDestination.hashCode());
+		result = prime * result + ((timeTravel == null) ? 0 : timeTravel.hashCode());
+		result = prime * result + ((transitions == null) ? 0 : transitions.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Flight other = (Flight) obj;
+		if (airline == null) {
+			if (other.airline != null)
+				return false;
+		} else if (!airline.equals(other.airline))
+			return false;
+		if (dateFligh == null) {
+			if (other.dateFligh != null)
+				return false;
+		} else if (!dateFligh.equals(other.dateFligh))
+			return false;
+		if (dateLand == null) {
+			if (other.dateLand != null)
+				return false;
+		} else if (!dateLand.equals(other.dateLand))
+			return false;
+		if (endDestination == null) {
+			if (other.endDestination != null)
+				return false;
+		} else if (!endDestination.equals(other.endDestination))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (informationLuggage == null) {
+			if (other.informationLuggage != null)
+				return false;
+		} else if (!informationLuggage.equals(other.informationLuggage))
+			return false;
+		if (Double.doubleToLongBits(lengthTravel) != Double.doubleToLongBits(other.lengthTravel))
+			return false;
+		if (Double.doubleToLongBits(priceTicket) != Double.doubleToLongBits(other.priceTicket))
+			return false;
+		if (startDestination == null) {
+			if (other.startDestination != null)
+				return false;
+		} else if (!startDestination.equals(other.startDestination))
+			return false;
+		if (timeTravel == null) {
+			if (other.timeTravel != null)
+				return false;
+		} else if (!timeTravel.equals(other.timeTravel))
+			return false;
+		if (transitions == null) {
+			if (other.transitions != null)
+				return false;
+		} else if (!transitions.equals(other.transitions))
+			return false;
+		return true;
+	}
 	
 	
 	

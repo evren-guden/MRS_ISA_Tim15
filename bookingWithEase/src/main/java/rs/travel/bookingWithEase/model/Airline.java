@@ -56,6 +56,12 @@ public class Airline extends Company {
 		this.description = company.description;
 		this.rating = company.rating;
 	}
+
+	@Override
+	public String toString() {
+		return "Airline [flights=" + flights + ", destinations=" + destinations + ", airplanes=" + airplanes
+				+ ", airlineCustomerServices=" + airlineCustomerServices + "]";
+	}
 	
 	
 
