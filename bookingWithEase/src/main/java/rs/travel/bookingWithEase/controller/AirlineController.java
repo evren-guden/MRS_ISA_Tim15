@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import rs.travel.bookingWithEase.model.Airline;
+import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.service.AirlineService;
 
 @RestController
@@ -25,8 +26,10 @@ public class AirlineController {
 	private AirlineService airlineService;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Airline> getAll() throws JsonProcessingException {
-		return airlineService.findAll();
+	public ResponseEntity<Collection<Airline>> getAll() {
+		Collection<Airline> airlines = airlineService.findAll();
+
+		return new ResponseEntity<Collection<Airline>>(airlines, HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
