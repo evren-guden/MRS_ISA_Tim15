@@ -1,11 +1,28 @@
 package rs.travel.bookingWithEase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
 public class Location {
+	
+	@Column(name = "latitude")
 	private double latitude;
+	
+	@Column(name = "latitude")
 	private double longitude;
+	
+	@Column(name = "street")
 	private String street;
+	
+	@Column(name = "number")
 	private String number;
+	
+	@Column(name = "city")
 	private String city;
+	
+	
+	@Column(name = "State")
 	private String State;
 
 	public double getLatitude() {
