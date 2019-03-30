@@ -13,8 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.stereotype.Component;
 
 
+@Component
 @Entity
 public class Seat {
 	@Id

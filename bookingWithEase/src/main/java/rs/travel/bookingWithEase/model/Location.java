@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.stereotype.Component;
+@Component
 @Entity
 public class Location {
 	@Id
@@ -87,14 +89,5 @@ public class Location {
 		State = state;
 	}
 
-	public Location(double latitude, double longitude, String street, String number, String city, String state) {
-		super();
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.street = street;
-		this.number = number;
-		this.city = city;
-		State = state;
-	}
-
+	
 }
