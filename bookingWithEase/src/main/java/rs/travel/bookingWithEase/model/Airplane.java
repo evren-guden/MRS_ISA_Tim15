@@ -25,7 +25,8 @@ public class Airplane {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	Airline airline;
-	@OneToMany(mappedBy = "seat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	
+	@OneToMany(mappedBy = "airplane", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Seat> seat = new HashSet<Seat>();
 
 	public Long getId() {

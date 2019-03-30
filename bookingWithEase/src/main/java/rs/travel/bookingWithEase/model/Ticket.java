@@ -1,9 +1,12 @@
 package rs.travel.bookingWithEase.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Ticket {
@@ -11,27 +14,13 @@ public class Ticket {
 	@GeneratedValue
 	private Long idTicket;
 	
-	@Column(name = "traveler")
-	private User traveler;
 	
-	@Column(name = "seat")
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Seat seat;
 	
-	@Column(name = "flight")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Flight flight;
-
-	public Ticket(Long idTicket, User traveler, Seat seat, Flight flight, double price) {
-		super();
-		this.idTicket = idTicket;
-		this.traveler = traveler;
-		this.seat = seat;
-		this.flight = flight;
-		this.price = price;
-	}
-
-	public Ticket() {
-		super();
-	}
 
 	public Long getIdTicket() {
 		return idTicket;
@@ -39,14 +28,6 @@ public class Ticket {
 
 	public void setIdTicket(Long idTicket) {
 		this.idTicket = idTicket;
-	}
-
-	public User getTraveler() {
-		return traveler;
-	}
-
-	public void setTraveler(User traveler) {
-		this.traveler = traveler;
 	}
 
 	public Seat getSeat() {
@@ -65,14 +46,15 @@ public class Ticket {
 		this.flight = flight;
 	}
 
-	public double getPrice() {
-		return price;
+	public Ticket(Long idTicket, Seat seat, Flight flight) {
+		super();
+		this.idTicket = idTicket;
+		this.seat = seat;
+		this.flight = flight;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public Ticket() {
+		super();
 	}
-
-	private double price;
 
 }

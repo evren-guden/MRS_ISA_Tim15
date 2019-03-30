@@ -24,17 +24,16 @@ public class Airline extends Company {
 	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Flight> flights = new HashSet<Flight>();
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	
+	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Destination> destinations = new HashSet<Destination>();
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	
+	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Airplane> airplanes = new HashSet<Airplane>();
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@Column(name = "airline_customer_service")
+	
+	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<AirlineCustomerService> airlineCustomerServices = new HashSet<AirlineCustomerService>();
 
 	

@@ -1,7 +1,6 @@
 package rs.travel.bookingWithEase.model;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,9 +34,17 @@ public class Flight {
 
 	@Column(name = "lengthTravel")
 	private double lengthTravel;
+	
+	
+	
 
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private HashMap<String, Destination> transitions;
+	private Set<Ticket> tickets = new HashSet<Ticket>();
+	
+	
+	
+	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Destination> transitions = new HashSet<Destination>();
 
 	@Column(name = "priceTicket")
 	private double priceTicket;
@@ -47,7 +54,7 @@ public class Flight {
 	private String informationLuggage;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Airline airline;;
+	private Airline airline;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "start_id")
@@ -63,22 +70,6 @@ public class Flight {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Destination getStartDestination() {
-		return startDestination;
-	}
-
-	public void setStartDestination(Destination startDestination) {
-		this.startDestination = startDestination;
-	}
-
-	public Destination getEndDestination() {
-		return endDestination;
-	}
-
-	public void setEndDestination(Destination endDestination) {
-		this.endDestination = endDestination;
 	}
 
 	public Date getDateFligh() {
@@ -113,11 +104,19 @@ public class Flight {
 		this.lengthTravel = lengthTravel;
 	}
 
-	public HashMap<String, Destination> getTransitions() {
+	public Set<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(Set<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	public Set<Destination> getTransitions() {
 		return transitions;
 	}
 
-	public void setTransitions(HashMap<String, Destination> transitions) {
+	public void setTransitions(Set<Destination> transitions) {
 		this.transitions = transitions;
 	}
 
@@ -137,107 +136,53 @@ public class Flight {
 		this.informationLuggage = informationLuggage;
 	}
 
-	public Flight(Long id, Destination startDestination, Destination endDestination, Date dateFligh, Date dateLand,
-			Date timeTravel, double lengthTravel, HashMap<String, Destination> transitions, double priceTicket,
-			String informationLuggage) {
+	public Airline getAirline() {
+		return airline;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+
+	public Destination getStartDestination() {
+		return startDestination;
+	}
+
+	public void setStartDestination(Destination startDestination) {
+		this.startDestination = startDestination;
+	}
+
+	public Destination getEndDestination() {
+		return endDestination;
+	}
+
+	public void setEndDestination(Destination endDestination) {
+		this.endDestination = endDestination;
+	}
+
+	public Flight(Long id, Date dateFligh, Date dateLand, Date timeTravel, double lengthTravel, Set<Ticket> tickets,
+			Set<Destination> transitions, double priceTicket, String informationLuggage, Airline airline,
+			Destination startDestination, Destination endDestination) {
 		super();
 		this.id = id;
-		this.startDestination = startDestination;
-		this.endDestination = endDestination;
 		this.dateFligh = dateFligh;
 		this.dateLand = dateLand;
 		this.timeTravel = timeTravel;
 		this.lengthTravel = lengthTravel;
+		this.tickets = tickets;
 		this.transitions = transitions;
 		this.priceTicket = priceTicket;
 		this.informationLuggage = informationLuggage;
+		this.airline = airline;
+		this.startDestination = startDestination;
+		this.endDestination = endDestination;
 	}
 
 	public Flight() {
 		super();
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((airline == null) ? 0 : airline.hashCode());
-		result = prime * result + ((dateFligh == null) ? 0 : dateFligh.hashCode());
-		result = prime * result + ((dateLand == null) ? 0 : dateLand.hashCode());
-		result = prime * result + ((endDestination == null) ? 0 : endDestination.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((informationLuggage == null) ? 0 : informationLuggage.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(lengthTravel);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(priceTicket);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((startDestination == null) ? 0 : startDestination.hashCode());
-		result = prime * result + ((timeTravel == null) ? 0 : timeTravel.hashCode());
-		result = prime * result + ((transitions == null) ? 0 : transitions.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Flight other = (Flight) obj;
-		if (airline == null) {
-			if (other.airline != null)
-				return false;
-		} else if (!airline.equals(other.airline))
-			return false;
-		if (dateFligh == null) {
-			if (other.dateFligh != null)
-				return false;
-		} else if (!dateFligh.equals(other.dateFligh))
-			return false;
-		if (dateLand == null) {
-			if (other.dateLand != null)
-				return false;
-		} else if (!dateLand.equals(other.dateLand))
-			return false;
-		if (endDestination == null) {
-			if (other.endDestination != null)
-				return false;
-		} else if (!endDestination.equals(other.endDestination))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (informationLuggage == null) {
-			if (other.informationLuggage != null)
-				return false;
-		} else if (!informationLuggage.equals(other.informationLuggage))
-			return false;
-		if (Double.doubleToLongBits(lengthTravel) != Double.doubleToLongBits(other.lengthTravel))
-			return false;
-		if (Double.doubleToLongBits(priceTicket) != Double.doubleToLongBits(other.priceTicket))
-			return false;
-		if (startDestination == null) {
-			if (other.startDestination != null)
-				return false;
-		} else if (!startDestination.equals(other.startDestination))
-			return false;
-		if (timeTravel == null) {
-			if (other.timeTravel != null)
-				return false;
-		} else if (!timeTravel.equals(other.timeTravel))
-			return false;
-		if (transitions == null) {
-			if (other.transitions != null)
-				return false;
-		} else if (!transitions.equals(other.transitions))
-			return false;
-		return true;
-	}
+	
 	
 	
 	
