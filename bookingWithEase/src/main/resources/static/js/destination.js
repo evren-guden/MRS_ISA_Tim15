@@ -20,22 +20,22 @@ function fillTable(data) {
 
 	var cont = $('#help');
 	cont.empty();
-	var form = $('<form align =left><input value=ID><input value= NAME><input value = ADDRESS></form>');
+	var form = $('<form align =left><input value=ID><input value= Name><input value = Address></form>');
 	cont.append(form);
 
 	$.each(d_list, function(index, destination) {
 	
 		var cont2 = $('<tr></tr>');
-		var form =  $('<td><form class="formsedit" id="form' + destination.id
-				+ '"><input name="ident" value=' + destination.id
-				+ ' readonly></form></td><td><input name="name" form="form'
-				+ destination.id + '" value="' + destination.name
-				+ '"></td><td><input name="address" form="form' + destination.id
+		var form =  $('<td><form class="formsedit" id="form' + destination.idAerodromes
+				+ '"><input name="ident" value=' + destination.idAerodromes
+				+ ' readonly></form></td><td><input name="nameAerodroms" form="form'
+				+ destination.idAerodromes + '" value="' + destination.nameAerodroms
+				+ '"></td><td><input name="address" form="form' + destination.idAerodromes
 				+ '" value="' + destination.address
 				
-				+ '"></td><td><input type="submit" form="form' + destination.id
-				+ '" id="bform' + destination.id
-				+ '"></td><td><button class="delBtns" id="delBtn' + destination.id
+				+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
+				+ '" id="bform' + destination.idAerodromes
+				+ '"></td><td><button class="delBtns" id="delBtn' + destination.idAerodromes
 				+ '">Delete</button></td>');
 
 		cont2.append(form);
