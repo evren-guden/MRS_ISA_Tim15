@@ -17,33 +17,51 @@ function fillTable(data) {
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#tab-vehicles');
 	$('#tab-vehicles').empty();
-	// $('#tab-vehicles')
-	// .append(
-	// '<tr><th>Id</th><th>Color</th><th>Type</th><th>Gear</th><th>Registration
-	// number</th></tr>');
-	var cont = $('#help');
-	cont.empty();
+	$('#tab-vehicles')
+			.append(
+					'<tr><th>Id</th><th>Color</th><th>Type</th><th>Gear</th><th>Registration number</th></tr>');
 
-	$.each(veh_list,
-			function(index, vehicle) {
+	$.each(veh_list, function(index, vehicle) {
 
-				var cont2 = $('<div></div>');
-				var form = $('<form class="formsedit" id="form' + vehicle.id
-						+ '"><input name="ident" value=' + vehicle.id
-						+ ' readonly><input name="color" value="'
-						+ vehicle.color + '"><input name="type" value="'
-						+ vehicle.type + '"><input name="gear" value="'
-						+ vehicle.gear
-						+ '"><input name="registrationNumber" value="'
-						+ vehicle.registrationNumber
-						+ '"><input type="submit" id="bform' + vehicle.id
-						+ '"></form>');
-
-				cont2.append(form);
-				cont.append(cont2);
-			}
+		var tr = $('<tr></tr>');
+		var form = $('<td><form class="formsedit" id="form' + vehicle.id
+				+ '"><input name="ident" value=' + vehicle.id
+				+ ' readonly></form></td><td><input name="color" form="form'
+				+ vehicle.id + '" value="' + vehicle.color
+				+ '"></td><td><input name="type" form="form' + vehicle.id
+				+ '" value="' + vehicle.type
+				+ '"></td><td><input name="gear" form="form' + vehicle.id
+				+ '" value="' + vehicle.gear
+				+ '"></td><td><input name="registrationNumber" form="form'
+				+ vehicle.id + '" value="' + vehicle.registrationNumber
+				+ '"></td><td><input type="submit" form="form' + vehicle.id
+				+ '" id="bform' + vehicle.id
+				+ '"></td><td><button class="delBtns" id="delBtn' + vehicle.id
+				+ '">Delete</button></td>');
+		tr.append(form);
+		table.append(tr);
+	}
 
 	);
+
+	$('.delBtns').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id.substring(6);
+		console.log(iden);
+
+		$.ajax({
+			type : 'delete',
+			url : "/vehicles/" + iden,
+			success : function(response) {
+				// alert("Vehicle deleted :)");
+				window.location.href = "vehicles.html";
+			},
+			error : function(data) {
+				alert(data);
+			}
+		});
+
+	});
 
 	$('.formsedit').on('submit', function(e) {
 		e.preventDefault();
@@ -77,4 +95,3 @@ function fillTable(data) {
 	});
 
 }
-

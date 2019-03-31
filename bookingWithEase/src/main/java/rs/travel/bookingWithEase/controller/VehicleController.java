@@ -1,13 +1,16 @@
 package rs.travel.bookingWithEase.controller;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,22 +23,22 @@ import rs.travel.bookingWithEase.service.VehicleService;
 public class VehicleController {
 
 	@Autowired
-	private VehicleService service;
+	private VehicleService vehicleService;
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Vehicle>> getAll(){
 		
-		Collection<Vehicle> vehicles = service.findAll();
+		Collection<Vehicle> vehicles = vehicleService.findAll();
 
 		return new ResponseEntity<Collection<Vehicle>>(vehicles, HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle){
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Vehicle> create(@RequestBody Vehicle vehicle){
 		
 		Vehicle veh = null;
 		try {
-			veh = service.save(vehicle);
+			veh = vehicleService.save(vehicle);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,5 +51,34 @@ public class VehicleController {
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
 	
-
+	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle){
+		
+		Vehicle veh = null;
+		try {
+			veh = vehicleService.save(vehicle);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(veh == null) {
+			return new ResponseEntity<Vehicle>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/{id}")
+public ResponseEntity<Void> deleteVehicle(@PathVariable Long id){
+		
+		Optional<Vehicle> vehicle = vehicleService.findOne(id);
+		
+		if (vehicle != null){
+			vehicleService.delete(id);;
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {		
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }
