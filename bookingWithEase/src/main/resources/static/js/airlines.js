@@ -1,12 +1,21 @@
+$(document).on('click', '#registerDestination', function(e){
+    e.preventDefault();
+    window.location.href = "RegistrationDestination.html";
+});
+
+
+
+$(document).on('click', '#destinationTable', function(e){
+    e.preventDefault();
+    window.location.href = "destination.html";
+});
+
 $(document).ready(function() {
     getAirlines();
 });
 
 
-$(document).on('click', '#registerDestination', function(e){
-    e.preventDefault();
-    window.location.href = "RegistrationDestination.html";
-});
+
 
 function getAirlines() {
 	$.ajax({

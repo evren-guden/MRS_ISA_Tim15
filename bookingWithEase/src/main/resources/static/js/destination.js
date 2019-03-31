@@ -1,11 +1,6 @@
-$(document).ready(function() {
-    getAirlines();
-});
+findDestination();
 
-
-
-
-function getDestination() {
+function findDestination() {
 	$.ajax({
 		type : 'GET',
 		url : "/destination",
@@ -18,7 +13,7 @@ function getDestination() {
 }
 
 function fillTable(data) {
-	var destination = data == null ? []
+	var d_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#destinationTable');
 	$('#destinationTable').empty();
@@ -28,52 +23,76 @@ function fillTable(data) {
 	var form = $('<form align =left><input value=ID><input value= NAME><input value = ADDRESS></form>');
 	cont.append(form);
 
-	$.each(destination, function(index, destination) {
+	$.each(d_list, function(index, destination) {
 	
-		var cont2 = $('<div></div>');
-		var form = $('<form align=left class="formsedit" id="form' + destination.id
+		var cont2 = $('<tr></tr>');
+		var form =  $('<td><form class="formsedit" id="form' + destination.id
 				+ '"><input name="ident" value=' + destination.id
-				+ ' readonly><input name="name" value=' + destination.name
-				+ '><input name="address" value=' + destination.address
+				+ ' readonly></form></td><td><input name="name" form="form'
+				+ destination.id + '" value="' + destination.name
+				+ '"></td><td><input name="address" form="form' + destination.id
+				+ '" value="' + destination.address
 				
-				+ '><input type="submit" id="bform'+ destination.id +'"></form>');
+				+ '"></td><td><input type="submit" form="form' + destination.id
+				+ '" id="bform' + destination.id
+				+ '"></td><td><button class="delBtns" id="delBtn' + destination.id
+				+ '">Delete</button></td>');
 
 		cont2.append(form);
 		cont.append(cont2);
 	}
 	
 	);
+	
+	$('.delBtns').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id.substring(6);
+		console.log(iden);
+
+		$.ajax({
+			type : 'delete',
+			url : "/destination/" + iden,
+			success : function(response) {
+				// alert("Vehicle deleted :)");
+				window.location.href = "destination.html";
+			},
+			error : function(data) {
+				alert(data);
+			}
+		});
+
+	});
+	
+	
+	
+	
 
 	
-$('.formsedit').on('submit', function(e) {
-		
+	$('.formsedit').on('submit', function(e) {
 		e.preventDefault();
-
 		var iden = this.id;
+		// var formData = getFormData(iden);
 
 		var formData = {};
 		var s_data = $('#' + this.id).serializeArray();
-		
+
 		for (var i = 0; i < s_data.length; i++) {
 			var record = s_data[i];
-		
 			if (record.name === "ident") {
 				formData["id"] = record.value;
 			} else {
 				formData[record.name] = record.value;
 			}
 		}
-		
-		console.log(iden);
+
 		var jsonData = JSON.stringify(formData);
-		console.log("ovde" + jsonData);
 		$.ajax({
-			type : 'POST',
+			type : 'post',
 			url : "/destination/edit",
-			contentType: 'application/json',
-			dataType: 'json',
-			data: jsonData,
-			success : getDestination,
+			contentType : 'application/json',
+			dataType : 'json',
+			data : jsonData,
+			success : findDestination,
 			error : function(data) {
 				alert(data);
 			}

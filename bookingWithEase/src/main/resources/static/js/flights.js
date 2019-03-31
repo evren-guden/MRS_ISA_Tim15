@@ -13,7 +13,7 @@ function findFlights() {
 }
 
 function fillTable(data) {
-	var veh_list = data == null ? []
+	var f_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#tab-flights');
 	$('#tab-flights').empty();
@@ -21,7 +21,7 @@ function fillTable(data) {
 			.append(
 					'<tr><th>ID</th><th>Start destination</th><th>End destination</th><th>Date flight</th><th>Date landing</th><th>Length travel</th><th>Number of transitions</th><th>Price ticket</th></tr>');
 
-	$.each(veh_list, function(index, flight) {
+	$.each(f_list, function(index, flight) {
 
 		var tr = $('<tr></tr>');
 		var form = $('<td><form class="formsedit" id="form' + flight.id
@@ -93,7 +93,7 @@ function fillTable(data) {
 			contentType : 'application/json',
 			dataType : 'json',
 			data : jsonData,
-			success : findVehicles,
+			success : findFlights,
 			error : function(data) {
 				alert(data);
 			}

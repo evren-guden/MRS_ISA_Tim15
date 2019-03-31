@@ -1,6 +1,8 @@
 package rs.travel.bookingWithEase.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,49 +10,31 @@ import org.springframework.stereotype.Service;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.Destination;
 
-import rs.travel.bookingWithEase.repository.DestinationRepository;
+
+import rs.travel.bookingWithEase.repository.IDestinationRepository;
+
 
 @Service
-public class DestinationService implements IDestinationService {
-	
+public class DestinationService {
 	
 	@Autowired
-	private DestinationRepository destinations;
+	private IDestinationRepository destRepository;
 
-	@Override
-	public Collection<Destination> findAll() {
-		// TODO Auto-generated method stub
-		return destinations.findAll();
+	
+	public Optional<Destination> findOne(Long id) {
+		return destRepository.findById(id);
 	}
 
-	@Override
-	public Destination create(Destination d) throws Exception {
-		Destination destination = new Destination(d);
-		if (destination.getIdAerodromes() != null) {
-			throw new Exception(" ");
-		}
-
-		return destinations.create(destination);
+	public List<Destination> findAll() {
+		return destRepository.findAll();
+	}
+	
+	public Destination save(Destination destination) {
+		return destRepository.save(destination);
 	}
 
-	@Override
-	public Destination find(Long id) {
-		return destinations.find(id);
-	}
-
-	@Override
-	public Destination update(Destination destination) throws Exception {
-		Destination findedDestination = find(destination.getIdAerodromes());
-
-		if (findedDestination == null) {
-			throw new Exception("Ne postoji aerodrom tim id-om.");
-		}
-		findedDestination.setIdAerodromes(destination.getIdAerodromes());
-		findedDestination.setNameAerodroms(destination.getNameAerodroms());
-		findedDestination.setAddress(destination.getAddress());
-		
-
-		return destinations.update(findedDestination);
+	public void delete(Long id) {
+		destRepository.deleteById(id);
 	}
 	
 }
