@@ -1,59 +1,37 @@
 package rs.travel.bookingWithEase.service;
 
-import java.util.Collection;
+
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import rs.travel.bookingWithEase.model.Flight;
-import rs.travel.bookingWithEase.repository.FlightRepository;
-import rs.travel.bookingWithEase.repository.MemoryStorage;
+import rs.travel.bookingWithEase.repository.IFlightRepository;
+
 
 @Service
-public class FlightService implements IFlightService {
+public class FlightService  {
+
+	@Autowired
+	private IFlightRepository flightRepository;
+
 	
-	@Autowired
-	protected MemoryStorage dbManager;
-
-	@Autowired
-	private FlightRepository repository;
-
-	@Override
-	public Flight create(Flight flight) throws Exception {
-		if (flight.getId() != null) {
-			throw new Exception("Id mora biti null prilikom perzistencije novog entiteta.");
-		}
-		Flight savedFlight = repository.create(flight);
-		return savedFlight;
+	public Optional<Flight> findOne(Long id) {
+		return flightRepository.findById(id);
 	}
 
-	@Override
-	public boolean addFlight(Flight newFlight) {
-		return dbManager.addFlight(newFlight);
+	public List<Flight> findAll() {
+		return flightRepository.findAll();
+	}
+	
+	public Flight save(Flight vehicle) {
+		return flightRepository.save(vehicle);
 	}
 
-	@Override
-	public boolean delFlight(Flight flightForDelete) {
-		return dbManager.delFlight(flightForDelete);
-	}
-
-	@Override
-	public boolean editFlight(Flight updateFlight) {
-		
-		return dbManager.editFlight(updateFlight);
-	}
-
-	@Override
-	public Collection<Flight> deliveryFlight() {
-		
-		return dbManager.deliveryFlight();
-	}
-
-	@Override
-	public Flight searchFlight(String idFlight) {
-		
-		return dbManager.searchFlight(idFlight);
+	public void delete(Long id) {
+		flightRepository.deleteById(id);
 	}
 
 	

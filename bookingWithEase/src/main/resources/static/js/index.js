@@ -33,8 +33,10 @@ $(document).on('click', '#vehicles', function(e){
     window.location.href = "vehicles.html";
 });
 
-$(document).on('click', '#flight', function(e){
+$(document).on('click', '#flights', function(e){
     e.preventDefault();
-    window.location.href = "flight.html";
+    window.location.href = "flights.html";
 });
+
+
 

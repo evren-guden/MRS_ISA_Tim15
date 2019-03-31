@@ -1,6 +1,7 @@
 package rs.travel.bookingWithEase.controller;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,41 +19,73 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.model.Flight;
+
 import rs.travel.bookingWithEase.service.FlightService;
 
 import rs.travel.bookingWithEase.service.IFlightService;
+
 @RestController
 @Controller
 @RequestMapping("/flights")
 public class FlightController {
 
-	
 	@Autowired
-	@Qualifier("flightService")
-	private FlightService service;
-	protected IFlightService service1;
+	private FlightService flightService;
 	
-	
-	
-	
-	@RequestMapping(value = "/deliveryAll", method = RequestMethod.GET)
-	public Collection<Flight> deliveryFlight() {
-		return service1.deliveryFlight();
-	}
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Flight>> getAll(){
+		
+		Collection<Flight> flights = flightService.findAll();
 
-	@RequestMapping(value = "/add")
-	public boolean addFlight(@RequestBody Flight newFlight) {
-		return service1.addFlight(newFlight);
-	}	
+		return new ResponseEntity<Collection<Flight>>(flights, HttpStatus.OK);
+	}
 	
-	
-	
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Flight> kreirajServis(@RequestBody Flight flight) throws Exception {
-		Flight saved = service.create(flight);
-		return new ResponseEntity<Flight>(saved, HttpStatus.CREATED);
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Flight> create(@RequestBody Flight flight){
 		
-	
+		Flight flig = null;
+		try {
+			flig = flightService.save(flight);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		if(flig == null) {
+			return new ResponseEntity<Flight>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Flight> update(@RequestBody Flight flight){
+		
+		Flight flig = null;
+		try {
+			flig = flightService.save(flight);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(flig == null) {
+			return new ResponseEntity<Flight>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/{id}")
+public ResponseEntity<Void> deleteFlight(@PathVariable Long id){
+		
+		Optional<Flight> flight = flightService.findOne(id);
+		
+		if (flight != null){
+			flightService.delete(id);;
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {		
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

@@ -8,6 +8,8 @@ $(document).on('click', '#registerDestination', function(e) {
 	registration();
 });
 
+
+
 function registration() {
 	var formData = getFormData("#destRegForm");
 

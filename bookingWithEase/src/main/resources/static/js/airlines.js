@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 
-$(document).on('click', '#new_destination', function(e){
+$(document).on('click', '#registerDestination', function(e){
     e.preventDefault();
     window.location.href = "RegistrationDestination.html";
 });
