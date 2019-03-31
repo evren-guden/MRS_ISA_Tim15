@@ -26,8 +26,8 @@ public class FlightService  {
 		return flightRepository.findAll();
 	}
 	
-	public Flight save(Flight vehicle) {
-		return flightRepository.save(vehicle);
+	public Flight save(Flight flight) {
+		return flightRepository.save(flight);
 	}
 
 	public void delete(Long id) {

@@ -30,14 +30,14 @@ function fillTable(data) {
 				+ flight.id + '" value="' + flight.startDestination
 				+ '"></td><td><input name="endDestination" form="form' + flight.id
 				+ '" value="' + flight.endDestination
-				+ '"></td><td><input name="dateFlight" form="form' + flight.id
-				+ '" value="' + flight.dateFlight
+				+ '"></td><td><input name="dateFligh" form="form' + flight.id
+				+ '" value="' + flight.dateFligh
 				+ '"></td><td><input name="dateLand" form="form'
 				+ flight.id + '" value="' + flight.dateLand
 				+ '"></td><td><input name="lengthTravel" form="form' + flight.id
 				+ '" value="' + flight.lengthTravel
-				+ '"></td><td><input name="numberTransitions" form="form' + flight.id
-				+ '" value="' + flight.numberTransitions
+				+ '"></td><td><input name="transitions" form="form' + flight.id
+				+ '" value="' + flight.transitions
 				+ '"></td><td><input name="priceTicket" form="form'
 				+ flight.id + '" value="' + flight.priceTicket
 				+ '"></td><td><input type="submit" form="form' + flight.id
