@@ -59,7 +59,7 @@ function fillTable(data) {
 			type : 'delete',
 			url : "/flights/" + iden,
 			success : function(response) {
-				// alert("Vehicle deleted :)");
+				// alert("Flight deleted :)");
 				window.location.href = "flights.html";
 			},
 			error : function(data) {
