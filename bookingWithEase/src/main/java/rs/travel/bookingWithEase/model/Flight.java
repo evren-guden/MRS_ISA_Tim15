@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
+import rs.travel.bookingWithEase.dto.FlightDTO;
+
 @Component
 @Entity
 public class Flight {
@@ -25,6 +27,10 @@ public class Flight {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "number")
+	private String number;
+	
 
 	@Column(name = "dateFligh")
 	private Date dateFligh;
@@ -36,7 +42,14 @@ public class Flight {
 	private Date timeTravel;
 
 	@Column(name = "lengthTravel")
-	private double lengthTravel;
+	private int lengthTravel;
+	
+	
+	@Column(name = "startD")
+	private String startD;
+	
+	@Column(name = "finalD")
+	private String finalD;
 	
 	
 	
@@ -55,9 +68,13 @@ public class Flight {
 	
 	@Column(name = "informationLuggage")
 	private String informationLuggage;
-
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Airline airline;
+    
+	
+	@OneToMany(cascade=CascadeType.REFRESH,fetch=FetchType.LAZY,mappedBy="flight")
+	private Set<Destination> destinations=new HashSet<Destination>();
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	Airline airline;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "start_id")
@@ -73,6 +90,14 @@ public class Flight {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public Date getDateFligh() {
@@ -99,12 +124,28 @@ public class Flight {
 		this.timeTravel = timeTravel;
 	}
 
-	public double getLengthTravel() {
+	public int getLengthTravel() {
 		return lengthTravel;
 	}
 
-	public void setLengthTravel(double lengthTravel) {
+	public void setLengthTravel(int lengthTravel) {
 		this.lengthTravel = lengthTravel;
+	}
+
+	public String getStartD() {
+		return startD;
+	}
+
+	public void setStartD(String startD) {
+		this.startD = startD;
+	}
+
+	public String getFinalD() {
+		return finalD;
+	}
+
+	public void setFinalD(String finalD) {
+		this.finalD = finalD;
 	}
 
 	public Set<Ticket> getTickets() {
@@ -139,6 +180,14 @@ public class Flight {
 		this.informationLuggage = informationLuggage;
 	}
 
+	public Set<Destination> getDestinations() {
+		return destinations;
+	}
+
+	public void setDestinations(Set<Destination> destinations) {
+		this.destinations = destinations;
+	}
+
 	public Airline getAirline() {
 		return airline;
 	}
@@ -163,19 +212,24 @@ public class Flight {
 		this.endDestination = endDestination;
 	}
 
-	public Flight(Long id, Date dateFligh, Date dateLand, Date timeTravel, double lengthTravel, Set<Ticket> tickets,
-			Set<Destination> transitions, double priceTicket, String informationLuggage, Airline airline,
-			Destination startDestination, Destination endDestination) {
+	public Flight(Long id, String number, Date dateFligh, Date dateLand, Date timeTravel, int lengthTravel,
+			String startD, String finalD, Set<Ticket> tickets, Set<Destination> transitions, double priceTicket,
+			String informationLuggage, Set<Destination> destinations, Airline airline, Destination startDestination,
+			Destination endDestination) {
 		super();
 		this.id = id;
+		this.number = number;
 		this.dateFligh = dateFligh;
 		this.dateLand = dateLand;
 		this.timeTravel = timeTravel;
 		this.lengthTravel = lengthTravel;
+		this.startD = startD;
+		this.finalD = finalD;
 		this.tickets = tickets;
 		this.transitions = transitions;
 		this.priceTicket = priceTicket;
 		this.informationLuggage = informationLuggage;
+		this.destinations = destinations;
 		this.airline = airline;
 		this.startDestination = startDestination;
 		this.endDestination = endDestination;
@@ -184,6 +238,12 @@ public class Flight {
 	public Flight() {
 		super();
 	}
+
+	
+
+
+
+
 
 	
 	

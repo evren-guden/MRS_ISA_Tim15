@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 @Component
@@ -24,34 +25,21 @@ public class Destination {
 
 	@Column(name = "address")
 	private String address;
+	
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Airline airline;
-
+	
+	
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Flight flight;
 
-	public Destination() {
-		super();
-	}
+	@OneToOne(mappedBy = "startDestination")
+	Flight startDestination;
 
-	public Destination(Long idAerodromes, String nameAerodroms, String address, Airline airline, Flight flight) {
-		super();
-		this.idAerodromes = idAerodromes;
-		this.nameAerodroms = nameAerodroms;
-		this.address = address;
-		this.airline = airline;
-		this.flight = flight;
-	}
-	
-	
-	
-	public Destination(Destination d)
-	{
-		
-	}
-	
-	
-	
+	@OneToOne(mappedBy = "endDestination")
+	Flight finalDestination;
 
 	public Long getIdAerodromes() {
 		return idAerodromes;
@@ -83,6 +71,38 @@ public class Destination {
 
 	public void setAirline(Airline airline) {
 		this.airline = airline;
+	}
+
+	public Flight getStartDestination() {
+		return startDestination;
+	}
+
+	public void setStartDestination(Flight startDestination) {
+		this.startDestination = startDestination;
+	}
+
+	public Flight getFinalDestination() {
+		return finalDestination;
+	}
+
+	public void setFinalDestination(Flight finalDestination) {
+		this.finalDestination = finalDestination;
+	}
+
+	public Destination(Long idAerodromes, String nameAerodroms, String address, Airline airline, Flight flight,
+			Flight startDestination, Flight finalDestination) {
+		super();
+		this.idAerodromes = idAerodromes;
+		this.nameAerodroms = nameAerodroms;
+		this.address = address;
+		this.airline = airline;
+		this.flight = flight;
+		this.startDestination = startDestination;
+		this.finalDestination = finalDestination;
+	}
+
+	public Destination() {
+		super();
 	}
 
 	public Flight getFlight() {

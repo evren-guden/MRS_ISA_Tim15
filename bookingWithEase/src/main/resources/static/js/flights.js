@@ -19,29 +19,25 @@ function fillTable(data) {
 	$('#tab-flights').empty();
 	$('#tab-flights')
 			.append(
-					'<tr><th>ID</th><th>Start destination</th><th>End destination</th><th>Date flight</th><th>Date landing</th><th>Length travel</th><th>Number of transitions</th><th>Price ticket</th></tr>');
+					'<tr><th>ID</th><th>Start destination</th><th>End destination</th><th>Date flight</th><th>Date landing</th><th>Length travel</th><th>Price ticket</th></tr>');
 
 	$.each(f_list, function(index, flight) {
 
 		var tr = $('<tr></tr>');
 		var form = $('<td><form class="formsedit" id="form' + flight.id
 				+ '"><input name="ident" value=' + flight.id
-				+ ' readonly></form></td><td><input name="startDestination" form="form'
-				+ flight.id + '" value="' + flight.startDestination
-				+ '"></td><td><input name="endDestination" form="form' + flight.id
-				+ '" value="' + flight.endDestination
+				+ ' readonly></form></td><td><input name="startD" form="form'
+				+ flight.id + '" value="' + flight.startD
+				+ '"></td><td><input name="finalD" form="form' + flight.id
+				+ '" value="' + flight.finalD
 				+ '"></td><td><input name="dateFligh" form="form' + flight.id
 				+ '" value="' + flight.dateFligh
 				+ '"></td><td><input name="dateLand" form="form'
 				+ flight.id + '" value="' + flight.dateLand
 				+ '"></td><td><input name="lengthTravel" form="form' + flight.id
 				+ '" value="' + flight.lengthTravel
-				+ '"></td><td><input name="transitions" form="form' + flight.id
-				+ '" value="' + flight.transitions
-				+ '"></td><td><input name="priceTicket" form="form'
-				+ flight.id + '" value="' + flight.priceTicket
-				+ '"></td><td><input type="submit" form="form' + flight.id
-				+ '" id="bform' + flight.id
+				+ '"></td><td><input name="priceTicket" form="form'+ flight.id
+				+ '" value="' + flight.priceTicket
 				+ '"></td><td><button class="delBtns" id="delBtn' + flight.id
 				+ '">Delete</button></td>');
 		tr.append(form);
@@ -49,7 +45,6 @@ function fillTable(data) {
 	}
 
 	);
-
 	$('.delBtns').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id.substring(6);

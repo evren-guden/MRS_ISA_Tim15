@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import rs.travel.bookingWithEase.model.Flight;
+
 import rs.travel.bookingWithEase.repository.IFlightRepository;
 
 
@@ -34,7 +36,10 @@ public class FlightService  {
 		flightRepository.deleteById(id);
 	}
 
+
+
 	
+
 	
 
 }

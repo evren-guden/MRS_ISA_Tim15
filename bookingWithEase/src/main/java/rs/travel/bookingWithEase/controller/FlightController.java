@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import rs.travel.bookingWithEase.model.Flight;
 
 import rs.travel.bookingWithEase.service.FlightService;
@@ -43,7 +44,7 @@ public class FlightController {
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Flight> create(@RequestBody Flight flight){
 		
-		Flight flig = null;
+		Flight flig= null;
 		try {
 			flig = flightService.save(flight);
 		} catch (Exception e) {
@@ -57,6 +58,21 @@ public class FlightController {
 		
 		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
 	}
+	
+	
+	
+	/*@RequestMapping(value = "/createFlight", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Flight> create(@RequestBody FlightDTO flightDTO) {
+		Flight retVal = flightService.create(new Flight(flightDTO));
+		return new ResponseEntity<>(retVal, HttpStatus.CREATED);
+	}*/
+	
+	
+	
+	
+	
+	
+	
 	
 	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Flight> update(@RequestBody Flight flight){
