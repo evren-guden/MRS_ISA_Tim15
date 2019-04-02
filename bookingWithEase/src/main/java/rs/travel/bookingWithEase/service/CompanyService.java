@@ -9,7 +9,7 @@ import rs.travel.bookingWithEase.model.Company;
 public class CompanyService {
 
 	public Company dtoToCompany(CompanyDTO companyDto) {
-		return new Company(companyDto.getName(), companyDto.getAddress(), companyDto.getDescription());
+		return new Company(companyDto.getId(), companyDto.getName(), companyDto.getAddress(), companyDto.getDescription());
 
 	}
 

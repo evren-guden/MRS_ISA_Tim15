@@ -26,6 +26,11 @@ public class HotelService{
 		return hotels.findAll();
 	}
 	
+	public Optional<Hotel> getById(Long id) {
+		
+		return this.hotels.findById(id);
+	}
+	
 	public Hotel save(Hotel hotel) {
 		return hotels.save(hotel);
 	}

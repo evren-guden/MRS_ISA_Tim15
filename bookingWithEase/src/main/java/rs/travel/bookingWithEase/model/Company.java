@@ -46,7 +46,15 @@ public class Company implements Serializable{
 		this.description = description;
 	}
 	
-	public Company(long id, String name, String address, String description, double rating) {
+	public Company(Long id, String name, String address, String description)
+	{	
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+	}
+	
+	public Company(Long id, String name, String address, String description, double rating) {
 		super();
 		this.id = id;
 		this.name = name;
