@@ -3,7 +3,9 @@ package rs.travel.bookingWithEase.controller;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,11 +32,20 @@ public class UserController {
 	@PostMapping(
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public User add(@RequestBody AdminUserDTO adminUserDto) throws Exception
+	public ResponseEntity<String> add(@RequestBody AdminUserDTO adminUserDto) throws Exception
 	{
 		User newUser = userService.dtoToUser(adminUserDto);
-		return userService.save(newUser);
-
+		if (userService.save(newUser))
+		{	
+			System.out.println("created");
+			return new ResponseEntity<String>(HttpStatus.OK);			
+		}
+		else
+		{	
+			System.out.println("conflict");
+			return new ResponseEntity<String>("Username is already taken",HttpStatus.CONFLICT);
+		}
+		
 	}
 	
 }

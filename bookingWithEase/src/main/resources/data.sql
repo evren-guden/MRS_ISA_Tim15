@@ -9,3 +9,6 @@ insert into Branch (rac_id) values (1);
 insert into Vehicle (registration_number, type, gear, color) values ('AA-11', 'neki_tip', 'automatic', 'red');
 insert into Vehicle (registration_number, type, gear, color) values ('BB-11', 'neki_tip2', 'manual', 'green');
 insert into Vehicle (registration_number, type, gear, color) values ('CC-11', 'neki_tip3', 'automatic', 'black');
+
+insert into Hotel (id, name, address, description, rating) values (100, 'Park', 'Novi Sad', '',5);
+insert into Hotel (id, name, address, description, rating) values (200, 'Palisad', 'Zlatibor', '',5);

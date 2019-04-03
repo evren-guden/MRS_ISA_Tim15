@@ -26,8 +26,16 @@ public class UserService {
 		return users.findAll();
 	}
 	
-	public User save(User user) {
-		return users.save(user);
+	public boolean save(User user) {
+		
+		if(users.findByUsername(user.getUsername()) == null) {
+			System.out.println(users.findByUsername(user.getUsername()));
+            users.save(user);
+            return true;
+        }else {
+        	return false;
+        }
+        
 	}
 
 	public void delete(Long id) {

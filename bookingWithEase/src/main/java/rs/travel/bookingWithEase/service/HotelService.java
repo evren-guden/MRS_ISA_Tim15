@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import rs.travel.bookingWithEase.dto.RentACarDTO;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.RentACar;
+import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.repository.IHotelRepository;
 
 @Service
@@ -26,9 +27,14 @@ public class HotelService{
 		return hotels.findAll();
 	}
 	
-	public Optional<Hotel> getById(Long id) {
-		
-		return this.hotels.findById(id);
+	public Hotel findById(Long id) {
+		  
+		Optional<Hotel> dbHotel = hotels.findById(id);
+		if (dbHotel.isPresent()) {
+			return dbHotel.get();
+		} else {
+			return null;
+		}
 	}
 	
 	public Hotel save(Hotel hotel) {
@@ -43,6 +49,12 @@ public class HotelService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	public boolean addRoom(Room room)
+	{
+		
+		return true;
+	}
+	
 
 }

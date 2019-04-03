@@ -28,7 +28,15 @@ function registration() {
 				window.location.href = "index.html";
 			},
 			error : function(response) {
-				alert("Something went wrong! :(");
+				if(response.status == 409){
+					alert("Username is already taken");
+				}
+				else
+				{
+					alert("Admin user saved :)");
+					window.location.href = "index.html";
+				}
+								
 			}
 		});
 	} else {

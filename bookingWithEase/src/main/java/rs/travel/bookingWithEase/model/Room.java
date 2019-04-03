@@ -16,10 +16,15 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Component
 @Entity
+@JsonIgnoreProperties(value = { "hotel","reservations" })
 public class Room implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,11 +35,14 @@ public class Room implements Serializable{
 	@Column(name = "floorNumber")
 	private int floorNumber;
 	
-	@Column(name = "numberOfBeds")
-	private int numberOfBeds;
+	@Column(name = "capacity")
+	private int capacity;
 	
 	@Column(name = "rating")
 	private int rating;
+	
+	@Column(name = "pricePerNigth")
+	private double pricePerNight;
 	
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RoomReservation> reservations = new HashSet<RoomReservation>();
@@ -46,13 +54,39 @@ public class Room implements Serializable{
 	public Room() {
 		super();
 	}
+	
+	public Room(int roomNumber, int floorNumber, int capacity, double pricePerNight, Hotel hotel) {
+		super();
+		this.roomNumber = roomNumber;
+		this.floorNumber = floorNumber;
+		this.capacity = capacity;
+		this.pricePerNight = pricePerNight;
+		this.hotel = hotel;
+	}
+	
 
-	public Room(Long id, int roomNumber, int floorNumber, int numberOfBeds, int rating) {
+	public double getPricePerNight() {
+		return pricePerNight;
+	}
+
+	public void setPricePerNight(double pricePerNight) {
+		this.pricePerNight = pricePerNight;
+	}
+
+	public Set<RoomReservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(Set<RoomReservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public Room(Long id, int roomNumber, int floorNumber, int capacity, int rating) {
 		super();
 		this.id = id;
 		this.roomNumber = roomNumber;
 		this.floorNumber = floorNumber;
-		this.numberOfBeds = numberOfBeds;
+		this.capacity = capacity;
 		this.rating = rating;
 	}
 
@@ -80,12 +114,12 @@ public class Room implements Serializable{
 		this.floorNumber = floorNumber;
 	}
 
-	public int getNumberOfBeds() {
-		return numberOfBeds;
+	public int getCapacity() {
+		return capacity;
 	}
 
-	public void setNumberOfBeds(int numberOfBeds) {
-		this.numberOfBeds = numberOfBeds;
+	public void setCapacity(int capacity) {
+		this.capacity = capacity ;
 	}
 
 	public int getRating() {

@@ -16,7 +16,7 @@ public class Hotel extends Company {
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Room> rooms = new HashSet<Room>();
 
 	public Hotel() {
@@ -36,6 +36,14 @@ public class Hotel extends Company {
 		this.address = company.address;
 		this.description = company.description;
 		this.rating = company.rating;
+	}
+
+	public Set<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(Set<Room> rooms) {
+		this.rooms = rooms;
 	}
 	
 	

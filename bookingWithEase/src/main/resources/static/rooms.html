@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
+<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/rooms.js"></script>
+
+<link rel="stylesheet" href="css/index.css" />
+<title>Hotels</title>
+
+</head>
+
+<body>
+	<h1>Add new room</h1>
+	
+	<div class="transbox">
+	<form id="addRoomForm">
+		<table align="center">
+			
+			<tr>
+				<td align="left"> Room number: </td>
+				<td> <input type="text" name="roomNumber"/> </td>
+			</tr>
+			
+			<tr> 
+				<td align="left"> Floor number: </td>
+				<td> <input type="text" name="floorNumber" required/> </td>
+			</tr>
+			<tr>
+				<td align="left"> Capacity: </td>
+				<td> <input type="text" name="capacity" required/> </td>
+			</tr>	
+			<tr>
+				<td align="left"> Price per night:  </td>
+				<td> <input type="text" name="pricePerNight" required/> </td>
+			</tr>	
+			<tr>
+				<td>&nbsp;</td>
+				<td align="right"> <input class="formBtn" type="submit" id="addNewRoom" value="Add new">
+				 <input class="formBtn" type="button" id="cancelNewRoom" name="cancelNewRoom" value="Cancel"></td>
+			</tr>	
+		
+		</table>
+	
+	</form>
+	</div>
+
+</body>
+
+</html>
