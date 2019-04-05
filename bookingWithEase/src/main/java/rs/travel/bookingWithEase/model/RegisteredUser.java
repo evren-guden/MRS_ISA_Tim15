@@ -10,7 +10,6 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
-@Component
 @Entity
 public class RegisteredUser extends User {
 	

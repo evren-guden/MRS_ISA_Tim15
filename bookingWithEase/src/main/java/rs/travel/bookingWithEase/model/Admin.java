@@ -7,28 +7,27 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.stereotype.Component;
 
-@Component
 @Entity
 public class Admin extends User {
-	
+
 	private ADMIN_TYPE type;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Company company;
 
 	public Admin() {
 		super();
-		
+
 	}
 
 	public Admin(Long id, String username, String firstName, String lastName, String email, String password,
 			String city, String telephoneNumber, String passportNumber) {
 		super(id, username, firstName, lastName, email, password, city, telephoneNumber, passportNumber);
-		
+
 	}
-	
+
 	public Admin(Long id, String username, String firstName, String lastName, String email, String password,
-			String city, String telephoneNumber, String passportNumber,ADMIN_TYPE type) {
+			String city, String telephoneNumber, String passportNumber, ADMIN_TYPE type) {
 		super(id, username, firstName, lastName, email, password, city, telephoneNumber, passportNumber);
 		this.type = type;
 	}
@@ -40,6 +39,5 @@ public class Admin extends User {
 	public void setType(ADMIN_TYPE type) {
 		this.type = type;
 	}
-	
-	
+
 }

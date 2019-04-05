@@ -12,6 +12,11 @@ function showHideSearch() {
 }
 
 function findRentacars() {
+	if(sessionStorage){
+
+	    // Retreve data
+	    alert("Hi, " + sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname"));
+}
 	$.ajax({
 		type : 'GET',
 		url : "/rentacars",

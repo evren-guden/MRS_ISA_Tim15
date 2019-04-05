@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
@@ -46,6 +47,11 @@ public class UserService {
 		return new Admin(null,adminUserDto.getUsername(),adminUserDto.getFirstName(),adminUserDto.getLastName(),
 				         adminUserDto.getEmail(),adminUserDto.getPassword(),"","","",
 				         ADMIN_TYPE.strToAdmin(adminUserDto.getType()));
+	}
+	
+	public User findByUsername(String username) throws UsernameNotFoundException {
+		User u = users.findByUsername(username);
+		return u;
 	}
 
 }

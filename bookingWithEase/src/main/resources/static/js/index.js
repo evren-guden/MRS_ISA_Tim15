@@ -1,3 +1,9 @@
+$(document).on('click', '#loginbutton', function(e){
+    e.preventDefault();
+    window.location.href = "login.html";
+});
+
+
 $(document).on('click', '#new_company', function(e){
     e.preventDefault();
     window.location.href = "companyRegistration.html";
