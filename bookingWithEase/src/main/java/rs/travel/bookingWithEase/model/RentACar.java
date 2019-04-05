@@ -1,6 +1,7 @@
 package rs.travel.bookingWithEase.model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,11 +19,9 @@ public class RentACar extends Company {
 
 	// private Location location;
 
-	@OneToMany(mappedBy = "rac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "rac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Branch> branches = new HashSet<Branch>();
 
-	@OneToMany(mappedBy = "rentacar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 	
 	public RentACar() {
 	}
@@ -46,6 +45,31 @@ public class RentACar extends Company {
 
 	public void setBranches(Set<Branch> branches) {
 		this.branches = branches;
+	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RentACar r = (RentACar) o;
+        if(r.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, r.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+	@Override
+	public String toString() {
+		return "Rent a car [id=" + id + "]";
 	}
 
 }

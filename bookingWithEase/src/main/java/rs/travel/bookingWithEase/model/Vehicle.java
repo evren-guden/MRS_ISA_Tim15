@@ -1,13 +1,15 @@
 package rs.travel.bookingWithEase.model;
 
-import javax.persistence.CascadeType;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Vehicle {
@@ -26,8 +28,8 @@ public class Vehicle {
 	private String color;
 	
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private RentACar rentacar;
+	@ManyToOne
+	private Branch branch;
 	
 	public Vehicle() {
 	}
@@ -72,4 +74,37 @@ public class Vehicle {
 		this.registrationNumber = registrationNumber;
 	}
 
+	@JsonIgnore
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Vehicle v = (Vehicle) o;
+        if(v.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, v.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+	@Override
+	public String toString() {
+		return "Vehicle [id=" + id + "]";
+	}
 }

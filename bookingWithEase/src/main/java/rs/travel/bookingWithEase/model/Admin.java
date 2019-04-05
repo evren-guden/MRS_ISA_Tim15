@@ -1,18 +1,22 @@
 package rs.travel.bookingWithEase.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Admin extends User {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private ADMIN_TYPE type;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Company company;
 
 	public Admin() {
@@ -38,6 +42,14 @@ public class Admin extends User {
 
 	public void setType(ADMIN_TYPE type) {
 		this.type = type;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 }

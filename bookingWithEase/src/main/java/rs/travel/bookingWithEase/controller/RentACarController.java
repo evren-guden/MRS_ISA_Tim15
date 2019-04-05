@@ -40,7 +40,7 @@ public class RentACarController {
 	        return "alternate";
 	    }
 
-	@PreAuthorize("hasRole('ADMINRAC')")
+	//@PreAuthorize("hasRole('ADMINRAC')")
 	@RequestMapping(method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RentACar>> getAll() {
 

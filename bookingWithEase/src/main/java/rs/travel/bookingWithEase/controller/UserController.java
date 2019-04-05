@@ -1,7 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
-import java.security.Principal;
-import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,21 +35,9 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('ADMIN')")
-	public List<User> loadAll() {
-		return this.userService.findAll();
+	public Collection<User> findAll() {
+		return userService.findAll();
 	}
-
-	@RequestMapping("/whoami")
-	@PreAuthorize("hasRole('USER')")
-	public User user(Principal user) {
-		return this.userService.findByUsername(user.getName());
-	}
-
-	/*
-	 * @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE) public
-	 * Collection<User> findAll() { return userService.findAll(); }
-	 */
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> add(@RequestBody AdminUserDTO adminUserDto) throws Exception {
@@ -78,7 +64,6 @@ public class UserController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// Kreiraj token
 		User user = (User) authentication.getPrincipal();
-
 
 		// Vrati token kao odgovor na uspesno autentifikaciju
 		return ResponseEntity.ok(user);

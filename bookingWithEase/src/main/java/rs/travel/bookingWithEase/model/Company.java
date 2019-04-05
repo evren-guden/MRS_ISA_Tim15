@@ -12,10 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Component
 @Entity
@@ -155,6 +156,19 @@ public class Company implements Serializable{
 		if (Double.doubleToLongBits(rating) != Double.doubleToLongBits(other.rating))
 			return false;
 		return true;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setAdmins(Set<Admin> admins) {
+		this.admins = admins;
+	}
+
+	@JsonIgnore
+	public Set<Admin> getAdmins() {
+		return admins;
 	}
 	
 	
