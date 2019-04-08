@@ -8,21 +8,26 @@
 
 <script type="text/javascript" src="js/index.js"></script>
 
-<link rel="stylesheet" href="css/index.css" />
-
+<link rel="stylesheet" href="css/login.css" />
+<script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 
 <title>Insert title here</title>
 </head>
 <body>
-	<div id="hotelsDiv" class="transbox2">
+	<div id="contentlogin" class='contentform' class="transbox2">
+	<h2>Log in</h2>
 	<form action="" id="loginform">
-		Username: 
-		<input name="username">
-		Password:
-		<input name="password">
-		<input type="submit">
+		<input name="username" id="loginusername" placeholder="Username*"
+				required
+				oninvalid="this.setCustomValidity('Please enter username.')"
+				oninput="setCustomValidity('')"><br>
+		<input type="password" name="password" id="loginpsw" placeholder="Password*" required
+				oninvalid="this.setCustomValidity('Please enter password.')"
+				oninput="setCustomValidity('')"> <br>
+				<input type="checkbox" onclick="showPswFunction()">Show Password<br>
+		<input type="submit" id="loginbtn" value="Log in">
 	</form>
 	</div>
 </body>

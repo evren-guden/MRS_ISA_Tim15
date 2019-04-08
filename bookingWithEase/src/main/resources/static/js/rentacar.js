@@ -1,3 +1,4 @@
+
 findRentacars();
 
 function showHideSearch() {
@@ -11,16 +12,39 @@ function showHideSearch() {
 	}
 }
 
+function hello(){
+	$.ajax({
+		type : 'GET',
+		url : "/users/myprofile",
+		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : function(data){
+			console.log(data);
+			
+		},
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
+
 function findRentacars() {
 	if(sessionStorage){
 
 	    // Retreve data
-	    alert("Hi, " + sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname"));
+	    //alert("Hi, " + sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname"));
 }
 	$.ajax({
 		type : 'GET',
 		url : "/rentacars",
 		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success : fillTable,
 		error : function(data) {
 			alert(data);
@@ -39,6 +63,10 @@ $(document).on('submit', '#form-src', function(e) {
 		contentType : 'application/json',
 		dataType : 'json',
 		data : jsonData,
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success : fillTable
 	});
 

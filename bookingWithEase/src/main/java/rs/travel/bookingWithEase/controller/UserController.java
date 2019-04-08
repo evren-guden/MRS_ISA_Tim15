@@ -2,26 +2,21 @@ package rs.travel.bookingWithEase.controller;
 
 import java.util.Collection;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
 import rs.travel.bookingWithEase.model.User;
-import rs.travel.bookingWithEase.security.auth.JwtAuthenticationRequest;
+import rs.travel.bookingWithEase.security.TokenUtils;
 import rs.travel.bookingWithEase.service.UserService;
 
 @RestController
@@ -32,7 +27,7 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private AuthenticationManager authenticationManager;
+	private TokenUtils tokenUtils;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> findAll() {
@@ -52,7 +47,7 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<User> login(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
 
@@ -68,5 +63,25 @@ public class UserController {
 		// Vrati token kao odgovor na uspesno autentifikaciju
 		return ResponseEntity.ok(user);
 	}
-
+*/
+	
+	@PreAuthorize("hasRole('ADMIN') or hasRole('ADMINRAC') or hasRole('ADMINHOTEL') or hasRole('ADMINAIRLINE') or hasRole('USER')")
+	@GetMapping(value = "/myprofile" ,produces = MediaType.APPLICATION_JSON_VALUE)
+	public  ResponseEntity<User> myProfile(@RequestHeader("Authorization") String authHeader){
+		if(authHeader == null) {
+			return null;
+		}
+		System.out.println("MY profile");
+		String token = null;
+		if (authHeader != null && authHeader.startsWith("Bearer ")) {
+			token = authHeader.substring(7);
+		}
+		
+		String username = tokenUtils.getUsernameFromToken(token);
+		
+		User user = userService.findByUsername(username);
+		
+		return ResponseEntity.ok(user);
+	}
+	
 }

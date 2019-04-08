@@ -1,3 +1,12 @@
+function showPswFunction(){
+	 var x = document.getElementById("loginpsw");
+	  if (x.type === "password") {
+	    x.type = "text";
+	  } else {
+	    x.type = "password";
+	  }
+}
+
 $(document).on('submit', '#loginform', function(e) {
 	
 	e.preventDefault();
@@ -6,14 +15,13 @@ $(document).on('submit', '#loginform', function(e) {
 	var jsonData = JSON.stringify(formData);
 
 	$.ajax({
-		url : "/users/login",
+		url : "/auth/login",
 		type : "POST",
 		contentType : "application/json",
 		data : jsonData,
-		dataType : 'json',
+		dataType : 'text',
 		success : function(response) {
-			saveUser(response);
-			//window.location.href = "rentacar.html";
+			saveToken(response);
 		},
 		error : function(response) {
 			alert("Something went wrong! :(");
@@ -22,26 +30,37 @@ $(document).on('submit', '#loginform', function(e) {
 
 });
 
-function saveUser(data){
+function saveToken(data){
 	console.log(data);
-	if(sessionStorage){
-	    // Store data
-		sessionStorage.setItem("id", data.id);
-	    sessionStorage.setItem("username", data.username);
-	    sessionStorage.setItem("firstname", data.firstName);
-	    sessionStorage.setItem("lastname", data.lastName);
-	    sessionStorage.setItem("role", data.authorities[0].authority);
-	    // Retrieve data
-	   // alert("Hi, " + sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname"));
-	    
-	    if(sessionStorage.getItem("role") === "ROLE_ADMINRAC"){
-	    	window.location.replace("homePageRAC.html");
-	    }else if(sessionStorage.getItem("role") === "ROLE_ADMINHOTEL"){
-	    	window.location.replace("homePageHotel.html");
-	    }else if(sessionStorage.getItem("role") === "ROLE_ADMINAIRLINE"){
-	    	window.location.replace("homePageAirline.html");
-	    }
-	    
+	if(localStorage){
+		console.log(data);
+		setJwtToken(data);
+
+		$.ajax({
+			type : 'GET',
+			url : "/users/myprofile",
+			dataType : "json",
+			beforeSend: function (xhr) {
+		        /* Authorization header */
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
+			success : function(data){
+				if(data.authorities[0].authority === "ROLE_ADMINRAC"){
+					window.location.href = "homePageRAC.html";
+				}else if(data.authorities[0].authority === "ROLE_ADMINHOTEL"){
+					window.location.href = "homePageHotel.html";
+				}else if(data.authorities[0].authority === "ROLE_ADMINAIRLINE"){
+					window.location.href = "homePageAirline.html";
+				}else if(data.authorities[0].authority === "ROLE_ADMIN"){
+					window.location.href = "homePageAdmin.html";
+				}else if(data.authorities[0].authority === "ROLE_USER"){
+					window.location.href = "homePageUser.html";
+				}
+			},
+			error : function(data) {
+				alert(data);
+			}
+		});
 	} else{
 	    alert("Sorry, your browser do not support session storage.");
 	}
