@@ -1,10 +1,11 @@
-insert into RentACar (id,name, address, description, rating) values (1,'AA-11', 'Type1', 'automatic', 1);
-insert into RentACar (id,name, address, description, rating) values (2,'AA-11', 'Type1', 'automatic', 1);
-insert into RentACar (id,name, address, description, rating) values (3,'AA-11', 'Type1', 'automatic', 1);
+insert into RentACar (id,name, address, description, rating) values (1,'rac1', 'addr', 'automatic', 1);
+insert into RentACar (id,name, address, description, rating) values (2,'rac2', 'addr', 'automatic', 1);
+insert into RentACar (id,name, address, description, rating) values (3,'rac3', 'addr', 'automatic', 1);
 
-insert into Branch (id, rac_id) values (1, 1);
+insert into Branch (id, rac_id, name, address) values (1, 1,'ime', 'adresa');
 insert into Branch (id, rac_id) values (2, 2);
 insert into Branch (id, rac_id) values (3, 1);
+insert into Branch (id, rac_id) values (4, 1);
 
 insert into Vehicle (id, registration_number, type, gear, color, branch_id) values (1, 'AA-11', 'neki_tip', 'automatic', 'red', 1);
 insert into Vehicle (id, registration_number, type, gear, color) values (2, 'BB-11', 'neki_tip2', 'manual', 'green');

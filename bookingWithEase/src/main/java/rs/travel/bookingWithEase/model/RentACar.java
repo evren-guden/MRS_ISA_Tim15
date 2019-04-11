@@ -72,4 +72,7 @@ public class RentACar extends Company {
 		return "Rent a car [id=" + id + "]";
 	}
 
+	public void addBranch(Branch b) {
+		this.branches.add(b);
+	}
 }

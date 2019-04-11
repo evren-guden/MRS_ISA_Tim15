@@ -25,6 +25,8 @@ public class Branch {
 
 	private String name;
 	
+	private String address;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RentACar rac;
 
@@ -90,6 +92,14 @@ public class Branch {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

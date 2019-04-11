@@ -45,6 +45,10 @@ function saveToken(data){
 		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		    },
 			success : function(data){
+				if(localStorage){
+					localStorage.setItem("userId", data.id);
+					localStorage.setItem("userCompanyId", data.company.id);
+				}
 				if(data.authorities[0].authority === "ROLE_ADMINRAC"){
 					window.location.href = "homePageRAC.html";
 				}else if(data.authorities[0].authority === "ROLE_ADMINHOTEL"){
