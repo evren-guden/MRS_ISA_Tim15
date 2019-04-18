@@ -47,7 +47,9 @@ function saveToken(data){
 			success : function(data){
 				if(localStorage){
 					localStorage.setItem("userId", data.id);
+					if(data.company!=null){
 					localStorage.setItem("userCompanyId", data.company.id);
+					}
 				}
 				if(data.authorities[0].authority === "ROLE_ADMINRAC"){
 					window.location.href = "homePageRAC.html";

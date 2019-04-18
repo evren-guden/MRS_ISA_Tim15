@@ -31,45 +31,45 @@ public class Company implements Serializable{
 	protected String name;
 	protected String address;
 	protected String description;
-	protected double rating;
+	protected Double rating;
 	
 	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected Set<Admin> admins = new HashSet<Admin>();
 	
-	public Company() {
+	
+	
+	
+
+
+
+	public Company(Long id, String name, String address, String description) {
 		super();
-	}
-	
-	public Company(String name, String address, String description)
-	{	
-		this.name = name;
-		this.address = address;
-		this.description = description;
-	}
-	
-	public Company(Long id, String name, String address, String description)
-	{	
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 	}
-	
-	public Company(Long id, String name, String address, String description, double rating) {
+
+	public Company() {
+		super();
+	}
+
+	public Company(Long id, String name, String address, String description, Double rating, Set<Admin> admins) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 		this.rating = rating;
+		this.admins = admins;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(long i) {
-		this.id = i;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -96,29 +96,24 @@ public class Company implements Serializable{
 		this.description = description;
 	}
 
-	public double getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(double rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((admins == null) ? 0 : admins.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(rating);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
+	public void setAdmins(Set<Admin> admins) {
+		this.admins = admins;
+	}
+
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -153,17 +148,37 @@ public class Company implements Serializable{
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Double.doubleToLongBits(rating) != Double.doubleToLongBits(other.rating))
+		if (rating == null) {
+			if (other.rating != null)
+				return false;
+		} else if (!rating.equals(other.rating))
 			return false;
 		return true;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((admins == null) ? 0 : admins.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
+		return result;
 	}
+	
 
-	public void setAdmins(Set<Admin> admins) {
-		this.admins = admins;
+	
+
+	public Company(Long id, String name, String address, String description, Double rating) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.rating = rating;
 	}
 
 	@JsonIgnore
