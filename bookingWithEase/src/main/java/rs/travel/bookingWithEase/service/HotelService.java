@@ -3,13 +3,13 @@ package rs.travel.bookingWithEase.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rs.travel.bookingWithEase.dto.RentACarDTO;
 import rs.travel.bookingWithEase.model.Hotel;
-import rs.travel.bookingWithEase.model.RentACar;
 import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.repository.IHotelRepository;
 
@@ -44,10 +44,23 @@ public class HotelService{
 	public void delete(Long id) {
 		hotels.deleteById(id);
 	}
-
-	public Collection<RentACar> search(RentACarDTO rentACar) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public Collection<Hotel> search(Hotel hotelFind) {
+	
+		ConcurrentMap<Long, Hotel> searchHotel = new ConcurrentHashMap<Long, Hotel>();
+		System.out.println("id: " + hotelFind.getId() + " name " + hotelFind.getId() + " address " + hotelFind.getAddress());
+		for (Hotel hotel : hotels.findAll()) {
+			if (hotelFind.getId() == null || hotelFind.getId() == hotel.getId()) {
+				if (hotelFind.getAddress() == null
+						|| hotel.getAddress().toLowerCase().contains(hotelFind.getAddress().toLowerCase())) {
+					if (hotelFind.getName() == null
+							|| hotel.getName().toLowerCase().contains(hotelFind.getName().toLowerCase())) {
+						searchHotel.put(hotel.getId(), hotel);
+					}
+				}
+			}
+		}
+		return searchHotel.values();
 	}
 	
 	public boolean addRoom(Room room)

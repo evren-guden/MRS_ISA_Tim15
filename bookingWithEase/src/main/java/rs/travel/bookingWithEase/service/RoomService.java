@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,19 @@ public class RoomService {
 	public List<Room> findAll() {
 		return rooms.findAll();
 	}
+	
+	public List<Room> findByHotelId(Long id)
+	{
+		List<Room> rooms = new ArrayList<Room>();
+		
+		for(Room r : findAll())
+		{
+			if(r.getHotel().getId() == id)
+				rooms.add(r);
+		}
+		
+		return rooms;
+	}
 
 	public Room save(Room room) {
 		return rooms.save(room);
@@ -49,7 +63,7 @@ public class RoomService {
 			return null;
 		}
 		
-		Room room = new Room(roomDto.getRoomNumber(), roomDto.getFloorNumber(),
+		Room room = new Room(roomDto.getId(),roomDto.getRoomNumber(), roomDto.getFloorNumber(),
 							 roomDto.getCapacity(), roomDto.getPricePerNight(), 
 							 hotel);		
 		return room;

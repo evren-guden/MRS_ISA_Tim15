@@ -47,7 +47,7 @@ public class Room implements Serializable{
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RoomReservation> reservations = new HashSet<RoomReservation>();
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Hotel hotel;
 	
 	
@@ -63,7 +63,15 @@ public class Room implements Serializable{
 		this.pricePerNight = pricePerNight;
 		this.hotel = hotel;
 	}
-	
+	public Room(Long id,int roomNumber, int floorNumber, int capacity, double pricePerNight, Hotel hotel) {
+		super();
+		this.id = id;
+		this.roomNumber = roomNumber;
+		this.floorNumber = floorNumber;
+		this.capacity = capacity;
+		this.pricePerNight = pricePerNight;
+		this.hotel = hotel;
+	}
 
 	public double getPricePerNight() {
 		return pricePerNight;

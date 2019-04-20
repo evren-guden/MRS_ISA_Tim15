@@ -9,7 +9,36 @@ $(document).on('click', '.new_room', function(e){
 
 });
 
+function showHideSearch() {
+	var x = document.getElementById("div-hotels-search");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+		document.getElementById("showHideBtn").innerText = "Hide search";
+	} else {
+		x.style.display = "none";
+		document.getElementById("showHideBtn").innerText = "Show search";
+	}
+}
 
+$(document).on('click', '#search_hotel_btn', function(e) {
+	e.preventDefault();
+
+	var formData = getFormData("#form-hotels-search");
+	var jsonData = JSON.stringify(formData);
+	$.ajax({
+		type : 'POST',
+		url :'/hotels/search',
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : fillTable
+	});
+
+});
 
 function showRooms(data)
 {	

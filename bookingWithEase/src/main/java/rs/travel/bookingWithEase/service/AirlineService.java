@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.model.Airline;
 import rs.travel.bookingWithEase.model.Company;
-import rs.travel.bookingWithEase.model.RentACar;
-import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.repository.AirlineRepository;
 
 @Service
