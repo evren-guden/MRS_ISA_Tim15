@@ -88,6 +88,10 @@ $('.formsedit').on('submit', function(e) {
 			contentType: 'application/json',
 			dataType: 'json',
 			data: jsonData,
+			beforeSend: function (xhr) {
+		        /* Authorization header */
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
 			success : getAirlines,
 			error : function(data) {
 				alert(data);
