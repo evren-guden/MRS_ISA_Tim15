@@ -20,25 +20,7 @@ function showHideSearch() {
 	}
 }
 
-$(document).on('click', '#search_hotel_btn', function(e) {
-	e.preventDefault();
 
-	var formData = getFormData("#form-hotels-search");
-	var jsonData = JSON.stringify(formData);
-	$.ajax({
-		type : 'POST',
-		url :'/hotels/search',
-		contentType : 'application/json',
-		dataType : 'json',
-		data : jsonData,
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
-		success : fillTable
-	});
-
-});
 
 function showRooms(data)
 {	
@@ -50,6 +32,8 @@ function showRooms(data)
 	$('#h1_').append("Rooms");
 	console.log(data);
 	
+	$('#div-show-search').hide();
+	$('#div-hotels-search').hide();
 	$('#hotelsTable').empty();
 	$('#hotelsTable').append('<tr><th>Id</th><th>Room number</th><th>Floor</th><th>Capacity</th><th>Price per night</th></tr>');
 	
@@ -76,6 +60,10 @@ function getHotels()
 		url : "/hotels",
 		type : "GET",
 		dataType : 'json',
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success : fillTable,
 		error : function(response) {
 			alert("Something went wrong! :(");
@@ -89,6 +77,10 @@ function getRooms(hotelId)
 		url : "/hotels/" + sessionStorage.getItem('hotelId') + "/rooms",
 		type : "GET",
 		dataType : 'json',
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success: showRooms,
 		error : function(response) {
 			alert("Something went wrong! :(");
@@ -96,15 +88,49 @@ function getRooms(hotelId)
 	});
 }
 
+$(document).on('click', '#search_hotel_btn', function(e) {
+	e.preventDefault();
+
+	var formData = getFormData("#form-hotels-search");
+	var jsonData = JSON.stringify(formData);
+	$.ajax({
+		type : 'POST',
+		url :'/hotels/search',
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : fillTable
+	});
+
+});
+
 function fillTable(data) {
+
 	var hotels = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
-	$('#hotelsTable').empty();
-	$('#hotelsTable').append('<tr><th>Id</th><th>Name</th><th>Address</th><th>Description</th></tr>');
+	/*$('#hotelsTable').empty();
+	$('#hotelsTable').append('<tr><th>Id</th><th>Name</th><th>Address</th><th>Description</th></tr>'); */
+	
+	var hotelsDiv = $('#hotels-div');
+	hotelsDiv.empty();
+	var counter = 0;
 	
 	$.each(hotels, function(index, hotel) {
 
-		var tr = $('<tr></tr>');
+		var hotelDiv = $('<div class="hotel-div" id="hotel-div-"' + counter + 
+				         ' style="bottom:' + (60 - counter*40)  + '%; top:'+ (3 + counter*40 ) + '%;"' + '>' + 
+				         '<img src="../images/background5.jpeg" height = 150 width= 150>' + 
+				        '<h3>' + hotel.name + '</h3>' + 
+				         '<p>'  + hotel.address + '</p>' +
+				         '</div>'
+			);
+         counter++;
+         hotelsDiv.append(hotelDiv);
+		/*var tr = $('<tr></tr>');
 		var form = $('<td><form class="formsedit" id="form' + hotel.id
 				+ '"><input name="ident" value=' + hotel.id
 				+ ' readonly></form></td><td><input name="name" form="form'
@@ -118,7 +144,7 @@ function fillTable(data) {
 				+ '" id="bform' + hotel.id
 				+ '"></td>');
 		tr.append(form);
-		$('#hotelsTable').append(tr);
+		$('#hotelsTable').append(tr);*/
 	});
 	
 	$('.roomsBtn').on('click', function(e) {
@@ -161,6 +187,10 @@ function fillTable(data) {
 			contentType : 'application/json',
 			dataType : 'json',
 			data : jsonData,
+			beforeSend: function (xhr) {
+		        /* Authorization header */
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
 			success : getHotels,
 			error : function(data) {
 				alert(data);

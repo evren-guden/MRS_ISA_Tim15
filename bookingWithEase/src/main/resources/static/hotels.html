@@ -7,31 +7,37 @@
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 
-<script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/hotels.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/hotels.css" />
 <title>Hotels</title>
 
 </head>
 
 <body>
-	<h1 id="h1_">Hotels</h1>
 	
-<div id="hotelsDiv" class="transbox2">
-		<div id="div-show-search">
-			<button type="button" onclick="showHideSearch()" id="showHideBtn">Show
-				search</button>
-		</div>
-		<div id="div-hotels-search" style="display: none">
-			<form id="form-hotels-search">
-				<table>
-					<tr>
-						<td>Id:</td>
-						<td><input type="text" name="id" id="src-hotel-id"></td>
-					</tr>
+	<nav>
+    	<div class="brand">
+      		<h2>Booking With Ease</h2>
+    	</div>
+ 		<ul>
+    		<li><a href="javascript:homepage()">Home</li></a>
+    		<li><a href="javascript:login_clicked()">Log in</li></a>
+    		<li><a href="javascript:registration_clicked()">Register</li></a>
+		</ul>
+	</nav>
+	
+	<h1 id="h1_">HOTELS</h1>
+	
+	<div class="search-div">
+		<h2 align="center" >Search</h2>
+		
+		<form id="form-hotels-search">
+				<table align="center" >
 					<tr>
 						<td>Name:</td>
 						<td><input type="text" name="name" id="src-hotel-name"></td>
@@ -41,16 +47,26 @@
 						<td><input type="text" name="address" id="src-hotel-addr"></td>
 					</tr>
 					<tr>
+						<td>Stars:</td>
+						<td><input type="text" name="stars" id="src-hotel-stars"></td>
+					</tr>
+					<tr>
+						<td>Rating:</td>
+						<td><input type="text" name="rating" id="src-hotel-rating"></td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
 						<td></td>
-						<td><input type="submit" value="Search" id="search_hotel_btn"></td>
+						<td align="center"><input type="submit" value="Search" id="search_hotel_btn"></td>
 					</tr>
 				</table>
 			</form>
-		</div>
-		<table align=center border = 1 id="hotelsTable"></table>
-		
 	</div>
-
+	
+	<div class="hotels-div" id="hotels-div">
+	 
+	</div>
+	
 </body>
 
 </html>

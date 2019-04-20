@@ -44,5 +44,18 @@ $(document).on('click', '#flights', function(e){
     window.location.href = "flights.html";
 });
 
+function homepage()
+{
+	window.location.href = "index.html";
+}
 
+function login_clicked()
+{
+	window.location.href = "login.html";
+}
+
+function registration_clicked()
+{
+	alert("registration");
+}
 
