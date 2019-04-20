@@ -2,10 +2,212 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" href="css/homePageAir.css" />
+<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
+<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/adminAirline.js"></script>
 
 </head>
+
 <body>
-	Home page Airline
+
+<div class="tab">
+
+<button class="tablinks" onclick="openCity(event, 'editAirline')">Editing an airline</button>
+<button class="tablinks" onclick="openCity(event, 'addFlight')">Add flight</button>
+<button class="tablinks" onclick="openCity(event, 'allF')">All flight</button>
+<button class="tablinks" onclick="openCity(event, 'registerDest')">Add destination</button>
+<button class="tablinks" onclick="openCity(event, 'allDest')">All destination</button>
+<button class="tablinks" id="logoutClicked"  >Logout</button>
+
+</div>
+<div id="editAirline" class="tabcontent">
+		<div class="container">
+		<h1>Edit</h1>
+	<form >
+		<table align="center">
+			
+			
+			<tr>
+				<td align="left"> Name: </td>
+				<td> <input type="text" name="name"required/> </td>
+			</tr>
+			
+			<tr> 
+				<td align="left"> Address: </td>
+				<td> <input type="text" name="address" required/> </td>
+			</tr>
+			<tr>
+				<td>Promotional description: &nbsp; </td>
+				<td align="left"><textarea cols="22" rows="5" name="description" required></textarea></td>
+			</tr>	
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td align="right"> <input class="formBtn" type="submit" id="registerCompany" value="Submit">
+				 <input class="formBtn" type="button" id="cancelCompReg" name="cancelCompReg" value="Cancel"></td>
+			</tr>	
+			
+		
+		</table>
+	
+	</form>
+			<br>
+		</div>
+	</div>
+
+
+
+
+
+  <div id="addFlight" class="tabcontent">
+		<div class="container">
+			<h2>Adding Flight:</h2>
+			<form id = "addFlightForm">
+            <table>
+              <tr>
+                <td>ID:</td>
+                <td><input type = "number" name="id" ></td>
+              </tr>
+              <tr>
+                <td>Start:</td>
+                <td> <input type="text" name="startD" required/> </td>
+              </tr>
+              <tr>
+                <td>Final:</td>
+                <td> <input type="text" name="finalD" required/> </td>
+              </tr>
+              <tr>
+                <td>Date fligh:</td>
+                <td><input type = "date" name="dateFligh" required/></td>
+              </tr>
+              <tr>
+                <td>Date land:</td>
+                <td><input type = "date" name="dateLand" required/></td>
+              </tr>
+              <tr>
+                <td> Length travel:</td>
+                <td><input type = "number" name="lengthTravel" min="0"/></td>
+              </tr>
+              
+              
+              <tr>
+                <td>Price ticket:</td>
+                <td><input type = "number" name="priceTicket" min="1"/></td>
+              </tr>
+              
+            <tr>
+            <td></td>
+            <td><input type="submit" value="Add"/></td>
+            </tr>
+      
+            </table>
+          </form>
+			<br>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+<div id="allF" class="tabcontent">
+<div class="container">
+<h1>Flights</h1>
+<form id = "tab-flights">
+		<table border="1" id = "tab-flights">
+			<tr>
+				<th>ID</th>
+				<th>Start destination</th>
+				<th>End destination</th>
+				<th>Date flight</th>
+				<th>Date landing</th>
+				<th>Length travel</th>
+				<th>Price ticket</th>
+			</tr>
+		</table>
+		</form>
+</div>
+</div>
+
+
+<div id="registerDest" class="tabcontent">
+<div class="container">
+<h1>Registration of new destinations</h1>
+<form id="destRegForm">   
+		<table align="center">
+			
+			<tr>
+				<td align="left">ID: </td>
+				<td><input type = "number" name="idAerodromes" ></td>
+				
+			</tr>
+			
+			
+			<tr> 
+				<td align="left">Name airport: </td>
+				<td> <input type="text" name="nameAerodroms" required/> </td>
+			</tr>
+			
+			<tr> 
+				<td align="left">Address airport: </td>
+				<td> <input type="text" name="address" required/> </td>
+			</tr>
+			
+			<tr>
+				<td align="left"> </td>
+				<td align="left"><input type="submit" value="Register"></td>
+			</tr>
+			
+		
+		</table>
+	
+	</form>
+	</div>
+	</div>
+
+
+
+
+<div id="allDest" class="tabcontent">
+<div class="container">
+<title>Airport</title>
+<body data-gr-c-s-loaded="true">
+<form id="destinationTable">
+	<h1>Destination</h1>
+
+		<table id="destinationTable" border="1" align = center>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Address</th>
+				
+			</tr>
+		</table>
+</form>
+		</div>
+
+
+
+
+<script>
+		function openCity(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(
+						" active", "");
+			}
+			$('#' + cityName).slideToggle(1000);
+			evt.currentTarget.className += " active";
+		}
+	</script>
+
 </body>
 </html>
