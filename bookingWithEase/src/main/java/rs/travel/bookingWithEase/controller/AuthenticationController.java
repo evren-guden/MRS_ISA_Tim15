@@ -50,8 +50,9 @@ public class AuthenticationController {
 		// Kreiraj token
 		User user = (User) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user.getUsername());
+		
 		//int expiresIn = tokenUtils.getExpiredIn(device);
-		System.out.println(jwt);
+		System.out.println("Saljem token: " + jwt);
 		// Vrati token kao odgovor na uspesno autentifikaciju
 		return ResponseEntity.ok(jwt);
 	}

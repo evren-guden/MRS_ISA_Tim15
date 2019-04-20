@@ -10,3 +10,9 @@ function getFormData(formId)
     
     return formData;
 }
+
+function util_login()
+{	
+	sessionStorage.setItem('openLoginForm',true);
+	window.location.href = "index.html";
+}

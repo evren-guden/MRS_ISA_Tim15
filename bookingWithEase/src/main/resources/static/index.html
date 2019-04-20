@@ -10,6 +10,10 @@
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 
 <script type="text/javascript" src="js/index.js"></script>
+<link rel="stylesheet" href="css/login.css" />
+<script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
 
 
 <title>BookingWithEase</title>
@@ -17,34 +21,74 @@
 </head>
 
 <body>
-	
-	<div class="main-box">
-    	<h1 class="main-heading">Booking With Ease</h1>
-    	<h3 class="main-heading2">Book all you need at one place!</h3>
-    	
-    	<div id="btns-div">
 
-    		<button class="button" id="airlines" name="airlines" value="Airlines"> AIRLINES </button>
-    		<button class="button" id="hotels" name="hotels" value="Hotels">HOTELS</button>
-    		<button class="button" id="rent-a-car" name="rent-a-car"
+	<div class="main-box">
+		<h1 class="main-heading">Booking With Ease</h1>
+		<h3 class="main-heading2">Book all you need at one place!</h3>
+
+		<div id="btns-div">
+
+			<button class="button" id="airlines" name="airlines" value="Airlines">
+				AIRLINES</button>
+			<button class="button" id="hotels" name="hotels" value="Hotels">HOTELS</button>
+			<button class="button" id="rent-a-car" name="rent-a-car"
 				value="Rent-a-car">RENT-A-CAR</button>
 		</div>
-    	
-    </div>
-  
+
+	</div>
+
 	<nav>
-    	<div class="brand">
-      		<h2>Booking With Ease</h2>
-    	</div>
- 		<ul>
-    		<li><a href="javascript:homepage()">Home</li></a>
-    		<li><a href="javascript:login_clicked()">Log in</li></a>
-    		<li><a href="javascript:registration_clicked()">Register</li></a>
+		<div class="brand">
+			<h2>Booking With Ease</h2>
+		</div>
+		<ul>
+			<li><a href="javascript:homepage()">Home</li>
+			</a>
+			<li><a href="javascript:login_clicked()">Log in</li>
+			</a>
+			<li><a href="javascript:registration_clicked()">Register</li>
+			</a>
 		</ul>
 	</nav>
 
+	<div id="transbox-login" class="transbox-login" style="opacity: 0">
+		</br>
+		<h2>Log in</h2>
+		<form action="" id="loginform">
+			<table align="center">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input name="username" id="loginusername"
+						placeholder="Username*" required
+						oninvalid="this.setCustomValidity('Please enter username.')"
+						oninput="setCustomValidity('')"></td>
+				</tr>
+				<tr></tr>
+				<tr>
+					<td><input type="password" name="password" id="loginpsw"
+						placeholder="Password*" required
+						oninvalid="this.setCustomValidity('Please enter password.')"
+						oninput="setCustomValidity('')"></td>
+				</tr>
+				<tr>
+					<td align="left"><input type="checkbox"
+						onclick="showPswFunction()">Show Password</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td align="right"><input type="submit" id="loginbtn"
+						value="Log in"> <input type="button" id="cancel_login"
+						value="Cancel"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 
-<!--  
+	<!--  
 	<div class="left">
 	 
 		<p>

@@ -1,6 +1,6 @@
 $(document).on('click', '#cancelCompReg', function(e) {
 	e.preventDefault();
-	window.location.href = "index.html";
+	$('.transbox_company_reg').css('opacity', '0');
 });
 
 $(document).on('click', '#registerCompany', function(e) {
@@ -23,7 +23,6 @@ function registration() {
 			dataType : 'json',
 			success : function(response) {
 				alert("Company saved :)");
-				window.location.href = "index.html";
 			},
 			error : function(response) {
 				alert("Something went wrong! :(");

@@ -22,6 +22,10 @@ function getAirlines() {
 		type : 'GET',
 		url : "/airlines",
 		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success : fillTable,
 		error : function(data) {
 			alert(data);
