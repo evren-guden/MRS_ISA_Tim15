@@ -65,14 +65,15 @@ public class RentACarController {
 	}
 	
 	@PostMapping(value="/{id}/branchs",consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RentACar> addBranch(@PathVariable("id") Long id, Branch branch) {
+	public ResponseEntity<Branch> addBranch(@PathVariable("id") Long id, @RequestBody Branch branch) {
 
 		Optional<RentACar> rac = rentACarService.findOne(id);
 		rac.get().addBranch(branch);
 		branch.setRac(rac.get());
-		branchService.save(branch);
+		Branch br = branchService.save(branch);
 		rentACarService.save(rac.get());
-		return new ResponseEntity<RentACar>(rac.get(), HttpStatus.OK);
+		
+		return new ResponseEntity<Branch>(br, HttpStatus.OK);
 	}
 	
 	/*@PutMapping(value="/{id}/branchs",consumes=MediaType.APPLICATION_JSON_VALUE)

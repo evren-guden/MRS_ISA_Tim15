@@ -57,6 +57,10 @@ public class Branch {
 		return vehicles;
 	}
 
+	public void addVehicle(Vehicle veh) {
+		this.vehicles.add(veh);
+	}
+	
 	public void setVehicles(Set<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}

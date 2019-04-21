@@ -1,7 +1,6 @@
 body {
 	background-image: url(../images/adminrac.jpg);
-	background-repeat: no-repeat;
-    background-size: cover;
+	
 	font-family: Arial;
 }
 .tab {
@@ -9,22 +8,10 @@ body {
 	border: 1px solid #ccc;
 	background-color: #ccc;
 }
-
-#maincontent {
-	position: absolute;
-	top: 35%;
-	right: 20%;
-	bottom: 20%;
-	left: 20%;
-	background-color: white;
-	opacity: 0.4;
-}
-
 .transbox3 {
   margin-left: 1%;
   margin-right: 1%;
   margin-top: 1%;
-  margin-bottom: 1%;
   background-color: white;
   border: 1px solid black;
   opacity: 0.6;
