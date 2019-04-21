@@ -15,6 +15,7 @@ insert into airline (id,name, address, description, rating) values (10,'Air Serb
 
 
 
+
 insert into branch (id, rac_id, name, address) values (1, 1,'ime', 'adresa');
 insert into branch (id, rac_id) values (2, 2);
 insert into branch (id, rac_id) values (3, 1);
