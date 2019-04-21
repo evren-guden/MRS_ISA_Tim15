@@ -1,21 +1,47 @@
 package rs.travel.bookingWithEase.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.model.Airline;
+
 import rs.travel.bookingWithEase.model.Company;
-import rs.travel.bookingWithEase.repository.AirlineRepository;
+import rs.travel.bookingWithEase.repository.IAirlineRepository;
+
 
 @Service
-public class AirlineService implements IAirlineService{
-	
+public class AirlineService {
+
 	@Autowired
-	private AirlineRepository airlines;
+	private IAirlineRepository airlines;
 	
-	@Override
+	
+	public Optional<Airline> findOne(Long id) {
+		return airlines.findById(id);
+	}
+
+	public List<Airline> findAll() {
+		return airlines.findAll();
+	}
+	
+	public Airline save(Airline airline) {
+		return airlines.save(airline);
+	}
+
+	public void delete(Long id) {
+		airlines.deleteById(id);
+	}
+	public Airline findOneByName(String name) {
+		return airlines.findOneByName(name);
+	
+	}
+	
+	
+/*	@Override
 	public Collection<Airline> findAll()
 	{
 		return airlines.findAll();
@@ -52,5 +78,6 @@ public class AirlineService implements IAirlineService{
 		findedAirline.setDescription(airline.getDescription());
 
 		return airlines.update(findedAirline);
-	}
+	}*/
+
 }

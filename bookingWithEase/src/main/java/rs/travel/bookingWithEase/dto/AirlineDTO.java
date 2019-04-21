@@ -1,5 +1,7 @@
 package rs.travel.bookingWithEase.dto;
 
+import rs.travel.bookingWithEase.model.Airline;
+
 public class AirlineDTO {
 	private String airlineNameRegister;
 	private String airlineAddressRegister;
@@ -39,5 +41,9 @@ public class AirlineDTO {
 		this.airlineAddressRegister = airlineAddressRegister;
 		this.airlinePromotionalDescription = airlinePromotionalDescription;
 	}
-
+	public AirlineDTO(Airline air) {
+		super();
+		this.airlineNameRegister=air.getName();
+		this.airlinePromotionalDescription=air.getDescription();
+	}
 }

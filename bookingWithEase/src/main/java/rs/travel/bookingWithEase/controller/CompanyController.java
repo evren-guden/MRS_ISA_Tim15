@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.CompanyDTO;
+import rs.travel.bookingWithEase.model.Airline;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.RentACar;
@@ -41,7 +42,7 @@ public class CompanyController {
 		
 		switch (companyDto.getCmpType()) {
 		case "airline":
-			airlineService.create(company);
+			airlineService.save(new Airline(company));
 			System.out.println("Airline added");
 			break;
 		case "hotel":

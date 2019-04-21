@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import rs.travel.bookingWithEase.dto.AirlineDTO;
+
 @Component
 @Entity
 @Table(name = "Airline")
@@ -62,6 +64,11 @@ public class Airline extends Company {
 				+ ", airlineCustomerServices=" + airlineCustomerServices + "]";
 	}
 	
+	public Airline(AirlineDTO airlineDTO) {
+		this.name = airlineDTO.getAirlineNameRegister();
+		this.address = airlineDTO.getAirlineAddressRegister();
+		this.description = airlineDTO.getAirlinePromotionalDescription();
+	}
 	
 
 }

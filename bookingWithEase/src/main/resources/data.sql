@@ -2,6 +2,19 @@ insert into rentacar (id,name, address, description, rating) values (1,'rac1', '
 insert into rentacar (id,name, address, description, rating) values (2,'rac2', 'addr', 'automatic', 1);
 insert into rentacar (id,name, address, description, rating) values (3,'rac3', 'addr', 'automatic', 1);
 
+insert into airline (id,name, address, description, rating) values (1,'Aeroflot Russian Airlines', 'Russia', '', 1);
+insert into airline (id,name, address, description, rating) values (2,'Norwegian', 'Norway', '', 1);
+insert into airline (id,name, address, description, rating) values (3,'Ethiopian Airlines', 'Ethiopia ', '', 1);
+insert into airline (id,name, address, description, rating) values (4,'KLM Royal Dutch Airlines', 'Germany', '', 1);
+insert into airline (id,name, address, description, rating) values (5,'Air France', 'France', '', 1);
+insert into airline (id,name, address, description, rating) values (6,'Austrian Airlines', 'Austria', '', 1);
+insert into airline (id,name, address, description, rating) values (7,'Swiss International Air', 'Switzerland', '', 1);
+insert into airline (id,name, address, description, rating) values (9,'Turkish Airlines', 'Turkey', '', 1);
+insert into airline (id,name, address, description, rating) values (10,'Air Serbia', 'Serbia', '', 1);
+
+
+
+
 insert into branch (id, rac_id, name, address) values (1, 1,'ime', 'adresa');
 insert into branch (id, rac_id) values (2, 2);
 insert into branch (id, rac_id) values (3, 1);

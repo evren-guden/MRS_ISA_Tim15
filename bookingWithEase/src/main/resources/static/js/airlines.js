@@ -39,26 +39,19 @@ function fillTable(data) {
 	var table = $('#airlinesTable');
 	$('#airlinesTable').empty();
 
-	var cont = $('#help');
-	cont.empty();
-	var form = $('<form align =left><input value=ID><input value= NAME><input value = ADDRESS><input value=DESCRIPTION></form>');
-	cont.append(form);
-
+	
+	$('#airlinesTable').append('<form align =left><ID><NAME><ADDRESS><DESCRIPTION></form>');
 	$.each(airlines, function(index, airline) {
 	
-		var cont2 = $('<div></div>');
-		var form = $('<form align=left class="formsedit" id="form' + airline.id
-				+ '"><input name="ident" value="' + airline.id
-				+ '" readonly><input name="name" value="' + airline.name
-				+ '"><input name="address" value="' + airline.address
-				+ '"><input name="description" value="' + airline.description
-				+ '"><input type="submit" id="bform'+ airline.id +'"></form>');
+		var tr = $('<tr></tr>');
+		tr.append = $('<td>' + airline.id+<'/td'>+'<td>'
+				+ airline.name+'</td>'+'<td>'
+				+ airline.address+'</td>'+'<td>'
+				+  airline.description+'</td>'+'<td>');
+				
 
-		cont2.append(form);
-		cont.append(cont2);
-	}
-	
-	);
+		$('#airlinesTable').append(tr);
+	});
 
 	
 $('.formsedit').on('submit', function(e) {
