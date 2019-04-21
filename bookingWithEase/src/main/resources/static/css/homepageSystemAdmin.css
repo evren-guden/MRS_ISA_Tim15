@@ -1,8 +1,10 @@
 div.transbox_admin_reg
 {
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-top: 8%;
+  position: absolute;
+  top: 16%;
+  left: 25%;
+  right: 25%;
+  bottom: 7%;
   background-color: black;
   color: white;
   border: 1px solid black;
@@ -19,7 +21,7 @@ div.transbox_company_reg
   top: 16%;
   left: 25%;
   right: 25%;
-  bottom: 23%;
+  bottom: 7%;
   background-color: black;
   color: white;
   border: 1px solid black;
@@ -29,7 +31,40 @@ div.transbox_company_reg
   font-size: 22px;
 }
 
+div.select_admins
+{	
+/*	position: absolute;
+	top: 66%;
+	left: 43%;
+	right: 30%;
+	bottom: 20%;*/
+	max-height: 70px;
+	background-color: white;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	color: black;
+	font-size: 15px;
+}
+
+div.select_company
+{	
+/*	position: absolute;
+	top: 66%;
+	left: 43%;
+	right: 30%;
+	bottom: 20%;*/
+	max-height: 70px;
+	background-color: white;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	color: black;
+	font-size: 15px;
+}
+
 h2.form-h
 {
 	font-size: 26px;
 }
+
+
+

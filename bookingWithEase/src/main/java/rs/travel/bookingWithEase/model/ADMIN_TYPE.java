@@ -17,5 +17,4 @@ public enum ADMIN_TYPE {
 			return null;
 		}
 	}
-	
 }

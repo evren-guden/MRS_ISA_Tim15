@@ -29,7 +29,11 @@ function fillTable(data) {
 				+ user.lastName + '</td>' + '<td>'
 				+ user.email + '</td>');
 		
-		if(user.type !== null)
+		if(user.type == undefined)
+		{
+			tr.append('<td>' + 'registered user' + '</td>');
+		}
+		else if(user.type !== null)
 		{
 			tr.append('<td>' + user.type.toLowerCase() + ' admin' + '</td>');
 		}else

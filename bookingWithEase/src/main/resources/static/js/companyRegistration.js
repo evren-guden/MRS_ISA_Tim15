@@ -5,12 +5,23 @@ $(document).on('click', '#cancelCompReg', function(e) {
 
 $(document).on('click', '#registerCompany', function(e) {
 	e.preventDefault();
-	registration();
+	companyRegistration();
 });
 
-function registration() {
+function companyRegistration() {
 	var formData = getFormData("#companyRegForm");
-
+	var checkboxes = $('.admins_checkbox');
+	var adminsArray = [];
+	$.each(checkboxes, function(index, checkbox){
+		if(checkbox.checked)
+		{
+			adminsArray.push(checkbox.value);
+		}
+	});
+	
+	formData["admins"] = adminsArray;
+	
+//	alert("registration " + formData["admins"] );
 	var validData = Boolean(validateRegistrationData(formData));
 	if (validData) {
 		var jsonData = JSON.stringify(formData);

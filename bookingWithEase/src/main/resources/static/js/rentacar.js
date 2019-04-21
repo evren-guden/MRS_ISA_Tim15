@@ -1,4 +1,3 @@
-
 findRentacars();
 
 function showHideSearch() {
@@ -23,7 +22,6 @@ function hello(){
 	    },
 		success : function(data){
 			console.log(data);
-			
 		},
 		error : function(data) {
 			alert(data);
@@ -32,11 +30,6 @@ function hello(){
 }
 
 function findRentacars() {
-	if(sessionStorage){
-
-	    // Retreve data
-	    //alert("Hi, " + sessionStorage.getItem("firstname") + " " + sessionStorage.getItem("lastname"));
-}
 	$.ajax({
 		type : 'GET',
 		url : "/rentacars",
@@ -52,10 +45,10 @@ function findRentacars() {
 	});
 }
 
-$(document).on('submit', '#form-src', function(e) {
+$(document).on('submit', '#formsrc', function(e) {
 	e.preventDefault();
 	
-	var formData = getFormData("#form-src");
+	var formData = getFormData("#formsrc");
 	var jsonData = JSON.stringify(formData);
 	$.ajax({
 		type : 'POST',

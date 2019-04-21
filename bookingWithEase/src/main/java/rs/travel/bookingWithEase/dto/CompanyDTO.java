@@ -1,5 +1,8 @@
 package rs.travel.bookingWithEase.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompanyDTO {
 	
 	private Long id;
@@ -7,6 +10,7 @@ public class CompanyDTO {
 	private String address;
 	private String description;
 	private String cmpType;
+	private List<String> admins;
 	
 	public CompanyDTO() {
 		super();
@@ -19,10 +23,9 @@ public class CompanyDTO {
 		this.address = address;
 		this.description = description;
 		this.cmpType = cmpType;
+		this.admins = new ArrayList<String>();
 	}
 	
-	
-
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +64,15 @@ public class CompanyDTO {
 
 	public void setCmpType(String cmpType) {
 		this.cmpType = cmpType;
+	}
+	
+
+	public List<String> getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(List<String> admins) {
+		this.admins = admins;
 	}
 	
 }

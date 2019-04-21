@@ -35,11 +35,6 @@ public class Company implements Serializable{
 	
 	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected Set<Admin> admins = new HashSet<Admin>();
-	
-	
-	
-	
-
 
 
 	public Company(Long id, String name, String address, String description) {
@@ -48,6 +43,15 @@ public class Company implements Serializable{
 		this.name = name;
 		this.address = address;
 		this.description = description;
+	}
+	
+	public Company(Long id, String name, String address, String description, Set<Admin> admins) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.admins = admins;
 	}
 
 	public Company() {
@@ -62,6 +66,15 @@ public class Company implements Serializable{
 		this.description = description;
 		this.rating = rating;
 		this.admins = admins;
+	}
+	
+	public Company(Long id, String name, String address, String description, Double rating) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.rating = rating;
 	}
 
 	public Long getId() {
@@ -167,18 +180,6 @@ public class Company implements Serializable{
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((rating == null) ? 0 : rating.hashCode());
 		return result;
-	}
-	
-
-	
-
-	public Company(Long id, String name, String address, String description, Double rating) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.address = address;
-		this.description = description;
-		this.rating = rating;
 	}
 
 	@JsonIgnore

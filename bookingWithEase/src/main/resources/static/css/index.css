@@ -112,6 +112,19 @@ div.transbox {
 	font-size: 22px;
 }
 
+div.transboxUsers{
+	margin-left: 25%;
+	margin-right: 25%;
+	margin-top: 5%;
+	background-color: black;
+	color: white;
+	border: 1px solid black;
+	opacity: 0.9;
+	filter: alpha(opacity = 90); /* For IE8 and earlier */
+	text-align: center;
+	font-size: 22px;
+}
+
 .transbox2 {
 	margin-left: 15%;
 	margin-right: 15%;

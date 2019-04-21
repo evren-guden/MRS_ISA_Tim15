@@ -34,13 +34,13 @@ public class HotelController {
 
 	@Autowired
 	private HotelService hotelService;
-	
+
 	@Autowired
 	private RoomService roomService;
-	
+
 	@Autowired
 	private CompanyService companyService;
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@GetMapping("/secured/all")
 	public String securedHello() {
@@ -49,32 +49,27 @@ public class HotelController {
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<Hotel> getAll() throws JsonProcessingException {
+
 		return hotelService.findAll();
 	}
-	
-	@GetMapping(value = "/{hotelId}/rooms",
-				produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Room> getRooms(@PathVariable("hotelId") Long id) 
-	{
+
+	@GetMapping(value = "/{hotelId}/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<Room> getRooms(@PathVariable("hotelId") Long id) {
 		return roomService.findByHotelId(id);
 	}
-	
-	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}",
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Room> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) 
-	{	
+
+	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<Room> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
 		roomService.delete(roomId);
-		
+
 		return roomService.findByHotelId(hotelId);
 	}
-	
-	@PutMapping(value = "/{hotelId}/rooms/{roomId}",
-		    consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId)	
-	{	
+
+	@PutMapping(value = "/{hotelId}/rooms/{roomId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,
+			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
 		Room newRoom = roomService.dtoToRoom(roomDto);
-		//newRoom.setHotel(hotelService.findById(hotelId));
+		// newRoom.setHotel(hotelService.findById(hotelId));
 		System.out.println("hotelId" + newRoom.getHotel().getId() + " roomId " + newRoom.getId());
 		try {
 			roomService.save(newRoom);
@@ -82,17 +77,13 @@ public class HotelController {
 			e.printStackTrace();
 			return new ResponseEntity<Collection<Room>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Collection<Room>>(roomService.findByHotelId(hotelId), HttpStatus.OK);
 
 	}
 
-	
-	@PostMapping(value = "/{hotelId}/rooms",
-			     consumes = MediaType.APPLICATION_JSON_VALUE,
-			     produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto)
-	{
+	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
 		Room newRoom = roomService.dtoToRoom(roomDto);
 		try {
 			roomService.save(newRoom);
@@ -101,40 +92,35 @@ public class HotelController {
 			e.printStackTrace();
 			return new ResponseEntity<Room>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Room>(newRoom, HttpStatus.OK);
 
 	}
-	
-	@PutMapping(value = "/{id}",
-			    consumes = MediaType.APPLICATION_JSON_VALUE,
-				produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Hotel> update(@RequestBody CompanyDTO companyDto)
-	{	
+
+	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Hotel> update(@RequestBody CompanyDTO companyDto) {
 		Company company = companyService.dtoToCompany(companyDto);
-		
+
 		Hotel updated = hotelService.findById(companyDto.getId());
-		
-		if (updated == null)
-		{
+
+		if (updated == null) {
 			return new ResponseEntity<Hotel>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		Hotel hotel = null;
 		try {
 			hotel = hotelService.save(new Hotel(company));
-		}catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		if(hotel == null) {
+
+		if (hotel == null) {
 			return new ResponseEntity<Hotel>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Hotel>> search(@RequestBody CompanyDTO companyDTO) {
 		Company company = companyService.dtoToCompany(companyDTO);
@@ -142,5 +128,5 @@ public class HotelController {
 		Collection<Hotel> services = hotelService.search(hotel);
 		return new ResponseEntity<Collection<Hotel>>(services, HttpStatus.OK);
 	}
-	
+
 }

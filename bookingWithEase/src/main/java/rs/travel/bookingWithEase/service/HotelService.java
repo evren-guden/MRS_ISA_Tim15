@@ -11,13 +11,18 @@ import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.Room;
+import rs.travel.bookingWithEase.model.Admin;
 import rs.travel.bookingWithEase.repository.IHotelRepository;
+import rs.travel.bookingWithEase.repository.IUserRepository;
 
 @Service
 public class HotelService{
 	
 	@Autowired
 	private IHotelRepository hotels;
+	
+	@Autowired 
+	private IUserRepository users;
 	
 	public Optional<Hotel> findOne(Long id) {
 		return hotels.findById(id);
@@ -38,6 +43,12 @@ public class HotelService{
 	}
 	
 	public Hotel save(Hotel hotel) {
+		for(Admin admin : hotel.getAdmins())
+		{	
+			System.out.println("hotel: " + hotel.getName() + " admin: " + admin.getUsername());
+			admin.setCompany(hotel);
+			users.save(admin);		
+		}
 		return hotels.save(hotel);
 	}
 

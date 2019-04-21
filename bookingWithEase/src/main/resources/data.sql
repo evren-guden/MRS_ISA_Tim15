@@ -1,6 +1,6 @@
-insert into rentacar (id,name, address, description, rating) values (1,'rac1', 'addr', 'automatic', 1);
-insert into rentacar (id,name, address, description, rating) values (2,'rac2', 'addr', 'automatic', 1);
-insert into rentacar (id,name, address, description, rating) values (3,'rac3', 'addr', 'automatic', 1);
+insert into rentacar (id,name, address, description, rating) values (101,'rac1', 'addr', 'automatic', 1);
+insert into rentacar (id,name, address, description, rating) values (202,'rac2', 'addr', 'automatic', 1);
+insert into rentacar (id,name, address, description, rating) values (303,'rac3', 'addr', 'automatic', 1);
 
 insert into branch (id, rac_id, name, address) values (1, 1,'ime', 'adresa');
 insert into branch (id, rac_id) values (2, 2);
@@ -16,11 +16,17 @@ insert into hotel (id, name, address, description, rating) values (200, 'Palisad
 insert into hotel (id, name, address, description, rating) values (300, 'Park 2', 'Novi Sad', '',5);
 insert into hotel (id, name, address, description, rating) values (400, 'Palisad 2', 'Zlatibor', '',5);
 
-INSERT INTO admin (id, username, password, first_name, last_name, email, enabled) VALUES (1, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
-INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (2, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true);
-INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id) VALUES (3, 'adminrac', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 1);
-INSERT INTO admin (id, username, password, first_name, last_name, email, enabled) VALUES (4, 'adminhotel', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true);
-INSERT INTO admin (id, username, password, first_name, last_name, email, enabled) VALUES (5, 'adminairline', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true);
+INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (300, 'adminrac', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (400, 'adminhotel', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 2);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (500, 'adminairline', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (600, 'adminrac2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (700, 'adminhotel2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 2);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (800, 'adminairline2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (900, 'adminrac3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (1000, 'adminhotel3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 2);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (1100, 'adminairline3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1);
 
 INSERT INTO authority (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO authority (id, name) VALUES (2, 'ROLE_ADMIN');
@@ -28,8 +34,9 @@ INSERT INTO authority (id, name) VALUES (3, 'ROLE_ADMINRAC');
 INSERT INTO authority (id, name) VALUES (4, 'ROLE_ADMINHOTEL');
 INSERT INTO authority (id, name) VALUES (5, 'ROLE_ADMINAIRLINE');
 
-INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);
-INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2);
-INSERT INTO user_authority (user_id, authority_id) VALUES (3, 3);
-INSERT INTO user_authority (user_id, authority_id) VALUES (4, 4);
-INSERT INTO user_authority (user_id, authority_id) VALUES (5, 5);
+INSERT INTO user_authority (user_id, authority_id) VALUES (100, 1);
+INSERT INTO user_authority (user_id, authority_id) VALUES (200, 2);
+INSERT INTO user_authority (user_id, authority_id) VALUES (300, 3);
+INSERT INTO user_authority (user_id, authority_id) VALUES (400, 4);
+INSERT INTO user_authority (user_id, authority_id) VALUES (500, 5);
+INSERT INTO user_authority (user_id, authority_id) VALUES (1, 4);

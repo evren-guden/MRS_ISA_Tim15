@@ -28,17 +28,15 @@ public class CompanyController {
 
 	@Autowired
 	private RACService rentacarService;
-	
-	@Autowired 
+
+	@Autowired
 	private CompanyService companyService;
 
-	@PostMapping(
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Company add(@RequestBody CompanyDTO companyDto) throws Exception {
-		
+
 		Company company = companyService.dtoToCompany(companyDto);
-		
+
 		switch (companyDto.getCmpType()) {
 		case "airline":
 			airlineService.create(company);
@@ -55,6 +53,5 @@ public class CompanyController {
 		}
 		return company;
 	}
-
 
 }

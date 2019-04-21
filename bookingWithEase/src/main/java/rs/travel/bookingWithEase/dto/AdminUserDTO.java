@@ -1,26 +1,29 @@
 package rs.travel.bookingWithEase.dto;
 
 public class AdminUserDTO {
-	
+
 	private String username;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	private String type;
-	
+	private String admin_type;
+	private Long companyId;
+
 	public AdminUserDTO() {
 		super();
 	}
 
-	public AdminUserDTO(String username, String firstName, String lastName, String email, String password,String type) {
+	public AdminUserDTO(String username, String firstName, String lastName, String email, String password,
+			String admin_type, Long companyId) {
 		super();
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.type = type;
+		this.admin_type = admin_type;
+		this.companyId = companyId;
 	}
 
 	public String getUsername() {
@@ -64,13 +67,27 @@ public class AdminUserDTO {
 	}
 
 	public String getType() {
-		return type;
+		return admin_type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setType(String admin_type) {
+		this.admin_type = admin_type;
 	}
-	
-	
+
+	public String getAdmin_type() {
+		return admin_type;
+	}
+
+	public void setAdmin_type(String admin_type) {
+		this.admin_type = admin_type;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
 
 }
