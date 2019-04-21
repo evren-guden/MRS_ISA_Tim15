@@ -1,14 +1,3 @@
-$(document).on('click', '#registerDestination', function(e){
-    e.preventDefault();
-    window.location.href = "RegistrationDestination.html";
-});
-
-
-
-$(document).on('click', '#destinationTable', function(e){
-    e.preventDefault();
-    window.location.href = "destination.html";
-});
 
 $(document).ready(function() {
     getAirlines();
@@ -39,26 +28,17 @@ function fillTable(data) {
 	var table = $('#airlinesTable');
 	$('#airlinesTable').empty();
 
-	var cont = $('#help');
-	cont.empty();
-	var form = $('<form align =left><input value=ID><input value= NAME><input value = ADDRESS><input value=DESCRIPTION></form>');
-	cont.append(form);
-
+	
+	$('#airlinesTable').append('<tr><th>ID</th><th>NAME</th><th>ADDRESS</th><th>DESCRIPTION</th></tr>');
 	$.each(airlines, function(index, airline) {
-	
-		var cont2 = $('<div></div>');
-		var form = $('<form align=left class="formsedit" id="form' + airline.id
-				+ '"><input name="ident" value="' + airline.id
-				+ '" readonly><input name="name" value="' + airline.name
-				+ '"><input name="address" value="' + airline.address
-				+ '"><input name="description" value="' + airline.description
-				+ '"><input type="submit" id="bform'+ airline.id +'"></form>');
 
-		cont2.append(form);
-		cont.append(cont2);
-	}
-	
-	);
+		var tr = $('<tr></tr>');
+		tr.append('<td>' + airline.id + '</td>' + '<td>'
+				+ airline.name + '</td>' + '<td>'
+				+ airline.address + '</td>' + '<td>' + airline.description + '</td>');
+
+		$('#airlinesTable').append(tr);
+	});
 
 	
 $('.formsedit').on('submit', function(e) {
