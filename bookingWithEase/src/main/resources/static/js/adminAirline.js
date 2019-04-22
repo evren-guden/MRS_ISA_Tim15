@@ -56,20 +56,38 @@ function findDestination() {
 	});
 }
 
+findDestination();
+
+function findDestination() {
+	$.ajax({
+		type : 'GET',
+		url : "/destination",
+		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : fillTable,
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
+
 function fillTable(data) {
 	var d_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#destinationTable');
 	$('#destinationTable').empty();
 
-	var cont = $('#help');
-	cont.empty();
-	var form = $('<form align =left><input value=ID><input value= Name><input value = Address></form>');
-	cont.append(form);
+	//var cont = $('#help');
+	//cont.empty();
+	$('#destinationTable').append('<tr><br><br><th>ID</th><th>Name</th><th>Address</th></tr>');
+	//cont.append(form);
 
 	$.each(d_list, function(index, destination) {
 	
-		var cont2 = $('<tr></tr>');
+		var tr = $('<tr></tr>');
 		var form =  $('<td><form class="formsedit" id="form' + destination.idAerodromes
 				+ '"><input name="ident" value=' + destination.idAerodromes
 				+ ' readonly></form></td><td><input name="nameAerodroms" form="form'
@@ -77,13 +95,13 @@ function fillTable(data) {
 				+ '"></td><td><input name="address" form="form' + destination.idAerodromes
 				+ '" value="' + destination.address
 				
-				+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
-				+ '" id="bform' + destination.idAerodromes
+				//+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
+				//+ '" id="bform' + destination.idAerodromes
 				+ '"></td><td><button class="delBtns" id="delBtn' + destination.idAerodromes
 				+ '">Delete</button></td>');
 
-		cont2.append(form);
-		cont.append(cont2);
+		tr.append(form);
+		table.append(tr);
 	}
 	
 	);
@@ -192,21 +210,21 @@ function findFlights() {
 	        /* Authorization header */
 	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 	    },
-		success : fillTable,
+		success : fillTable1,
 		error : function(data) {
 			alert(data);
 		}
 	});
 }
 
-function fillTable(data) {
+function fillTable1(data) {
 	var f_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#tab-flights');
 	$('#tab-flights').empty();
 	$('#tab-flights')
 			.append(
-					'<tr><th>ID</th><th>Start destination</th><th>End destination</th><th>Date flight</th><th>Date landing</th><th>Length travel</th><th>Price ticket</th></tr>');
+					'<tr><th>ID</th><th>Start destination </th><th>End destination </th><th>Date flight </th><th>Date landing </th><th>Length travel</th><th> Price ticket</th></tr>');
 
 	$.each(f_list, function(index, flight) {
 
@@ -225,14 +243,14 @@ function fillTable(data) {
 				+ '" value="' + flight.lengthTravel
 				+ '"></td><td><input name="priceTicket" form="form'+ flight.id
 				+ '" value="' + flight.priceTicket
-				+ '"></td><td><button class="delBtns" id="delBtn' + flight.id
+				+ '"></td><td><button class="delBtns1" id="delBtn' + flight.id
 				+ '">Delete</button></td>');
 		tr.append(form);
 		table.append(tr);
 	}
 
 	);
-	$('.delBtns').on('click', function(e) {
+	$('.delBtns1').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id.substring(6);
 		console.log(iden);

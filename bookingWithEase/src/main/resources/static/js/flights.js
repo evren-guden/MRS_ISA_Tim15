@@ -5,6 +5,10 @@ function findFlights() {
 		type : 'GET',
 		url : "/flights",
 		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success : fillTable,
 		error : function(data) {
 			alert(data);
@@ -53,6 +57,10 @@ function fillTable(data) {
 		$.ajax({
 			type : 'delete',
 			url : "/flights/" + iden,
+			beforeSend: function (xhr) {
+		        /* Authorization header */
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
 			success : function(response) {
 				// alert("Flight deleted :)");
 				window.location.href = "flights.html";
