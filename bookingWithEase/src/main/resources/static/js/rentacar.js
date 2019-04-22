@@ -11,16 +11,16 @@ function showHideSearch() {
 	}
 }
 
-function hello(){
+function hello() {
 	$.ajax({
 		type : 'GET',
 		url : "/users/myprofile",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
-		success : function(data){
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(data) {
 			console.log(data);
 		},
 		error : function(data) {
@@ -34,10 +34,10 @@ function findRentacars() {
 		type : 'GET',
 		url : "/rentacars",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillTable,
 		error : function(data) {
 			alert(data);
@@ -47,19 +47,19 @@ function findRentacars() {
 
 $(document).on('submit', '#formsrc', function(e) {
 	e.preventDefault();
-	
+
 	var formData = getFormData("#formsrc");
 	var jsonData = JSON.stringify(formData);
 	$.ajax({
 		type : 'POST',
-		url :'/rentacars/search',
+		url : '/rentacars/search',
 		contentType : 'application/json',
 		dataType : 'json',
 		data : jsonData,
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillTable
 	});
 
@@ -84,17 +84,42 @@ function formToJSON() {
 function fillTable(data) {
 	var rac_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
-	$('#tab-rac').empty();
-	$('#tab-rac').append('<tr><th>Id</th><th>Name</th><th>Address</th></tr>');
-	$.each(rac_list, function(index, rac) {
 
-		var tr = $('<tr></tr>');
-		tr.append('<td>' + rac.id + '</td>' + '<td>'
-				+ rac.name + '</td>' + '<td>'
-				+ rac.address + '</td>');
+	var racsDiv = $('#racsDiv');
+	racsDiv.empty();
+	var counter = 0;
 
-		$('#tab-rac').append(tr);
+	$
+			.each(
+					rac_list,
+					function(index,rac) {
+						var racDiv = $('<div class="racDiv" id="racDiv_'
+								+ counter
+								+ '" style="bottom:'
+								+ (60 - counter * 40)
+								+ '%; top:'
+								+ (3 + counter * 40)
+								+ '%;"'
+								+ '>'
+								+ '<img src="../images/cars.jpg" height = 150 width= 150>'
+								+ '<h3>' + rac.name + '</h3>');
 
-	});
+						racDiv
+								.append('<p>'
+										+ rac.address
+										+ '</p>'
+										+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
+										+ '</div>');
+						racDiv
+								.append('<div class="guest_ratings"> Guest ratings: '
+										+ (rac.rating == null ? 0
+												: rac.rating) + ' / 5 </div>');
+						racDiv
+								.append('<button id="show_vehicles_btn">Show vehicles</button>');
+
+						counter++;
+						racsDiv.append(racDiv);
+
+					});
 
 }
