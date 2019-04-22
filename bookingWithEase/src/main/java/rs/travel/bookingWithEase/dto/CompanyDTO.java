@@ -10,19 +10,23 @@ public class CompanyDTO {
 	private String address;
 	private String description;
 	private String cmpType;
+	private double rating;
+	private int stars;
 	private List<String> admins;
 	
 	public CompanyDTO() {
 		super();
 	}
 
-	public CompanyDTO(Long id, String name, String address, String description, String cmpType) {
+	public CompanyDTO(Long id, String name, String address, String description, String cmpType, double rating, int stars) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 		this.cmpType = cmpType;
+		this.rating = rating;
+		this.stars = stars;
 		this.admins = new ArrayList<String>();
 	}
 	
@@ -65,7 +69,22 @@ public class CompanyDTO {
 	public void setCmpType(String cmpType) {
 		this.cmpType = cmpType;
 	}
-	
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	public int getStars() {
+		return stars;
+	}
+
+	public void setStars(int stars) {
+		this.stars = stars;
+	}
 
 	public List<String> getAdmins() {
 		return admins;

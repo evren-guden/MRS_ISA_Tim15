@@ -22,10 +22,10 @@ insert into vehicle (id, registration_number, type, gear, color, branch_id) valu
 insert into vehicle (id, registration_number, type, gear, color) values (2, 'BB-11', 'neki_tip2', 'manual', 'green');
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (3, 'CC-11', 'neki_tip3', 'automatic', 'black', 1);
 
-insert into hotel (id, name, address, description, rating) values (100, 'Park', 'Novi Sad', '',5);
-insert into hotel (id, name, address, description, rating) values (200, 'Palisad', 'Zlatibor', '',5);
-insert into hotel (id, name, address, description, rating) values (300, 'Park 2', 'Novi Sad', '',5);
-insert into hotel (id, name, address, description, rating) values (400, 'Palisad 2', 'Zlatibor', '',5);
+insert into hotel (id, name, address, description, rating, stars) values (100, 'Park', 'Novi Sad', '',4.5, 5);
+insert into hotel (id, name, address, description, rating, stars) values (200, 'Palisad', 'Zlatibor', '',4.2, 3);
+insert into hotel (id, name, address, description, rating, stars) values (300, 'Park 2', 'Novi Sad', '',5, 5);
+insert into hotel (id, name, address, description, rating, stars) values (400, 'Palisad 2', 'Zlatibor', '',4, 3);
 
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);

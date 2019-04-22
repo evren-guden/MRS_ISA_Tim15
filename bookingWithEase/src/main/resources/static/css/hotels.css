@@ -17,6 +17,19 @@ body
   opacity: 0.95;
 }
 
+img.star
+{
+	position: absolute;
+}
+
+.guest_ratings
+{
+	position: absolute;
+	top: 15%;
+	left: 80%;
+	font-size: 18px;
+}
+
 .hotels-div
 {
   position: absolute;
@@ -29,6 +42,22 @@ body
   color: white;
   font-size: 20px;
   opacity: 0.95;
+}
+
+img.show_on_map
+{
+	position: absolute;
+	top: 52%;
+	left: 22%;
+}
+
+div.show_on_map
+{
+	position: absolute;
+	top: 54%;
+	left: 24%;
+	font-size: 15px;
+	color: #42bcf4;
 }
 
 div img
@@ -58,4 +87,32 @@ div p
 	bottom: 60%;
 	right: 3%;
 	border-bottom: solid gray 1px;	
+}
+
+/****************************** Buttons ***********************************/
+
+#show_rooms_btn
+{
+	position: absolute;
+	top: 77%;
+	left: 84%;
+}
+
+#show_rooms_btn {
+  background: #339DFF;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  border-radius: 50px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  width: 13%;
+  height: 20%;
+  text-align: center;
+}
+
+#show_rooms_btn:hover {
+  background: #fff;
+  color: #339DFF;
+  box-shadow: 0 4px 4px rgba(83, 100, 255, 0.32);
 }
