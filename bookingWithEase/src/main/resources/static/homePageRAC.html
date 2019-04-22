@@ -3,6 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Rent-a-car service</title>
+<link type="text/css" rel="stylesheet" href="css/table.css">
 <link type="text/css" rel="stylesheet" href="css/homePageRAC.css">
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
@@ -16,7 +17,7 @@
 		<button class="tablinks" id="mybranchsbtn">My branchs</button>
 		<button class="tablinks" onclick="openDiv(event, 'addBranchDiv')">Add
 			branch</button>
-		<button class="tablinks">My vehicles</button>
+		<button class="tablinks" id="myvehiclesbtn">My vehicles</button>
 		<button class="tablinks" onclick="openDiv(event, 'addVehicleDiv')">Add
 			vehicle</button>
 		<button class="tablinks">My pricelist</button>
@@ -54,18 +55,41 @@
 		</div>
 	</div>
 
+	<div id="editBranchDiv" class="tabcontent">
+		<div class="container">
+			<h2>Editing Branch:</h2>
+			<form id="editBranchForm">
+				<input id="editIdBr" type="hidden" name="id">
+				<table style="align: center">
+					<tr>
+						<td align="left">Name:</td>
+						<td align="left"><input id="editNameBr" type="text"
+							name="name"></td>
+					</tr>
+					<tr>
+						<td align="left">Address:</td>
+						<td><input id="editAddrBr" type="text" name="address"></td>
+					</tr>
+					<tr>
+						<td align="left"></td>
+						<td align="left"><input type="submit" value="Edit"></td>
+					</tr>
+				</table>
+			</form>
+			<br>
+		</div>
+	</div>
+
 	<div id="addVehicleDiv" class="tabcontent">
 		<div class="container">
 			<h1>Adding Vehicle:</h1>
+			Branch:
+			<select id="selectbranch" name="branchid">
+				<option> </option>
+			</select>
 			<form id="addVehicleForm">
 				<table style="align: center">
-					<tr>
-						<td>
-							<select id="selectbranch" name="branchid">
-								<option> </option>
-							</select>
-						</td>
-					</tr>
+
 					<tr>
 						<td align="left">Registration number:</td>
 						<td align="left"><input type="text" name="registrationNumber"></td>
@@ -94,6 +118,39 @@
 				</table>
 
 			</form>
+		</div>
+	</div>
+
+	<div id="editVehicleDiv" class="tabcontent">
+		<div class="container">
+			<h2>Editing Vehicle:</h2>
+			<form id="editVehicleForm">
+				<input id="editIdVh" type="hidden" name="id">
+				<table style="align: center">
+					<tr>
+						<td align="left">Registration number:</td>
+						<td align="left"><input id="editRegVh" type="text"
+							name="name"></td>
+					</tr>
+					<tr>
+						<td align="left">Type:</td>
+						<td><input id="editTypeVh" type="text" name="address"></td>
+					</tr>
+					<tr>
+						<td align="left">Gear:</td>
+						<td><input id="editGearVh" type="text" name="address"></td>
+					</tr>
+					<tr>
+						<td align="left">Color:</td>
+						<td><input id="editColorVh" type="text" name="address"></td>
+					</tr>
+					<tr>
+						<td align="left"></td>
+						<td align="left"><input type="submit" value="Edit"></td>
+					</tr>
+				</table>
+			</form>
+			<br>
 		</div>
 	</div>
 

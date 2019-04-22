@@ -71,6 +71,14 @@ public class VehicleController {
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Vehicle> findOne(@PathVariable("id") Long id){
+		Optional<Vehicle> veh = vehicleService.findOne(id);
+		
+		return new ResponseEntity<Vehicle>(veh.get(), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ADMINRAC')")
 	@DeleteMapping(value="/{id}")
 public ResponseEntity<Void> deleteVehicle(@PathVariable Long id){
 		

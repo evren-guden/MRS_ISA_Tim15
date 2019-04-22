@@ -1,7 +1,7 @@
-fillSelect();
+findVehicles();
 
 function fillSelect(){
-	$.ajax({
+	$.ajax({ 
 		type : 'GET',
 		url : "/rentacars/"+ localStorage.getItem("userCompanyId")+"/branchs",
 		dataType : "json",
@@ -24,12 +24,17 @@ function fillOptions(data){
 	
 	$.each(opts, function(index, branch) {
 
-		var option = $('<option name="' + branch.id + '">' + branch.name + '<option>');
+		var option = $('<option name="' + branch.id + '" value="' + branch.id + '">' + branch.name + '<option>');
 		select.append(option);
 	});
 }
 
 function openDiv(evt, divName) {
+	
+	if(divName === 'addVehicleDiv'){
+		fillSelect();
+	}
+	
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
@@ -46,18 +51,18 @@ function openDiv(evt, divName) {
 $(document).on('click', '#logoutClicked', function(e) {
 	e.preventDefault();
 	localStorage.clear();
-	window.location.href = "login.html";
+	window.location.replace("index.html");
 });
 
 $(document).on('submit', '#addVehicleForm', function(e) {
 
 	e.preventDefault();
-
 	var formData = getFormData("#addVehicleForm");
 	var jsonData = JSON.stringify(formData);
 	console.log("Token sent " + getJwtToken());
+	var iden = $('#selectbranch').val();
 	$.ajax({
-		url : "/branchs/" + "",
+		url : "/branchs/" + iden + "/vehicles",
 		type : "POST",
 		contentType : "application/json",
 		data : jsonData,
@@ -67,9 +72,33 @@ $(document).on('submit', '#addVehicleForm', function(e) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : function(response) {
-			alert("Vehicle saved :)");
-			window.location.href = "vehicles.html";
+			findVehicles();
 		},
+		error : function(response) {
+			alert("Something went wrong! :(");
+		}
+	});
+
+});
+
+$(document).on('submit', '#editVehicleForm', function(e) {
+
+	e.preventDefault();
+
+	var formData = getFormData("#editVehicleForm");
+	var jsonData = JSON.stringify(formData);
+
+	$.ajax({
+		url : "/vehicles",
+		type : "PUT",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : findVehicles,
 		error : function(response) {
 			alert("Something went wrong! :(");
 		}
@@ -102,29 +131,36 @@ $(document).on('submit', '#addBranchForm', function(e) {
 
 });
 
+$(document).on('submit', '#editBranchForm', function(e) {
+
+	e.preventDefault();
+
+	var formData = getFormData("#editBranchForm");
+	var jsonData = JSON.stringify(formData);
+
+	$.ajax({
+		url : "/branchs",
+		type : "PUT",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : findBranchs,
+		error : function(response) {
+			alert("Something went wrong! :(");
+		}
+	});
+
+});
+
 $(document).on('click', '#mybranchsbtn', function(e) {
 	findBranchs();
 });
 
-
 function findBranchs() {
-	
-	$.ajax({
-		type : 'GET',
-		url : "/users/myprofile",
-		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
-		success : function(data){
-			//localStorage.setItem(data.);
-			console.log(data);
-		},
-		error : function(data) {
-			alert(data);
-		}
-	});
 	
 	$.ajax({
 		type : 'GET',
@@ -134,14 +170,14 @@ function findBranchs() {
 	        /* Authorization header */
 	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 	    },
-		success : fillTable,
+		success : fillBranchTable,
 		error : function(data) {
 			alert(data);
 		}
 	});
 }
 
-function fillTable(data) {
+function fillBranchTable(data) {
 	var br_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#branchTable');
@@ -153,20 +189,14 @@ function fillTable(data) {
 	$.each(br_list, function(index, branch) {
 
 		var tr = $('<tr></tr>');
-		var form = $('<td><form class="bformsedit" id="form' + branch.id
-				+ '"><input name="ident" value=' + branch.id
-				+ ' readonly></form></td><td><input name="name" form="form'
-				+ branch.id + '" value="' + branch.name
-				+ '"></td><td><input name="address" form="form' + branch.id
-				+ '" value="' + branch.address
-				+ '"></td><td><input type="submit" value="Update" form="form' + branch.id
-				+ '" id="bform' + branch.id
-				+ '"></td><td><button class="bdelBtns" id="bdelBtn' + branch.id
+		var form = $('<td>' + branch.id + '</td><td>' + branch.name
+				+ '</td><td>' + branch.address
+				+ '</td><td><button class="beditBtns" id="beditbtn' + branch.id
+				+ '">Edit</button></td><td><button class="bdelBtns" id="bdelBtn' + branch.id
 				+ '">Delete</button></td>');
 		tr.append(form);
 		table.append(tr);
 	}
-
 	);
 
 	$('.bdelBtns').on('click', function(e) {
@@ -188,36 +218,123 @@ function fillTable(data) {
 
 	});
 
-	$('.bformsedit').on('submit', function(e) {
+	$('.beditBtns').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id;
-		// var formData = getFormData(iden);
+		openDiv(event, 'editBranchDiv');
+		localStorage.setItem("editBranchId", iden);
 
-		var formData = {};
-		var s_data = $('#' + this.id).serializeArray();
-
-		for (var i = 0; i < s_data.length; i++) {
-			var record = s_data[i];
-			if (record.name === "ident") {
-				formData["id"] = record.value;
-			} else {
-				formData[record.name] = record.value;
-			}
-		}
-
-		var jsonData = JSON.stringify(formData);
 		$.ajax({
-			type : 'post',
-			url : "/branchs/edit",
-			contentType : 'application/json',
-			dataType : 'json',
-			data : jsonData,
-			success : findBranchs,
+			type : 'GET',
+			url : "/branchs/"+ iden.substring(8),
+			dataType : "json",
+			beforeSend: function (xhr) {
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
+			success : function(data){
+				$('#editIdBr').val(data.id);
+				$('#editNameBr').val(data.name);
+				$('#editAddrBr').val(data.address);
+			},
 			error : function(data) {
 				alert(data);
 			}
 		});
+		
 	});
 
 }
 
+
+$(document).on('click', '#myvehiclesbtn', function(e) {
+	findVehicles();
+});
+
+function findVehicles() {
+	
+	$.ajax({
+		type : 'GET',
+		url : "/vehicles",
+		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : fillVehicleTable,
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
+
+function fillVehicleTable(data) {
+	var vh_list = data == null ? []
+			: (data instanceof Array ? data : [ data ]);
+	var table = $('#branchTable');
+	$('#branchTable').empty();
+	$('#branchTable')
+			.append(
+					'<tr><th>Id</th><th>Registration number</th><th>Type</th><th>Gear</th><th>Color</th></tr>');
+
+	$.each(vh_list, function(index, vehicle) {
+
+		var tr = $('<tr></tr>');
+		var form = $('<td>' + vehicle.id + '</td><td>' + vehicle.registrationNumber
+				+ '</td><td>' + vehicle.type
+				+ '</td><td>' + vehicle.gear
+				+ '</td><td>' + vehicle.color
+				+ '</td><td><button class="veditBtns" id="veditbtn' + vehicle.id
+				+ '">Edit</button></td><td><button class="vdelBtns" id="vdelBtn' + vehicle.id
+				+ '">Delete</button></td>');
+		tr.append(form);
+		table.append(tr);
+	}
+	);
+
+	$('.vdelBtns').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id.substring(7);
+		console.log(iden);
+
+		$.ajax({
+			type : 'post',
+			url : "/vehicles/delete/" + iden,
+			success : function(response) {
+				// alert("Vehicle deleted :)");
+				window.location.href = "branchs.html";
+			},
+			error : function(data) {
+				alert(data);
+			}
+		});
+
+	});
+
+	$('.veditBtns').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id;
+		openDiv(event, 'editVehicleDiv');
+		//localStorage.setItem("editBranchId", iden);
+
+		$.ajax({
+			type : 'GET',
+			url : "/vehicles/"+ iden.substring(8),
+			dataType : "json",
+			beforeSend: function (xhr) {
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
+			success : function(data){
+				$('#editIdVh').val(data.id);
+				$('#editRegVh').val(data.registrationNumber);
+				$('#editTypeVh').val(data.type);
+				$('#editGearVh').val(data.gear);
+				$('#editColorVh').val(data.color);
+			},
+			error : function(data) {
+				alert(data);
+			}
+		});
+		
+	});
+
+}

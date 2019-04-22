@@ -61,6 +61,7 @@ public class RentACarController {
 	public ResponseEntity<Collection<Branch>> getMyBranchs(@PathVariable("id") Long id) {
 		
 		Optional<RentACar> rac = rentACarService.findOne(id);
+		
 		return new ResponseEntity<Collection<Branch>>(rac.get().getBranches(), HttpStatus.OK);
 	}
 	

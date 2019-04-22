@@ -13,13 +13,10 @@ insert into airline (id,name, address, description, rating) values (9,'Turkish A
 insert into airline (id,name, address, description, rating) values (10,'Air Serbia', 'Serbia', '', 1);
 
 
-
-
-
-insert into branch (id, rac_id, name, address) values (1, 1,'ime', 'adresa');
-insert into branch (id, rac_id) values (2, 2);
-insert into branch (id, rac_id) values (3, 1);
-insert into branch (id, rac_id) values (4, 1);
+insert into branch (id, rac_id, name, address) values (1, 101,'My branch 1', 'Novi Sad');
+insert into branch (id, rac_id, name, address) values (2, 303,'My branch 1', 'Novi Sad');
+insert into branch (id, rac_id, name, address) values (3, 101,'My branch 2', 'Zlatibor');
+insert into branch (id, rac_id, name, address) values (4, 101,'My branch 3', 'Kraljevo');
 
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (1, 'AA-11', 'neki_tip', 'automatic', 'red', 1);
 insert into vehicle (id, registration_number, type, gear, color) values (2, 'BB-11', 'neki_tip2', 'manual', 'green');
