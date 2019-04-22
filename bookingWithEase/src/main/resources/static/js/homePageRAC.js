@@ -50,8 +50,9 @@ function openDiv(evt, divName) {
 
 $(document).on('click', '#logoutClicked', function(e) {
 	e.preventDefault();
-	localStorage.clear();
-	window.location.replace("index.html");
+	logout();
+	//localStorage.clear();
+	//window.location.replace("index.html");
 });
 
 $(document).on('submit', '#addVehicleForm', function(e) {

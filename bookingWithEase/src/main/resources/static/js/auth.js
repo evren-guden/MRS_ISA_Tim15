@@ -11,3 +11,8 @@ function setJwtToken(token) {
 function removeJwtToken() {
 	localStorage.removeItem(TOKEN_KEY);
 };
+
+function logout(){
+	localStorage.clear();
+	window.location.replace("index.html");
+}
