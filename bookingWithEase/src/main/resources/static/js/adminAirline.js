@@ -95,8 +95,8 @@ function fillTable(data) {
 				+ '"></td><td><input name="address" form="form' + destination.idAerodromes
 				+ '" value="' + destination.address
 				
-				//+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
-				//+ '" id="bform' + destination.idAerodromes
+				+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
+				+ '" id="bform' + destination.idAerodromes
 				+ '"></td><td><button class="delBtns" id="delBtn' + destination.idAerodromes
 				+ '">Delete</button></td>');
 
@@ -157,6 +157,9 @@ function fillTable(data) {
 			url : "/destination/edit",
 			contentType : 'application/json',
 			dataType : 'json',
+			beforeSend: function (xhr) {
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
 			data : jsonData,
 			success : findDestination,
 			error : function(data) {
@@ -296,6 +299,7 @@ function fillTable1(data) {
 			url : "/flights/edit",
 			contentType : 'application/json',
 			dataType : 'json',
+			
 			data : jsonData,
 			success : findFlights,
 			error : function(data) {
