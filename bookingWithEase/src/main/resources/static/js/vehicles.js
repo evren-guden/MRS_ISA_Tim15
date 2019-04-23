@@ -1,10 +1,14 @@
 findVehicles();
 
 function findVehicles() {
-	$.ajax({
+	var value = localStorage.getItem('showVeh');
+	$.ajax({ 
 		type : 'GET',
-		url : "/vehicles",
+		url : "/rentacars/"+ value+"/vehicles",
 		dataType : "json",
+		beforeSend: function (xhr) {
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
 		success : fillTable,
 		error : function(data) {
 			alert(data);
@@ -14,84 +18,42 @@ function findVehicles() {
 
 function fillTable(data) {
 	var veh_list = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
-	var table = $('#tab-vehicles');
-	$('#tab-vehicles').empty();
-	$('#tab-vehicles')
-			.append(
-					'<tr><th>Id</th><th>Color</th><th>Type</th><th>Gear</th><th>Registration number</th></tr>');
+	: (data instanceof Array ? data : [ data ]);
 
-	$.each(veh_list, function(index, vehicle) {
+var vehsDiv = $('#vehsDiv');
+vehsDiv.empty();
+var counter = 0;
 
-		var tr = $('<tr></tr>');
-		var form = $('<td><form class="formsedit" id="form' + vehicle.id
-				+ '"><input name="ident" value=' + vehicle.id
-				+ ' readonly></form></td><td><input name="color" form="form'
-				+ vehicle.id + '" value="' + vehicle.color
-				+ '"></td><td><input name="type" form="form' + vehicle.id
-				+ '" value="' + vehicle.type
-				+ '"></td><td><input name="gear" form="form' + vehicle.id
-				+ '" value="' + vehicle.gear
-				+ '"></td><td><input name="registrationNumber" form="form'
-				+ vehicle.id + '" value="' + vehicle.registrationNumber
-				+ '"></td><td><input type="submit" form="form' + vehicle.id
-				+ '" id="bform' + vehicle.id
-				+ '"></td><td><button class="delBtns" id="delBtn' + vehicle.id
-				+ '">Delete</button></td>');
-		tr.append(form);
-		table.append(tr);
-	}
+$
+	.each(
+			veh_list,
+			function(index,veh) {
+				var vehDiv = $('<div class="vehDiv" id="vehDiv_'
+						+ counter
+						+ '" style="bottom:'
+						+ (60 - counter * 40)
+						+ '%; top:'
+						+ (3 + counter * 40)
+						+ '%;"'
+						+ '>'
+						+ '<img src="../images/cars.jpg" height = 150 width= 150>'
+						+ '<h3>' + veh.registrationNumber + '</h3>');
 
-	);
+				vehDiv
+						.append('<p>'
+								+ veh.type
+								+ '</p>'
+								+ '</div>');
+				vehDiv
+				.append('<p style="position: absolute;top:65%;left:25%;">'
+						+ veh.gear
+						+ '</p>');
+				vehDiv
+				.append('<button class="reservationBtn">Make reservation</button>');
 
-	$('.delBtns').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id.substring(6);
-		console.log(iden);
+				counter++;
+				vehsDiv.append(vehDiv);
 
-		$.ajax({
-			type : 'delete',
-			url : "/vehicles/" + iden,
-			success : function(response) {
-				// alert("Vehicle deleted :)");
-				window.location.href = "vehicles.html";
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
-
-	});
-
-	$('.formsedit').on('submit', function(e) {
-		e.preventDefault();
-		var iden = this.id;
-		// var formData = getFormData(iden);
-
-		var formData = {};
-		var s_data = $('#' + this.id).serializeArray();
-
-		for (var i = 0; i < s_data.length; i++) {
-			var record = s_data[i];
-			if (record.name === "ident") {
-				formData["id"] = record.value;
-			} else {
-				formData[record.name] = record.value;
-			}
-		}
-
-		var jsonData = JSON.stringify(formData);
-		$.ajax({
-			type : 'post',
-			url : "/vehicles/edit",
-			contentType : 'application/json',
-			dataType : 'json',
-			data : jsonData,
-			success : findVehicles,
-			error : function(data) {
-				alert(data);
-			}
-		});
-	});
+			});
 
 }

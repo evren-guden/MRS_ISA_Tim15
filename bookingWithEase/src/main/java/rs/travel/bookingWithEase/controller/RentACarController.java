@@ -1,6 +1,8 @@
 package rs.travel.bookingWithEase.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.travel.bookingWithEase.dto.RentACarDTO;
 import rs.travel.bookingWithEase.model.Branch;
 import rs.travel.bookingWithEase.model.RentACar;
+import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.service.BranchService;
 import rs.travel.bookingWithEase.service.RACService;
 
@@ -83,6 +86,21 @@ public class RentACarController {
 		Branch br = branchService.save(branch);
 		return new ResponseEntity<Branch>(br, HttpStatus.OK);
 	}*/
+	
+	@GetMapping(value = "/{id}/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Vehicle>> getMyVehicles(@PathVariable("id") Long id){
+		Optional<RentACar> rac = rentACarService.findOne(id);
+		
+		List<Vehicle> vehs = new ArrayList<Vehicle>();
+		
+		for (Branch br : rac.get().getBranches()) {
+			for (Vehicle vehicle : br.getVehicles()) {
+				vehs.add(vehicle);
+			}
+		}
+		
+		return new ResponseEntity<Collection<Vehicle>>(vehs, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RentACar>> search(@RequestBody RentACarDTO rentACar) {

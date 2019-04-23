@@ -119,11 +119,21 @@ function fillTable(data) {
 										+ (rac.rating == null ? 0
 												: rac.rating) + ' / 5 </div>');
 						racDiv
-								.append('<button id="show_vehicles_btn">Show vehicles</button>');
+								.append('<button class="show_vehicles_btn" id="showv_' + rac.id + '">Show vehicles</button>');
 
 						counter++;
 						racsDiv.append(racDiv);
 
 					});
 
+	$('.show_vehicles_btn').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id.substring(6);
+		if (localStorage.getItem("showVeh") === null) {
+			  localStorage.removeItem('showVeh');
+			}
+		localStorage.setItem('showVeh', iden);
+		window.location.href = "vehicles.html";
+	});
+	
 }

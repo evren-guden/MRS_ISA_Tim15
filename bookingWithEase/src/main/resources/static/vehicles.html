@@ -9,28 +9,31 @@
 
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/vehicles.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/vehicles.css" />
 <title>Vehicles</title>
 </head>
 
 <body>
+	<nav>
+		<div class="brand">
+			<h2>Booking With Ease</h2>
+		</div>
+		<ul>
+			<li><a href="javascript:homepage()">Home</li>
+			</a>
+			<li><a href="javascript:util_login()">Log in</li>
+			</a>
+			<li><a href="javascript:registration_clicked()">Register</li>
+			</a>
+		</ul>
+	</nav>
+
 	<h1>Vehicles</h1>
-	<div class="transbox3">
-		
-		<table id="tab-vehicles" border="1">
-			<tr>
-				<th>ID</th>
-				<th>Color</th>
-				<th>Type</th>
-				<th>Gear</th>
-				<th>Registration number</th>
-			</tr>
-		</table>
-		<div id="help"></div>
-		<a href="addVehicle.html">Add new vehicle</a>
-	</div>
+	<div class="vehsDiv" id="vehsDiv"></div>
 </body>
 
 </html>
