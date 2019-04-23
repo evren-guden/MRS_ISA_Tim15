@@ -111,6 +111,10 @@ function fillTable(data) {
 										+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
 										+ '</div>');
 						racDiv
+						.append('<p style="position: absolute;top:65%;left:25%;">'
+								+ rac.description
+								+ '</p>');
+						racDiv
 								.append('<div class="guest_ratings"> Guest ratings: '
 										+ (rac.rating == null ? 0
 												: rac.rating) + ' / 5 </div>');

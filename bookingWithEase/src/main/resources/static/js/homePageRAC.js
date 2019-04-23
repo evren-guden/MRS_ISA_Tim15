@@ -20,18 +20,20 @@ function fillOptions(data){
 	var opts = data == null ? []
 	: (data instanceof Array ? data : [ data ]);
 	
-	var select = $('#selectbranch');
+	var select = $(localStorage.getItem('selectId'));
 	
 	$.each(opts, function(index, branch) {
 
 		var option = $('<option name="' + branch.id + '" value="' + branch.id + '">' + branch.name + '<option>');
 		select.append(option);
 	});
+	localStorage.removeItem('selectId');
 }
 
 function openDiv(evt, divName) {
 	
 	if(divName === 'addVehicleDiv'){
+		localStorage.setItem("selectId", '#selectbranch');
 		fillSelect();
 	}
 	
@@ -181,6 +183,7 @@ function findBranchs() {
 function fillBranchTable(data) {
 	var br_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
+	$('#tableCap').html("My branchs");
 	var table = $('#branchTable');
 	$('#branchTable').empty();
 	$('#branchTable')
@@ -271,6 +274,12 @@ function findVehicles() {
 function fillVehicleTable(data) {
 	var vh_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
+	$('#tableCap').html("My Vehicles");
+	var select = $('<select id="selectBranchSearch"></select>')
+	$('#branchSearch').append('Branch: ');
+	$('#branchSearch').append(select);
+	localStorage.setItem("selectId", '#selectBranchSearch')
+	fillSelect();
 	var table = $('#branchTable');
 	$('#branchTable').empty();
 	$('#branchTable')

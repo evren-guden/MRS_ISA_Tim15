@@ -1,6 +1,7 @@
-insert into rentacar (id,name, address, description, rating) values (101,'Atlas servis', 'Novi sad', 'najbolji',5 );
-insert into rentacar (id,name, address, description, rating) values (202,'Uni Line', 'Beograd', 'automatic', 4);
-insert into rentacar (id,name, address, description, rating) values (303,'DDM Rent-a-car', 'Novi Sad', 'automatic', 4);
+insert into rentacar (id,name, address, description, rating) values (101,'Atlas servis', 'Novi sad', 'Najbolji rent-a-car servis',5 );
+insert into rentacar (id,name, address, description, rating) values (202,'Uni Line', 'Beograd', 'Povoljno izdavanje vozila', 4);
+insert into rentacar (id,name, address, description, rating) values (303,'DDM Rent-a-car', 'Novi Sad', 'Veliki izbor vozila', 4);
+insert into rentacar (id,name, address, description, rating) values (404,'Inex', 'Novi Sad', 'Izdavanje vozila', 4);
 
 insert into airline (id,name, address, description, rating) values (1,'Aeroflot Russian Airlines', 'Russia', '', 1);
 insert into airline (id,name, address, description, rating) values (2,'Norwegian', 'Norway', '', 1);
