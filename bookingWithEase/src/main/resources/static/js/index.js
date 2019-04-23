@@ -62,6 +62,11 @@ function homepage() {
 }
 
 function login_clicked() {
+	if(window.location.href != "http://localhost:8080/index.html"){
+		sessionStorage.setItem('openLoginForm', true);
+		window.location.href = "index.html";
+	}
+	
 	$('.main-box').css('opacity', '0');
 	$('#transbox-login').css('opacity', '0.9');
 }
@@ -74,6 +79,16 @@ function login_cancel() {
 
 function registration_clicked() {
 	alert("registration");
+}
+
+function homepage_clicked(){
+	var homepage = localStorage.getItem('userHomepage');
+	if(homepage != null){
+		window.location.href = homepage;
+	}else
+	{
+		alert("Error happened");
+	}
 }
 
 function company_registration() {

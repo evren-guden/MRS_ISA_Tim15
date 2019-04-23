@@ -52,6 +52,12 @@ public class HotelController {
 
 		return hotelService.findAll();
 	}
+	
+	@GetMapping(value="/{hotelId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Hotel findById(@PathVariable("hotelId") Long id) throws JsonProcessingException {
+
+		return hotelService.findById(id);
+	}
 
 	@GetMapping(value = "/{hotelId}/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<Room> getRooms(@PathVariable("hotelId") Long id) {

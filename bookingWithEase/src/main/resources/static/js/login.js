@@ -47,19 +47,25 @@ function saveToken(data){
 			success : function(data){
 				if(localStorage){
 					localStorage.setItem("userId", data.id);
+					localStorage.setItem("currentUser", JSON.stringify(data));
 					if(data.company!=null){
 					localStorage.setItem("userCompanyId", data.company.id);
 					}
 				}
 				if(data.authorities[0].authority === "ROLE_ADMINRAC"){
+					localStorage.setItem("userHomepage", "homePageRAC.html");
 					window.location.href = "homePageRAC.html";
 				}else if(data.authorities[0].authority === "ROLE_ADMINHOTEL"){
+					localStorage.setItem("userHomepage", "homePageHotel.html");
 					window.location.href = "homePageHotel.html";
 				}else if(data.authorities[0].authority === "ROLE_ADMINAIRLINE"){
+					localStorage.setItem("userHomepage", "homePageAirline.html");
 					window.location.href = "homePageAirline.html";
 				}else if(data.authorities[0].authority === "ROLE_ADMIN"){
+					localStorage.setItem("userHomepage", "homePageAdmin.html");
 					window.location.href = "homePageAdmin.html";
 				}else if(data.authorities[0].authority === "ROLE_USER"){
+					localStorage.setItem("userHomepage", "homePageUser.html");
 					window.location.href = "homePageUser.html";
 				}
 			},
@@ -68,6 +74,6 @@ function saveToken(data){
 			}
 		});
 	} else{
-	    alert("Sorry, your browser do not support session storage.");
+	    alert("Sorry, your browser does not support session storage.");
 	}
 }

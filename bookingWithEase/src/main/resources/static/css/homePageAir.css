@@ -6,6 +6,7 @@ body {
 }
 .tab {
 	overflow: hidden;
+	margin-top: 5%;
 	border: 1px solid #ccc;
 	background-color: #ccc;
 }

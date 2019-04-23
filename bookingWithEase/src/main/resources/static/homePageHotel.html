@@ -3,31 +3,186 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<link rel="stylesheet" href="css/index.css" />
-	<link rel="stylesheet" href="css/homepageHotelAdmin.css" />
+<link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/homepageHotelAdmin.css" />
 
-	<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>	
-	<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
-	
-	<script type="text/javascript" src="js/util.js"></script>
-	<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
+<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 
-	<title>Booking With Ease</title>
+<script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/rooms.js"></script>
+<script type="text/javascript" src="js/hotels.js"></script>
+<script type="text/javascript" src="js/hotelAdmin.js"></script>
+
+<title>Booking With Ease</title>
 
 
 </head>
 <body>
+
 	<nav>
-    	<div class="brand">
-      		<h2>Booking With Ease</h2>
-    	</div>
- 		<ul>
-    		<li><a href="javascript:homepage()">Home</li></a>
-    		<li><a href="javascript:companyRegistrationChoosen()"></li></a>
-    		<li><a href="javascript:adminRegistrationChoosen()"></li></a>    		
-    		<li><a href=""></li></a>
-    		<li><a href="javascript:logout_clicked()">Log out</li></a>
+		<div class="brand">
+			<h2>Booking With Ease</h2>
+		</div>
+		<ul id="nav_ul">
+			<li><a href="javascript:homepage()">Home</li>
+			</a>
 		</ul>
 	</nav>
+
+	<div class="tab">
+		<button class="tablinks" onclick="openCity(event, 'hotelInfo')">Hotel
+			info</button>
+		<button class="tablinks" onclick="openCity(event, 'editHotelInfo')">Edit
+			hotel info</button>
+		<button class="tablinks" onclick="openCity(event, 'allRooms')">All
+			rooms</button>
+		<button class="tablinks" onclick="openCity(event, 'addRoom')">Add
+			room</button>
+	</div>
+
+	<div id="hotelInfo" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black; font-size:21px;">Hotel info</h2>
+			<table id="hotel_info_table" align="center" style="font-size:19px;">
+		    	<tr style="border-bottom: 1px solid black">
+						<td align="left">Name:</td>
+						<td><p id="hotel_name"></p></td>
+					</tr>
+
+					<tr style="border-bottom: 1px solid black">
+						<td align="left">Address:</td>
+						<td><p id="hotel_address"></p></td>
+					</tr>
+					<tr style="border-bottom: 1px solid black">
+						<td>Description: &nbsp;</td>
+						<td align="left"><p id="hotel_description">&nbsp;</p></td>
+					</tr>
+					<tr style="border-bottom: 1px solid black">
+						<td align="left">Stars:</td>
+						<td><p id="hotel_stars"></p></td>
+					</tr>
+					<tr>
+						<td align="left">Rating:</td>
+						<td><p id="hotel_rating"></p></td>
+					</tr>
+			</table>
+		</div>
+	</div>
+
+	<div id="editHotelInfo" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">Edit hotel info</h2>
+			<form id="edit_hotel_form">
+				<table align="center">
+
+					<tr>
+						<td align="left">Name:</td>
+						<td><input type="text" name="name" id="edit_hotel_name" required /></td>
+					</tr>
+
+					<tr>
+						<td align="left">Address:</td>
+						<td><input type="text" name="address" id="edit_hotel_address" required /></td>
+					</tr>
+						<tr>
+						<td>Stars: &nbsp;</td>
+						<td><input type="text" name="stars" id="edit_hotel_stars" required /></td>
+					</tr>
+					<tr>
+						<td>Description: &nbsp;</td>
+						<td align="left"><textarea cols="22" rows="5"
+								name="description" id="edit_hotel_description" ></textarea></td>
+					</tr>
+				
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="submit"
+							id="registerCompany" value="Submit"> <input
+							class="formBtn" type="button" id="cancelCompReg"
+							name="cancelCompReg" value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+			<br>
+		</div>
+	</div>
+
+	<div id="allRooms" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All rooms</h2>
+			<table align="center" id="hotelsTable" border=1>
+			
+			</table>
+		</div>
+	</div>
+
+	<div id="addRoom" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">Add room</h2>
+
+
+			<form id="addRoomForm">
+				<table align="center">
+					<tr>
+						<td align="left">Room number:</td>
+						<td><input type="text" name="roomNumber" /></td>
+					</tr>
+
+					<tr>
+						<td align="left">Floor number:</td>
+						<td><input type="text" name="floorNumber" required /></td>
+					</tr>
+					<tr>
+						<td align="left">Capacity:</td>
+						<td><input type="text" name="capacity" required /></td>
+					</tr>
+					<tr>
+						<td align="left">Price per night:</td>
+						<td><input type="text" name="pricePerNight" required /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="submit"
+							id="addNewRoom" value="Add new"> <input class="formBtn"
+							type="button" id="cancelNewRoom" name="cancelNewRoom"
+							value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
+
+
+
+
+		</div>
+	</div>
+
+	<script>
+		function openCity(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(
+						" active", "");
+			}
+			$('#' + cityName).slideToggle(1000);
+			evt.currentTarget.className += " active";
+		}
+	</script>
+
 </body>
 </html>

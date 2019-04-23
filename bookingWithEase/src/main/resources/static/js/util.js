@@ -1,3 +1,22 @@
+$(document).ready(function() {
+
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));	
+	if(currentUser == null)
+	{
+		var nav_ul = $('#nav_ul');
+		nav_ul.append('<li style="border-left:1px solid gray;"><a href="javascript:login_clicked()">Log in</li></a>');
+		nav_ul.append('<li><a href="javascript:register_clicked()">Register</li></a>');
+	}else
+	{
+		var nav_ul = $('#nav_ul');
+		nav_ul.append('<li style="border-left:1px solid gray;"><a href="javascript:homepage_clicked()">'+
+				'<img src="../images/user.png" width=20 height= 20>&nbsp;&nbsp;'+ currentUser.username + '</li></a>');
+		nav_ul.append('<li><a href="javascript:logout()">Log out</li></a>');
+		
+	}
+		
+});
+
 function getFormData(formId)
 {
     var formData = {};
@@ -9,6 +28,12 @@ function getFormData(formId)
     }
     
     return formData;
+}
+
+function util_login()
+{	
+	sessionStorage.setItem('openLoginForm',true);
+	window.location.href = "index.html";
 }
 
 function util_login()

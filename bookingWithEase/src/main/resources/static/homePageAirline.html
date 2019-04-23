@@ -3,15 +3,28 @@
 <head>
 <meta charset="ISO-8859-1">
 <link type="text/css" rel="stylesheet" href="css/homePageAir.css" />
+<link type="text/css" rel="stylesheet" href="css/navbar.css" />
+
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/adminAirline.js"></script>
 
 </head>
 
 <body>
+
+<nav>
+		<div class="brand">
+			<h2>Booking With Ease</h2>
+		</div>
+		<ul id="nav_ul">
+			<li><a href="javascript:homepage()">Home</li>
+			</a>
+		</ul>
+	</nav>
 
 <div class="tab">
 
@@ -20,7 +33,6 @@
 <button class="tablinks" onclick="openCity(event, 'allF')">All flight</button>
 <button class="tablinks" onclick="openCity(event, 'registerDest')">Add destination</button>
 <button class="tablinks" onclick="openCity(event, 'allDest')">All destination</button>
-<button class="tablinks" id="logoutClicked"  >Logout</button>
 
 </div>
 <div id="editAirline" class="tabcontent">
