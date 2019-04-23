@@ -101,7 +101,7 @@ function fillTable(data) {
 								+ (3 + counter * 40)
 								+ '%;"'
 								+ '>'
-								+ '<img src="../images/cars.jpg" height = 150 width= 150>'
+								+ '<img src="../images/cars.jpg" height = 90% width= 18%>'
 								+ '<h3>' + rac.name + '</h3>');
 
 						racDiv

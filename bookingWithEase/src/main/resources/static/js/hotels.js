@@ -69,9 +69,12 @@ function getHotels() {
 	});
 }
 
+
+getRooms(100);
+
 function getRooms(hotelId) {
 	$.ajax({
-		url : "/hotels/" + sessionStorage.getItem('hotelId') + "/rooms",
+		url : "/hotels/" + hotelId + "/rooms",
 		type : "GET",
 		dataType : 'json',
 		beforeSend : function(xhr) {
@@ -135,7 +138,7 @@ function fillTable(data) {
 								+ (3 + counter * 40)
 								+ '%;"'
 								+ '>'
-								+ '<img src="../images/background5.jpeg" height = 90% width= 18%>'
+								+ '<img src="../images/background5.jpeg" height = 150 width= 150>'
 								+ '<h3>' + hotel.name + stars_str + '</h3>');
 
 						hotelDiv

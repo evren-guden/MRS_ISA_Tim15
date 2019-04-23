@@ -11,6 +11,8 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 function registration() {
 	var formData = getFormData("#addRoomForm");
 	formData['hotelId'] = sessionStorage.getItem('hotelId');
+	
+	formData['hotelId'] = 100;
 
 	var validData = Boolean(validateNewRoomData(formData));
     
@@ -25,7 +27,7 @@ function registration() {
 			dataType : 'json',
 			success : function(response) {
 				alert("Room added :)");
-				window.location.href = "hotels.html";
+				//window.location.href = "hotels.html";
 			},
 			error : function(response) {
 				alert("Something went wrong! :(");
