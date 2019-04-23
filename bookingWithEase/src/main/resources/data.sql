@@ -20,8 +20,14 @@ insert into branch (id, rac_id, name, address) values (3, 101,'My branch 2', 'Zl
 insert into branch (id, rac_id, name, address) values (4, 101,'My branch 3', 'Kraljevo');
 
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (1, 'AA-11', 'neki_tip', 'automatic', 'red', 1);
-insert into vehicle (id, registration_number, type, gear, color) values (2, 'BB-11', 'neki_tip2', 'manual', 'green');
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (2, 'BB-11', 'neki_tip2', 'manual', 'green',1);
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (3, 'CC-11', 'neki_tip3', 'automatic', 'black', 1);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (4, 'DD-11', 'neki_tip2', 'manual', 'green',1);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (5, 'EE-11', 'neki_tip3', 'automatic', 'black', 1);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (6, 'BB-11', 'neki_tip2', 'manual', 'green',3);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (7, 'CC-11', 'neki_tip3', 'automatic', 'black', 3);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (8, 'BB-11', 'neki_tip2', 'manual', 'green',4);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (9, 'CC-11', 'neki_tip3', 'automatic', 'black', 4);
 
 insert into hotel (id, name, address, description, rating, stars) values (100, 'Park', 'Novi Sad', '',4.5, 5);
 insert into hotel (id, name, address, description, rating, stars) values (200, 'Palisad', 'Zlatibor', '',4.2, 3);

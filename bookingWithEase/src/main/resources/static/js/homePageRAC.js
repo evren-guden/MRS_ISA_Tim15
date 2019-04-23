@@ -184,6 +184,7 @@ function fillBranchTable(data) {
 	var br_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My branchs");
+	$('#branchSearch').empty();
 	var table = $('#branchTable');
 	$('#branchTable').empty();
 	$('#branchTable')
@@ -209,11 +210,15 @@ function fillBranchTable(data) {
 		console.log(iden);
 
 		$.ajax({
-			type : 'post',
-			url : "/branchs/delete/" + iden,
+			type : 'delete',
+			url : "/branchs/" + iden,
+			beforeSend: function (xhr) {
+		        /* Authorization header */
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
 			success : function(response) {
 				// alert("Vehicle deleted :)");
-				window.location.href = "branchs.html";
+				findBranchs();
 			},
 			error : function(data) {
 				alert(data);
@@ -275,11 +280,33 @@ function fillVehicleTable(data) {
 	var vh_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My Vehicles");
-	var select = $('<select id="selectBranchSearch"></select>')
+	$('#branchSearch').empty();
+	var select = $('<select id="selectBranchSearch"><option> </option></select>')
 	$('#branchSearch').append('Branch: ');
 	$('#branchSearch').append(select);
 	localStorage.setItem("selectId", '#selectBranchSearch')
 	fillSelect();
+	
+	$('#selectBranchSearch').change(function(){ 
+	    var value = $(this).val();
+	    if(! $.trim(value)){
+	    	findVehicles();
+	    }else{
+	    	$.ajax({ 
+	    		type : 'GET',
+	    		url : "/branchs/"+ value+"/vehicles",
+	    		dataType : "json",
+	    		beforeSend: function (xhr) {
+	    	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    	    },
+	    		success : fillVehicleTable,
+	    		error : function(data) {
+	    			alert(data);
+	    		}
+	    	});
+	    }
+	});
+	
 	var table = $('#branchTable');
 	$('#branchTable').empty();
 	$('#branchTable')
@@ -307,11 +334,14 @@ function fillVehicleTable(data) {
 		console.log(iden);
 
 		$.ajax({
-			type : 'post',
-			url : "/vehicles/delete/" + iden,
+			type : 'delete',
+			url : "/vehicles/" + iden,
+			beforeSend: function (xhr) {
+		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		    },
 			success : function(response) {
 				// alert("Vehicle deleted :)");
-				window.location.href = "branchs.html";
+				findVehicles();
 			},
 			error : function(data) {
 				alert(data);

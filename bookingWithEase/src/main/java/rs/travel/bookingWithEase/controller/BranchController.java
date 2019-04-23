@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,12 +82,17 @@ public class BranchController {
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/delete/{id}")
+	
+	@PreAuthorize("hasRole('ADMINRAC')")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<HttpStatus> update(@PathVariable("id") Long id) {
 
-		System.out.println("delete " + id);
-		branchService.delete(id);
-
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		Optional<Branch> branch = branchService.findOne(id);
+		if (branch != null){
+			branchService.delete(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {		
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

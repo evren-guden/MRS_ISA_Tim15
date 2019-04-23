@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -53,7 +54,8 @@ public class VehicleController {
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ADMINRAC')")
+	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle){
 		
 		Vehicle veh = null;
@@ -80,12 +82,11 @@ public class VehicleController {
 	
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@DeleteMapping(value="/{id}")
-public ResponseEntity<Void> deleteVehicle(@PathVariable Long id){
+public ResponseEntity<Void> deleteVehicle(@PathVariable("id") Long id){
 		
 		Optional<Vehicle> vehicle = vehicleService.findOne(id);
-		
 		if (vehicle != null){
-			vehicleService.delete(id);;
+			vehicleService.delete(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {		
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
