@@ -1,12 +1,37 @@
+findAirlines();
 
-$(document).ready(function() {
-    getAirlines();
-});
+function showHideSearch() {
+	var x = document.getElementById("div-air-search");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+		document.getElementById("showHideBtn").innerText = "Hide search";
+	} else {
+		x.style.display = "none";
+		document.getElementById("showHideBtn").innerText = "Show search";
+	}
+}
 
 
+function hello() {
+	$.ajax({
+		type : 'GET',
+		url : "/users/myprofile",
+		dataType : "json",
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(data) {
+			console.log(data);
+		},
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
 
 
-function getAirlines() {
+function findAirlines() {
 	$.ajax({
 		type : 'GET',
 		url : "/airlines",
@@ -22,62 +47,95 @@ function getAirlines() {
 	});
 }
 
-function fillTable(data) {
-	var airlines = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
-	var table = $('#airlinesTable');
-	$('#airlinesTable').empty();
-
 	
-	$('#airlinesTable').append('<tr><th>ID</th><th>NAME</th><th>ADDRESS</th><th>DESCRIPTION</th></tr>');
-	$.each(airlines, function(index, airline) {
-
-		var tr = $('<tr></tr>');
-		tr.append('<td>' + airline.id + '</td>' + '<td>'
-				+ airline.name + '</td>' + '<td>'
-				+ airline.address + '</td>' + '<td>' + airline.description + '</td>');
-
-		$('#airlinesTable').append(tr);
-	});
-
-	
-$('.formsedit').on('submit', function(e) {
+$('.formsedit').on('submit', '#formsrc', function(e) {
 		
 		e.preventDefault();
-
-		var iden = this.id;
-
-		var formData = {};
-		var s_data = $('#' + this.id).serializeArray();
-		
-		for (var i = 0; i < s_data.length; i++) {
-			var record = s_data[i];
-		
-			if (record.name === "ident") {
-				formData["id"] = record.value;
-			} else {
-				formData[record.name] = record.value;
-			}
-		}
-		
+		var formData = getFormData("#formsrc");
 		var jsonData = JSON.stringify(formData);
-		console.log("ovde" + jsonData);
 		$.ajax({
 			type : 'POST',
-			url : "/airlines/edit",
-			contentType: 'application/json',
-			dataType: 'json',
-			data: jsonData,
-			beforeSend: function (xhr) {
-		        /* Authorization header */
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : getAirlines,
-			error : function(data) {
-				alert(data);
-			}
+			url : '/flights/search',
+			contentType : 'application/json',
+			dataType : 'json',
+			data : jsonData,
+			beforeSend : function(xhr) {
+				/* Authorization header */
+				xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+			},
+			success : fillTable
 		});
+
 	});
-	
+
+
+
+
+
+function formToJSON() {
+	var id = $('#src-air-id').val();
+	var name = $('#src-air-name').val();
+	var addr = $('#src-air-addr').val();
+	console.log(JSON.stringify({
+		"id" : id,
+		"name" : name,
+		"address" : addr
+	}));
+	return JSON.stringify({
+		"id" : id,
+		"name" : name,
+		"address" : addr
+	});
+}
+
+
+function fillTable(data) {
+	var air_list = data == null ? []
+			: (data instanceof Array ? data : [ data ]);
+
+	var airsDiv = $('#airsDiv');
+	airsDiv.empty();
+	var counter = 0;
+
+	$
+			.each(
+					air_list,
+					function(index,air) {
+						var airDiv = $('<div class="airDiv" id="airDiv_'
+								+ counter
+								+ '" style="bottom:'
+								+ (60 - counter * 40)
+								+ '%; top:'
+								+ (3 + counter * 40)
+								+ '%;"'
+								+ '>'
+								+ '<img src="../images/air.jpg" height = 90% width= 18%>'
+								+ '<h3>' + air.name + '</h3>');
+
+						airDiv
+								.append('<p>'
+										+ air.address
+										+ '</p>'
+										+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
+										+ '</div>');
+						airDiv
+								.append('<div class="guest_ratings"> Guest ratings: '
+										+ (air.rating == null ? 0
+												: air.rating) + ' / 5 </div>');
+						airDiv
+						.append('<button id="show_flights_btn">Show flights</button>');
+						
+
+						counter++;
+						airsDiv.append(airDiv);
+
+					});
 
 }
+
+
+
+
+
+
+

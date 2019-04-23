@@ -135,7 +135,7 @@ function fillTable(data) {
 								+ (3 + counter * 40)
 								+ '%;"'
 								+ '>'
-								+ '<img src="../images/background5.jpeg" height = 150 width= 150>'
+								+ '<img src="../images/background5.jpeg" height = 90% width= 18%>'
 								+ '<h3>' + hotel.name + stars_str + '</h3>');
 
 						hotelDiv
