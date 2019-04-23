@@ -91,14 +91,14 @@ div p
 
 /****************************** Buttons ***********************************/
 
-#show_rooms_btn
+.show_rooms_btn
 {
 	position: absolute;
 	top: 77%;
 	left: 84%;
 }
 
-#show_rooms_btn {
+.show_rooms_btn {
   background: #339DFF;
   color: #fff;
   text-decoration: none;
