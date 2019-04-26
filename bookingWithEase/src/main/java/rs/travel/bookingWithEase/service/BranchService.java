@@ -14,7 +14,7 @@ public class BranchService {
 
 	@Autowired
 	private IBranchRepository branchRepository;
-	
+
 	public Optional<Branch> findOne(Long id) {
 		return branchRepository.findById(id);
 	}
@@ -22,7 +22,7 @@ public class BranchService {
 	public List<Branch> findAll() {
 		return branchRepository.findAll();
 	}
-	
+
 	public Branch save(Branch branch) {
 		return branchRepository.save(branch);
 	}
@@ -30,5 +30,5 @@ public class BranchService {
 	public void delete(Long id) {
 		branchRepository.deleteById(id);
 	}
-	
+
 }

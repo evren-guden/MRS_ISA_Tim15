@@ -10,12 +10,11 @@ import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.repository.IVehicleRepository;
 
 @Service
-public class VehicleService{
+public class VehicleService {
 
 	@Autowired
 	private IVehicleRepository vehicleRepository;
 
-	
 	public Optional<Vehicle> findOne(Long id) {
 		return vehicleRepository.findById(id);
 	}
@@ -23,7 +22,7 @@ public class VehicleService{
 	public List<Vehicle> findAll() {
 		return vehicleRepository.findAll();
 	}
-	
+
 	public Vehicle save(Vehicle vehicle) {
 		return vehicleRepository.save(vehicle);
 	}

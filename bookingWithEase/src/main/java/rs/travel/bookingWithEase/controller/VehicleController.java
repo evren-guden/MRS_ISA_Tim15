@@ -21,74 +21,74 @@ import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.service.VehicleService;
 
 @Controller
-@RequestMapping(value="/vehicles")
+@RequestMapping(value = "/vehicles")
 public class VehicleController {
 
 	@Autowired
 	private VehicleService vehicleService;
-	
+
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Vehicle>> getAll(){
-		
+	public ResponseEntity<Collection<Vehicle>> getAll() {
+
 		Collection<Vehicle> vehicles = vehicleService.findAll();
 
 		return new ResponseEntity<Collection<Vehicle>>(vehicles, HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Vehicle> create(@RequestBody Vehicle vehicle){
-		System.out.println("add vehicle");
+	public ResponseEntity<Vehicle> create(@RequestBody Vehicle vehicle) {
 		Vehicle veh = null;
 		try {
 			veh = vehicleService.save(vehicle);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(veh == null) {
+
+		if (veh == null) {
 			return new ResponseEntity<Vehicle>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle){
-		
+	public ResponseEntity<Vehicle> update(@RequestBody Vehicle vehicle) {
+
 		Vehicle veh = null;
 		try {
 			veh = vehicleService.save(vehicle);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(veh == null) {
+
+		if (veh == null) {
 			return new ResponseEntity<Vehicle>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Vehicle> findOne(@PathVariable("id") Long id){
+	public ResponseEntity<Vehicle> findOne(@PathVariable("id") Long id) {
 		Optional<Vehicle> veh = vehicleService.findOne(id);
-		
+
 		return new ResponseEntity<Vehicle>(veh.get(), HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINRAC')")
-	@DeleteMapping(value="/{id}")
-public ResponseEntity<Void> deleteVehicle(@PathVariable("id") Long id){
-		
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deleteVehicle(@PathVariable("id") Long id) {
+
 		Optional<Vehicle> vehicle = vehicleService.findOne(id);
-		if (vehicle != null){
+		if (vehicle != null) {
+			if(vehicle.get().getVehicleReservations().size() > 0) {
+				return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+			}
 			vehicleService.delete(id);
 			return new ResponseEntity<>(HttpStatus.OK);
-		} else {		
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

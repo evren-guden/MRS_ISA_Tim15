@@ -25,6 +25,7 @@ import rs.travel.bookingWithEase.service.VehicleService;
 @Controller
 @RequestMapping(value = "/branchs")
 public class BranchController {
+
 	@Autowired
 	private BranchService branchService;
 
@@ -39,6 +40,7 @@ public class BranchController {
 		return new ResponseEntity<Collection<Branch>>(branches, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMINRAC')")
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Branch> update(@RequestBody Branch br) {
 
@@ -62,14 +64,15 @@ public class BranchController {
 
 		return new ResponseEntity<Branch>(br.get(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/{id}/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Vehicle>> getMyVehicles(@PathVariable("id") Long id){
+	public ResponseEntity<Collection<Vehicle>> getMyVehicles(@PathVariable("id") Long id) {
 		Optional<Branch> branch = branchService.findOne(id);
-		
+
 		return new ResponseEntity<Collection<Vehicle>>(branch.get().getVehicles(), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMINRAC')")
 	@PostMapping(value = "/{id}/vehicles", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vehicle> addVehicle(@PathVariable("id") Long id, @RequestBody Vehicle vehicle) {
 
@@ -82,16 +85,15 @@ public class BranchController {
 		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
 	}
 
-	
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<HttpStatus> update(@PathVariable("id") Long id) {
 
 		Optional<Branch> branch = branchService.findOne(id);
-		if (branch != null){
+		if (branch != null) {
 			branchService.delete(id);
 			return new ResponseEntity<>(HttpStatus.OK);
-		} else {		
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

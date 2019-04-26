@@ -29,16 +29,41 @@ public class TokenUtils {
 
 	// Function for generating new JWT token
 
-	Date now = new Date();
-	Date validity = new Date(now.getTime() + EXPIRES_IN * 10000);
+	//private Date now = new Date();
+	//private Date validity = new Date(now.getTime() + EXPIRES_IN * 10000);
 
 	public String generateToken(String username) {
+		Date now = new Date();
 		return Jwts.builder()
 				.setSubject(username)
 				.setIssuedAt(now)
 				.setExpiration(new Date(System.currentTimeMillis() + 3600000))
 				.signWith(SIGNATURE_ALGORITHM, SECRET)
 				.compact();
+	}
+
+	// Functions for refreshing JWT token
+
+	public String refreshToken(String token) {
+		String refreshedToken;
+		Date now = new Date();
+		try {
+			final Claims claims = this.getAllClaimsFromToken(token);
+			claims.setIssuedAt(now);
+			refreshedToken = Jwts.builder()
+					.setClaims(claims)
+					.setExpiration(new Date(System.currentTimeMillis() + 3600000))
+					.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
+		} catch (Exception e) {
+			refreshedToken = null;
+		}
+		return refreshedToken;
+	}
+
+	public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
+		final Date created = this.getIssuedAtDateFromToken(token);
+		return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset))
+				&& (!(this.isTokenExpired(token))));
 	}
 
 	// Functions for validating JWT token data
@@ -48,7 +73,17 @@ public class TokenUtils {
 		final String username = getUsernameFromToken(token);
 		final Date created = getIssuedAtDateFromToken(token);
 
-		return (username != null && username.equals(userDetails.getUsername()));
+		return (username != null && username.equals(userDetails.getUsername())&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
+	}
+
+	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
+		return (lastPasswordReset != null && created.before(lastPasswordReset));
+	}
+
+	private Boolean isTokenExpired(String token) {
+		final Date expiration = this.getExpirationDateFromToken(token);
+		Date now = new Date();
+		return expiration.before(now);
 	}
 
 	// Functions for getting data from token
@@ -56,10 +91,7 @@ public class TokenUtils {
 	private Claims getAllClaimsFromToken(String token) {
 		Claims claims;
 		try {
-			claims = Jwts.parser()
-					.setSigningKey(SECRET)
-					.parseClaimsJws(token)
-					.getBody();
+			claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
 			System.out.println("Claims try");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,6 +136,10 @@ public class TokenUtils {
 		return expiration;
 	}
 
+	public int getExpiredIn() {
+		return EXPIRES_IN;
+	}
+	
 	// Functions for getting JWT token out of HTTP request
 
 	public String getToken(HttpServletRequest request) {

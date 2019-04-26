@@ -21,12 +21,11 @@ public class Branch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	// private Location location;
 
 	private String name;
-	
+
 	private String address;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RentACar rac;
 
@@ -60,7 +59,7 @@ public class Branch {
 	public void addVehicle(Vehicle veh) {
 		this.vehicles.add(veh);
 	}
-	
+
 	public void setVehicles(Set<Vehicle> vehicles) {
 		this.vehicles = vehicles;
 	}

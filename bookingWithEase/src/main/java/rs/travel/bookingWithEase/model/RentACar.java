@@ -22,7 +22,6 @@ public class RentACar extends Company {
 	@OneToMany(mappedBy = "rac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Branch> branches = new HashSet<Branch>();
 
-	
 	public RentACar() {
 	}
 
@@ -46,26 +45,26 @@ public class RentACar extends Company {
 	public void setBranches(Set<Branch> branches) {
 		this.branches = branches;
 	}
-	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        RentACar r = (RentACar) o;
-        if(r.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, r.id);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		RentACar r = (RentACar) o;
+		if (r.id == null || id == null) {
+			return false;
+		}
+		return Objects.equals(id, r.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
+	}
 
 	@Override
 	public String toString() {

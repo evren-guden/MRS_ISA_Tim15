@@ -1,13 +1,18 @@
 package rs.travel.bookingWithEase.model;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,11 +31,20 @@ public class Vehicle {
 	private String gear;
 	@Column(name = "color")
 	private String color;
-	
+
+	private Integer passenggers;
+
+	@Column(name = "pricePerDay")
+	private Double pricePerDay;
+
+	private String image;
 
 	@ManyToOne
 	private Branch branch;
 	
+	@OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<VehicleReservation> vehicleReservations = new HashSet<VehicleReservation>();
+
 	public Vehicle() {
 	}
 
@@ -84,27 +98,60 @@ public class Vehicle {
 	}
 
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Vehicle v = (Vehicle) o;
-        if(v.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, v.id);
-    }
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Vehicle v = (Vehicle) o;
+		if (v.id == null || id == null) {
+			return false;
+		}
+		return Objects.equals(id, v.id);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(id);
+	}
 
 	@Override
 	public String toString() {
 		return "Vehicle [id=" + id + "]";
 	}
+
+	public Integer getPassenggers() {
+		return passenggers;
+	}
+
+	public Double getPricePerDay() {
+		return pricePerDay;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public Set<VehicleReservation> getVehicleReservations() {
+		return vehicleReservations;
+	}
+
+	public void setPassenggers(Integer passenggers) {
+		this.passenggers = passenggers;
+	}
+
+	public void setPricePerDay(Double pricePerDay) {
+		this.pricePerDay = pricePerDay;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public void setVehicleReservations(Set<VehicleReservation> vehicleReservations) {
+		this.vehicleReservations = vehicleReservations;
+	}
+
 }

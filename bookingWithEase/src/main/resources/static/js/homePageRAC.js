@@ -53,8 +53,6 @@ function openDiv(evt, divName) {
 $(document).on('click', '#logoutClicked', function(e) {
 	e.preventDefault();
 	logout();
-	//localStorage.clear();
-	//window.location.replace("index.html");
 });
 
 $(document).on('submit', '#addVehicleForm', function(e) {
@@ -71,7 +69,6 @@ $(document).on('submit', '#addVehicleForm', function(e) {
 		data : jsonData,
 		dataType : 'json',
 		beforeSend : function(xhr) {
-			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : function(response) {
@@ -98,7 +95,6 @@ $(document).on('submit', '#editVehicleForm', function(e) {
 		data : jsonData,
 		dataType : 'json',
 		beforeSend : function(xhr) {
-			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : findVehicles,
@@ -123,7 +119,6 @@ $(document).on('submit', '#addBranchForm', function(e) {
 		data : jsonData,
 		dataType : 'json',
 		beforeSend : function(xhr) {
-			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : findBranchs,
@@ -148,7 +143,6 @@ $(document).on('submit', '#editBranchForm', function(e) {
 		data : jsonData,
 		dataType : 'json',
 		beforeSend : function(xhr) {
-			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : findBranchs,
@@ -213,11 +207,9 @@ function fillBranchTable(data) {
 			type : 'delete',
 			url : "/branchs/" + iden,
 			beforeSend: function (xhr) {
-		        /* Authorization header */
 		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		    },
 			success : function(response) {
-				// alert("Vehicle deleted :)");
 				findBranchs();
 			},
 			error : function(data) {
@@ -266,7 +258,6 @@ function findVehicles() {
 		url : "/vehicles",
 		dataType : "json",
 		beforeSend: function (xhr) {
-	        /* Authorization header */
 	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 	    },
 		success : fillVehicleTable,
@@ -340,7 +331,6 @@ function fillVehicleTable(data) {
 		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		    },
 			success : function(response) {
-				// alert("Vehicle deleted :)");
 				findVehicles();
 			},
 			error : function(data) {
@@ -354,7 +344,6 @@ function fillVehicleTable(data) {
 		e.preventDefault();
 		var iden = this.id;
 		openDiv(event, 'editVehicleDiv');
-		//localStorage.setItem("editBranchId", iden);
 
 		$.ajax({
 			type : 'GET',

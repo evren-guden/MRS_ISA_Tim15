@@ -19,7 +19,7 @@ $(document).on('submit', '#loginform', function(e) {
 		type : "POST",
 		contentType : "application/json",
 		data : jsonData,
-		dataType : 'text',
+		dataType : 'json',
 		success : function(response) {
 			saveToken(response);
 		},
@@ -33,8 +33,8 @@ $(document).on('submit', '#loginform', function(e) {
 function saveToken(data){
 	console.log(data);
 	if(localStorage){
-		console.log(data);
-		setJwtToken(data);
+		console.log(data.accessToken);
+		setJwtToken(data.accessToken);
 
 		$.ajax({
 			type : 'GET',

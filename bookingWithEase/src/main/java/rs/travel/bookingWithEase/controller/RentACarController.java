@@ -51,7 +51,6 @@ public class RentACarController {
 	        return "alternate";
 	    }
 
-	//@PreAuthorize("hasRole('ADMINRAC')")
 	@RequestMapping(method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RentACar>> getAll() {
 
@@ -68,6 +67,7 @@ public class RentACarController {
 		return new ResponseEntity<Collection<Branch>>(rac.get().getBranches(), HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ADMINRAC')")
 	@PostMapping(value="/{id}/branchs",consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Branch> addBranch(@PathVariable("id") Long id, @RequestBody Branch branch) {
 
@@ -79,13 +79,6 @@ public class RentACarController {
 		
 		return new ResponseEntity<Branch>(br, HttpStatus.OK);
 	}
-	
-	/*@PutMapping(value="/{id}/branchs",consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Branch> updateBranch(Branch branch) {
-
-		Branch br = branchService.save(branch);
-		return new ResponseEntity<Branch>(br, HttpStatus.OK);
-	}*/
 	
 	@GetMapping(value = "/{id}/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Vehicle>> getMyVehicles(@PathVariable("id") Long id){
