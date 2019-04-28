@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import rs.travel.bookingWithEase.dto.RoomDTO;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.Room;
+import rs.travel.bookingWithEase.repository.IHotelRepository;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
 
 @Service
@@ -17,6 +18,9 @@ public class RoomService {
 
 	@Autowired
 	private IRoomRepository rooms;
+	
+	@Autowired
+	private IHotelRepository hotels;
 	
 	@Autowired 
 	private HotelService hotelService;
@@ -35,16 +39,8 @@ public class RoomService {
 	}
 	
 	public List<Room> findByHotelId(Long id)
-	{
-		List<Room> rooms = new ArrayList<Room>();
-		
-		for(Room r : findAll())
-		{
-			if(r.getHotel().getId() == id)
-				rooms.add(r);
-		}
-		
-		return rooms;
+	{	
+		return rooms.findByHotel(hotels.findById(id).get());
 	}
 
 	public Room save(Room room) {

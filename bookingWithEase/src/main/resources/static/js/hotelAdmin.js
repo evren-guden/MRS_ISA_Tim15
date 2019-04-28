@@ -5,11 +5,13 @@ $(document).ready(function() {
 });
 
 $(document).on('click', '#addNewRoom', function(e) {
-	getRooms(100);
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	getRooms(currentUser.company.id);
 });
 
 function getHotel(user) {
-	var hotelId = 100;
+	var hotelId = user.company.id;
+
 	$.ajax({
 		url : "/hotels/" + hotelId,
 		type : "GET",
@@ -56,7 +58,9 @@ function fillHotelInfo(data) {
 					}
 				}
 
-				formData["id"] = 100;
+				var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+				formData['id'] = currentUser.company.id;
 
 				if (formData["name"] === "") {
 					alert("Please enter a hotel name");

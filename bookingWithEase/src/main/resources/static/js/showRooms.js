@@ -1,6 +1,7 @@
-getRooms(100);
+getRooms(localStorage.getItem("showRooms"));
 
 function getRooms(hotelId) {
+
 	$.ajax({
 		url : "/hotels/" + hotelId + "/rooms",
 		type : "GET",
@@ -17,6 +18,7 @@ function getRooms(hotelId) {
 }
 
 function fillTable(data) {
+
 	var veh_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 

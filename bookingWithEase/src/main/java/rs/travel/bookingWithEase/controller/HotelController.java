@@ -113,9 +113,10 @@ public class HotelController {
 			return new ResponseEntity<Hotel>(HttpStatus.BAD_REQUEST);
 		}
 
-		Hotel hotel = null;
+		Hotel hotel = new Hotel(company);
+		hotel.setStars(companyDto.getStars());
 		try {
-			hotel = hotelService.save(new Hotel(company));
+			hotel = hotelService.save(hotel);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

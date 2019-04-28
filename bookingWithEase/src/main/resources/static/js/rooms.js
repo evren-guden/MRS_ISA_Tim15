@@ -10,9 +10,9 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 
 function registration() {
 	var formData = getFormData("#addRoomForm");
-	formData['hotelId'] = sessionStorage.getItem('hotelId');
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-	formData['hotelId'] = 100;
+	formData['hotelId'] = currentUser.company.id;
 
 	var validData = Boolean(validateNewRoomData(formData));
 

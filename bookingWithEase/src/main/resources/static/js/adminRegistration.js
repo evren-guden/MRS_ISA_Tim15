@@ -24,7 +24,7 @@ function adminRegistrationChoosen() {
 		if ($(this).val() == 'airline') {
 			getAirlines();
 		} else if ($(this).val() == 'hotel') {
-			getHotels();
+			getHotels(fillHotels);
 		} else if ($(this).val() == 'rent-a-car') {
 			getRentacars();
 		}
@@ -189,7 +189,6 @@ function getUsers() {
 
 function fillHotels(data) {
 	var hotels = data == null ? [] : (data instanceof Array ? data : [ data ]);
-
 	$('#select_company').empty();
 	var counter = 0;
 	$
@@ -212,22 +211,6 @@ function fillHotels(data) {
 
 	if (counter == 0)
 		$('#select_company').append("none available");
-}
-
-function getHotels() {
-	$.ajax({
-		url : "/hotels",
-		type : "GET",
-		dataType : 'json',
-		beforeSend : function(xhr) {
-			/* Authorization header */
-			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		},
-		success : fillHotels,
-		error : function(response) {
-			alert("Something went wrong while trying to get hotels! :(");
-		}
-	});
 }
 
 function getAirlines() {

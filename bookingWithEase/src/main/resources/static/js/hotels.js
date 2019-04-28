@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	getHotels();
+	getHotels(fillHotelsTable);
 });
 
 $(document).on('click', '.new_room', function(e) {
@@ -8,17 +8,6 @@ $(document).on('click', '.new_room', function(e) {
 	window.location.href = "rooms.html";
 
 });
-
-function showHideSearch() {
-	var x = document.getElementById("div-hotels-search");
-	if (x.style.display === "none") {
-		x.style.display = "block";
-		document.getElementById("showHideBtn").innerText = "Hide search";
-	} else {
-		x.style.display = "none";
-		document.getElementById("showHideBtn").innerText = "Show search";
-	}
-}
 
 function showRooms(data) {
 	var hotelId = sessionStorage.getItem('hotelId');
@@ -49,7 +38,7 @@ function showRooms(data) {
 
 }
 
-function getHotels() {
+function getHotels(successFunction) {
 	$.ajax({
 		url : "/hotels",
 		type : "GET",
@@ -58,16 +47,19 @@ function getHotels() {
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : fillTable,
+		success : successFunction,
 		error : function(response) {
 			alert("Something went wrong! :(");
 		}
 	});
 }
 
-getRooms(100);
+var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+if(currentUser != null)
+	getRooms(currentUser.company.id);
 
 function getRooms(hotelId) {
+
 	$.ajax({
 		url : "/hotels/" + hotelId + "/rooms",
 		type : "GET",
@@ -98,12 +90,12 @@ $(document).on('click', '#search_hotel_btn', function(e) {
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : fillTable
+		success : fillHotelsTable
 	});
 
 });
 
-function fillTable(data) {
+function fillHotelsTable(data) {
 
 	var hotels = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	/*
@@ -159,6 +151,7 @@ function fillTable(data) {
 		e.preventDefault();
 
 		var iden = this.id.substring(6);
+		
 		if (localStorage.getItem("showRooms") === null) {
 			localStorage.removeItem('showRooms');
 		}
