@@ -1,7 +1,7 @@
 $(document).on('submit', '#addFlightForm', function(e) {
-	
+
 	e.preventDefault();
-	
+
 	var formData = getFormData("#addFlightForm");
 	var jsonData = JSON.stringify(formData);
 

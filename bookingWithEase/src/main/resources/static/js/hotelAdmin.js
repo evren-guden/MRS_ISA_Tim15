@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	var currentUser = JSON.parse(localStorage.getItem('currentUser'));	
-	
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
 	getHotel(currentUser);
 });
 
@@ -8,8 +8,7 @@ $(document).on('click', '#addNewRoom', function(e) {
 	getRooms(100);
 });
 
-function getHotel(user)
-{
+function getHotel(user) {
 	var hotelId = 100;
 	$.ajax({
 		url : "/hotels/" + hotelId,
@@ -26,23 +25,22 @@ function getHotel(user)
 	});
 }
 
-function fillHotelInfo(data)
-{
+function fillHotelInfo(data) {
 	$('#hotel_name').empty().append(data.name);
 	$('#hotel_address').empty().append(data.address);
 	$('#hotel_description').empty().append(data.description);
 	$('#hotel_stars').empty().append(data.stars);
 	$('#hotel_rating').empty().append(data.rating);
-	
+
 	$('#edit_hotel_name').val(data.name);
 	$('#edit_hotel_address').val(data.address);
 	$('#edit_hotel_description').val(data.description);
 	$('#edit_hotel_stars').val(data.stars);
-	
+
 	$('#edit_hotel_form').on(
 			'submit',
 			function(e) {
-				
+
 				e.preventDefault();
 				var iden = this.id;
 
@@ -57,9 +55,9 @@ function fillHotelInfo(data)
 						formData[record.name] = record.value;
 					}
 				}
-				
+
 				formData["id"] = 100;
-				
+
 				if (formData["name"] === "") {
 					alert("Please enter a hotel name");
 					return;
@@ -86,5 +84,5 @@ function fillHotelInfo(data)
 				alert("Saved");
 				getHotel(JSON.parse(localStorage.getItem('currentUser')));
 			});
-	
+
 }

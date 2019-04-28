@@ -1,5 +1,5 @@
 $(document).ready(function(e) {
-	//alert(sessionStorage.getItem('openLoginForm'));
+	// alert(sessionStorage.getItem('openLoginForm'));
 	if (sessionStorage.getItem('openLoginForm') == "true") {
 		sessionStorage.setItem('openLoginForm', false);
 		login_clicked();
@@ -62,11 +62,11 @@ function homepage() {
 }
 
 function login_clicked() {
-	if(window.location.href != "http://localhost:8080/index.html"){
+	if (window.location.href != "http://localhost:8080/index.html") {
 		sessionStorage.setItem('openLoginForm', true);
 		window.location.href = "index.html";
 	}
-	
+
 	$('.main-box').css('opacity', '0');
 	$('#transbox-login').css('opacity', '0.9');
 }
@@ -81,12 +81,11 @@ function registration_clicked() {
 	alert("registration");
 }
 
-function homepage_clicked(){
+function homepage_clicked() {
 	var homepage = localStorage.getItem('userHomepage');
-	if(homepage != null){
+	if (homepage != null) {
 		window.location.href = homepage;
-	}else
-	{
+	} else {
 		alert("Error happened");
 	}
 }

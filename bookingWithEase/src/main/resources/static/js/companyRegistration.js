@@ -12,16 +12,15 @@ function companyRegistration() {
 	var formData = getFormData("#companyRegForm");
 	var checkboxes = $('.admins_checkbox');
 	var adminsArray = [];
-	$.each(checkboxes, function(index, checkbox){
-		if(checkbox.checked)
-		{
+	$.each(checkboxes, function(index, checkbox) {
+		if (checkbox.checked) {
 			adminsArray.push(checkbox.value);
 		}
 	});
-	
+
 	formData["admins"] = adminsArray;
-	
-//	alert("registration " + formData["admins"] );
+
+	// alert("registration " + formData["admins"] );
 	var validData = Boolean(validateRegistrationData(formData));
 	if (validData) {
 		var jsonData = JSON.stringify(formData);
@@ -50,9 +49,9 @@ function validateRegistrationData(formData) {
 	var address = formData["address"];
 	var description = formData["description"];
 	var type = formData["cmpType"];
-	
-	if(name === "" || address === "" || description === "" || type === undefined)
-	{
+
+	if (name === "" || address === "" || description === ""
+			|| type === undefined) {
 		return false;
 	}
 

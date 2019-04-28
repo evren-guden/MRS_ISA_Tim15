@@ -60,9 +60,8 @@ function adminRegistration() {
 	var formData = getFormData("#adminRegForm");
 	var radiobtns = $('.companies_radio');
 
-	$.each(radiobtns, function(index, btn){
-		if(btn.checked)
-		{
+	$.each(radiobtns, function(index, btn) {
+		if (btn.checked) {
 			formData["companyId"] = btn.value;
 		}
 	});
@@ -111,9 +110,9 @@ function validateAdminRegData(formData) {
 	var confirmedPassword = formData["confirmPassword"];
 	var type = formData["admin_type"];
 
-	//	alert("username: " + username + " first: " + firstName + " last: "
-	//			+ lastName + " email: " + email + " pass: " + password + " pass2: "
-	//			+ confirmedPassword + " type: " + type);
+	// alert("username: " + username + " first: " + firstName + " last: "
+	// + lastName + " email: " + email + " pass: " + password + " pass2: "
+	// + confirmedPassword + " type: " + type);
 
 	if (username === "" || firstName === "" || lastName === "" || email === ""
 			|| email === "" || type === undefined) {
@@ -202,7 +201,11 @@ function fillHotels(data) {
 						var newItem = $('<div align="left"></div');
 						newItem
 								.append('<input type="radio" class= "companies_radio" name="companies_radio" value="'
-										+ hotel.id + '" />' + hotel.name + ", " + hotel.address);
+										+ hotel.id
+										+ '" />'
+										+ hotel.name
+										+ ", "
+										+ hotel.address);
 						$('#select_company').append(newItem);
 
 					});
@@ -232,10 +235,10 @@ function getAirlines() {
 		type : 'GET',
 		url : "/airlines",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillHotels,
 		error : function(data) {
 			alert(data);
@@ -248,10 +251,10 @@ function getRentacars() {
 		type : 'GET',
 		url : "/rentacars",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillHotels,
 		error : function(data) {
 			alert(data);

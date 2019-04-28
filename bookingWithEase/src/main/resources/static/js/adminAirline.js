@@ -3,15 +3,12 @@ $(document).on('click', '#logoutClicked', function(e) {
 	window.location.href = "index.html";
 })
 
-
-
 $(document).on('submit', '#destRegForm', function(e) {
-	
+
 	e.preventDefault();
-	
+
 	var formData = getFormData("#destRegForm");
 	var jsonData = JSON.stringify(formData);
-	
 
 	$.ajax({
 		url : "/destination",
@@ -19,10 +16,10 @@ $(document).on('submit', '#destRegForm', function(e) {
 		contentType : "application/json",
 		data : jsonData,
 		dataType : 'json',
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : function(response) {
 			alert("Airport saved :)");
 			window.location.href = "homePageAirline.html";
@@ -34,9 +31,7 @@ $(document).on('submit', '#destRegForm', function(e) {
 
 });
 
-
-
-//ispis
+// ispis
 
 findDestination();
 
@@ -45,10 +40,10 @@ function findDestination() {
 		type : 'GET',
 		url : "/destination",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillTable,
 		error : function(data) {
 			alert(data);
@@ -63,10 +58,10 @@ function findDestination() {
 		type : 'GET',
 		url : "/destination",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillTable,
 		error : function(data) {
 			alert(data);
@@ -75,108 +70,120 @@ function findDestination() {
 }
 
 function fillTable(data) {
-	var d_list = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
+	var d_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	var table = $('#destinationTable');
 	$('#destinationTable').empty();
 
-	//var cont = $('#help');
-	//cont.empty();
-	$('#destinationTable').append('<tr><br><br><th>ID</th><th>Name</th><th>Address</th></tr>');
-	//cont.append(form);
+	// var cont = $('#help');
+	// cont.empty();
+	$('#destinationTable').append(
+			'<tr><br><br><th>ID</th><th>Name</th><th>Address</th></tr>');
+	// cont.append(form);
 
-	$.each(d_list, function(index, destination) {
-	
-		var tr = $('<tr></tr>');
-		var form =  $('<td><form class="formsedit" id="form' + destination.idAerodromes
-				+ '"><input name="ident" value=' + destination.idAerodromes
-				+ ' readonly></form></td><td><input name="nameAerodroms" form="form'
-				+ destination.idAerodromes + '" value="' + destination.nameAerodroms
-				+ '"></td><td><input name="address" form="form' + destination.idAerodromes
-				+ '" value="' + destination.address
-				
-				+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
-				+ '" id="bform' + destination.idAerodromes
-				+ '"></td><td><button class="delBtns" id="delBtn' + destination.idAerodromes
-				+ '">Delete</button></td>');
+	$
+			.each(
+					d_list,
+					function(index, destination) {
 
-		tr.append(form);
-		table.append(tr);
-	}
-	
-	);
-	
-	$('.delBtns').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id.substring(6);
-		console.log(iden);
+						var tr = $('<tr></tr>');
+						var form = $('<td><form class="formsedit" id="form'
+								+ destination.idAerodromes
+								+ '"><input name="ident" value='
+								+ destination.idAerodromes
+								+ ' readonly></form></td><td><input name="nameAerodroms" form="form'
+								+ destination.idAerodromes
+								+ '" value="'
+								+ destination.nameAerodroms
+								+ '"></td><td><input name="address" form="form'
+								+ destination.idAerodromes
+								+ '" value="'
+								+ destination.address
 
-		$.ajax({
-			type : 'delete',
-			url : "/destination/" + iden,
-			beforeSend: function (xhr) {
-		        /* Authorization header */
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : function(response) {
-				// alert("Vehicle deleted :)");
-				window.location.href = "homePageAirline.html";
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
+								+ '"></td><td><input type="submit" form="form'
+								+ destination.idAerodromes
+								+ '" id="bform'
+								+ destination.idAerodromes
+								+ '"></td><td><button class="delBtns" id="delBtn'
+								+ destination.idAerodromes
+								+ '">Delete</button></td>');
 
-	});
-	
-	
-	
-	
+						tr.append(form);
+						table.append(tr);
+					}
 
-	
-	$('.formsedit').on('submit', function(e) {
-		e.preventDefault();
-		var iden = this.id;
-		// var formData = getFormData(iden);
+			);
 
-		var formData = {};
-		var s_data = $('#' + this.id).serializeArray();
+	$('.delBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id.substring(6);
+				console.log(iden);
 
-		for (var i = 0; i < s_data.length; i++) {
-			var record = s_data[i];
-			if (record.name === "ident") {
-				formData["id"] = record.value;
-			} else {
-				formData[record.name] = record.value;
-			}
-		}
+				$.ajax({
+					type : 'delete',
+					url : "/destination/" + iden,
+					beforeSend : function(xhr) {
+						/* Authorization header */
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(response) {
+						// alert("Vehicle deleted :)");
+						window.location.href = "homePageAirline.html";
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
 
-		var jsonData = JSON.stringify(formData);
-		$.ajax({
-			type : 'post',
-			url : "/destination/edit",
-			contentType : 'application/json',
-			dataType : 'json',
-			beforeSend: function (xhr) {
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			data : jsonData,
-			success : findDestination,
-			error : function(data) {
-				alert(data);
-			}
-		});
-	});
-	
+			});
+
+	$('.formsedit').on(
+			'submit',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id;
+				// var formData = getFormData(iden);
+
+				var formData = {};
+				var s_data = $('#' + this.id).serializeArray();
+
+				for (var i = 0; i < s_data.length; i++) {
+					var record = s_data[i];
+					if (record.name === "ident") {
+						formData["id"] = record.value;
+					} else {
+						formData[record.name] = record.value;
+					}
+				}
+
+				var jsonData = JSON.stringify(formData);
+				$.ajax({
+					type : 'post',
+					url : "/destination/edit",
+					contentType : 'application/json',
+					dataType : 'json',
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					data : jsonData,
+					success : findDestination,
+					error : function(data) {
+						alert(data);
+					}
+				});
+			});
 
 }
 
-//dodavanje letova
+// dodavanje letova
 
 $(document).on('submit', '#addFlightForm', function(e) {
-	
+
 	e.preventDefault();
-	
+
 	var formData = getFormData("#addFlightForm");
 	var jsonData = JSON.stringify(formData);
 
@@ -186,10 +193,10 @@ $(document).on('submit', '#addFlightForm', function(e) {
 		contentType : "application/json",
 		data : jsonData,
 		dataType : 'json',
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : function(response) {
 			alert("Flight saved :)");
 			window.location.href = "homePageAirline.html";
@@ -201,7 +208,6 @@ $(document).on('submit', '#addFlightForm', function(e) {
 
 });
 
-	
 findFlights();
 
 function findFlights() {
@@ -209,10 +215,10 @@ function findFlights() {
 		type : 'GET',
 		url : "/flights",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillTable1,
 		error : function(data) {
 			alert(data);
@@ -221,8 +227,7 @@ function findFlights() {
 }
 
 function fillTable1(data) {
-	var f_list = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
+	var f_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	var table = $('#tab-flights');
 	$('#tab-flights').empty();
 	$('#tab-flights')
@@ -240,11 +245,11 @@ function fillTable1(data) {
 				+ '" value="' + flight.finalD
 				+ '"></td><td><input name="dateFligh" form="form' + flight.id
 				+ '" value="' + flight.dateFligh
-				+ '"></td><td><input name="dateLand" form="form'
-				+ flight.id + '" value="' + flight.dateLand
-				+ '"></td><td><input name="lengthTravel" form="form' + flight.id
-				+ '" value="' + flight.lengthTravel
-				+ '"></td><td><input name="priceTicket" form="form'+ flight.id
+				+ '"></td><td><input name="dateLand" form="form' + flight.id
+				+ '" value="' + flight.dateLand
+				+ '"></td><td><input name="lengthTravel" form="form'
+				+ flight.id + '" value="' + flight.lengthTravel
+				+ '"></td><td><input name="priceTicket" form="form' + flight.id
 				+ '" value="' + flight.priceTicket
 				+ '"></td><td><button class="delBtns1" id="delBtn' + flight.id
 				+ '">Delete</button></td>');
@@ -253,28 +258,31 @@ function fillTable1(data) {
 	}
 
 	);
-	$('.delBtns1').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id.substring(6);
-		console.log(iden);
+	$('.delBtns1').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id.substring(6);
+				console.log(iden);
 
-		$.ajax({
-			type : 'delete',
-			url : "/flights/" + iden,
-			beforeSend: function (xhr) {
-		        /* Authorization header */
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : function(response) {
-				// alert("Flight deleted :)");
-				window.location.href = "homePageAirline.html";
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
+				$.ajax({
+					type : 'delete',
+					url : "/flights/" + iden,
+					beforeSend : function(xhr) {
+						/* Authorization header */
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(response) {
+						// alert("Flight deleted :)");
+						window.location.href = "homePageAirline.html";
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
 
-	});
+			});
 
 	$('.formsedit').on('submit', function(e) {
 		e.preventDefault();
@@ -299,7 +307,7 @@ function fillTable1(data) {
 			url : "/flights/edit",
 			contentType : 'application/json',
 			dataType : 'json',
-			
+
 			data : jsonData,
 			success : findFlights,
 			error : function(data) {
@@ -309,4 +317,3 @@ function fillTable1(data) {
 	});
 
 }
-

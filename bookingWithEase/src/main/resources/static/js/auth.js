@@ -12,7 +12,7 @@ function removeJwtToken() {
 	localStorage.removeItem(TOKEN_KEY);
 };
 
-function logout(){
+function logout() {
 	localStorage.clear();
 	window.location.replace("index.html");
 }

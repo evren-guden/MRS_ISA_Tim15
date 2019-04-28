@@ -1,7 +1,7 @@
 $(document).on('submit', '#destRegForm', function(e) {
-	
+
 	e.preventDefault();
-	
+
 	var formData = getFormData("#destRegForm");
 	var jsonData = JSON.stringify(formData);
 

@@ -1,30 +1,38 @@
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Add new flight</title>
-		<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
-		<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
-		
-		<link rel="stylesheet" href="css/index.css" />
-		<script type="text/javascript" src="js/util.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
-		<script type="text/javascript" src="js/flights.js"></script>
-	</head>
-	<body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/flights.js"></script>
+
+<link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/navbar.css" />
+
+<title>Add new flight</title>
+
+</head>
+<body>
 	<nav>
-    	<div class="brand">
-      		<h2>Booking With Ease</h2>
-    	</div>
- 		<ul>
-    		<li><a href="javascript:homepage()">Home</li></a>
-    		<li><a href="javascript:util_login()">Log in</li></a>
-    		<li><a href="javascript:registration_clicked()">Register</li></a>
+		<div class="brand">
+			<h2>Booking With Ease</h2>
+		</div>
+		<ul>
+			<li><a href="javascript:homepage()">Home</li>
+			</a>
+			<li><a href="javascript:util_login()">Log in</li>
+			</a>
+			<li><a href="javascript:registration_clicked()">Register</li>
+			</a>
 		</ul>
 	</nav>
-		<h1>Flights</h1>
-		<div class="transbox3">
-		
-		<table border="1" id = "tab-flights">
+	<h1>Flights</h1>
+	<div class="transbox3">
+
+		<table border="1" id="tab-flights">
 			<tr>
 				<th>ID</th>
 				<th>Start destination</th>
@@ -33,12 +41,10 @@
 				<th>Date landing</th>
 				<th>Length travel</th>
 				<th>Price ticket</th>
-				
-				
 			</tr>
 		</table>
 		<div id="help"></div>
-		
+
 	</div>
-	</body>
+</body>
 </html>

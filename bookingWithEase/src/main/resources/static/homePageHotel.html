@@ -3,9 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" href="css/index.css" />
-<link rel="stylesheet" href="css/homepageHotelAdmin.css" />
-
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 
@@ -15,6 +12,10 @@
 <script type="text/javascript" src="js/rooms.js"></script>
 <script type="text/javascript" src="js/hotels.js"></script>
 <script type="text/javascript" src="js/hotelAdmin.js"></script>
+
+<link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/navbar.css" />
+<link rel="stylesheet" href="css/homepageHotelAdmin.css" />
 
 <title>Booking With Ease</title>
 
@@ -45,29 +46,30 @@
 
 	<div id="hotelInfo" class="tabcontent">
 		<div class="container">
-			<h2 align=center style="color: black; font-size:21px;">Hotel info</h2>
-			<table id="hotel_info_table" align="center" style="font-size:19px;">
-		    	<tr style="border-bottom: 1px solid black">
-						<td align="left">Name:</td>
-						<td><p id="hotel_name"></p></td>
-					</tr>
+			<h2 align=center style="color: black; font-size: 21px;">Hotel
+				info</h2>
+			<table id="hotel_info_table" align="center" style="font-size: 19px;">
+				<tr style="border-bottom: 1px solid black">
+					<td align="left">Name:</td>
+					<td><p id="hotel_name"></p></td>
+				</tr>
 
-					<tr style="border-bottom: 1px solid black">
-						<td align="left">Address:</td>
-						<td><p id="hotel_address"></p></td>
-					</tr>
-					<tr style="border-bottom: 1px solid black">
-						<td>Description: &nbsp;</td>
-						<td align="left"><p id="hotel_description">&nbsp;</p></td>
-					</tr>
-					<tr style="border-bottom: 1px solid black">
-						<td align="left">Stars:</td>
-						<td><p id="hotel_stars"></p></td>
-					</tr>
-					<tr>
-						<td align="left">Rating:</td>
-						<td><p id="hotel_rating"></p></td>
-					</tr>
+				<tr style="border-bottom: 1px solid black">
+					<td align="left">Address:</td>
+					<td><p id="hotel_address"></p></td>
+				</tr>
+				<tr style="border-bottom: 1px solid black">
+					<td>Description: &nbsp;</td>
+					<td align="left"><p id="hotel_description">&nbsp;</p></td>
+				</tr>
+				<tr style="border-bottom: 1px solid black">
+					<td align="left">Stars:</td>
+					<td><p id="hotel_stars"></p></td>
+				</tr>
+				<tr>
+					<td align="left">Rating:</td>
+					<td><p id="hotel_rating"></p></td>
+				</tr>
 			</table>
 		</div>
 	</div>
@@ -80,23 +82,26 @@
 
 					<tr>
 						<td align="left">Name:</td>
-						<td><input type="text" name="name" id="edit_hotel_name" required /></td>
+						<td><input type="text" name="name" id="edit_hotel_name"
+							required /></td>
 					</tr>
 
 					<tr>
 						<td align="left">Address:</td>
-						<td><input type="text" name="address" id="edit_hotel_address" required /></td>
+						<td><input type="text" name="address" id="edit_hotel_address"
+							required /></td>
 					</tr>
-						<tr>
+					<tr>
 						<td>Stars: &nbsp;</td>
-						<td><input type="text" name="stars" id="edit_hotel_stars" required /></td>
+						<td><input type="text" name="stars" id="edit_hotel_stars"
+							required /></td>
 					</tr>
 					<tr>
 						<td>Description: &nbsp;</td>
 						<td align="left"><textarea cols="22" rows="5"
-								name="description" id="edit_hotel_description" ></textarea></td>
+								name="description" id="edit_hotel_description"></textarea></td>
 					</tr>
-				
+
 					<tr>
 						<td>&nbsp;</td>
 					</tr>
@@ -119,7 +124,7 @@
 		<div class="container">
 			<h2 align=center style="color: black;">All rooms</h2>
 			<table align="center" id="hotelsTable" border=1>
-			
+
 			</table>
 		</div>
 	</div>
@@ -159,10 +164,6 @@
 				</table>
 
 			</form>
-
-
-
-
 
 		</div>
 	</div>

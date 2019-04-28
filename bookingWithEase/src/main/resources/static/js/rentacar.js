@@ -92,8 +92,8 @@ function fillTable(data) {
 	$
 			.each(
 					rac_list,
-					function(index,rac) {
-						var racDiv = $('<div class="racDiv" id="racDiv_'
+					function(index, rac) {
+						var racDiv = $('<div class="company-div" id="racDiv_'
 								+ counter
 								+ '" style="bottom:'
 								+ (60 - counter * 40)
@@ -111,29 +111,29 @@ function fillTable(data) {
 										+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
 										+ '</div>');
 						racDiv
-						.append('<p style="position: absolute;top:65%;left:25%;">'
-								+ rac.description
-								+ '</p>');
+								.append('<p style="position: absolute;top:65%;left:25%;">'
+										+ rac.description + '</p>');
 						racDiv
 								.append('<div class="guest_ratings"> Guest ratings: '
-										+ (rac.rating == null ? 0
-												: rac.rating) + ' / 5 </div>');
+										+ (rac.rating == null ? 0 : rac.rating)
+										+ ' / 5 </div>');
 						racDiv
-								.append('<button class="show_vehicles_btn" id="showv_' + rac.id + '">Show vehicles</button>');
+								.append('<button class="show_details_btn" id="showv_'
+										+ rac.id + '">Show vehicles</button>');
 
 						counter++;
 						racsDiv.append(racDiv);
 
 					});
 
-	$('.show_vehicles_btn').on('click', function(e) {
+	$('.show_details_btn').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id.substring(6);
 		if (localStorage.getItem("showVeh") === null) {
-			  localStorage.removeItem('showVeh');
-			}
+			localStorage.removeItem('showVeh');
+		}
 		localStorage.setItem('showVeh', iden);
 		window.location.href = "vehicles.html";
 	});
-	
+
 }

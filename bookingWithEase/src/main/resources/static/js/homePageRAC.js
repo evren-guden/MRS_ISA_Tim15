@@ -1,13 +1,14 @@
 findVehicles();
 
-function fillSelect(){
-	$.ajax({ 
+function fillSelect() {
+	$.ajax({
 		type : 'GET',
-		url : "/rentacars/"+ localStorage.getItem("userCompanyId")+"/branchs",
+		url : "/rentacars/" + localStorage.getItem("userCompanyId")
+				+ "/branchs",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillOptions,
 		error : function(data) {
 			alert(data);
@@ -15,28 +16,28 @@ function fillSelect(){
 	});
 }
 
-function fillOptions(data){
-	
-	var opts = data == null ? []
-	: (data instanceof Array ? data : [ data ]);
-	
+function fillOptions(data) {
+
+	var opts = data == null ? [] : (data instanceof Array ? data : [ data ]);
+
 	var select = $(localStorage.getItem('selectId'));
-	
+
 	$.each(opts, function(index, branch) {
 
-		var option = $('<option name="' + branch.id + '" value="' + branch.id + '">' + branch.name + '<option>');
+		var option = $('<option name="' + branch.id + '" value="' + branch.id
+				+ '">' + branch.name + '<option>');
 		select.append(option);
 	});
 	localStorage.removeItem('selectId');
 }
 
 function openDiv(evt, divName) {
-	
-	if(divName === 'addVehicleDiv'){
+
+	if (divName === 'addVehicleDiv') {
 		localStorage.setItem("selectId", '#selectbranch');
 		fillSelect();
 	}
-	
+
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
@@ -105,29 +106,34 @@ $(document).on('submit', '#editVehicleForm', function(e) {
 
 });
 
-$(document).on('submit', '#addBranchForm', function(e) {
+$(document).on(
+		'submit',
+		'#addBranchForm',
+		function(e) {
 
-	e.preventDefault();
+			e.preventDefault();
 
-	var formData = getFormData("#addBranchForm");
-	var jsonData = JSON.stringify(formData);
-	console.log("Token sent " + getJwtToken());
-	$.ajax({
-		url : "/rentacars/" + localStorage.getItem("userCompanyId") + "/branchs",
-		type : "POST",
-		contentType : "application/json",
-		data : jsonData,
-		dataType : 'json',
-		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		},
-		success : findBranchs,
-		error : function(response) {
-			alert("Something went wrong! :(");
-		}
-	});
+			var formData = getFormData("#addBranchForm");
+			var jsonData = JSON.stringify(formData);
+			console.log("Token sent " + getJwtToken());
+			$.ajax({
+				url : "/rentacars/" + localStorage.getItem("userCompanyId")
+						+ "/branchs",
+				type : "POST",
+				contentType : "application/json",
+				data : jsonData,
+				dataType : 'json',
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("Authorization", "Bearer "
+							+ getJwtToken());
+				},
+				success : findBranchs,
+				error : function(response) {
+					alert("Something went wrong! :(");
+				}
+			});
 
-});
+		});
 
 $(document).on('submit', '#editBranchForm', function(e) {
 
@@ -158,15 +164,16 @@ $(document).on('click', '#mybranchsbtn', function(e) {
 });
 
 function findBranchs() {
-	
+
 	$.ajax({
 		type : 'GET',
-		url : "/rentacars/"+ localStorage.getItem("userCompanyId")+"/branchs",
+		url : "/rentacars/" + localStorage.getItem("userCompanyId")
+				+ "/branchs",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillBranchTable,
 		error : function(data) {
 			alert(data);
@@ -175,91 +182,101 @@ function findBranchs() {
 }
 
 function fillBranchTable(data) {
-	var br_list = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
+	var br_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My branchs");
 	$('#branchSearch').empty();
 	var table = $('#branchTable');
 	$('#branchTable').empty();
-	$('#branchTable')
-			.append(
-					'<tr><th>Id</th><th>Name</th><th>Address</th></tr>');
+	$('#branchTable').append(
+			'<tr><th>Id</th><th>Name</th><th>Address</th></tr>');
 
-	$.each(br_list, function(index, branch) {
+	$
+			.each(
+					br_list,
+					function(index, branch) {
 
-		var tr = $('<tr></tr>');
-		var form = $('<td>' + branch.id + '</td><td>' + branch.name
-				+ '</td><td>' + branch.address
-				+ '</td><td><button class="beditBtns" id="beditbtn' + branch.id
-				+ '">Edit</button></td><td><button class="bdelBtns" id="bdelBtn' + branch.id
-				+ '">Delete</button></td>');
-		tr.append(form);
-		table.append(tr);
-	}
-	);
+						var tr = $('<tr></tr>');
+						var form = $('<td>'
+								+ branch.id
+								+ '</td><td>'
+								+ branch.name
+								+ '</td><td>'
+								+ branch.address
+								+ '</td><td><button class="beditBtns" id="beditbtn'
+								+ branch.id
+								+ '">Edit</button></td><td><button class="bdelBtns" id="bdelBtn'
+								+ branch.id + '">Delete</button></td>');
+						tr.append(form);
+						table.append(tr);
+					});
 
-	$('.bdelBtns').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id.substring(7);
-		console.log(iden);
+	$('.bdelBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id.substring(7);
+				console.log(iden);
 
-		$.ajax({
-			type : 'delete',
-			url : "/branchs/" + iden,
-			beforeSend: function (xhr) {
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : function(response) {
-				findBranchs();
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
+				$.ajax({
+					type : 'delete',
+					url : "/branchs/" + iden,
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(response) {
+						findBranchs();
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
 
-	});
+			});
 
-	$('.beditBtns').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id;
-		openDiv(event, 'editBranchDiv');
-		localStorage.setItem("editBranchId", iden);
+	$('.beditBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id;
+				openDiv(event, 'editBranchDiv');
+				localStorage.setItem("editBranchId", iden);
 
-		$.ajax({
-			type : 'GET',
-			url : "/branchs/"+ iden.substring(8),
-			dataType : "json",
-			beforeSend: function (xhr) {
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : function(data){
-				$('#editIdBr').val(data.id);
-				$('#editNameBr').val(data.name);
-				$('#editAddrBr').val(data.address);
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
-		
-	});
+				$.ajax({
+					type : 'GET',
+					url : "/branchs/" + iden.substring(8),
+					dataType : "json",
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(data) {
+						$('#editIdBr').val(data.id);
+						$('#editNameBr').val(data.name);
+						$('#editAddrBr').val(data.address);
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
+
+			});
 
 }
-
 
 $(document).on('click', '#myvehiclesbtn', function(e) {
 	findVehicles();
 });
 
 function findVehicles() {
-	
+
 	$.ajax({
 		type : 'GET',
 		url : "/vehicles",
 		dataType : "json",
-		beforeSend: function (xhr) {
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
 		success : fillVehicleTable,
 		error : function(data) {
 			alert(data);
@@ -268,8 +285,7 @@ function findVehicles() {
 }
 
 function fillVehicleTable(data) {
-	var vh_list = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
+	var vh_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My Vehicles");
 	$('#branchSearch').empty();
 	var select = $('<select id="selectBranchSearch"><option> </option></select>')
@@ -277,93 +293,110 @@ function fillVehicleTable(data) {
 	$('#branchSearch').append(select);
 	localStorage.setItem("selectId", '#selectBranchSearch')
 	fillSelect();
-	
-	$('#selectBranchSearch').change(function(){ 
-	    var value = $(this).val();
-	    if(! $.trim(value)){
-	    	findVehicles();
-	    }else{
-	    	$.ajax({ 
-	    		type : 'GET',
-	    		url : "/branchs/"+ value+"/vehicles",
-	    		dataType : "json",
-	    		beforeSend: function (xhr) {
-	    	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    	    },
-	    		success : fillVehicleTable,
-	    		error : function(data) {
-	    			alert(data);
-	    		}
-	    	});
-	    }
-	});
-	
+
+	$('#selectBranchSearch').change(
+			function() {
+				var value = $(this).val();
+				if (!$.trim(value)) {
+					findVehicles();
+				} else {
+					$.ajax({
+						type : 'GET',
+						url : "/branchs/" + value + "/vehicles",
+						dataType : "json",
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader("Authorization", "Bearer "
+									+ getJwtToken());
+						},
+						success : fillVehicleTable,
+						error : function(data) {
+							alert(data);
+						}
+					});
+				}
+			});
+
 	var table = $('#branchTable');
 	$('#branchTable').empty();
 	$('#branchTable')
 			.append(
 					'<tr><th>Id</th><th>Registration number</th><th>Type</th><th>Gear</th><th>Color</th></tr>');
 
-	$.each(vh_list, function(index, vehicle) {
+	$
+			.each(
+					vh_list,
+					function(index, vehicle) {
 
-		var tr = $('<tr></tr>');
-		var form = $('<td>' + vehicle.id + '</td><td>' + vehicle.registrationNumber
-				+ '</td><td>' + vehicle.type
-				+ '</td><td>' + vehicle.gear
-				+ '</td><td>' + vehicle.color
-				+ '</td><td><button class="veditBtns" id="veditbtn' + vehicle.id
-				+ '">Edit</button></td><td><button class="vdelBtns" id="vdelBtn' + vehicle.id
-				+ '">Delete</button></td>');
-		tr.append(form);
-		table.append(tr);
-	}
-	);
+						var tr = $('<tr></tr>');
+						var form = $('<td>'
+								+ vehicle.id
+								+ '</td><td>'
+								+ vehicle.registrationNumber
+								+ '</td><td>'
+								+ vehicle.type
+								+ '</td><td>'
+								+ vehicle.gear
+								+ '</td><td>'
+								+ vehicle.color
+								+ '</td><td><button class="veditBtns" id="veditbtn'
+								+ vehicle.id
+								+ '">Edit</button></td><td><button class="vdelBtns" id="vdelBtn'
+								+ vehicle.id + '">Delete</button></td>');
+						tr.append(form);
+						table.append(tr);
+					});
 
-	$('.vdelBtns').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id.substring(7);
-		console.log(iden);
+	$('.vdelBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id.substring(7);
+				console.log(iden);
 
-		$.ajax({
-			type : 'delete',
-			url : "/vehicles/" + iden,
-			beforeSend: function (xhr) {
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : function(response) {
-				findVehicles();
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
+				$.ajax({
+					type : 'delete',
+					url : "/vehicles/" + iden,
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(response) {
+						findVehicles();
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
 
-	});
+			});
 
-	$('.veditBtns').on('click', function(e) {
-		e.preventDefault();
-		var iden = this.id;
-		openDiv(event, 'editVehicleDiv');
+	$('.veditBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id;
+				openDiv(event, 'editVehicleDiv');
 
-		$.ajax({
-			type : 'GET',
-			url : "/vehicles/"+ iden.substring(8),
-			dataType : "json",
-			beforeSend: function (xhr) {
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : function(data){
-				$('#editIdVh').val(data.id);
-				$('#editRegVh').val(data.registrationNumber);
-				$('#editTypeVh').val(data.type);
-				$('#editGearVh').val(data.gear);
-				$('#editColorVh').val(data.color);
-			},
-			error : function(data) {
-				alert(data);
-			}
-		});
-		
-	});
+				$.ajax({
+					type : 'GET',
+					url : "/vehicles/" + iden.substring(8),
+					dataType : "json",
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(data) {
+						$('#editIdVh').val(data.id);
+						$('#editRegVh').val(data.registrationNumber);
+						$('#editTypeVh').val(data.type);
+						$('#editGearVh').val(data.gear);
+						$('#editColorVh').val(data.color);
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
+
+			});
 
 }

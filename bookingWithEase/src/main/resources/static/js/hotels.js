@@ -65,7 +65,6 @@ function getHotels() {
 	});
 }
 
-
 getRooms(100);
 
 function getRooms(hotelId) {
@@ -126,7 +125,7 @@ function fillTable(data) {
 							stars_str += '<img class="star" src="../images/hotel_star.png" height = 17 width= 18 style="top:15%; left:'
 									+ (120 + i * 30) + '%;" >';
 						}
-						var hotelDiv = $('<div class="hotel-div" id="hotel-div-"'
+						var hotelDiv = $('<div class="company-div" id="hotel-div-"'
 								+ counter
 								+ ' style="bottom:'
 								+ (60 - counter * 40)
@@ -148,25 +147,24 @@ function fillTable(data) {
 										+ (hotel.rating == null ? 0
 												: hotel.rating) + ' / 5 </div>');
 						hotelDiv
-								.append('<button class="show_rooms_btn" id="showr_' + hotel.id + '">Show rooms</button>');
+								.append('<button class="show_details_btn" id="showr_'
+										+ hotel.id + '">Show rooms</button>');
 
 						counter++;
 						hotelsDiv.append(hotelDiv);
 
 					});
-	
-	$('.show_rooms_btn').on('click', function(e)
-	{
+
+	$('.show_details_btn').on('click', function(e) {
 		e.preventDefault();
-	
+
 		var iden = this.id.substring(6);
 		if (localStorage.getItem("showRooms") === null) {
-			  localStorage.removeItem('showRooms');
-			}
+			localStorage.removeItem('showRooms');
+		}
 		localStorage.setItem('showRooms', iden);
 		window.location.href = "rooms.html";
 	});
-	
 
 	$('.roomsBtn').on('click', function(e) {
 		e.preventDefault();

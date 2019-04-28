@@ -11,14 +11,14 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 function registration() {
 	var formData = getFormData("#addRoomForm");
 	formData['hotelId'] = sessionStorage.getItem('hotelId');
-	
+
 	formData['hotelId'] = 100;
 
 	var validData = Boolean(validateNewRoomData(formData));
-    
+
 	if (validData) {
 		var jsonData = JSON.stringify(formData);
-        console.log(formData);
+		console.log(formData);
 		$.ajax({
 			url : "/hotels/" + formData['hotelId'] + "/rooms",
 			type : "POST",
@@ -34,66 +34,55 @@ function registration() {
 			}
 		});
 	} else {
-		
+
 	}
 }
 
-function validateNewRoomData(formData)
-{	
+function validateNewRoomData(formData) {
 	var roomNumber = formData["roomNumber"];
 	var floorNumber = formData["floorNumber"];
 	var capacity = formData["capacity"];
 	var pricePerNight = formData["pricePerNight"];
-	
-	if(roomNumber === "")
-	{
+
+	if (roomNumber === "") {
 		alert("Please enter a room number");
 		return false;
 	}
-	if(!isInt(roomNumber))
-	{
+	if (!isInt(roomNumber)) {
 		alert("Please enter a valid number for room number");
 		return false;
 	}
-	if (floorNumber === "")
-	{
+	if (floorNumber === "") {
 		alert("Please enter a floor number");
 		return false;
 	}
-	if(!isInt(floorNumber))
-	{
+	if (!isInt(floorNumber)) {
 		alert("Please enter a valid number for floor number");
 		return false;
 	}
-	if(capacity === "")
-	{
+	if (capacity === "") {
 		alert("Please enter a capacity");
 		return false;
 	}
-	if(!isInt(capacity))
-	{
+	if (!isInt(capacity)) {
 		alert("Please enter a valid number for capacity");
 		return false;
 	}
-	if(!isDouble(pricePerNight))
-	{
+	if (!isDouble(pricePerNight)) {
 		alert("Please enter a valid price");
 		return false;
 	}
-	
+
 	return true;
-	
+
 }
 
-function isInt(value) 
-{
-    var er = /^-?[0-9]+$/;
-    return er.test(value);
-}
-
-function isDouble(value)
-{
-	var er = /^[+-]?\d+(\.\d+)?$/;
+function isInt(value) {
+	var er = /^-?[0-9]+$/;
 	return er.test(value);
 }
 
+function isDouble(value) {
+	var er = /^[+-]?\d+(\.\d+)?$/;
+	return er.test(value);
+}

@@ -1,10 +1,8 @@
 $(document).ready(function() {
-    getUsers();
+	getUsers();
 });
 
-
-function getUsers()
-{
+function getUsers() {
 	$.ajax({
 		url : "/users",
 		type : "GET",
@@ -17,30 +15,26 @@ function getUsers()
 }
 
 function fillTable(data) {
-	var users = data == null ? []
-			: (data instanceof Array ? data : [ data ]);
+	var users = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#usersTable').empty();
-	$('#usersTable').append('<tr><th>Username</th><th>First name</th><th>Last name</th><th>Email</th><th>User type</th></tr>');
+	$('#usersTable')
+			.append(
+					'<tr><th>Username</th><th>First name</th><th>Last name</th><th>Email</th><th>User type</th></tr>');
 	$.each(users, function(index, user) {
 
 		var tr = $('<tr></tr>');
-		tr.append('<td>' + user.username + '</td>' + '<td>'
-				+ user.firstName + '</td>' + '<td>'
-				+ user.lastName + '</td>' + '<td>'
+		tr.append('<td>' + user.username + '</td>' + '<td>' + user.firstName
+				+ '</td>' + '<td>' + user.lastName + '</td>' + '<td>'
 				+ user.email + '</td>');
-		
-		if(user.type == undefined)
-		{
+
+		if (user.type == undefined) {
 			tr.append('<td>' + 'registered user' + '</td>');
-		}
-		else if(user.type !== null)
-		{
+		} else if (user.type !== null) {
 			tr.append('<td>' + user.type.toLowerCase() + ' admin' + '</td>');
-		}else
-		{
+		} else {
 			tr.append('<td>' + ' registered user' + '</td>');
 		}
-		
+
 		$('#usersTable').append(tr);
 
 	});

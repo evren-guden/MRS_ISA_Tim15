@@ -101,7 +101,7 @@ function fillTable(data) {
 			.each(
 					air_list,
 					function(index,air) {
-						var airDiv = $('<div class="airDiv" id="airDiv_'
+						var airDiv = $('<div class="company-div" id="airDiv_'
 								+ counter
 								+ '" style="bottom:'
 								+ (60 - counter * 40)
@@ -123,7 +123,7 @@ function fillTable(data) {
 										+ (air.rating == null ? 0
 												: air.rating) + ' / 5 </div>');
 						airDiv
-						.append('<button id="show_flights_btn">Show flights</button>');
+						.append('<button class="show_details_btn">Show flights</button>');
 						
 
 						counter++;
