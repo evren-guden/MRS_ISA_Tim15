@@ -9,6 +9,30 @@ $(document).on('click', '.new_room', function(e) {
 
 });
 
+$(document).on('click', '#edit_room_btn', function(e) {
+	e.preventDefault();
+
+	var formData = getFormData('#editRoomForm');
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var roomId = localStorage.getItem('updateRoomId');
+	formData["id"] = roomId;
+	formData["hotelId"] = currentUser.company.id;
+	var jsonData = JSON.stringify(formData);	
+	
+	updateRoom(currentUser.company.id, roomId, jsonData, function() {
+		alert("Saved :)");
+		getRooms(currentUser.company.id);
+		openCity(event, 'allRooms');
+	});
+
+});
+
+$(document).on('click', '#cancel_edit_room_btn', function(e) {
+	e.preventDefault();
+	openCity(event, 'allRooms');
+
+});
+
 function showRooms(data) {
 	var hotelId = sessionStorage.getItem('hotelId');
 	var rooms = data == null ? [] : (data instanceof Array ? data : [ data ]);
@@ -18,15 +42,20 @@ function showRooms(data) {
 	$('#hotelsTable').empty();
 	$('#hotelsTable')
 			.append(
-					'<tr><th>Id</th><th>Room number</th><th>Floor</th><th>Capacity</th><th>Price per night</th></tr>');
+					'<tr><th>Id</th><th>Room number</th><th>Floor</th><th>Capacity</th><th>Price per night</th><th>&nbsp;</th><th>&nbsp;</th></tr>');
 
 	$.each(rooms, function(index, room) {
+		localStorage.setItem("room_" + room.id, JSON.stringify(room));
 
 		var tr = $('<tr></tr>');
-		var roomTr = $('<td>' + room.id + '</td>' + '<td>' + room.roomNumber
-				+ '</td>' + '<td>' + room.floorNumber + '</rd>' + '<td>'
-				+ room.capacity + '</td>' + '<td>' + room.pricePerNight
-				+ '</td>');
+		var roomTr = $('<td>' + room.id + '</td>' + '<td id="troom_' + room.id
+				+ '">' + room.roomNumber + '</td>' + '<td>' + room.floorNumber
+				+ '</rd>' + '<td>' + room.capacity + '</td>' + '<td>'
+				+ room.pricePerNight
+				+ '</td><td><button class="edit_room_btn" id="edit_room_'
+				+ room.id + '">Edit</button></td>'
+				+ '</td><td><button class="delete_room_btn" id="delete_room_'
+				+ room.id + '">Delete</button></td>');
 
 		tr.append(roomTr);
 		$('#hotelsTable').append(tr);
@@ -35,6 +64,37 @@ function showRooms(data) {
 	$('#hotelsDiv').append(
 			'<input type="button" class="new_room" id="' + hotelId
 					+ '"name="new_room" value = "New room" align="center">');
+
+	$('.delete_room_btn').on('click', function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var roomId = this.id.substring(12);
+		var hotelId = currentUser.company.id;
+
+		deleteRoom(hotelId, roomId, function() {
+			getRooms(hotelId);
+			alert("Room deleted!");
+		});
+	});
+
+	$('.edit_room_btn').on('click', function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var roomId = this.id.substring(10);
+		var hotelId = currentUser.company.id;
+		openCity(event, 'editRoom');
+
+		var room = JSON.parse(localStorage.getItem('room_' + roomId));
+		localStorage.setItem("updateRoomId", roomId);
+
+		$('#room_number').val(room.roomNumber);
+		$('#floor_number').val(room.floorNumber);
+		$('#room_capacity').val(room.capacity);
+		$('#price_per_night').val(room.pricePerNight);
+
+	});
 
 }
 
@@ -55,7 +115,7 @@ function getHotels(successFunction) {
 }
 
 var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-if(currentUser != null)
+if (currentUser != null)
 	getRooms(currentUser.company.id);
 
 function getRooms(hotelId) {
@@ -151,7 +211,7 @@ function fillHotelsTable(data) {
 		e.preventDefault();
 
 		var iden = this.id.substring(6);
-		
+
 		if (localStorage.getItem("showRooms") === null) {
 			localStorage.removeItem('showRooms');
 		}

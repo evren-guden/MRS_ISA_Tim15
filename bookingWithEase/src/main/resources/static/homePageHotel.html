@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" href="css/index.css" />
 <link rel="stylesheet" href="css/navbar.css" />
+<link rel="stylesheet" href="css/table.css" />
 <link rel="stylesheet" href="css/homepageHotelAdmin.css" />
 
 <title>Booking With Ease</title>
@@ -131,7 +132,7 @@
 
 	<div id="addRoom" class="tabcontent">
 		<div class="container">
-			<h2 align=center style="color: black;">Add room</h2>
+			<h2 id="add_room_h2" align=center style="color: black">Add room</h2>
 
 
 			<form id="addRoomForm">
@@ -142,7 +143,7 @@
 					</tr>
 
 					<tr>
-						<td align="left">Floor number:</td>
+						<td  align="left">Floor number:</td>
 						<td><input type="text" name="floorNumber" required /></td>
 					</tr>
 					<tr>
@@ -158,6 +159,45 @@
 						<td align="right"><input class="formBtn" type="submit"
 							id="addNewRoom" value="Add new"> <input class="formBtn"
 							type="button" id="cancelNewRoom" name="cancelNewRoom"
+							value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
+		</div>
+	</div>
+	
+	<div id="editRoom" class="tabcontent">
+		<div class="container">
+			<h2 id="add_room_h2" align=center style="color: black">Edit room</h2>
+
+
+			<form id="editRoomForm">
+				<table align="center">
+					<tr>
+						<td align="left">Room number:</td>
+						<td><input  id="room_number" type="text" name="roomNumber" /></td>
+					</tr>
+
+					<tr>
+						<td  align="left">Floor number:</td>
+						<td><input id="floor_number" type="text" name="floorNumber" required /></td>
+					</tr>
+					<tr>
+						<td align="left">Capacity:</td>
+						<td><input id="room_capacity" type="text" name="capacity" required /></td>
+					</tr>
+					<tr>
+						<td align="left">Price per night:</td>
+						<td><input id="price_per_night" type="text" name="pricePerNight" required /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="submit"
+							id="edit_room_btn" value="Save"> <input class="formBtn"
+							type="button" id="cancel_edit_room_btn" name="cancelNewRoom"
 							value="Cancel"></td>
 					</tr>
 

@@ -1,6 +1,6 @@
 $(document).on('click', '#addNewRoom', function(e) {
 	e.preventDefault();
-	registration();
+	roomRegistration();
 });
 
 $(document).on('click', '#cancelNewRoom', function(e) {
@@ -8,7 +8,7 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 	window.location.href = "hotels.html";
 });
 
-function registration() {
+function roomRegistration() {
 	var formData = getFormData("#addRoomForm");
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -36,6 +36,44 @@ function registration() {
 	} else {
 
 	}
+}
+
+function deleteRoom(hotelId, roomId, callback)
+{	
+
+	$.ajax({
+		type : 'delete',
+		url : "/hotels/" + hotelId + "/rooms/" + roomId,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer "
+					+ getJwtToken());
+		},
+		success : callback,
+		error : function(data) {
+			alert(data);
+		}
+	});
+	
+}
+
+function updateRoom(hotelId, roomId, jsonData, callback )
+{
+	$.ajax({
+		type : 'put',
+		url : "/hotels/" + hotelId + "/rooms/" + roomId,
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer "
+					+ getJwtToken());
+		},
+		success : callback,
+		error : function(data) {
+			alert(data);
+		}
+	});
+	
 }
 
 function validateNewRoomData(formData) {
