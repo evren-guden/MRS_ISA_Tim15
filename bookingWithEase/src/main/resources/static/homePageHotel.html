@@ -43,6 +43,10 @@
 			rooms</button>
 		<button class="tablinks" onclick="openCity(event, 'addRoom')">Add
 			room</button>
+		<button class="tablinks" id= "special_offers_btn" onclick="openCity(event, 'allSpecialOffers')">Special
+			offers</button>
+		<button class="tablinks" onclick="openCity(event, 'addSpecialOffer')">Add
+			special offer</button>
 	</div>
 
 	<div id="hotelInfo" class="tabcontent">
@@ -124,7 +128,7 @@
 	<div id="allRooms" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black;">All rooms</h2>
-			<table align="center" id="hotelsTable" border=1>
+			<table align="center" class="hotelsTable" id="hotelsTable" border=1>
 
 			</table>
 		</div>
@@ -143,7 +147,7 @@
 					</tr>
 
 					<tr>
-						<td  align="left">Floor number:</td>
+						<td align="left">Floor number:</td>
 						<td><input type="text" name="floorNumber" required /></td>
 					</tr>
 					<tr>
@@ -168,7 +172,7 @@
 
 		</div>
 	</div>
-	
+
 	<div id="editRoom" class="tabcontent">
 		<div class="container">
 			<h2 id="add_room_h2" align=center style="color: black">Edit room</h2>
@@ -178,20 +182,23 @@
 				<table align="center">
 					<tr>
 						<td align="left">Room number:</td>
-						<td><input  id="room_number" type="text" name="roomNumber" /></td>
+						<td><input id="room_number" type="text" name="roomNumber" /></td>
 					</tr>
 
 					<tr>
-						<td  align="left">Floor number:</td>
-						<td><input id="floor_number" type="text" name="floorNumber" required /></td>
+						<td align="left">Floor number:</td>
+						<td><input id="floor_number" type="text" name="floorNumber"
+							required /></td>
 					</tr>
 					<tr>
 						<td align="left">Capacity:</td>
-						<td><input id="room_capacity" type="text" name="capacity" required /></td>
+						<td><input id="room_capacity" type="text" name="capacity"
+							required /></td>
 					</tr>
 					<tr>
 						<td align="left">Price per night:</td>
-						<td><input id="price_per_night" type="text" name="pricePerNight" required /></td>
+						<td><input id="price_per_night" type="text"
+							name="pricePerNight" required /></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
@@ -199,6 +206,56 @@
 							id="edit_room_btn" value="Save"> <input class="formBtn"
 							type="button" id="cancel_edit_room_btn" name="cancelNewRoom"
 							value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
+		</div>
+	</div>
+
+	<div id="allSpecialOffers" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All special offers</h2>
+			<table align="center" id="specialOffersTable" class="hotelsTable" border=1>
+
+			</table>
+		</div>
+	</div>
+
+	<div id="addSpecialOffer" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black">Add special offer</h2>
+
+
+			<form id="addSpecialOfferForm">
+				<table align="center">
+					<tr>
+						<td align="left">Name:</td>
+						<td><input type="text" name="name" /></td>
+					</tr>
+
+					<tr>
+						<td align="left">Description:</td>
+						<td align="left"><textarea cols="22" rows="5"
+								name="description" id="special_offer_description"></textarea></td>
+					</tr>
+					<tr>
+						<td align="left">Additional payment:</td>
+						<td><input type="text" name="price" /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right">
+						<input class="formBtn" type="button"
+							id="addSpecialOfferBtn" value="Add new"> 
+						<input
+							class="formBtn" type="button" id="cancelSpecialOfferBtn"
+							name="cancelSpecialOffer" value="Cancel"></td>
 					</tr>
 
 				</table>

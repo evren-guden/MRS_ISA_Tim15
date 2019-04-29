@@ -37,8 +37,6 @@ function showRooms(data) {
 	var hotelId = sessionStorage.getItem('hotelId');
 	var rooms = data == null ? [] : (data instanceof Array ? data : [ data ]);
 
-	$('#div-show-search').hide();
-	$('#div-hotels-search').hide();
 	$('#hotelsTable').empty();
 	$('#hotelsTable')
 			.append(

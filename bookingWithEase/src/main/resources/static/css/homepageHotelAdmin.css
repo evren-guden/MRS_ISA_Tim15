@@ -95,25 +95,25 @@ div.transbox {
 	border-collapse: collapse;
 }
 
-#hotelsTable{
+.hotelsTable{
 	border-collapse: collapse;
 	width: 80%;
 }
 
-#hotelsTable th, #hotelsTable td {
+.hotelsTable th, #hotelsTable td {
 	text-align: left;
 	padding: 8px;
 }
 
-#hotelsTable tr:nth-child(even) {
+.hotelsTable tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 
-#hotelsTable tr:hover {
+.hotelsTable tr:hover {
 	background-color: #ddd;
 }
 
-#hotelsTable th {
+.hotelsTable th {
 	padding-top: 12px;
 	padding-bottom: 12px;
 	text-align: left;

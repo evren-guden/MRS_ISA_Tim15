@@ -23,15 +23,20 @@ import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.dto.RoomDTO;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.Hotel;
+import rs.travel.bookingWithEase.model.HotelSpecialOffer;
 import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.service.CompanyService;
 import rs.travel.bookingWithEase.service.HotelService;
+import rs.travel.bookingWithEase.service.HotelSpecialOfferService;
 import rs.travel.bookingWithEase.service.RoomService;
 
 @RestController
 @RequestMapping(value = "/hotels")
 public class HotelController {
-
+	
+	@Autowired
+	private CompanyService companyService;
+	
 	@Autowired
 	private HotelService hotelService;
 
@@ -39,7 +44,7 @@ public class HotelController {
 	private RoomService roomService;
 
 	@Autowired
-	private CompanyService companyService;
+	private HotelSpecialOfferService specialOfferService;
 
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@GetMapping("/secured/all")
@@ -52,8 +57,8 @@ public class HotelController {
 
 		return hotelService.findAll();
 	}
-	
-	@GetMapping(value="/{hotelId}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@GetMapping(value = "/{hotelId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Hotel findById(@PathVariable("hotelId") Long id) throws JsonProcessingException {
 
 		return hotelService.findById(id);
@@ -136,4 +141,33 @@ public class HotelController {
 		return new ResponseEntity<Collection<Hotel>>(services, HttpStatus.OK);
 	}
 
+	// *************** SPECIAL OFFERS ************
+
+	@GetMapping(value = "/{hotelId}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<HotelSpecialOffer> getSpecialOffers(@PathVariable("hotelId") Long id)
+			throws JsonProcessingException {
+
+		return hotelService.findById(id).getSpecialOffers();
+	}
+
+	@PostMapping(value = "/{hotelId}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<HotelSpecialOffer> addSpecialOffer(@PathVariable("hotelId") Long id,
+			@RequestBody HotelSpecialOffer hotelSpecialOffer) {
+		
+		HotelSpecialOffer newHSO = null;
+		try {
+			newHSO = specialOfferService.save(hotelSpecialOffer);
+			System.out.println("\n\nHotel service id: " + newHSO.getId());
+			Hotel hotel = hotelService.findById(id);
+			hotel.getSpecialOffers().add(newHSO);
+			hotelService.save(hotel);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<HotelSpecialOffer>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<HotelSpecialOffer>(newHSO, HttpStatus.OK);
+
+	}
 }
