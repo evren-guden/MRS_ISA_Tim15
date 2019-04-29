@@ -63,6 +63,10 @@ $(document).on('submit', '#addVehicleForm', function(e) {
 	var jsonData = JSON.stringify(formData);
 	console.log("Token sent " + getJwtToken());
 	var iden = $('#selectbranch').val();
+	if (iden === ""){
+		alert ('branch null');
+		return;
+	}
 	$.ajax({
 		url : "/branchs/" + iden + "/vehicles",
 		type : "POST",
@@ -72,12 +76,21 @@ $(document).on('submit', '#addVehicleForm', function(e) {
 		beforeSend : function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : function(response) {
+		success : function(response, HttpStatus) {
+			console.log(HttpStatus);
 			findVehicles();
 		},
-		error : function(response) {
-			alert("Something went wrong! :(");
-		}
+		statusCode: {
+		    409: function() {
+		        alert('Already exists');
+		    },
+		    422: function() {
+		        alert('Please enter all required fields');
+		    },
+			500: function() {
+		        alert('Internal server error');
+		    }
+		},
 	});
 
 });

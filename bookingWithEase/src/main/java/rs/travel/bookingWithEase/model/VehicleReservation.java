@@ -22,8 +22,8 @@ public class VehicleReservation {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Vehicle vehicle;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private RegisteredUser user;
+	@ManyToOne
+	private RegisteredUser vehicle_user;
 
 	private Date checkInDate;
 	private Date checkOutDate;
@@ -41,11 +41,11 @@ public class VehicleReservation {
 	}
 
 	public RegisteredUser getUser() {
-		return user;
+		return vehicle_user;
 	}
 
-	public void setUser(RegisteredUser user) {
-		this.user = user;
+	public void setUser(RegisteredUser vehicle_user) {
+		this.vehicle_user = vehicle_user;
 	}
 
 	public Date getCheckInDate() {

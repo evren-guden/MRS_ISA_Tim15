@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import rs.travel.bookingWithEase.model.Vehicle;
+import rs.travel.bookingWithEase.model.VehicleReservation;
 import rs.travel.bookingWithEase.service.VehicleService;
 
 @Controller
@@ -38,7 +39,17 @@ public class VehicleController {
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vehicle> create(@RequestBody Vehicle vehicle) {
+		
+		if(vehicle.getRegistrationNumber().trim().equals("") || vehicle.getRegistrationNumber() == null) {
+			return new ResponseEntity<Vehicle>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		if(vehicleService.findByRegNumber(vehicle.getRegistrationNumber()) != null) {
+			return new ResponseEntity<Vehicle>(HttpStatus.CONFLICT);
+		}
+		
 		Vehicle veh = null;
+		
 		try {
 			veh = vehicleService.save(vehicle);
 		} catch (Exception e) {
@@ -91,5 +102,12 @@ public class VehicleController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping(value = "/{id}/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<VehicleReservation>> getMyReservations(@PathVariable("id") Long id) {
+		Optional<Vehicle> vehicle = vehicleService.findOne(id);
+
+		return new ResponseEntity<Collection<VehicleReservation>>(vehicle.get().getVehicleReservations(), HttpStatus.OK);
 	}
 }

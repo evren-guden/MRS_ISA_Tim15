@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/rentacars/search").permitAll()
 			.antMatchers("/branchs").permitAll()
 			.antMatchers("/rentacars/{id}/vehicles").permitAll()
+			.antMatchers("/vehicles/{id}/reservations").permitAll()
 			.antMatchers("/airlines").permitAll()
 			.antMatchers("/hotels").permitAll()
 			.antMatchers("/hotels/{id}").permitAll()
@@ -86,8 +87,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/images/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars");
-		web.ignoring().antMatchers("/branchs");
+		web.ignoring().antMatchers(HttpMethod.GET, "/branchs");
 		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/{id}/vehicles");
+		web.ignoring().antMatchers(HttpMethod.GET, "/vehicles/{id}/reservations");
 		web.ignoring().antMatchers(HttpMethod.GET, "/airlines");
 		web.ignoring().antMatchers(HttpMethod.GET, "/hotels");
 		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/search");

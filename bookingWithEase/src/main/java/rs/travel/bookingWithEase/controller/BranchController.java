@@ -76,6 +76,14 @@ public class BranchController {
 	@PostMapping(value = "/{id}/vehicles", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vehicle> addVehicle(@PathVariable("id") Long id, @RequestBody Vehicle vehicle) {
 
+		if(vehicle.getRegistrationNumber().trim().equals("") || vehicle.getRegistrationNumber() == null) {
+			return new ResponseEntity<Vehicle>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		if(vehicleService.findByRegNumber(vehicle.getRegistrationNumber()) != null) {
+			return new ResponseEntity<Vehicle>(HttpStatus.CONFLICT);
+		}
+		
 		Optional<Branch> branch = branchService.findOne(id);
 		branch.get().addVehicle(vehicle);
 		vehicle.setBranch(branch.get());

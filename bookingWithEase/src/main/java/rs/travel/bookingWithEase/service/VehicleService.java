@@ -31,4 +31,7 @@ public class VehicleService {
 		vehicleRepository.deleteById(id);
 	}
 
+	public Vehicle findByRegNumber(String regNumber) {
+		return vehicleRepository.findByRegistrationNumber(regNumber);
+	}
 }
