@@ -43,8 +43,8 @@
 			rooms</button>
 		<button class="tablinks" onclick="openCity(event, 'addRoom')">Add
 			room</button>
-		<button class="tablinks" id= "special_offers_btn" onclick="openCity(event, 'allSpecialOffers')">Special
-			offers</button>
+		<button class="tablinks" id="special_offers_btn"
+			onclick="openCity(event, 'allSpecialOffers')">Special offers</button>
 		<button class="tablinks" onclick="openCity(event, 'addSpecialOffer')">Add
 			special offer</button>
 	</div>
@@ -218,7 +218,8 @@
 	<div id="allSpecialOffers" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black;">All special offers</h2>
-			<table align="center" id="specialOffersTable" class="hotelsTable" border=1>
+			<table align="center" id="specialOffersTable" class="hotelsTable"
+				border=1>
 
 			</table>
 		</div>
@@ -250,12 +251,48 @@
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
-						<td align="right">
-						<input class="formBtn" type="button"
-							id="addSpecialOfferBtn" value="Add new"> 
-						<input
+						<td align="right"><input class="formBtn" type="button"
+							id="addSpecialOfferBtn" value="Add new"> <input
 							class="formBtn" type="button" id="cancelSpecialOfferBtn"
 							name="cancelSpecialOffer" value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
+		</div>
+	</div>
+
+	<div id="editSpecialOffer" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black">Edit special offer</h2>
+
+			<form id="editSpecialOfferForm">
+				<table align="center">
+					<tr>
+						<td align="left">Name:</td>
+						<td><input type="text" id="so_name" name="name" /></td>
+					</tr>
+
+					<tr>
+						<td align="left">Description:</td>
+						<td align="left"><textarea cols="22" rows="5"
+								name="description" id="so_description"></textarea></td>
+					</tr>
+					<tr>
+						<td align="left">Additional payment:</td>
+						<td><input type="text" id="so_price" name="price" /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+					    <td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="submit"
+							id="edit_so_btn" value="Save"> <input class="formBtn"
+							type="button" id="cancel_so_btn" name="cancelEditSo"
+							value="Cancel"></td>
 					</tr>
 
 				</table>

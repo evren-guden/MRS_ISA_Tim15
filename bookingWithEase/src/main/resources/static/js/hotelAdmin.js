@@ -12,42 +12,60 @@ $(document).on('click', '#addNewRoom', function(e) {
 
 $(document).on('click', '#special_offers_btn', function(e) {
 	e.preventDefault();
-	
+
 	getSpecialOffers(fillSpecialOffers);
-	
+
 });
 
 $(document).on('click', '#addSpecialOfferBtn', function(e) {
 	e.preventDefault();
-	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-	alert("add special offer");
-	addSpecialOffer(function(){});
-	getSpecialOffers(fillSpecialOffers);
-	
+
+	addSpecialOffer(function() {
+		alert("Special offer added");
+		getSpecialOffers(fillSpecialOffers);
+	});
+
 });
 
 $(document).on('click', '#cancelSpecialOfferBtn', function(e) {
 	e.preventDefault();
-	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-	alert("cancel special offer");
+
 	openCity(event, 'allSpecialOffers');
+	getSpecialOffers(fillSpecialOffers);
 });
 
-function addSpecialOffer(callback)
-{
+$(document).on('click', '#edit_so_btn', function(e) {
+	e.preventDefault();
+
+	var formData = getFormData('#editSpecialOfferForm');
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var soId = localStorage.getItem('updateSoId');
+	formData["id"] = soId;
+	formData["hotelId"] = currentUser.company.id;
+	var jsonData = JSON.stringify(formData);	
+	
+	updateSpecialOffer(currentUser.company.id, soId, jsonData, function(data) {
+		alert("Saved :)");	
+		openCity(event, 'allSpecialOffers');
+		fillSpecialOffers(data);
+
+	});
+
+});
+
+function addSpecialOffer(callback) {
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 	var hotelId = currentUser.company.id;
-	
+
 	var formData = getFormData('#addSpecialOfferForm');
-	
 	var jsonData = JSON.stringify(formData);
-	
+
 	$.ajax({
 		url : "/hotels/" + hotelId + "/specialOffers",
 		type : "POST",
 		dataType : 'json',
 		contentType : 'application/json',
-		data: jsonData,
+		data : jsonData,
 		beforeSend : function(xhr) {
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
@@ -57,7 +75,7 @@ function addSpecialOffer(callback)
 			alert("Something went wrong! :(");
 		}
 	});
-	
+
 }
 
 function getSpecialOffers(callback) {
@@ -75,6 +93,42 @@ function getSpecialOffers(callback) {
 		success : callback,
 		error : function(response) {
 			alert("Something went wrong! :(");
+		}
+	});
+}
+
+function deleteSpecialOffer(hotelId, soId,callback)
+{	
+	$.ajax({
+		url : "/hotels/" + hotelId + "/specialOffers/" + soId,
+		type : "DELETE",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : callback,
+		error : function(response) {
+			alert("Something went wrong! :(");
+		}
+	});
+}
+
+function updateSpecialOffer(hotelId, soId, jsonData, callback)
+{
+	$.ajax({
+		type : 'put',
+		url : "/hotels/" + hotelId + "/specialOffers/" + soId,
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer "
+					+ getJwtToken());
+		},
+		success : callback,
+		error : function(data) {
+			alert(data);
 		}
 	});
 }
@@ -128,7 +182,8 @@ function fillHotelInfo(data) {
 					}
 				}
 
-				var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+				var currentUser = JSON.parse(localStorage
+						.getItem('currentUser'));
 
 				formData['id'] = currentUser.company.id;
 
@@ -161,22 +216,24 @@ function fillHotelInfo(data) {
 
 }
 
-function fillSpecialOffers(data)
-{
-	var specialOffers = data == null ? [] : (data instanceof Array ? data : [ data ]);
-	
+function fillSpecialOffers(data) {
+	var specialOffers = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+
 	$('#specialOffersTable').empty();
 	$('#specialOffersTable')
 			.append(
 					'<tr><th>Id</th><th>Name</th><th>Description</th><th>Additional payment</th><th>&nbsp;</th><th>&nbsp;</th></tr>');
 
 	$.each(specialOffers, function(index, specialOffer) {
-		localStorage.setItem("specialOffer_" + specialOffer.id, JSON.stringify(specialOffer));
+		localStorage.setItem("specialOffer_" + specialOffer.id, JSON
+				.stringify(specialOffer));
 
 		var tr = $('<tr></tr>');
-		var soTr = $('<td>' + specialOffer.id + '</td>' + '<td id="tso_' + specialOffer.id
-				+ '">' + specialOffer.name + '</td>' + '<td>' + specialOffer.description
-				+ '</td>' + '<td>' + specialOffer.price + '</td>' 
+		var soTr = $('<td>' + specialOffer.id + '</td>' + '<td id="tso_'
+				+ specialOffer.id + '">' + specialOffer.name + '</td>' + '<td>'
+				+ specialOffer.description + '</td>' + '<td>'
+				+ specialOffer.price + '</td>'
 				+ '<td><button class="edit_so_btn" id="edit_so_'
 				+ specialOffer.id + '">Edit</button></td>'
 				+ '</td><td><button class="delete_so_btn" id="delete_so_'
@@ -184,6 +241,39 @@ function fillSpecialOffers(data)
 
 		tr.append(soTr);
 		$('#specialOffersTable').append(tr);
+	});
+	
+	$('.delete_so_btn').on('click', function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var soId = this.id.substring(10);
+
+		var hotelId = currentUser.company.id;
+
+		deleteSpecialOffer(hotelId, soId, function(data) {
+			
+			alert("Special offer deleted!");
+			fillSpecialOffers(data);
+
+		});
+	});
+
+	$('.edit_so_btn').on('click', function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var soId = this.id.substring(8);
+		var hotelId = currentUser.company.id;
+		openCity(event, 'editSpecialOffer');
+
+		var so = JSON.parse(localStorage.getItem('specialOffer_' + soId));
+		localStorage.setItem("updateSoId", soId);
+
+		$('#so_name').val(so.name);
+		$('#so_description').val(so.description);
+		$('#so_price').val(so.price);
+
 	});
 
 }

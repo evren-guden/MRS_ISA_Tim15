@@ -33,10 +33,10 @@ import rs.travel.bookingWithEase.service.RoomService;
 @RestController
 @RequestMapping(value = "/hotels")
 public class HotelController {
-	
+
 	@Autowired
 	private CompanyService companyService;
-	
+
 	@Autowired
 	private HotelService hotelService;
 
@@ -153,7 +153,7 @@ public class HotelController {
 	@PostMapping(value = "/{hotelId}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HotelSpecialOffer> addSpecialOffer(@PathVariable("hotelId") Long id,
 			@RequestBody HotelSpecialOffer hotelSpecialOffer) {
-		
+
 		HotelSpecialOffer newHSO = null;
 		try {
 			newHSO = specialOfferService.save(hotelSpecialOffer);
@@ -169,5 +169,31 @@ public class HotelController {
 
 		return new ResponseEntity<HotelSpecialOffer>(newHSO, HttpStatus.OK);
 
+	}
+
+	@DeleteMapping(value = "/{hotelId}/specialOffers/{specialOfferId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<HotelSpecialOffer>> deleteSpecialOffer(@PathVariable("hotelId") Long hotelId,
+			@PathVariable("specialOfferId") Long specialOfferId) {
+		specialOfferService.delete(specialOfferId);
+		Hotel hotel = hotelService.findById(hotelId);
+		hotel.getSpecialOffers().removeIf(h -> (h.getId() == specialOfferId));
+		hotelService.save(hotel);
+		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
+				HttpStatus.OK);
+	}
+
+	@PutMapping(value = "/{hotelId}/specialOffers/{specialOfferId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<HotelSpecialOffer>> updateSpecialOffer(@PathVariable("hotelId") Long hotelId,
+			@PathVariable("specialOfferId") Long specialOfferId, @RequestBody HotelSpecialOffer hso) {
+
+		try {
+			specialOfferService.save(hso);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Collection<HotelSpecialOffer>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
+				HttpStatus.OK);
 	}
 }

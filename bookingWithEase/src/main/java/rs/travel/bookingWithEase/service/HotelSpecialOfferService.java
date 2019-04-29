@@ -16,5 +16,8 @@ public class HotelSpecialOfferService {
 		return specialOffers.save(hotelSpecialOffer);
 	}
 	
+	public void delete(Long id) {
+		specialOffers.deleteById(id);
+	}
 	
 }
