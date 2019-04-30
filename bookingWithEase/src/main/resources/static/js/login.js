@@ -23,8 +23,13 @@ $(document).on('submit', '#loginform', function(e) {
 		success : function(response) {
 			saveToken(response);
 		},
-		error : function(response) {
-			alert("Something went wrong! :(");
+		statusCode : {
+			401 : function() {
+				alert('Bad credentials');
+			},
+			422 : function() {
+				alert('Please enter all required fields');
+			}
 		}
 	});
 

@@ -71,6 +71,10 @@ public class RentACarController {
 	@PostMapping(value="/{id}/branchs",consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Branch> addBranch(@PathVariable("id") Long id, @RequestBody Branch branch) {
 
+		if(branch.getName().trim().equals("") || branch.getName()==null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
 		Optional<RentACar> rac = rentACarService.findOne(id);
 		rac.get().addBranch(branch);
 		branch.setRac(rac.get());

@@ -63,8 +63,8 @@ $(document).on('submit', '#addVehicleForm', function(e) {
 	var jsonData = JSON.stringify(formData);
 	console.log("Token sent " + getJwtToken());
 	var iden = $('#selectbranch').val();
-	if (iden === ""){
-		alert ('branch null');
+	if (iden === "") {
+		alert('branch null');
 		return;
 	}
 	$.ajax({
@@ -80,16 +80,16 @@ $(document).on('submit', '#addVehicleForm', function(e) {
 			console.log(HttpStatus);
 			findVehicles();
 		},
-		statusCode: {
-		    409: function() {
-		        alert('Already exists');
-		    },
-		    422: function() {
-		        alert('Please enter all required fields');
-		    },
-			500: function() {
-		        alert('Internal server error');
-		    }
+		statusCode : {
+			409 : function() {
+				alert('Already exists');
+			},
+			422 : function() {
+				alert('Please enter all required fields');
+			},
+			500 : function() {
+				alert('Internal server error');
+			}
 		},
 	});
 
@@ -141,8 +141,16 @@ $(document).on(
 							+ getJwtToken());
 				},
 				success : findBranchs,
-				error : function(response) {
-					alert("Something went wrong! :(");
+				statusCode : {
+					409 : function() {
+						alert('Already exists');
+					},
+					422 : function() {
+						alert('Please enter all required fields');
+					},
+					500 : function() {
+						alert('Internal server error');
+					}
 				}
 			});
 
@@ -165,9 +173,17 @@ $(document).on('submit', '#editBranchForm', function(e) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : findBranchs,
-		error : function(response) {
-			alert("Something went wrong! :(");
-		}
+		statusCode : {
+			409 : function() {
+				alert('Already exists');
+			},
+			422 : function() {
+				alert('Please enter all required fields');
+			},
+			500 : function() {
+				alert('Internal server error');
+			}
+		},
 	});
 
 });
@@ -228,23 +244,24 @@ function fillBranchTable(data) {
 			function(e) {
 				e.preventDefault();
 				var iden = this.id.substring(7);
-				console.log(iden);
-
-				$.ajax({
-					type : 'delete',
-					url : "/branchs/" + iden,
-					beforeSend : function(xhr) {
-						xhr.setRequestHeader("Authorization", "Bearer "
-								+ getJwtToken());
-					},
-					success : function(response) {
-						findBranchs();
-					},
-					error : function(data) {
-						alert(data);
-					}
-				});
-
+				
+				alertify.confirm("Delete branch", "Are you sure?",function(){
+					$.ajax({
+						type : 'delete',
+						url : "/branchs/" + iden,
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader("Authorization", "Bearer "
+									+ getJwtToken());
+						},
+						success : function(response) {
+							findBranchs();
+						},
+						error : function(data) {
+							alert(data);
+						}
+					});
+					alertify.notify('Branch deleted', 'success', 2);
+				}, function(){});
 			});
 
 	$('.beditBtns').on(
@@ -335,50 +352,49 @@ function fillVehicleTable(data) {
 			.append(
 					'<tr><th>Id</th><th>Registration number</th><th>Type</th><th>Gear</th><th>Color</th></tr>');
 
-	$
-			.each(
-					vh_list,
-					function(index, vehicle) {
+	$.each(vh_list, function(index, vehicle) {
 
-						var tr = $('<tr></tr>');
-						var form = $('<td>'
-								+ vehicle.id
-								+ '</td><td>'
-								+ vehicle.registrationNumber
-								+ '</td><td>'
-								+ vehicle.type
-								+ '</td><td>'
-								+ vehicle.gear
-								+ '</td><td>'
-								+ vehicle.color
-								+ '</td><td><button class="veditBtns" id="veditbtn'
-								+ vehicle.id
-								+ '">Edit</button></td><td><button class="vdelBtns" id="vdelBtn'
-								+ vehicle.id + '">Delete</button></td>');
-						tr.append(form);
-						table.append(tr);
-					});
+		var tr = $('<tr></tr>');
+		var form = $('<td>' + vehicle.id + '</td><td>'
+				+ vehicle.registrationNumber + '</td><td>' + vehicle.type
+				+ '</td><td>' + vehicle.gear + '</td><td>' + vehicle.color
+				+ '</td><td><button class="veditBtns" id="veditbtn'
+				+ vehicle.id + '">Edit</button></td>');
+		tr.append(form);
+		if (vehicle.vehicleReservations.length == 0) {
+			tr.append($('<td><button class="vdelBtns" id="vdelBtn' + vehicle.id
+					+ '">Delete</button></td>'));
+		}
+		table.append(tr);
+	});
 
 	$('.vdelBtns').on(
 			'click',
 			function(e) {
+
 				e.preventDefault();
 				var iden = this.id.substring(7);
-				console.log(iden);
+				alertify.confirm("Vehicle delete","Are you sure?", function() {
+					
+					console.log(iden);
 
-				$.ajax({
-					type : 'delete',
-					url : "/vehicles/" + iden,
-					beforeSend : function(xhr) {
-						xhr.setRequestHeader("Authorization", "Bearer "
-								+ getJwtToken());
-					},
-					success : function(response) {
-						findVehicles();
-					},
-					error : function(data) {
-						alert(data);
-					}
+					$.ajax({
+						type : 'delete',
+						url : "/vehicles/" + iden,
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader("Authorization", "Bearer "
+									+ getJwtToken());
+						},
+						success : function(response) {
+							findVehicles();
+						},
+						error : function(data) {
+							alert(data);
+						}
+					});
+					alertify.success('Ok', 2);
+				}, function() {
+					alertify.error('Cancel', 2);
 				});
 
 			});
