@@ -19,8 +19,14 @@ public class RACService {
 	@Autowired
 	private IRACRepository rentacarsRepository;
 
-	public Optional<RentACar> findOne(Long id) {
-		return rentacarsRepository.findById(id);
+	public RentACar findOne(Long id) {
+		Optional<RentACar> rac = rentacarsRepository.findById(id);
+		
+		if(rac.isPresent()) {
+			return rac.get();
+		}
+		
+		return null;
 	}
 
 	public List<RentACar> findAll() {

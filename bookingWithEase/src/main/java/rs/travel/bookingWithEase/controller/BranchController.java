@@ -44,6 +44,10 @@ public class BranchController {
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Branch> update(@RequestBody Branch br) {
 
+		if(br.getName().trim().equals("") || br.getName()==null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
 		Optional<Branch> branch = branchService.findOne(br.getId());
 
 		if (branch == null) {

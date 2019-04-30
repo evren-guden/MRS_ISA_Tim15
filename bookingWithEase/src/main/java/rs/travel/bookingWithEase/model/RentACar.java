@@ -22,6 +22,9 @@ public class RentACar extends Company {
 	@OneToMany(mappedBy = "rac", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Branch> branches = new HashSet<Branch>();
 
+	@OneToMany(mappedBy = "racservice", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<RACSpecialOffer> specialOffers = new HashSet<RACSpecialOffer>();
+	
 	public RentACar() {
 	}
 
@@ -73,5 +76,13 @@ public class RentACar extends Company {
 
 	public void addBranch(Branch b) {
 		this.branches.add(b);
+	}
+
+	public Set<RACSpecialOffer> getSpecialOffers() {
+		return specialOffers;
+	}
+
+	public void setSpecialOffers(Set<RACSpecialOffer> specialOffers) {
+		this.specialOffers = specialOffers;
 	}
 }

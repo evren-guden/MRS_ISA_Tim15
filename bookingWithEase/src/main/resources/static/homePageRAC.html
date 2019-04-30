@@ -9,6 +9,9 @@
 
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="lib/alertify/alertify.min.js"></script>
+<link type="text/css" rel="stylesheet" href="lib/alertify/css/alertify.min.css">
+<link type="text/css" rel="stylesheet" href="lib/alertify/css/themes/semantic.min.css">
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
@@ -53,7 +56,7 @@
 				<table align="center">
 					<tr>
 						<td align="left">Name:</td>
-						<td align="left"><input type="text" name="name"></td>
+						<td align="left"><input type="text" name="name" required></td>
 					</tr>
 					<tr>
 						<td align="left">Address:</td>
@@ -79,7 +82,7 @@
 					<tr>
 						<td align="left">Name:</td>
 						<td align="left"><input id="editNameBr" type="text"
-							name="name"></td>
+							name="name" required></td>
 					</tr>
 					<tr>
 						<td align="left">Address:</td>
