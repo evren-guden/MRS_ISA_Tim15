@@ -23,10 +23,12 @@ import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.dto.RoomDTO;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.Hotel;
+import rs.travel.bookingWithEase.model.HotelServiceTypePrices;
 import rs.travel.bookingWithEase.model.HotelSpecialOffer;
 import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.service.CompanyService;
 import rs.travel.bookingWithEase.service.HotelService;
+import rs.travel.bookingWithEase.service.HotelServiceTypePricesService;
 import rs.travel.bookingWithEase.service.HotelSpecialOfferService;
 import rs.travel.bookingWithEase.service.RoomService;
 
@@ -42,6 +44,9 @@ public class HotelController {
 
 	@Autowired
 	private RoomService roomService;
+
+	@Autowired
+	private HotelServiceTypePricesService serviceTypePrices;
 
 	@Autowired
 	private HotelSpecialOfferService specialOfferService;
@@ -63,51 +68,8 @@ public class HotelController {
 
 		return hotelService.findById(id);
 	}
-
-	@GetMapping(value = "/{hotelId}/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Room> getRooms(@PathVariable("hotelId") Long id) {
-		return roomService.findByHotelId(id);
-	}
-
-	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Room> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
-		roomService.delete(roomId);
-
-		return roomService.findByHotelId(hotelId);
-	}
-
-	@PutMapping(value = "/{hotelId}/rooms/{roomId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,
-			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
-		Room newRoom = roomService.dtoToRoom(roomDto);
-		// newRoom.setHotel(hotelService.findById(hotelId));
-		System.out.println("hotelId" + newRoom.getHotel().getId() + " roomId " + newRoom.getId());
-		try {
-			roomService.save(newRoom);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Collection<Room>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return new ResponseEntity<Collection<Room>>(roomService.findByHotelId(hotelId), HttpStatus.OK);
-
-	}
-
-	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
-		Room newRoom = roomService.dtoToRoom(roomDto);
-		try {
-			roomService.save(newRoom);
-			System.out.println("Hotel id: " + newRoom.getHotel().getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Room>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return new ResponseEntity<Room>(newRoom, HttpStatus.OK);
-
-	}
-
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> update(@RequestBody CompanyDTO companyDto) {
 		Company company = companyService.dtoToCompany(companyDto);
@@ -133,12 +95,62 @@ public class HotelController {
 		return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Hotel>> search(@RequestBody CompanyDTO companyDTO) {
 		Company company = companyService.dtoToCompany(companyDTO);
 		Hotel hotel = new Hotel(company);
 		Collection<Hotel> services = hotelService.search(hotel);
 		return new ResponseEntity<Collection<Hotel>>(services, HttpStatus.OK);
+	}
+	
+	// ******************* ROOMS *****************
+	
+	@GetMapping(value = "/{hotelId}/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<Room> getRooms(@PathVariable("hotelId") Long id) {
+		return roomService.findByHotelId(id);
+	}
+	
+	//@PreAuthorize("hasRole('ADMINHOTEL')")
+	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
+		Room newRoom = roomService.dtoToRoom(roomDto);
+
+		try {
+			roomService.save(newRoom);
+			System.out.println("Hotel id: " + newRoom.getHotel().getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Room>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<Room>(newRoom, HttpStatus.OK);
+
+	}
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
+	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<Room> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
+		roomService.delete(roomId);
+
+		return roomService.findByHotelId(hotelId);
+	}
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
+	@PutMapping(value = "/{hotelId}/rooms/{roomId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,
+			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
+		Room newRoom = roomService.dtoToRoom(roomDto);
+		// newRoom.setHotel(hotelService.findById(hotelId));
+		System.out.println("hotelId" + newRoom.getHotel().getId() + " roomId " + newRoom.getId());
+		try {
+			roomService.save(newRoom);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Collection<Room>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<Collection<Room>>(roomService.findByHotelId(hotelId), HttpStatus.OK);
+
 	}
 
 	// *************** SPECIAL OFFERS ************
@@ -149,7 +161,8 @@ public class HotelController {
 
 		return hotelService.findById(id).getSpecialOffers();
 	}
-
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PostMapping(value = "/{hotelId}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HotelSpecialOffer> addSpecialOffer(@PathVariable("hotelId") Long id,
 			@RequestBody HotelSpecialOffer hotelSpecialOffer) {
@@ -170,7 +183,8 @@ public class HotelController {
 		return new ResponseEntity<HotelSpecialOffer>(newHSO, HttpStatus.OK);
 
 	}
-
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@DeleteMapping(value = "/{hotelId}/specialOffers/{specialOfferId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<HotelSpecialOffer>> deleteSpecialOffer(@PathVariable("hotelId") Long hotelId,
 			@PathVariable("specialOfferId") Long specialOfferId) {
@@ -181,7 +195,8 @@ public class HotelController {
 		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
 				HttpStatus.OK);
 	}
-
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{hotelId}/specialOffers/{specialOfferId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<HotelSpecialOffer>> updateSpecialOffer(@PathVariable("hotelId") Long hotelId,
 			@PathVariable("specialOfferId") Long specialOfferId, @RequestBody HotelSpecialOffer hso) {
@@ -196,4 +211,21 @@ public class HotelController {
 		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
 				HttpStatus.OK);
 	}
+
+	// ********* SERVICE TYPE PRICES ***********
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
+	@PutMapping(value = "/{hotelId}/serviceTypePrices", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Hotel> getServiceTypePrices(@PathVariable("hotelId") Long id,
+			@RequestBody HotelServiceTypePrices hstp) throws JsonProcessingException {
+		
+		Hotel hotel = hotelService.findById(id);
+		System.out.println("\n\n\n" + hstp);
+		hotel.setServiceTypePrices(hstp);
+		hotelService.save(hotel);
+		serviceTypePrices.save(hstp);
+		
+		return new ResponseEntity<Hotel>(hotelService.findById(id), HttpStatus.OK);
+	}
+
 }

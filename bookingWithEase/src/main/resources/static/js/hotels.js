@@ -30,7 +30,6 @@ $(document).on('click', '#edit_room_btn', function(e) {
 $(document).on('click', '#cancel_edit_room_btn', function(e) {
 	e.preventDefault();
 	openCity(event, 'allRooms');
-
 });
 
 function showRooms(data) {
@@ -128,7 +127,7 @@ function getRooms(hotelId) {
 		},
 		success : showRooms,
 		error : function(response) {
-			alert("Something went wrong! :(");
+			alert("Something went wrong while getting rooms! :(");
 		}
 	});
 }

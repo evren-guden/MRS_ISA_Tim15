@@ -30,7 +30,7 @@ function roomRegistration() {
 				//window.location.href = "hotels.html";
 			},
 			error : function(response) {
-				alert("Something went wrong! :(");
+				alert("Something went wrong room reservation! :(" + JSON.stringify(response));
 			}
 		});
 	} else {

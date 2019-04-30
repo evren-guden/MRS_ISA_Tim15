@@ -7,6 +7,7 @@ $(document).ready(function() {
 $(document).on('click', '#addNewRoom', function(e) {
 	e.preventDefault();
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
 	getRooms(currentUser.company.id);
 });
 
@@ -42,16 +43,48 @@ $(document).on('click', '#edit_so_btn', function(e) {
 	var soId = localStorage.getItem('updateSoId');
 	formData["id"] = soId;
 	formData["hotelId"] = currentUser.company.id;
-	var jsonData = JSON.stringify(formData);	
-	
+	var jsonData = JSON.stringify(formData);
+
 	updateSpecialOffer(currentUser.company.id, soId, jsonData, function(data) {
-		alert("Saved :)");	
+		alert("Saved :)");
 		openCity(event, 'allSpecialOffers');
 		fillSpecialOffers(data);
 
 	});
 
 });
+
+$(document).on('click', '#pricelist_btn', function(e) {
+	e.preventDefault();
+	var formData = getFormData('#pricelist_form');
+	//alert("pricelist " + JSON.stringify(formData));
+	updatePricelist(JSON.stringify(formData), function(data) {
+		alert("Saved :)");
+		fillPricelist(data);
+		
+	});
+	// TODO pokupiti podatke iz forme
+});
+
+function updatePricelist(jsonData, callback) {
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var hotelId = currentUser.company.id;
+
+	$.ajax({
+		type : 'put',
+		url : "/hotels/" + hotelId + "/serviceTypePrices",
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : callback,
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
 
 function addSpecialOffer(callback) {
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -97,8 +130,7 @@ function getSpecialOffers(callback) {
 	});
 }
 
-function deleteSpecialOffer(hotelId, soId,callback)
-{	
+function deleteSpecialOffer(hotelId, soId, callback) {
 	$.ajax({
 		url : "/hotels/" + hotelId + "/specialOffers/" + soId,
 		type : "DELETE",
@@ -114,8 +146,7 @@ function deleteSpecialOffer(hotelId, soId,callback)
 	});
 }
 
-function updateSpecialOffer(hotelId, soId, jsonData, callback)
-{
+function updateSpecialOffer(hotelId, soId, jsonData, callback) {
 	$.ajax({
 		type : 'put',
 		url : "/hotels/" + hotelId + "/specialOffers/" + soId,
@@ -123,8 +154,7 @@ function updateSpecialOffer(hotelId, soId, jsonData, callback)
 		dataType : 'json',
 		data : jsonData,
 		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Authorization", "Bearer "
-					+ getJwtToken());
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
 		error : function(data) {
@@ -162,6 +192,10 @@ function fillHotelInfo(data) {
 	$('#edit_hotel_address').val(data.address);
 	$('#edit_hotel_description').val(data.description);
 	$('#edit_hotel_stars').val(data.stars);
+
+	//alert(JSON.stringify(data));
+
+	fillPricelist(data);
 
 	$('#edit_hotel_form').on(
 			'submit',
@@ -216,6 +250,67 @@ function fillHotelInfo(data) {
 
 }
 
+function fillPricelist(data) {
+
+	$('#hstpId').val(data.serviceTypePrices.id);
+	$('#bedAndBreakfastPrice').val(data.serviceTypePrices.bedAndBreakfastPrice);
+	$('#halfBoardPrice').val(data.serviceTypePrices.halfBoardPrice);
+	$('#fullBoardPrice').val(data.serviceTypePrices.fullBoardPrice);
+	$('#allInclusivePrice').val(data.serviceTypePrices.allInclusivePrice);
+
+	if (data.serviceTypePrices.bedAndBreakfastEnabled)
+		$('#bedAndBreakfastEnabled').prop('checked', true);
+	else
+		$('#bedAndBreakfastPrice').prop('readonly', true);
+
+	if (data.serviceTypePrices.halfBoardEnabled == true)
+		$('#halfBoardEnabled').prop('checked', true);
+	else
+		$('#halfBoardPrice').prop('readonly', true);
+
+	if (data.serviceTypePrices.fullBoardEnabled)
+		$('#fullBoardEnabled').prop('checked', true);
+	else
+		$('#fullBoardPrice').prop('readonly', true);
+
+	if (data.serviceTypePrices.allInclusiveEnabled)
+		$('#allInclusiveEnabled').prop('checked', true);
+	else
+		$('#allInclusivePrice').prop('readonly', true);
+
+	$("#bedAndBreakfastEnabled").change(function() {
+		if (this.checked) {
+			$('#bedAndBreakfastPrice').prop('readonly', false);
+		} else {
+			$('#bedAndBreakfastPrice').prop('readonly', true);
+		}
+	});
+
+	$("#halfBoardEnabled").change(function() {
+		if (this.checked) {
+			$('#halfBoardPrice').prop('readonly', false);
+		} else {
+			$('#halfBoardPrice').prop('readonly', true);
+		}
+	});
+
+	$("#fullBoardEnabled").change(function() {
+		if (this.checked) {
+			$('#fullBoardPrice').prop('readonly', false);
+		} else {
+			$('#fullBoardPrice').prop('readonly', true);
+		}
+	});
+
+	$("#allInclusiveEnabled").change(function() {
+		if (this.checked) {
+			$('#allInclusivePrice').prop('readonly', false);
+		} else {
+			$('#allInclusivePrice').prop('readonly', true);
+		}
+	});
+}
+
 function fillSpecialOffers(data) {
 	var specialOffers = data == null ? [] : (data instanceof Array ? data
 			: [ data ]);
@@ -242,7 +337,7 @@ function fillSpecialOffers(data) {
 		tr.append(soTr);
 		$('#specialOffersTable').append(tr);
 	});
-	
+
 	$('.delete_so_btn').on('click', function(e) {
 		e.preventDefault();
 
@@ -252,7 +347,7 @@ function fillSpecialOffers(data) {
 		var hotelId = currentUser.company.id;
 
 		deleteSpecialOffer(hotelId, soId, function(data) {
-			
+
 			alert("Special offer deleted!");
 			fillSpecialOffers(data);
 

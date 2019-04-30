@@ -62,11 +62,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/vehicles/{id}/reservations").permitAll()
 			.antMatchers("/airlines").permitAll()
 			.antMatchers("/hotels").permitAll()
-			.antMatchers("/hotels/{id}").permitAll()
-			.antMatchers("/hotels//{hotelId}/rooms").permitAll()
-			.antMatchers("/hotels/{hotelId}/rooms/{roomId}").permitAll()
-			.antMatchers("/hotels/{hotelId}/specialOffers").permitAll()
-			.antMatchers("/hotels/{hotelId}/specialOffers/{specialOfferId}").permitAll()
+			.antMatchers(HttpMethod.GET, "/hotels/{id}").permitAll()
+			.antMatchers("/hotels/{hotelId}/rooms").permitAll()
+			.antMatchers(HttpMethod.GET, "/hotels/{hotelId}/specialOffers").permitAll()
 			.antMatchers("/companies").permitAll()
 			.antMatchers("/users").permitAll()
 			//.antMatchers(HttpMethod.GET, "/rentacars").permitAll()
@@ -75,8 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//.antMatchers("**.js").permitAll()
 			//.antMatchers("**.js.**").permitAll()
 			.anyRequest().authenticated().and()
-			.formLogin()
-			.loginPage("/login.html").permitAll().and()
+			//.formLogin()
+			//.loginPage("/login.html").permitAll().and()
 			.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService), BasicAuthenticationFilter.class);
 		
 		http.csrf().disable();

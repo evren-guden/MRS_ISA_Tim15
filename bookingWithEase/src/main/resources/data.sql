@@ -30,7 +30,7 @@ insert into vehicle (id, registration_number, type, gear, color, branch_id) valu
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (9, 'CC-11', 'neki_tip3', 'automatic', 'black', 4);
 
 insert into hotel (id, name, address, description, rating, stars) values (100, 'Park', 'Novi Sad', '',4.5, 5);
-insert into hotel (id, name, address, description, rating, stars) values (200, 'Palisad', 'Zlatibor', '',4.2, 3);
+insert into hotel (id, name, address, description, rating, service_type_prices_id,stars) values (200, 'Palisad', 'Zlatibor', '',4.2, 100, 3);
 insert into hotel (id, name, address, description, rating, stars) values (300, 'Park 2', 'Novi Sad', '',5, 5);
 insert into hotel (id, name, address, description, rating, stars) values (400, 'Palisad 2', 'Zlatibor', '',4, 3);
 
@@ -39,6 +39,9 @@ insert into room (id, room_number, floor_number, capacity, rating, price_per_nig
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (101, 102, 1, 2, 5, 45, 100);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (102, 103, 1, 2, 5, 45, 200);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (103, 104, 1, 2, 5, 45, 300);
+
+insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (100, true, 10,  false, 0, false, 0, false, 0);
+
 
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);

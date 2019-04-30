@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,9 @@ public class Hotel extends Company {
 
 	@Column(name = "stars")
 	private int stars;
+	
+	@OneToOne()
+	private HotelServiceTypePrices serviceTypePrices = new HotelServiceTypePrices();
 
 	@OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Room> rooms = new HashSet<Room>();
@@ -48,6 +52,14 @@ public class Hotel extends Company {
 		this.address = company.address;
 		this.description = company.description;
 		this.rating = company.rating;
+	}
+	
+	public HotelServiceTypePrices getServiceTypePrices() {
+		return serviceTypePrices;
+	}
+
+	public void setServiceTypePrices(HotelServiceTypePrices serviceTypePrices) {
+		this.serviceTypePrices = serviceTypePrices;
 	}
 
 	public Set<Room> getRooms() {

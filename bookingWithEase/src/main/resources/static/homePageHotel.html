@@ -20,7 +20,6 @@
 
 <title>Booking With Ease</title>
 
-
 </head>
 <body>
 
@@ -47,6 +46,7 @@
 			onclick="openCity(event, 'allSpecialOffers')">Special offers</button>
 		<button class="tablinks" onclick="openCity(event, 'addSpecialOffer')">Add
 			special offer</button>
+		<button class="tablinks" onclick="openCity(event, 'pricelist')">Pricelist</button>
 	</div>
 
 	<div id="hotelInfo" class="tabcontent">
@@ -288,7 +288,7 @@
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-					    <td>&nbsp;</td>
+						<td>&nbsp;</td>
 						<td align="right"><input class="formBtn" type="submit"
 							id="edit_so_btn" value="Save"> <input class="formBtn"
 							type="button" id="cancel_so_btn" name="cancelEditSo"
@@ -299,6 +299,48 @@
 
 			</form>
 
+		</div>
+	</div>
+
+	<div id="pricelist" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">Pricelist</h2>
+			<form id="pricelist_form">
+				<input type="hidden" name="id" id="hstpId" />
+				<table align="center">
+
+					<tr>
+						<td><input type="checkbox" name="bedAndBreakfastEnabled" id="bedAndBreakfastEnabled"
+							value="true" />&nbsp;Bed and breakfast</td>
+						<td><input type="text" name="bedAndBreakfastPrice" id="bedAndBreakfastPrice" /></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="halfBoardEnabled" id="halfBoardEnabled"
+							value="true" />&nbsp;Half board</td>
+						<td><input type="text" name="halfBoardPrice" id="halfBoardPrice" /></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="fullBoardEnabled" id="fullBoardEnabled"
+							value="true" />&nbsp;Full board</td>
+						<td><input type="text" name="fullBoardPrice" id="fullBoardPrice"/></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="allInclusiveEnabled" id="allInclusiveEnabled"
+							value="true" />&nbsp;All inclusive</td>
+						<td><input type="text" name="allInclusivePrice" id="allInclusivePrice" /></td>
+					</tr>
+					
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right">
+							<button id="pricelist_btn" value="Save changes">Save changes</button>
+						</td>
+					</tr>
+
+				</table>
+
+			</form>
+			<br>
 		</div>
 	</div>
 
