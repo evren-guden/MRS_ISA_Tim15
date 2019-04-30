@@ -20,41 +20,43 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
-@JsonIgnoreProperties(value = { "hotel","reservations" })
-public class Room implements Serializable{
-	
+@JsonIgnoreProperties(value = { "hotel", "reservations" })
+public class Room implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "roomNumber")
 	private int roomNumber;
-	
+
 	@Column(name = "floorNumber")
 	private int floorNumber;
-	
+
 	@Column(name = "capacity")
 	private int capacity;
-	
+
 	@Column(name = "rating")
 	private int rating;
-	
+
 	@Column(name = "pricePerNigth")
 	private double pricePerNight;
-	
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Price> prices = new HashSet<Price>();
+
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RoomReservation> reservations = new HashSet<RoomReservation>();
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Hotel hotel;
-	
-	
+
 	public Room() {
 		super();
 	}
-	
+
 	public Room(int roomNumber, int floorNumber, int capacity, double pricePerNight, Hotel hotel) {
 		super();
 		this.roomNumber = roomNumber;
@@ -63,7 +65,8 @@ public class Room implements Serializable{
 		this.pricePerNight = pricePerNight;
 		this.hotel = hotel;
 	}
-	public Room(Long id,int roomNumber, int floorNumber, int capacity, double pricePerNight, Hotel hotel) {
+
+	public Room(Long id, int roomNumber, int floorNumber, int capacity, double pricePerNight, Hotel hotel) {
 		super();
 		this.id = id;
 		this.roomNumber = roomNumber;
@@ -71,6 +74,18 @@ public class Room implements Serializable{
 		this.capacity = capacity;
 		this.pricePerNight = pricePerNight;
 		this.hotel = hotel;
+	}
+
+	@Override
+	public String toString() {
+		String s = "";
+		for (Price p : prices) {
+			s += p.getPrice() + " " + p.getStartDate() + " " + p.getEndDate() + "\n";
+		}
+
+		return "Room [id=" + id + ", roomNumber=" + roomNumber + ", floorNumber=" + floorNumber + ", capacity="
+				+ capacity + ", rating=" + rating + ", pricePerNight=" + pricePerNight + ", prices=" + prices
+				+ ", reservations=" + reservations + ", hotel=" + hotel + "]" + "\nPrices: " + s;
 	}
 
 	public double getPricePerNight() {
@@ -127,7 +142,7 @@ public class Room implements Serializable{
 	}
 
 	public void setCapacity(int capacity) {
-		this.capacity = capacity ;
+		this.capacity = capacity;
 	}
 
 	public int getRating() {
@@ -153,5 +168,15 @@ public class Room implements Serializable{
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
 	}
+
+	public Set<Price> getPrices() {
+		return prices;
+	}
+
+	public void setPrices(Set<Price> prices) {
+		this.prices = prices;
+	}
 	
+	
+
 }

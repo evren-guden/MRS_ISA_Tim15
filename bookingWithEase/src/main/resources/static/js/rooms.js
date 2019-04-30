@@ -13,11 +13,26 @@ function roomRegistration() {
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 	formData['hotelId'] = currentUser.company.id;
-
+	
+	var newFormData = {};
+	var prices = [];
+	for ( var el in formData) {
+		if (el.startsWith('room_sp')) {
+			var price = {};
+			price["price"] = formData[el];
+			price["startDate"] = formData["start_date_" + el.substring(8)];
+			price["endDate"] = formData["end_date_" + el.substring(8)];
+			prices.push(price);
+		} else if (!el.startsWith('start_date_') && !el.startsWith('end_date')) {
+			newFormData[el] = formData[el];
+		}
+	}
+	
+	newFormData["prices"] = prices;
+	
 	var validData = Boolean(validateNewRoomData(formData));
-
 	if (validData) {
-		var jsonData = JSON.stringify(formData);
+		var jsonData = JSON.stringify(newFormData);
 		console.log(formData);
 		$.ajax({
 			url : "/hotels/" + formData['hotelId'] + "/rooms",
@@ -30,7 +45,8 @@ function roomRegistration() {
 				//window.location.href = "hotels.html";
 			},
 			error : function(response) {
-				alert("Something went wrong room reservation! :(" + JSON.stringify(response));
+				alert("Something went wrong room reservation! :("
+						+ JSON.stringify(response));
 			}
 		});
 	} else {
@@ -38,26 +54,23 @@ function roomRegistration() {
 	}
 }
 
-function deleteRoom(hotelId, roomId, callback)
-{	
+function deleteRoom(hotelId, roomId, callback) {
 
 	$.ajax({
 		type : 'delete',
 		url : "/hotels/" + hotelId + "/rooms/" + roomId,
 		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Authorization", "Bearer "
-					+ getJwtToken());
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
 		error : function(data) {
 			alert(data);
 		}
 	});
-	
+
 }
 
-function updateRoom(hotelId, roomId, jsonData, callback )
-{
+function updateRoom(hotelId, roomId, jsonData, callback) {
 	$.ajax({
 		type : 'put',
 		url : "/hotels/" + hotelId + "/rooms/" + roomId,
@@ -65,15 +78,14 @@ function updateRoom(hotelId, roomId, jsonData, callback )
 		dataType : 'json',
 		data : jsonData,
 		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Authorization", "Bearer "
-					+ getJwtToken());
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
 		error : function(data) {
 			alert(data);
 		}
 	});
-	
+
 }
 
 function validateNewRoomData(formData) {
@@ -109,6 +121,29 @@ function validateNewRoomData(formData) {
 	if (!isDouble(pricePerNight)) {
 		alert("Please enter a valid price");
 		return false;
+	}
+	
+	for(el in formData)
+	{	
+
+		if(el.startsWith('room_sp_') && formData[el] === "")
+		{
+			alert("Please fill in all prices");
+			return false;
+		}	
+		
+		if(el.startsWith('start_date_') && formData[el] === "")
+		{
+			alert("Please fill in all start dates");
+			return false;
+		}
+		
+		if(el.startsWith('end_date_') && formData[el] === "")
+		{
+			alert("Please fill in all end dates");
+			return false;
+		}
+		
 	}
 
 	return true;

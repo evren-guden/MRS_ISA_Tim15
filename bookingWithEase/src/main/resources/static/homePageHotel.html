@@ -140,7 +140,7 @@
 
 
 			<form id="addRoomForm">
-				<table align="center">
+				<table align="center" id="add_room_table">
 					<tr>
 						<td align="left">Room number:</td>
 						<td><input type="text" name="roomNumber" /></td>
@@ -158,13 +158,26 @@
 						<td align="left">Price per night:</td>
 						<td><input type="text" name="pricePerNight" required /></td>
 					</tr>
+
+				</table>
+				<table align="center">
+					<tr>
+						<td></td>
+						<td align="right" style="font-size: 16px"><a
+							href="javascript:roomSpecialPrice();"><i>Add special
+									price</i></a>
+					</tr>
+					<tr>
+					<td>&nbsp;</td>
+					</tr>
 					<tr>
 						<td>&nbsp;</td>
-						<td align="right"><input class="formBtn" type="submit"
+						<td><input class="formBtn" type="submit"
 							id="addNewRoom" value="Add new"> <input class="formBtn"
 							type="button" id="cancelNewRoom" name="cancelNewRoom"
 							value="Cancel"></td>
 					</tr>
+
 
 				</table>
 
@@ -200,6 +213,13 @@
 						<td><input id="price_per_night" type="text"
 							name="pricePerNight" required /></td>
 					</tr>
+
+				</table>
+				
+				<table align="center">
+				    <tr>
+				    <td>&nbsp;</td>
+				    </tr>
 					<tr>
 						<td>&nbsp;</td>
 						<td align="right"><input class="formBtn" type="submit"
@@ -207,7 +227,6 @@
 							type="button" id="cancel_edit_room_btn" name="cancelNewRoom"
 							value="Cancel"></td>
 					</tr>
-
 				</table>
 
 			</form>
@@ -310,30 +329,36 @@
 				<table align="center">
 
 					<tr>
-						<td><input type="checkbox" name="bedAndBreakfastEnabled" id="bedAndBreakfastEnabled"
-							value="true" />&nbsp;Bed and breakfast</td>
-						<td><input type="text" name="bedAndBreakfastPrice" id="bedAndBreakfastPrice" /></td>
+						<td><input type="checkbox" name="bedAndBreakfastEnabled"
+							id="bedAndBreakfastEnabled" value="true" />&nbsp;Bed and
+							breakfast</td>
+						<td><input type="text" name="bedAndBreakfastPrice"
+							id="bedAndBreakfastPrice" /></td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="halfBoardEnabled" id="halfBoardEnabled"
-							value="true" />&nbsp;Half board</td>
-						<td><input type="text" name="halfBoardPrice" id="halfBoardPrice" /></td>
+						<td><input type="checkbox" name="halfBoardEnabled"
+							id="halfBoardEnabled" value="true" />&nbsp;Half board</td>
+						<td><input type="text" name="halfBoardPrice"
+							id="halfBoardPrice" /></td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="fullBoardEnabled" id="fullBoardEnabled"
-							value="true" />&nbsp;Full board</td>
-						<td><input type="text" name="fullBoardPrice" id="fullBoardPrice"/></td>
+						<td><input type="checkbox" name="fullBoardEnabled"
+							id="fullBoardEnabled" value="true" />&nbsp;Full board</td>
+						<td><input type="text" name="fullBoardPrice"
+							id="fullBoardPrice" /></td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="allInclusiveEnabled" id="allInclusiveEnabled"
-							value="true" />&nbsp;All inclusive</td>
-						<td><input type="text" name="allInclusivePrice" id="allInclusivePrice" /></td>
+						<td><input type="checkbox" name="allInclusiveEnabled"
+							id="allInclusiveEnabled" value="true" />&nbsp;All inclusive</td>
+						<td><input type="text" name="allInclusivePrice"
+							id="allInclusivePrice" /></td>
 					</tr>
-					
+
 					<tr>
 						<td>&nbsp;</td>
 						<td align="right">
-							<button id="pricelist_btn" value="Save changes">Save changes</button>
+							<button id="pricelist_btn" value="Save changes">Save
+								changes</button>
 						</td>
 					</tr>
 

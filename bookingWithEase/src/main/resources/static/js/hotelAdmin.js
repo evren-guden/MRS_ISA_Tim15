@@ -1,3 +1,5 @@
+var specialPriceCounter = 0;
+
 $(document).ready(function() {
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -7,7 +9,8 @@ $(document).ready(function() {
 $(document).on('click', '#addNewRoom', function(e) {
 	e.preventDefault();
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
+//	specialPriceCounter = 0;
+//	$(".delete_tr").remove();
 	getRooms(currentUser.company.id);
 });
 
@@ -57,13 +60,13 @@ $(document).on('click', '#edit_so_btn', function(e) {
 $(document).on('click', '#pricelist_btn', function(e) {
 	e.preventDefault();
 	var formData = getFormData('#pricelist_form');
-	//alert("pricelist " + JSON.stringify(formData));
+	// alert("pricelist " + JSON.stringify(formData));
 	updatePricelist(JSON.stringify(formData), function(data) {
 		alert("Saved :)");
 		fillPricelist(data);
-		
+
 	});
-	// TODO pokupiti podatke iz forme
+	
 });
 
 function updatePricelist(jsonData, callback) {
@@ -193,7 +196,7 @@ function fillHotelInfo(data) {
 	$('#edit_hotel_description').val(data.description);
 	$('#edit_hotel_stars').val(data.stars);
 
-	//alert(JSON.stringify(data));
+	// alert(JSON.stringify(data));
 
 	fillPricelist(data);
 
@@ -370,5 +373,29 @@ function fillSpecialOffers(data) {
 		$('#so_price').val(so.price);
 
 	});
+
+}
+
+function roomSpecialPrice() {
+	var priceDiv = $('#add_room_table');
+	specialPriceCounter++;
+
+	priceDiv
+			.append('<tr class="delete_tr"><td>&nbsp;</td></tr>'
+					+ '<tr class="delete_tr"><td align="left">Price:</td><td><input type="text" name="room_sp_'
+					+ specialPriceCounter
+					+ '"id="room_sp_'
+					+ specialPriceCounter
+					+ '"/></td></tr>'
+					+ '<tr tr class="delete_tr"><td>Start date:</td><td><input type="date" name="start_date_'
+					+ specialPriceCounter
+					+ '" id="start_date_'
+					+ specialPriceCounter
+					+ '" ></td></tr>'
+					+ '<tr class="delete_tr"><td>End date:</td><td><input type="date"  name="end_date_'
+					+ specialPriceCounter + '"id="end_date_'
+					+ specialPriceCounter + '"></td></tr>'
+
+			);
 
 }

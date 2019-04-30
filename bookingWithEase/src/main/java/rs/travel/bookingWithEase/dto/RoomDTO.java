@@ -1,14 +1,19 @@
 package rs.travel.bookingWithEase.dto;
 
+import java.util.ArrayList;
+
+import rs.travel.bookingWithEase.model.Price;
+
 public class RoomDTO {
-	
+
 	private Long id;
 	private int roomNumber;
 	private int floorNumber;
 	private int capacity;
 	private double pricePerNight;
+	private ArrayList<Price> prices;
 	private Long hotelId;
-	
+
 	public RoomDTO() {
 		super();
 	}
@@ -21,6 +26,18 @@ public class RoomDTO {
 		this.capacity = capacity;
 		this.pricePerNight = pricePerNight;
 		this.hotelId = hotelId;
+	}
+
+	public RoomDTO(Long id, int roomNumber, int floorNumber, int capacity, double pricePerNight, Long hotelId,
+			ArrayList<Price> prices) {
+		super();
+		this.id = id;
+		this.roomNumber = roomNumber;
+		this.floorNumber = floorNumber;
+		this.capacity = capacity;
+		this.pricePerNight = pricePerNight;
+		this.hotelId = hotelId;
+		this.prices = prices;
 	}
 
 	public Long getId() {
@@ -70,5 +87,13 @@ public class RoomDTO {
 	public void setHotelId(Long hotelId) {
 		this.hotelId = hotelId;
 	}
-	
+
+	public ArrayList<Price> getPrices() {
+		return prices;
+	}
+
+	public void setPrices(ArrayList<Price> prices) {
+		this.prices = prices;
+	}
+
 }

@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.RoomDTO;
 import rs.travel.bookingWithEase.model.Hotel;
+import rs.travel.bookingWithEase.model.Price;
 import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.repository.IHotelRepository;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
@@ -60,7 +62,8 @@ public class RoomService {
 		
 		Room room = new Room(roomDto.getId(),roomDto.getRoomNumber(), roomDto.getFloorNumber(),
 							 roomDto.getCapacity(), roomDto.getPricePerNight(), 
-							 hotel);		
+							 hotel);	
+		room.setPrices(new HashSet<Price>(roomDto.getPrices()));
 		return room;
 	}
 

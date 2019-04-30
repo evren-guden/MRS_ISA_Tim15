@@ -17,6 +17,7 @@ $(document).on('click', '#edit_room_btn', function(e) {
 	var roomId = localStorage.getItem('updateRoomId');
 	formData["id"] = roomId;
 	formData["hotelId"] = currentUser.company.id;
+	
 	var jsonData = JSON.stringify(formData);	
 	
 	updateRoom(currentUser.company.id, roomId, jsonData, function() {

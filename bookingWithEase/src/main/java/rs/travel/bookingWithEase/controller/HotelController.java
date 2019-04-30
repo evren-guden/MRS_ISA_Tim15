@@ -114,7 +114,7 @@ public class HotelController {
 	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
 		Room newRoom = roomService.dtoToRoom(roomDto);
-
+		System.out.println("\n\n\n" + newRoom + "\n\n\n");
 		try {
 			roomService.save(newRoom);
 			System.out.println("Hotel id: " + newRoom.getHotel().getId());
