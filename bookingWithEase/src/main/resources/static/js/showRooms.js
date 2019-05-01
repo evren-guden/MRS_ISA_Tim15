@@ -10,14 +10,14 @@ function getRooms(hotelId) {
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : fillTable,
+		success : fillTableRooms,
 		error : function(response) {
 			alert("Something went wrong! :(");
 		}
 	});
 }
 
-function fillTable(data) {
+function fillTableRooms(data) {
 
 	var veh_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);

@@ -8,12 +8,41 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 	window.location.href = "hotels.html";
 });
 
+$(document).on('click', '#room_search_btn', function(e) {
+	e.preventDefault();
+
+	var formData = getFormData('#room_search_form');
+	if (formData["floorNumber"] === "")
+		formData["floorNumber"] = -11;
+
+	var jsonData = JSON.stringify(formData);
+//	alert(jsonData);
+	$.ajax({
+		url : "/hotels/rooms",
+		type : "POST",
+		dataType : 'json',
+		contentType : "application/json",
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(data) {
+			//alert(JSON.stringify(data));
+			fillTableRooms(data);
+		},
+		error : function(response) {
+			alert("Something went wronggg! :(");
+		}
+	});
+});
+
 function roomRegistration() {
 	var formData = getFormData("#addRoomForm");
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 	formData['hotelId'] = currentUser.company.id;
-	
+
 	var newFormData = {};
 	var prices = [];
 	for ( var el in formData) {
@@ -27,9 +56,9 @@ function roomRegistration() {
 			newFormData[el] = formData[el];
 		}
 	}
-	
+
 	newFormData["prices"] = prices;
-	
+
 	var validData = Boolean(validateNewRoomData(formData));
 	if (validData) {
 		var jsonData = JSON.stringify(newFormData);
@@ -122,28 +151,24 @@ function validateNewRoomData(formData) {
 		alert("Please enter a valid price");
 		return false;
 	}
-	
-	for(el in formData)
-	{	
 
-		if(el.startsWith('room_sp_') && formData[el] === "")
-		{
+	for (el in formData) {
+
+		if (el.startsWith('room_sp_') && formData[el] === "") {
 			alert("Please fill in all prices");
 			return false;
-		}	
-		
-		if(el.startsWith('start_date_') && formData[el] === "")
-		{
+		}
+
+		if (el.startsWith('start_date_') && formData[el] === "") {
 			alert("Please fill in all start dates");
 			return false;
 		}
-		
-		if(el.startsWith('end_date_') && formData[el] === "")
-		{
+
+		if (el.startsWith('end_date_') && formData[el] === "") {
 			alert("Please fill in all end dates");
 			return false;
 		}
-		
+
 	}
 
 	return true;

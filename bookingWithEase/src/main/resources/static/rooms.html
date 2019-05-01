@@ -12,6 +12,7 @@
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/showRooms.js"></script>
+<script type="text/javascript" src="js/rooms.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
 <link rel="stylesheet" href="css/navbar.css" />
@@ -36,27 +37,27 @@
 
 	<div class="search-div">
 		<h2 align="center">Search</h2>
-		<form id="formsrc">
+		<form id="room_search_form">
 			<table align="center">
 				<tr>
 					<td>Floor:</td>
-					<td><input type="text"></td>
+					<td><input name="floorNumber" type="text"></td>
 				</tr>
 				<tr>
 					<td>Capacity:</td>
-					<td><input type="text"></td>
+					<td><input name="capacity" type="text"></td>
 				</tr>
 				<tr>
 					<td>Min price:</td>
-					<td><input type="text"></td>
+					<td><input name="minPrice" type="text"></td>
 				</tr>
 				<tr>
 					<td>Max price:</td>
-					<td><input type="text"></td>
+					<td><input name="maxPrice" type="text"></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" value="Search"></td>
+					<td><input id="room_search_btn" type="button" value="Search"></td>
 				</tr>
 			</table>
 		</form>

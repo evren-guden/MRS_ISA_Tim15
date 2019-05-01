@@ -43,6 +43,26 @@ public class RoomService {
 	{	
 		return rooms.findByHotel(hotels.findById(id).get());
 	}
+	
+	public List<Room> findByPriceRange(double minPrice, double maxPrice)
+	{
+		return rooms.findByPriceRange(minPrice, maxPrice);
+	}
+	
+	public List<Room> findByPriceRangeAndCapacity(int capacity, double minPrice, double maxPrice)
+	{
+		return rooms.findByPriceRangeAndCapacity(capacity, minPrice, maxPrice);
+	}
+	
+	public List<Room> findByPriceRangeAndFloorNumber(int floorNumber, double minPrice, double maxPrice)
+	{
+		return rooms.findByPriceRangeAndFloorNumber(floorNumber, minPrice, maxPrice);
+	}
+	
+	public List<Room> search(int capacity, int floorNumber, double minPrice, double maxPrice)
+	{
+		return rooms.search(capacity, floorNumber, minPrice, maxPrice);
+	}
 
 	public Room save(Room room) {
 		return rooms.save(room);

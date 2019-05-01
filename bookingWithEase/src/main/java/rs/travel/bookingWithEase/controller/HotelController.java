@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.dto.RoomDTO;
+import rs.travel.bookingWithEase.dto.RoomSearchDTO;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.HotelServiceTypePrices;
@@ -68,7 +69,7 @@ public class HotelController {
 
 		return hotelService.findById(id);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> update(@RequestBody CompanyDTO companyDto) {
@@ -102,15 +103,16 @@ public class HotelController {
 		Collection<Hotel> services = hotelService.search(hotel);
 		return new ResponseEntity<Collection<Hotel>>(services, HttpStatus.OK);
 	}
-	
+
 	// ******************* ROOMS *****************
+
 	
 	@GetMapping(value = "/{hotelId}/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<Room> getRooms(@PathVariable("hotelId") Long id) {
 		return roomService.findByHotelId(id);
 	}
-	
-	//@PreAuthorize("hasRole('ADMINHOTEL')")
+
+	// @PreAuthorize("hasRole('ADMINHOTEL')")
 	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
 		Room newRoom = roomService.dtoToRoom(roomDto);
@@ -126,7 +128,7 @@ public class HotelController {
 		return new ResponseEntity<Room>(newRoom, HttpStatus.OK);
 
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<Room> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
@@ -134,7 +136,7 @@ public class HotelController {
 
 		return roomService.findByHotelId(hotelId);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{hotelId}/rooms/{roomId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,
@@ -152,6 +154,30 @@ public class HotelController {
 		return new ResponseEntity<Collection<Room>>(roomService.findByHotelId(hotelId), HttpStatus.OK);
 
 	}
+	
+	@PostMapping(value = "/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Collection<Room> getAllRooms(@RequestBody RoomSearchDTO roomSearchDTO) {
+		System.out.println("\n\n\n" + roomSearchDTO + "\n\n\n");
+		if (roomSearchDTO.getMaxPrice() == 0)
+			roomSearchDTO.setMaxPrice(999999);
+
+		System.out.println("\n\n\n" + roomSearchDTO + "\n\n\n");
+
+		if (roomSearchDTO.getCapacity() == 0 && roomSearchDTO.getFloorNumber() == -11) {
+			return roomService.findByPriceRange(roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+
+		} else if (roomSearchDTO.getCapacity() == 0) {
+			return roomService.findByPriceRangeAndFloorNumber(roomSearchDTO.getFloorNumber(),
+					roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+		} else if (roomSearchDTO.getFloorNumber() == -11) {
+			return roomService.findByPriceRangeAndCapacity(roomSearchDTO.getCapacity(), roomSearchDTO.getMinPrice(),
+					roomSearchDTO.getMaxPrice());
+		}
+
+		return roomService.search(roomSearchDTO.getCapacity(), roomSearchDTO.getFloorNumber(),
+				roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+	}
+
 
 	// *************** SPECIAL OFFERS ************
 
@@ -161,7 +187,7 @@ public class HotelController {
 
 		return hotelService.findById(id).getSpecialOffers();
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PostMapping(value = "/{hotelId}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HotelSpecialOffer> addSpecialOffer(@PathVariable("hotelId") Long id,
@@ -183,7 +209,7 @@ public class HotelController {
 		return new ResponseEntity<HotelSpecialOffer>(newHSO, HttpStatus.OK);
 
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@DeleteMapping(value = "/{hotelId}/specialOffers/{specialOfferId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<HotelSpecialOffer>> deleteSpecialOffer(@PathVariable("hotelId") Long hotelId,
@@ -195,7 +221,7 @@ public class HotelController {
 		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
 				HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{hotelId}/specialOffers/{specialOfferId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<HotelSpecialOffer>> updateSpecialOffer(@PathVariable("hotelId") Long hotelId,
@@ -213,18 +239,18 @@ public class HotelController {
 	}
 
 	// ********* SERVICE TYPE PRICES ***********
-	
+
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{hotelId}/serviceTypePrices", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> getServiceTypePrices(@PathVariable("hotelId") Long id,
 			@RequestBody HotelServiceTypePrices hstp) throws JsonProcessingException {
-		
+
 		Hotel hotel = hotelService.findById(id);
 		System.out.println("\n\n\n" + hstp);
 		hotel.setServiceTypePrices(hstp);
 		hotelService.save(hotel);
 		serviceTypePrices.save(hstp);
-		
+
 		return new ResponseEntity<Hotel>(hotelService.findById(id), HttpStatus.OK);
 	}
 
