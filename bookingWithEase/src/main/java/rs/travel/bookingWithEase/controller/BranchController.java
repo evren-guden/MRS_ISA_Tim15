@@ -99,7 +99,7 @@ public class BranchController {
 
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<HttpStatus> update(@PathVariable("id") Long id) {
+	public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
 
 		Optional<Branch> branch = branchService.findOne(id);
 		if (branch != null) {

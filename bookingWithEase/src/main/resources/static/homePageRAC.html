@@ -10,8 +10,10 @@
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="lib/alertify/alertify.min.js"></script>
-<link type="text/css" rel="stylesheet" href="lib/alertify/css/alertify.min.css">
-<link type="text/css" rel="stylesheet" href="lib/alertify/css/themes/semantic.min.css">
+<link type="text/css" rel="stylesheet"
+	href="lib/alertify/css/alertify.min.css">
+<link type="text/css" rel="stylesheet"
+	href="lib/alertify/css/themes/semantic.min.css">
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
@@ -36,7 +38,9 @@
 		<button class="tablinks" id="myvehiclesbtn">My vehicles</button>
 		<button class="tablinks" onclick="openDiv(event, 'addVehicleDiv')">Add
 			vehicle</button>
-		<button class="tablinks">My pricelist</button>
+		<button class="tablinks" id="myoffersbtn">My offers</button>
+		<button class="tablinks" onclick="openDiv(event, 'addOfferDiv')">Add
+			offer</button>
 
 	</div>
 
@@ -109,7 +113,8 @@
 
 					<tr>
 						<td align="left">Registration number:</td>
-						<td align="left"><input type="text" name="registrationNumber" required></td>
+						<td align="left"><input type="text" name="registrationNumber"
+							required></td>
 					</tr>
 					<tr>
 						<td align="left">Type:</td>
@@ -168,6 +173,84 @@
 				</table>
 			</form>
 			<br>
+		</div>
+	</div>
+
+	<div id="allOffersDiv" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All special offers</h2>
+			<table align="center" id="specialOffersTable" class="hotelsTable"
+				border=1>
+
+			</table>
+		</div>
+	</div>
+
+	<div id="editOfferDiv" class="tabcontent">
+		<div class="container">
+			<h2>Editing Offer:</h2>
+			<form id="editOfferForm">
+				<input id="editIdOf" type="hidden" name="id">
+				<table style="align: center">
+					<tr>
+						<td align="left">Name:</td>
+						<td align="left"><input id="editNameOf" type="text"
+							name="name" required></td>
+					</tr>
+					<tr>
+						<td align="left">Description:</td>
+						<td align="left"><textarea cols="22" rows="5"
+								name="description" id="editDescOf"></textarea></td>
+					</tr>
+					<tr>
+						<td align="left">Additional payment:</td>
+						<td><input type="text" name="price" id="editPriceOf" required/></td>
+					</tr>
+					<tr>
+						<td align="left"></td>
+						<td align="left"><input type="submit" value="Edit"></td>
+					</tr>
+				</table>
+			</form>
+			<br>
+		</div>
+	</div>
+
+	<div id="addOfferDiv" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black">Add special offer</h2>
+
+			<form id="addOfferForm">
+				<table align="center">
+					<tr>
+						<td align="left">Name:</td>
+						<td><input type="text" name="name" required /></td>
+					</tr>
+
+					<tr>
+						<td align="left">Description:</td>
+						<td align="left"><textarea cols="22" rows="5"
+								name="description" id="special_offer_description"></textarea></td>
+					</tr>
+					<tr>
+						<td align="left">Additional payment:</td>
+						<td><input type="text" name="price" required /></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="submit"
+							id="addSpecialOfferBtn" value="Add new"> <input
+							class="formBtn" type="button" id="cancelSpecialOfferBtn"
+							name="cancelSpecialOffer" value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
 		</div>
 	</div>
 

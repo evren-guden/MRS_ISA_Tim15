@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -119,6 +120,17 @@ public class RentACarController {
 		return rac.getSpecialOffers();
 	}
 	
+	@GetMapping(value = "/{id}/specialOffers/{offerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public RACSpecialOffer getOneRacsOffer(@PathVariable("id") Long id, @PathVariable("offerId") Long offerId){
+		RentACar rac = rentACarService.findOne(id);
+		for (RACSpecialOffer off : rac.getSpecialOffers()) {
+			if(off.getId() == offerId) {
+				return off;
+			}
+		}
+		return null;
+	}
+	
 	@PostMapping(value = "/{id}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RACSpecialOffer> addSpecialOffer(@PathVariable("id") Long id, @RequestBody RACSpecialOffer offer){
 		
@@ -143,14 +155,39 @@ public class RentACarController {
 	
 	@PutMapping(value = "/{id}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RACSpecialOffer> updateOffer(@PathVariable("id") Long id, @RequestBody RACSpecialOffer offer){
-		RACSpecialOffer so = null;
-		try {
-			so = racOfferService.save(offer);
-		} catch (Exception e) {
-			return new ResponseEntity<RACSpecialOffer>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		if(offer.getName().trim().equals("") || offer.getName()==null || offer.getPrice()== null || offer.getPrice().doubleValue()<0) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
-		return new ResponseEntity<RACSpecialOffer>(so, HttpStatus.OK);
+		RACSpecialOffer of = racOfferService.findOne(offer.getId());
+		
+		if (of == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		of.setName(offer.getName());
+		of.setDescription(offer.getDescription());
+		of.setPrice(offer.getPrice());
+		
+		RACSpecialOffer of2 = racOfferService.save(of);
+		
+		return new ResponseEntity<RACSpecialOffer>(of2, HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping(value="/specialOffers/{idOffer}")
+	public ResponseEntity<HttpStatus> delete(@PathVariable("idOffer") Long idOffer){
+		
+		RACSpecialOffer offer = racOfferService.findOne(idOffer);
+		
+		if(offer != null) {
+			racOfferService.delete(idOffer);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
 }

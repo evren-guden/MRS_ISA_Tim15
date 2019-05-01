@@ -244,8 +244,8 @@ function fillBranchTable(data) {
 			function(e) {
 				e.preventDefault();
 				var iden = this.id.substring(7);
-				
-				alertify.confirm("Delete branch", "Are you sure?",function(){
+
+				alertify.confirm("Delete branch", "Are you sure?", function() {
 					$.ajax({
 						type : 'delete',
 						url : "/branchs/" + iden,
@@ -261,7 +261,8 @@ function fillBranchTable(data) {
 						}
 					});
 					alertify.notify('Branch deleted', 'success', 2);
-				}, function(){});
+				}, function() {
+				});
 			});
 
 	$('.beditBtns').on(
@@ -374,8 +375,8 @@ function fillVehicleTable(data) {
 
 				e.preventDefault();
 				var iden = this.id.substring(7);
-				alertify.confirm("Vehicle delete","Are you sure?", function() {
-					
+				alertify.confirm("Vehicle delete", "Are you sure?", function() {
+
 					console.log(iden);
 
 					$.ajax({
@@ -420,6 +421,168 @@ function fillVehicleTable(data) {
 						$('#editTypeVh').val(data.type);
 						$('#editGearVh').val(data.gear);
 						$('#editColorVh').val(data.color);
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
+
+			});
+
+}
+
+
+$(document).on('submit', '#addOfferForm', function(e) {
+
+	e.preventDefault();
+	var formData = getFormData("#addOfferForm");
+	var jsonData = JSON.stringify(formData);
+	iden = localStorage.getItem('userCompanyId');
+	$.ajax({
+		url : "/rentacars/" + iden + "/specialOffers",
+		type : "POST",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(response, HttpStatus) {
+			console.log(HttpStatus);
+			findOffers();
+		},
+		statusCode : {
+			409 : function() {
+				alert('Already exists');
+			},
+			422 : function() {
+				alert('Please enter all required fields');
+			},
+			500 : function() {
+				alert('Internal server error');
+			}
+		},
+	});
+
+});
+
+$(document).on('submit', '#editOfferForm', function(e) {
+
+	e.preventDefault();
+
+	var formData = getFormData("#editOfferForm");
+	var jsonData = JSON.stringify(formData);
+
+	$.ajax({
+		url : "/rentacars/" + localStorage.getItem('userCompanyId') + "/specialOffers",
+		type : "PUT",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : findOffers,
+		error : function(response) {
+			alert("Something went wrong! :(");
+		}
+	});
+
+});
+
+$(document).on('click', '#myoffersbtn', function(e) {
+	findOffers();
+});
+
+function findOffers() {
+
+	$.ajax({
+		type : 'GET',
+		url : "/rentacars/" + localStorage.getItem('userCompanyId') + "/specialOffers",
+		dataType : "json",
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillOfferTable,
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
+
+function fillOfferTable(data) {
+	var of_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$('#tableCap').html("My Offers");
+	$('#branchSearch').empty();
+	var table = $('#branchTable');
+	$('#branchTable').empty();
+	$('#branchTable')
+			.append(
+					'<tr><th>Id</th><th>Name</th><th>Description</th><th>Price</th></tr>');
+
+	$.each(of_list, function(index, offer) {
+
+		var tr = $('<tr></tr>');
+		var form = $('<td>' + offer.id + '</td><td>'
+				+ offer.name + '</td><td>' + offer.description
+				+ '</td><td>' + offer.price + '</td><td><button class="oeditBtns" id="oeditbtn'
+				+ offer.id + '">Edit</button></td><td><button class="odelBtns" id="odelBtn' + offer.id
+				+ '">Delete</button></td>');
+		tr.append(form);
+		table.append(tr);
+	});
+
+	$('.odelBtns').on(
+			'click',
+			function(e) {
+
+				e.preventDefault();
+				var iden = this.id.substring(7);
+				alertify.confirm("Offer delete", "Are you sure?", function() {
+
+					console.log(iden);
+
+					$.ajax({
+						type : 'delete',
+						url : "/rentacars/specialOffers/" + iden,
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader("Authorization", "Bearer "
+									+ getJwtToken());
+						},
+						success : function() {
+							findOffers();
+						},
+						error : function(data) {
+							alert(data);
+						}
+					});
+					alertify.success('Ok', 2);
+				}, function() {
+					alertify.error('Cancel', 2);
+				});
+
+			});
+
+	$('.oeditBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id;
+				openDiv(event, 'editOfferDiv');
+
+				$.ajax({
+					type : 'GET',
+					url : "/rentacars/" + localStorage.getItem('userCompanyId') + "/specialOffers/" + iden.substring(8),
+					dataType : "json",
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(data) {
+						$('#editIdOf').val(data.id);
+						$('#editNameOf').val(data.name);
+						$('#editDescOf').val(data.description);
+						$('#editPriceOf').val(data.price);
 					},
 					error : function(data) {
 						alert(data);
