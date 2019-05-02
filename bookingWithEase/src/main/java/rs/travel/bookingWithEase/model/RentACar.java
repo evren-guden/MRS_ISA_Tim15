@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Component
 @Entity
 public class RentACar extends Company {
@@ -43,6 +45,18 @@ public class RentACar extends Company {
 
 	public Set<Branch> getBranches() {
 		return branches;
+	}
+	
+	@JsonIgnore
+	public Set<Vehicle> getVehicles() {
+		Set<Vehicle> vehs = new HashSet<Vehicle>();
+		
+		for (Branch branch : this.branches) {
+			for (Vehicle vehicle : branch.getVehicles()) {
+				vehs.add(vehicle);
+			}
+		}
+		return vehs;
 	}
 
 	public void setBranches(Set<Branch> branches) {

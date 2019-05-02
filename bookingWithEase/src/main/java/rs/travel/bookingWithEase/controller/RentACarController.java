@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -189,5 +190,12 @@ public class RentACarController {
 		}
 		
 	}
-	
+	// search
+	@RequestMapping(value="/searchNameAddress", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<RentACar>> getByNameAndAddress() {
+
+		Collection<RentACar> racs = rentACarService.findByNameAndAddress("i", "Novi", Date.valueOf("2019-11-01"), Date.valueOf("2019-11-03"));
+
+		return new ResponseEntity<Collection<RentACar>>(racs, HttpStatus.OK);
+	}
 }
