@@ -77,7 +77,7 @@ public class RACService {
 					find = true;
 				}
 				for(VehicleReservation res: veh.getVehicleReservations()) {
-					if ((begin.before(res.getCheckInDate()) && end.after(res.getCheckOutDate())) || (begin.after(res.getCheckInDate()) && begin.before(res.getCheckOutDate()))|| (end.after(res.getCheckInDate()) && begin.before(res.getCheckOutDate()))) {
+					if ((begin.before(res.getCheckInDate()) && end.after(res.getCheckOutDate())) || (begin.after(res.getCheckInDate()) && begin.before(res.getCheckOutDate())) || (end.after(res.getCheckInDate()) && begin.before(res.getCheckOutDate()))) {
 						find = false;
 					}else {
 						find = true;

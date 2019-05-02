@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import rs.travel.bookingWithEase.dto.CompanyDTO;
+import rs.travel.bookingWithEase.dto.HotelSearchDTO;
 import rs.travel.bookingWithEase.dto.RoomDTO;
 import rs.travel.bookingWithEase.dto.RoomSearchDTO;
 import rs.travel.bookingWithEase.model.Company;
@@ -97,11 +98,13 @@ public class HotelController {
 	}
 
 	@PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Hotel>> search(@RequestBody CompanyDTO companyDTO) {
-		Company company = companyService.dtoToCompany(companyDTO);
-		Hotel hotel = new Hotel(company);
-		Collection<Hotel> services = hotelService.search(hotel);
+	public ResponseEntity<Collection<Hotel>> search(@RequestBody HotelSearchDTO hotelSearchDTO) {
+		//Company company = companyService.dtoToCompany(companyDTO);
+		//Hotel hotel = new Hotel(company);
+		System.out.println("\n\n\n " + hotelSearchDTO + "\n\n\n");
+		Collection<Hotel> services = hotelService.search(hotelSearchDTO);
 		return new ResponseEntity<Collection<Hotel>>(services, HttpStatus.OK);
+
 	}
 
 	// ******************* ROOMS *****************
