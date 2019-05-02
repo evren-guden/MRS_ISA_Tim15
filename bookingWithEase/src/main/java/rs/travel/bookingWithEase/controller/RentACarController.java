@@ -1,6 +1,5 @@
 package rs.travel.bookingWithEase.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.travel.bookingWithEase.dto.RentACarDTO;
+import rs.travel.bookingWithEase.dto.RentACarSearchDTO;
 import rs.travel.bookingWithEase.model.Branch;
 import rs.travel.bookingWithEase.model.RACSpecialOffer;
 import rs.travel.bookingWithEase.model.RentACar;
@@ -106,11 +105,11 @@ public class RentACarController {
 		return new ResponseEntity<Collection<Vehicle>>(vehs, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	/*@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RentACar>> search(@RequestBody RentACarDTO rentACar) {
 		Collection<RentACar> services = rentACarService.search(rentACar);
 		return new ResponseEntity<Collection<RentACar>>(services, HttpStatus.OK);
-	}
+	}*/
 	
 	/*******************************************   Special offer   */
 	
@@ -191,10 +190,14 @@ public class RentACarController {
 		
 	}
 	// search
-	@RequestMapping(value="/searchNameAddress", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<RentACar>> getByNameAndAddress() {
-
-		Collection<RentACar> racs = rentACarService.findByNameAndAddress("i", "Novi", Date.valueOf("2019-11-01"), Date.valueOf("2019-11-03"));
+	@PostMapping(value="/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<RentACar>> getByNameAndAddress(@RequestBody RentACarSearchDTO rentACar) {
+		
+		if(rentACar.getPickUp() == null || rentACar.getDropOff() == null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		Collection<RentACar> racs = rentACarService.findByNameAndAddress(rentACar.getName(), rentACar.getAddress(), rentACar.getPickUp(), rentACar.getDropOff());
 
 		return new ResponseEntity<Collection<RentACar>>(racs, HttpStatus.OK);
 	}
