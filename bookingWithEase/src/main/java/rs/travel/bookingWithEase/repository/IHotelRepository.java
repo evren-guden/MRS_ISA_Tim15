@@ -37,9 +37,9 @@ public interface IHotelRepository extends JpaRepository<Hotel, Long> {
 		    "WHERE h2.id = r.hotel.id AND r.id NOT IN " +
 					"(SELECT r2.id FROM Room r2, RoomReservation rr " +
 		             "WHERE r2.id = rr.room.id " +
-					 "AND (rr.checkInDate <= ?1 AND rr.checkOutDate >= ?1) " +
+					 "AND ((rr.checkInDate <= ?1 AND rr.checkOutDate >= ?1) " +
 		             "OR  (rr.checkInDate < ?2 AND rr.checkOutDate >= ?2) " +
-					 "OR  (?1 <= rr.checkInDate AND ?2 >= rr.checkInDate))")
+					 "OR  (?1 <= rr.checkInDate AND ?2 >= rr.checkInDate)))")
 	ArrayList<Hotel> findByRoomAvailability(Date checkIn, Date checkOut);
 
 }

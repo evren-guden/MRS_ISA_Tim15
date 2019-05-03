@@ -39,10 +39,34 @@ insert into room (id, room_number, floor_number, capacity, rating, price_per_nig
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (101, 102, 1, 2, 5, 45, 100);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (102, 103, 1, 2, 5, 45, 200);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (103, 104, 1, 2, 5, 45, 300);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (104, 201, 3, 2, 5, 55, 100);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (105, 202, 2, 2, 5, 55, 100);
+
+insert into price (id, price, start_date, end_date) values (100, 20, '2019-06-01 00:00:00', '2019-07-01 00:00:00');
+insert into price (id, price, start_date, end_date) values (101, 25, '2019-07-01 00:00:00', '2019-08-01 00:00:00');
+insert into price (id, price, start_date, end_date) values (102, 27, '2019-08-01 00:00:00', '2019-09-01 00:00:00');
+insert into price (id, price, start_date, end_date) values (103, 20, '2019-09-01 00:00:00', '2019-10-01 00:00:00');
+
+insert into price (id, price, start_date, end_date) values (104, 20, '2019-06-01 00:00:00', '2019-07-01 00:00:00');
+insert into price (id, price, start_date, end_date) values (105, 25, '2019-07-01 00:00:00', '2019-08-01 00:00:00');
+insert into price (id, price, start_date, end_date) values (106, 27, '2019-08-01 00:00:00', '2019-09-01 00:00:00');
+insert into price (id, price, start_date, end_date) values (107, 20, '2019-09-01 00:00:00', '2019-10-01 00:00:00');
+
+insert into room_prices (room_id, prices_id) values (100, 100);
+insert into room_prices (room_id, prices_id) values (100, 101);
+insert into room_prices (room_id, prices_id) values (100, 102);
+insert into room_prices (room_id, prices_id) values (100, 103);
+
+insert into room_prices (room_id, prices_id) values (101, 104);
+insert into room_prices (room_id, prices_id) values (101, 105);
+insert into room_prices (room_id, prices_id) values (102, 106);
+insert into room_prices (room_id, prices_id) values (102, 107);
+
 
 insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (100, true, 10,  false, 0, false, 0, false, 0);
 
 insert into room_reservation(id, room_id, check_in_date, check_out_date,total_price ) values (100, 102, '2019-11-01 00:00:00', '2019-11-15 00:00:00', 200);
+insert into room_reservation(id, room_id, check_in_date, check_out_date,total_price ) values (101, 101, '2019-11-01 00:00:00', '2019-11-15 00:00:00', 200);
 
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);

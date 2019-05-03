@@ -10,31 +10,7 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 
 $(document).on('click', '#room_search_btn', function(e) {
 	e.preventDefault();
-
-	var formData = getFormData('#room_search_form');
-	if (formData["floorNumber"] === "")
-		formData["floorNumber"] = -11;
-
-	var jsonData = JSON.stringify(formData);
-//	alert(jsonData);
-	$.ajax({
-		url : "/hotels/rooms",
-		type : "POST",
-		dataType : 'json',
-		contentType : "application/json",
-		data : jsonData,
-		beforeSend : function(xhr) {
-			/* Authorization header */
-			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		},
-		success : function(data) {
-			//alert(JSON.stringify(data));
-			fillTableRooms(data);
-		},
-		error : function(response) {
-			alert("Something went wronggg! :(");
-		}
-	});
+	searchRooms();
 });
 
 function roomRegistration() {

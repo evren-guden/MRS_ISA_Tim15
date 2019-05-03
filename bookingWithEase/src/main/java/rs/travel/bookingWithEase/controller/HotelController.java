@@ -159,26 +159,15 @@ public class HotelController {
 	}
 	
 	@PostMapping(value = "/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Room> getAllRooms(@RequestBody RoomSearchDTO roomSearchDTO) {
+	public  ResponseEntity<Collection<Room>> getAllRooms(@RequestBody RoomSearchDTO roomSearchDTO) {
 		System.out.println("\n\n\n" + roomSearchDTO + "\n\n\n");
 		if (roomSearchDTO.getMaxPrice() == 0)
 			roomSearchDTO.setMaxPrice(999999);
 
 		System.out.println("\n\n\n" + roomSearchDTO + "\n\n\n");
 
-		if (roomSearchDTO.getCapacity() == 0 && roomSearchDTO.getFloorNumber() == -11) {
-			return roomService.findByPriceRange(roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
-
-		} else if (roomSearchDTO.getCapacity() == 0) {
-			return roomService.findByPriceRangeAndFloorNumber(roomSearchDTO.getFloorNumber(),
-					roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
-		} else if (roomSearchDTO.getFloorNumber() == -11) {
-			return roomService.findByPriceRangeAndCapacity(roomSearchDTO.getCapacity(), roomSearchDTO.getMinPrice(),
-					roomSearchDTO.getMaxPrice());
-		}
-
-		return roomService.search(roomSearchDTO.getCapacity(), roomSearchDTO.getFloorNumber(),
-				roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+		Collection<Room> services = roomService.search(roomSearchDTO);
+		return new ResponseEntity<Collection<Room>>(services, HttpStatus.OK);
 	}
 
 

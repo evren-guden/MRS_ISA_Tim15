@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.RoomDTO;
+import rs.travel.bookingWithEase.dto.RoomSearchDTO;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.Price;
 import rs.travel.bookingWithEase.model.Room;
@@ -39,29 +41,40 @@ public class RoomService {
 		return rooms.findAll();
 	}
 	
+	public List<Room> search(RoomSearchDTO roomSearchDTO)
+	{	
+		ArrayList<Room> result1 = new ArrayList<Room>();
+		ArrayList<Room> result2 = new ArrayList<Room>();
+		
+		if (roomSearchDTO.getCapacity() == 0 && roomSearchDTO.getFloorNumber() == -11) {
+			result1 = rooms.findByPriceRange(roomSearchDTO.getHotelId(), roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+
+		} else if (roomSearchDTO.getCapacity() == 0) {
+			result1 = rooms.findByPriceRangeAndFloorNumber(roomSearchDTO.getHotelId(), roomSearchDTO.getFloorNumber(),
+					roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+		} else if (roomSearchDTO.getFloorNumber() == -11) {
+			result1 = rooms.findByPriceRangeAndCapacity(roomSearchDTO.getHotelId(), roomSearchDTO.getCapacity(), roomSearchDTO.getMinPrice(),
+					roomSearchDTO.getMaxPrice());
+		}else {
+			result1 = rooms.search(roomSearchDTO.getHotelId(),roomSearchDTO.getCapacity(), roomSearchDTO.getFloorNumber(),
+					roomSearchDTO.getMinPrice(), roomSearchDTO.getMaxPrice());
+		}
+		
+		if (roomSearchDTO.getCheckIn() != null && roomSearchDTO.getCheckOut() != null) {
+			result2 = rooms.findByAvailability(roomSearchDTO.getHotelId(), roomSearchDTO.getCheckIn(), roomSearchDTO.getCheckOut());
+			for(Room r : result2)
+			{
+				System.out.println("\n\n room id " + r.getId()+ "\n\n");
+			}
+			result1.retainAll(result2); // intersection
+		}
+		
+		return result1;
+	}
+ 	
 	public List<Room> findByHotelId(Long id)
 	{	
 		return rooms.findByHotel(hotels.findById(id).get());
-	}
-	
-	public List<Room> findByPriceRange(double minPrice, double maxPrice)
-	{
-		return rooms.findByPriceRange(minPrice, maxPrice);
-	}
-	
-	public List<Room> findByPriceRangeAndCapacity(int capacity, double minPrice, double maxPrice)
-	{
-		return rooms.findByPriceRangeAndCapacity(capacity, minPrice, maxPrice);
-	}
-	
-	public List<Room> findByPriceRangeAndFloorNumber(int floorNumber, double minPrice, double maxPrice)
-	{
-		return rooms.findByPriceRangeAndFloorNumber(floorNumber, minPrice, maxPrice);
-	}
-	
-	public List<Room> search(int capacity, int floorNumber, double minPrice, double maxPrice)
-	{
-		return rooms.search(capacity, floorNumber, minPrice, maxPrice);
 	}
 
 	public Room save(Room room) {

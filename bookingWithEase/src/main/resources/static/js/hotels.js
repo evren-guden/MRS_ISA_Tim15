@@ -9,6 +9,11 @@ $(document).on('click', '.new_room', function(e) {
 
 });
 
+$(document).on('click', '#search_hotel_btn', function(e) {
+	e.preventDefault();
+	searchHotels();
+});
+
 $(document).on('click', '#edit_room_btn', function(e) {
 	e.preventDefault();
 
@@ -133,10 +138,12 @@ function getRooms(hotelId) {
 	});
 }
 
-$(document).on('click', '#search_hotel_btn', function(e) {
-	e.preventDefault();
-
+function searchHotels()
+{
 	var formData = getFormData("#form-hotels-search");
+	localStorage.setItem("latestHSearchCheckIn",formData['checkIn']);
+	localStorage.setItem("latestHSearchCheckOut", formData['checkOut']);
+	
 	var jsonData = JSON.stringify(formData);
 	$.ajax({
 		type : 'POST',
@@ -150,8 +157,7 @@ $(document).on('click', '#search_hotel_btn', function(e) {
 		},
 		success : fillHotelsTable
 	});
-
-});
+}
 
 function fillHotelsTable(data) {
 
@@ -214,6 +220,9 @@ function fillHotelsTable(data) {
 			localStorage.removeItem('showRooms');
 		}
 		localStorage.setItem('showRooms', iden);
+		var formData = getFormData('#form-hotels-search');
+		localStorage.setItem('latestHSearchCheckIn', formData['checkIn']);
+		localStorage.setItem('latestHSearchCheckOut', formData['checkOut']);
 		window.location.href = "rooms.html";
 	});
 

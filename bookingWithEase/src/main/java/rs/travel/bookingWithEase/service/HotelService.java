@@ -75,7 +75,12 @@ public class HotelService {
 				hotelSearchDTO.getStars(), hotelSearchDTO.getRating());
 
 		if (hotelSearchDTO.getCheckIn() != null && hotelSearchDTO.getCheckOut() != null) {
+			System.out.println("Ovde");
 			result2 = hotels.findByRoomAvailability(hotelSearchDTO.getCheckIn(), hotelSearchDTO.getCheckOut());
+			for(Hotel h : result2)
+			{
+				System.out.println("hotel id " + h.getId() + " name " + h.getName());
+			}
 			result1.retainAll(result2); // intersection
 		}
 		

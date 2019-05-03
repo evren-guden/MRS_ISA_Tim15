@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class RoomSearchDTO {
 	
+	private Long hotelId;
 	private int capacity;
 	private int floorNumber;
 	private double minPrice;
@@ -15,8 +16,9 @@ public class RoomSearchDTO {
 		super();
 	}
 
-	public RoomSearchDTO(int capacity,int floorNumber, double minPrice, double maxPrice, Date checkIn, Date checkOut) {
+	public RoomSearchDTO(Long hotelId, int capacity,int floorNumber, double minPrice, double maxPrice, Date checkIn, Date checkOut) {
 		super();
+		this.hotelId = hotelId;
 		this.capacity = capacity;
 		this.floorNumber = floorNumber;
 		this.minPrice = minPrice;
@@ -27,8 +29,17 @@ public class RoomSearchDTO {
 	
 	@Override
 	public String toString() {
-		return "RoomSearchDTO [capacity=" + capacity + ", floorNumber=" + floorNumber + ", minPrice=" + minPrice + ", maxPrice="
-				+ maxPrice + ", checkIn=" + checkIn + ", checkOut=" + checkOut + "]";
+		return "RoomSearchDTO [hotelId=" + hotelId + ", capacity=" + capacity + ", floorNumber=" + floorNumber
+				+ ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", checkIn=" + checkIn + ", checkOut="
+				+ checkOut + "]";
+	}
+	
+	public Long getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(Long hotelId) {
+		this.hotelId = hotelId;
 	}
 
 	public int getCapacity() {
