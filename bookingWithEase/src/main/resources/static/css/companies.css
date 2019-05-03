@@ -75,6 +75,15 @@ div p {
 	border-bottom: solid gray 1px;
 }
 
+.totalPrice
+{
+	position: absolute;
+	top: 20%;
+	left: 86%;
+	font-size: 37px;
+	color: yellow;
+}
+
 /****************************** Buttons ***********************************/
 .show_details_btn {
 	position: absolute;

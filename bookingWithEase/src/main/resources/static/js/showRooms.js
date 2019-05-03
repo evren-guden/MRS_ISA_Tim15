@@ -97,8 +97,16 @@ function fillTableRooms(data) {
 						vehDiv
 								.append('<p style="position: absolute;top:65%;left:22%;">Price per night: '
 										+ veh.pricePerNight + ' &#8364;</p>');
+						vehDiv.append('<p style="position: absolute;top:2%;left:80%;">Guest ratings: ' + (veh.rating == null ? 0
+								: veh.rating) + ' / 5 </p>');
+						
+						if(veh.totalPrice != undefined && veh.totalPrice != 0)
+						{
+							vehDiv.append('<p class="totalPrice">' + veh.totalPrice + '&#8364</p>');
+						}
+						
 						vehDiv
-								.append('<button class="show_details_btn">Make reservation</button>');
+								.append('<button class="show_details_btn">Book now</button>');
 
 						var slideShowContainer = $('<div class="slideshow-container"></div>');
 						$
