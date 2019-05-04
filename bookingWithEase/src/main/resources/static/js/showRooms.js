@@ -76,7 +76,7 @@ function fillTableRooms(data) {
 			.each(
 					veh_list,
 					function(index, veh) {
-						//alert(JSON.stringify(veh));
+						// alert(JSON.stringify(veh));
 						var vehDiv = $('<div class="company-div" id="vehDiv_'
 								+ counter
 								+ '" style="bottom:'
@@ -97,16 +97,18 @@ function fillTableRooms(data) {
 						vehDiv
 								.append('<p style="position: absolute;top:65%;left:22%;">Price per night: '
 										+ veh.pricePerNight + ' &#8364;</p>');
-						vehDiv.append('<p style="position: absolute;top:2%;left:80%;">Guest ratings: ' + (veh.rating == null ? 0
-								: veh.rating) + ' / 5 </p>');
-						
-						if(veh.totalPrice != undefined && veh.totalPrice != 0)
-						{
-							vehDiv.append('<p class="totalPrice">' + veh.totalPrice + '&#8364</p>');
-						}
-						
 						vehDiv
-								.append('<button class="show_details_btn">Book now</button>');
+								.append('<p style="position: absolute;top:2%;left:80%;">Guest ratings: '
+										+ (veh.rating == null ? 0 : veh.rating)
+										+ ' / 5 </p>');
+
+						if (veh.totalPrice != undefined && veh.totalPrice != 0) {
+							vehDiv.append('<p class="totalPrice">'
+									+ veh.totalPrice + '&#8364</p>');
+						}
+
+						vehDiv
+								.append('<button class="show_details_btn book_room_btn" id="book_room_' + veh.id + '">Book now</button>');
 
 						var slideShowContainer = $('<div class="slideshow-container"></div>');
 						$
@@ -152,6 +154,87 @@ function fillTableRooms(data) {
 			showSlides(1, veh.id);
 	});
 
+	$('.book_room_btn').on('click', function(e) {
+		e.preventDefault();
+		var roomId = this.id.substring(10);
+
+		bookRoom(roomId);
+
+	});
+}
+
+function bookRoom(roomId) {
+	alertify.set('notifier','position', 'top-right');
+	
+	var hotelId = localStorage.getItem('showRooms');
+	var rrData = collectRoomReservationData();
+	rrData['roomId'] = roomId;
+	
+	if(!validateRRData(rrData))
+	{
+		return;
+	}
+	
+	var jsonData = JSON.stringify(rrData);
+	//alert('rr ' + jsonData);
+	$.ajax({
+		type : 'POST',
+		url : '/hotels/' + hotelId + '/roomReservations',
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function() {
+			alertify.notify('Room booked!');
+		},
+		statusCode : {
+			403 : function() {
+				
+				alertify.error('You must first log in!');
+			}
+		}
+	});
+}
+
+function collectRoomReservationData()
+{
+	var rrData = {};
+	rrData['hotelId'] = localStorage.getItem('showRooms');
+	rrData['checkIn'] = localStorage.getItem('latestHSearchCheckIn');
+	rrData['checkOut'] = localStorage.getItem('latestHSearchCheckOut');
+	if(JSON.parse(localStorage.getItem('currentUser')) != null)
+		rrData['userId'] = JSON.parse(localStorage.getItem('currentUser')).id;
+	// TODO change this
+	rrData['totalPrice'] = 13;
+	
+	return rrData;
+	
+}
+
+function validateRRData(rrData)
+{	
+	alertify.set('notifier','position', 'top-right');
+	if(rrData['userId'] === undefined || rrData['userId'] === null)
+	{
+		alertify.error('You must first log in!');
+		return false;
+	}
+	else if(rrData['checkIn'] === "" || rrData['checkOut'] === "")
+	{
+		alertify.error('You must choose check in and check out dates!');
+		return false;
+	}
+	else if(rrData['checkIn'] >= rrData['checkOut'])
+	{	
+		// TODO fix bug
+		alertify.error('Invalid dates!');
+		return false;
+	}
+	
+	return true;
 }
 
 var slideIndex = 1;

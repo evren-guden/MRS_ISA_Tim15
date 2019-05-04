@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
+import rs.travel.bookingWithEase.model.RegisteredUser;
+import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.model.User;
 import rs.travel.bookingWithEase.security.TokenUtils;
 import rs.travel.bookingWithEase.service.UserService;
+import rs.travel.bookingWithEase.service.RoomReservationService;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -25,7 +29,10 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired 
+	private RoomReservationService roomResService;
+	
 	@Autowired
 	private TokenUtils tokenUtils;
 
@@ -83,6 +90,16 @@ public class UserController {
 		User user = userService.findByUsername(username);
 
 		return ResponseEntity.ok(user);
+	}
+
+	// **************** RESERVATIONS *************
+	
+	//@PreAuthorize("hasRole('USER')")
+	@GetMapping(value="/{userId}/roomReservations", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<RoomReservation>> getUserRoomReservations(@PathVariable("userId") Long userId)
+	{	
+		RegisteredUser u = (RegisteredUser)userService.findOne(userId).get();
+		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u),HttpStatus.OK);
 	}
 
 }

@@ -8,14 +8,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import rs.travel.bookingWithEase.model.Room;
+import rs.travel.bookingWithEase.dto.RoomReservationDTO;
 import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.service.RoomReservationService;
 
@@ -34,14 +32,14 @@ public class RoomReservationController {
 		return new ResponseEntity<Collection<RoomReservation>>(roomRes, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('USER')")
+	//@PreAuthorize("hasRole('USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RoomReservation> create(@RequestBody RoomReservation vehRes){
-		
+	public ResponseEntity<RoomReservation> create(@RequestBody RoomReservationDTO roomResDTO){
+		RoomReservation roomRes = roomResService.dtoToReservation(roomResDTO);
 		RoomReservation roomReservation = null;
 		
 		try {
-			roomReservation = roomResService.save(vehRes);
+			roomReservation = roomResService.save(roomRes);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
