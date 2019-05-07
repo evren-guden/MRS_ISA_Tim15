@@ -71,13 +71,21 @@ function fillTable(data) {
 								.append('<p style="position: absolute;top:65%;left:25%;">'
 										+ veh.gear + '</p>');
 						vehDiv
-								.append('<button class="show_details_btn">Make reservation</button>');
+								.append('<button class="show_details_btn reserve_veh" id="reserve_veh' + veh.id + '">Make reservation</button>');
 
 						counter++;
 						vehsDiv.append(vehDiv);
 
 					});
+	$('.reserve_veh').on('click', function(e) {
+		e.preventDefault();
+		var vehId = this.id.substring(11);
+		var vrData = collectVehicleReservationData(vehId);
 
+
+		reserveVehicle(vrData);
+
+	});
 }
 
 
@@ -100,3 +108,49 @@ $(document).on('submit', '#formsrcvehs', function(e) {
 	});
 
 });
+
+function reserveVehicle(vrData) {
+
+	alertify.set('notifier', 'position', 'top-right');
+
+	var racId = localStorage.getItem('showVeh');
+
+	var jsonData = JSON.stringify(vrData);
+	// alert('rr ' + jsonData);
+	$.ajax({
+		type : 'POST',
+		url : '/vehicleReservations',
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function() {
+			alertify.notify('Vehicle reserved!');
+		},
+		statusCode : {
+			403 : function() {
+
+				alertify.error('You must first log in!');
+			}
+		}
+	});
+}
+
+function collectVehicleReservationData(vehicleId) {
+
+	var vrData = {};
+	vrData['vehicle_id'] = vehicleId;
+	vrData['racId'] = localStorage.getItem('showVeh');
+	vrData['checkInDate'] = $('#vehpickup').val();
+	vrData['checkOutDate'] = $('#vehdropoff').val();
+	if (JSON.parse(localStorage.getItem('currentUser')) != null)
+		vrData['user_id'] = JSON.parse(localStorage.getItem('currentUser')).id;
+
+	//rrData['totalPrice'] = localStorage.getItem('currentPrice');
+
+	return vrData;
+
+}
