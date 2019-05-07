@@ -62,6 +62,25 @@ insert into room_prices (room_id, prices_id) values (101, 105);
 insert into room_prices (room_id, prices_id) values (102, 106);
 insert into room_prices (room_id, prices_id) values (102, 107);
 
+insert into hotel_special_offer (id, name, description, price) values (100, 'Wellness','', 10);
+insert into hotel_special_offer (id, name, description, price) values (101, 'Wellness','', 12);
+insert into hotel_special_offer (id, name, description, price) values (102, 'Wellness','', 11);
+insert into hotel_special_offer (id, name, description, price) values (103, 'Wellness','', 13);
+
+insert into hotel_special_offer (id, name, description, price) values (104, 'Gym','', 9);
+insert into hotel_special_offer (id, name, description, price) values (105, 'Gym','', 10);
+insert into hotel_special_offer (id, name, description, price) values (106, 'Gym','', 10);
+insert into hotel_special_offer (id, name, description, price) values (107, 'Gym','', 12);
+
+insert into hotel_special_offers (hotel_id, special_offers_id) values (100, 100);
+insert into hotel_special_offers (hotel_id, special_offers_id) values (200, 101);
+insert into hotel_special_offers (hotel_id, special_offers_id) values (300, 102);
+insert into hotel_special_offers (hotel_id, special_offers_id) values (400, 103);
+
+insert into hotel_special_offers (hotel_id, special_offers_id) values (100, 104);
+insert into hotel_special_offers (hotel_id, special_offers_id) values (200, 105);
+insert into hotel_special_offers (hotel_id, special_offers_id) values (300, 106);
+insert into hotel_special_offers (hotel_id, special_offers_id) values (400, 107);
 
 insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (100, true, 10,  false, 0, false, 0, false, 0);
 

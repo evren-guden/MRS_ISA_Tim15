@@ -1,6 +1,8 @@
 package rs.travel.bookingWithEase.dto;
 
 import java.util.Date;
+import java.util.List;
+
 
 public class RoomReservationDTO {
 	
@@ -10,6 +12,7 @@ public class RoomReservationDTO {
 	private Long userId;
 	private Date checkIn;
 	private Date checkOut;
+	private List<Long> specialOffers;
 	private double totalPrice;
 	
 	public RoomReservationDTO() {
@@ -89,4 +92,12 @@ public class RoomReservationDTO {
 		this.totalPrice = totalPrice;
 	}
 
+	public List<Long> getSpecialOffers() {
+		return specialOffers;
+	}
+
+	public void setSpecialOffers(List<Long> specialOffers) {
+		this.specialOffers = specialOffers;
+	}
+	
 }
