@@ -1,8 +1,34 @@
-findVehicles();
+$( document ).ready(function() {
+	findVehicles();
+});
+
 
 function findVehicles() {
 	var value = localStorage.getItem('showVeh');
-	$('#racIdHidden').val(value);
+	if(localStorage.getItem('vehicleBegin') != null){
+		$('#vehpickup').val(localStorage.getItem('vehicleBegin'));
+		$('#vehdropoff').val(localStorage.getItem('vehicleEnd'));
+		
+		var formData = getFormData("#formsrcvehs");
+		var jsonData = JSON.stringify(formData);
+		$.ajax({
+			type : 'POST',
+			url : '/rentacars/vehicles/search',
+			contentType : 'application/json',
+			dataType : 'json',
+			data : jsonData,
+			beforeSend : function(xhr) {
+				/* Authorization header */
+				xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+			},
+			success : fillTable
+		});
+		
+		localStorage.removeItem('vehicleBegin');
+		localStorage.removeItem('vehicleEnd');
+	}else{
+	
+	
 	$.ajax({
 		type : 'GET',
 		url : "/rentacars/" + value + "/vehicles",
@@ -14,7 +40,7 @@ function findVehicles() {
 		error : function(data) {
 			alert(data);
 		}
-	});
+	});}
 }
 
 function fillTable(data) {
@@ -57,7 +83,7 @@ function fillTable(data) {
 
 $(document).on('submit', '#formsrcvehs', function(e) {
 	e.preventDefault();
-
+	$('#racIdHidden').val(localStorage.getItem('showVeh'));
 	var formData = getFormData("#formsrcvehs");
 	var jsonData = JSON.stringify(formData);
 	$.ajax({

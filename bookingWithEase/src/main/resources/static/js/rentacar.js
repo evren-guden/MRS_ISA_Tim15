@@ -47,7 +47,10 @@ function findRentacars() {
 
 $(document).on('submit', '#formsrc', function(e) {
 	e.preventDefault();
-
+	var begin = $('#srcRacPickUp').val();
+	var end = $('#srcRacDropOff').val();
+	localStorage.setItem("vehicleBegin", begin);
+	localStorage.setItem("vehicleEnd", end);
 	var formData = getFormData("#formsrc");
 	var jsonData = JSON.stringify(formData);
 	$.ajax({

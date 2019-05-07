@@ -14,11 +14,11 @@ public interface IVehicleRepository extends JpaRepository<Vehicle, Long>{
 
 	ArrayList<Vehicle> findByTypeContainingIgnoreCaseAndGearContainingIgnoreCase(String type, String gear);
 	
-	@Query("SELECT v FROM Vehicle v WHERE v.rentacar.id = ?1 AND ?3 >= v.pricePerDay AND ?2 <= v.pricePerDay")
+	@Query("SELECT v FROM Vehicle v WHERE v.branch.rac.id = ?1 AND ?3 >= v.pricePerDay AND ?2 <= v.pricePerDay")
 	ArrayList<Vehicle> findByPriceRange(Long rentacarId, double minPrice, double maxPrice);
 	
 	@Query("SELECT DISTINCT v FROM Vehicle v " +
-		    "WHERE v.rentacar.id = ?1 AND v.id NOT IN " +
+		    "WHERE v.branch.rac.id = ?1 AND v.id NOT IN " +
 					"(SELECT v2.id FROM Vehicle v2, VehicleReservation vr " +
 		             "WHERE v2.id = vr.vehicle.id " +
 					 "AND ((vr.checkInDate <= ?2 AND vr.checkOutDate >= ?2) " +

@@ -19,11 +19,11 @@ insert into branch (id, rac_id, name, address) values (2, 303,'My branch 1', 'No
 insert into branch (id, rac_id, name, address) values (3, 101,'My branch 2', 'Zlatibor');
 insert into branch (id, rac_id, name, address) values (4, 101,'My branch 3', 'Kraljevo');
 
-insert into vehicle (id, registration_number, type, gear, color, branch_id, rentacar_id) values (1, 'AA-11', 'neki_tip', 'automatic', 'red', 1, 101);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (2, 'BB-11', 'neki_tip2', 'manual', 'green',1);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (3, 'CC-11', 'neki_tip3', 'automatic', 'black', 1);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (4, 'DD-11', 'neki_tip2', 'manual', 'green',1);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (5, 'EE-11', 'neki_tip3', 'automatic', 'black', 1);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (1, 'AA-11', 'neki_tip', 'automatic', 'red', 1, 400);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (2, 'BB-11', 'neki_tip2', 'manual', 'green',1, 350);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (3, 'CC-11', 'neki_tip3', 'automatic', 'black', 1, 100);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (4, 'DD-11', 'neki_tip2', 'manual', 'green',1, 700);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (5, 'EE-11', 'neki_tip3', 'automatic', 'black', 1, 560);
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (6, 'BB-11', 'neki_tip2', 'manual', 'green',3);
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (7, 'CC-11', 'neki_tip3', 'automatic', 'black', 3);
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (8, 'BB-11', 'neki_tip2', 'manual', 'green',4);
