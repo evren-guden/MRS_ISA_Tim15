@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import rs.travel.bookingWithEase.dto.AirlineDTO;
-
+//proba
 @Component
 @Entity
 @Table(name = "Airline")
@@ -38,7 +38,16 @@ public class Airline extends Company {
 	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<AirlineCustomerService> airlineCustomerServices = new HashSet<AirlineCustomerService>();
 
+	/*@OneToMany(mappedBy="id", fetch=FetchType.LAZY ,cascade = CascadeType.ALL)
+	private Set<Ticket> quickBookingTickets;
 	
+	
+
+	@Column(name = "average_rating", nullable = true)
+	private Float average_rating;
+	
+	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<AirlineAdmin> admins;*/
 
 	public Airline() {
 		super();
@@ -46,6 +55,11 @@ public class Airline extends Company {
 
 	public Airline(long id, String name, String address, String description, double rating) {
 		super(id, name, address, description, rating);
+
+	}
+	
+	public Airline(long id, String name, String address, String description) {
+		super(id, name, address, description);
 
 	}
 	
@@ -65,9 +79,9 @@ public class Airline extends Company {
 	}
 	
 	public Airline(AirlineDTO airlineDTO) {
-		this.name = airlineDTO.getAirlineNameRegister();
-		this.address = airlineDTO.getAirlineAddressRegister();
-		this.description = airlineDTO.getAirlinePromotionalDescription();
+		this.name = airlineDTO.getName();
+		this.address = airlineDTO.getAddress();
+		this.description = airlineDTO.getDescription();
 	}
 	
 

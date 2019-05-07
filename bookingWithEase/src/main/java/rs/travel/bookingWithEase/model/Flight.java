@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
-import rs.travel.bookingWithEase.dto.FlightDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Component
 @Entity
@@ -31,7 +31,6 @@ public class Flight {
 	@Column(name = "number")
 	private String number;
 	
-
 	@Column(name = "dateFligh")
 	private Date dateFligh;
 
@@ -39,11 +38,10 @@ public class Flight {
 	private Date dateLand;
 
 	@Column(name = "timeTravel")
-	private Date timeTravel;
+	private int timeTravel;
 
 	@Column(name = "lengthTravel")
 	private int lengthTravel;
-	
 	
 	@Column(name = "startD")
 	private String startD;
@@ -51,13 +49,8 @@ public class Flight {
 	@Column(name = "finalD")
 	private String finalD;
 	
-	
-	
-
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Ticket> tickets = new HashSet<Ticket>();
-	
-	
 	
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Destination> transitions = new HashSet<Destination>();
@@ -78,11 +71,40 @@ public class Flight {
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "start_id")
+	@JsonIgnore
 	private Destination startDestination;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "final_id")
+	@JsonIgnore
 	private Destination endDestination;
+	
+	
+	/*
+	
+	@Column(name = "firstClassPrice")
+	private Double firstClassPrice;
+	
+	@Column(name = "businessClassPrice")
+	private Double businessClassPrice;
+	
+	@Column(name = "economyClassPrice")
+	private Double economyClassPrice;
+
+	@Column(name = "pricePerBag")
+	private Double pricePerBag;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private Set<Seat> seats;
+	
+	*/
+	
+	
+	
+
+	
+	
+	
 
 	public Long getId() {
 		return id;
@@ -116,11 +138,11 @@ public class Flight {
 		this.dateLand = dateLand;
 	}
 
-	public Date getTimeTravel() {
+	public int getTimeTravel() {
 		return timeTravel;
 	}
 
-	public void setTimeTravel(Date timeTravel) {
+	public void setTimeTravel(int timeTravel) {
 		this.timeTravel = timeTravel;
 	}
 
@@ -212,7 +234,7 @@ public class Flight {
 		this.endDestination = endDestination;
 	}
 
-	public Flight(Long id, String number, Date dateFligh, Date dateLand, Date timeTravel, int lengthTravel,
+	public Flight(Long id, String number, Date dateFligh, Date dateLand, int timeTravel, int lengthTravel,
 			String startD, String finalD, Set<Ticket> tickets, Set<Destination> transitions, double priceTicket,
 			String informationLuggage, Set<Destination> destinations, Airline airline, Destination startDestination,
 			Destination endDestination) {
@@ -230,6 +252,24 @@ public class Flight {
 		this.priceTicket = priceTicket;
 		this.informationLuggage = informationLuggage;
 		this.destinations = destinations;
+		this.airline = airline;
+		this.startDestination = startDestination;
+		this.endDestination = endDestination;
+	}
+	
+	public Flight(String number, Date dateFligh, Date dateLand, int timeTravel, int lengthTravel,
+			String startD, String finalD, double priceTicket, String informationLuggage, Airline airline, Destination startDestination,
+			Destination endDestination) {
+		super();
+		this.number = number;
+		this.dateFligh = dateFligh;
+		this.dateLand = dateLand;
+		this.timeTravel = timeTravel;
+		this.lengthTravel = lengthTravel;
+		this.startD = startD;
+		this.finalD = finalD;
+		this.priceTicket = priceTicket;
+		this.informationLuggage = informationLuggage;
 		this.airline = airline;
 		this.startDestination = startDestination;
 		this.endDestination = endDestination;

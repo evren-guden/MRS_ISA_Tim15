@@ -3,47 +3,59 @@ package rs.travel.bookingWithEase.dto;
 import rs.travel.bookingWithEase.model.Airline;
 
 public class AirlineDTO {
-	private String airlineNameRegister;
-	private String airlineAddressRegister;
-	private String airlinePromotionalDescription;
-
-	public String getAirlineNameRegister() {
-		return airlineNameRegister;
-	}
-
-	public void setAirlineNameRegister(String airlineNameRegister) {
-		this.airlineNameRegister = airlineNameRegister;
-	}
-
-	public String getAirlineAddressRegister() {
-		return airlineAddressRegister;
-	}
-
-	public void setAirlineAddressRegister(String airlineAddressRegister) {
-		this.airlineAddressRegister = airlineAddressRegister;
-	}
-
-	public String getAirlinePromotionalDescription() {
-		return airlinePromotionalDescription;
-	}
-
-	public void setAirlinePromotionalDescription(String airlinePromotionalDescription) {
-		this.airlinePromotionalDescription = airlinePromotionalDescription;
-	}
+	private Long id;
+	private String name;
+	private String address;
+	private String description;
 
 	public AirlineDTO() {
 		super();
 	}
-
-	public AirlineDTO(String airlineNameRegister, String airlineAddressRegister, String airlinePromotionalDescription) {
+	
+	public AirlineDTO(Long id, String name, String address, String description) {
 		super();
-		this.airlineNameRegister = airlineNameRegister;
-		this.airlineAddressRegister = airlineAddressRegister;
-		this.airlinePromotionalDescription = airlinePromotionalDescription;
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
 	}
-	public AirlineDTO(Airline air) {
-		super();
-		this.airlineNameRegister=air.getName();
-		this.airlinePromotionalDescription=air.getDescription();
+	
+	public AirlineDTO(Airline airline) {
+		this.id = airline.getId();
+		this.name = airline.getName();
+		this.address = airline.getAddress();
+		this.description = airline.getDescription();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link type="text/css" rel="stylesheet" href="css/homePageAir.css" />
+<link type="text/css" rel="stylesheet" href="css/navbar.css" />
 
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
@@ -9,11 +11,6 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/adminAirline.js"></script>
-
-<link type="text/css" rel="stylesheet" href="css/homePageAir.css" />
-<link type="text/css" rel="stylesheet" href="css/navbar.css" />
-
-<title>Booking With Ease</title>
 
 </head>
 
@@ -30,51 +27,41 @@
 	</nav>
 
 	<div class="tab">
-
-		<button class="tablinks" onclick="openCity(event, 'editAirline')">Editing
-			an airline</button>
-		<button class="tablinks" onclick="openCity(event, 'addFlight')">Add
-			flight</button>
-		<button class="tablinks" onclick="openCity(event, 'allF')">All
-			flight</button>
-		<button class="tablinks" onclick="openCity(event, 'registerDest')">Add
-			destination</button>
-		<button class="tablinks" onclick="openCity(event, 'allDest')">All
-			destination</button>
+		<select id="airlinesDropdown" name="airlinesDropdown"></select>
+		<button class="tablinks" onclick="openCity(event, 'editAirline')">Editing an airline</button>
+		<button class="tablinks" onclick="openCity(event, 'registerDest')">Add destination</button>
+		<button class="tablinks" onclick="openCity(event, 'allDest'); findDestination();">All destination</button>
+		<button class="tablinks" onclick="openCity(event, 'addFlight')">Add	flight</button>
+		<button class="tablinks" onclick="openCity(event, 'allF'); findFlights();">All flight</button>
 
 	</div>
 	<div id="editAirline" class="tabcontent">
 		<div class="container">
 			<h1>Edit</h1>
-			<form>
+			<form id="editCompanyForm">
 				<table align="center">
-
-
 					<tr>
 						<td align="left">Name:</td>
-						<td><input type="text" name="name" required /></td>
+						<td><input type="text" id="companyName" name="name" required /></td>
 					</tr>
-
 					<tr>
 						<td align="left">Address:</td>
-						<td><input type="text" name="address" required /></td>
+						<td><input type="text" id="companyAddress" name="address" required /></td>
 					</tr>
 					<tr>
 						<td>Promotional description: &nbsp;</td>
-						<td align="left"><textarea cols="22" rows="5"
-								name="description" required></textarea></td>
+						<td align="left"><textarea cols="22" rows="5" id="companyDesc" name="description" required></textarea></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
-						<td align="right"><input class="formBtn" type="submit"
-							id="registerCompany" value="Submit"> <input
-							class="formBtn" type="button" id="cancelCompReg"
-							name="cancelCompReg" value="Cancel"></td>
+						<td align="right">
+							<input class="formBtn" type="submit" id="registerCompany" value="Submit">
+							<input class="formBtn" type="button" id="cancelCompReg" name="cancelCompReg" value="Cancel">
+						</td>
 					</tr>
-
 
 				</table>
 
@@ -89,16 +76,18 @@
 			<form id="addFlightForm">
 				<table>
 					<tr>
-						<td>ID:</td>
-
+						<td>Flight number:</td>
+						<td><input type="text" name="number" required/></td>
 					</tr>
 					<tr>
 						<td>Start:</td>
-						<td><input type="text" name="startD" required /></td>
+						<!-- <td><input type="text" name="startD" required /></td>-->
+						<td><select id="startDestinationDropdown" name="startDestinationDropdown"></select></td>
 					</tr>
 					<tr>
 						<td>Final:</td>
-						<td><input type="text" name="finalD" required /></td>
+						<!-- <td><input type="text" name="finalD" required /></td>-->
+						<td><select id="endDestinationDropdown" name="endDestinationDropdown"></select></td>
 					</tr>
 					<tr>
 						<td>Date fligh:</td>
@@ -112,8 +101,10 @@
 						<td>Length travel:</td>
 						<td><input type="number" name="lengthTravel" min="0" /></td>
 					</tr>
-
-
+					<tr>
+						<td>Flight duration:</td>
+						<td><input type="number" name="timeTravel" required/></td>
+					</tr>
 					<tr>
 						<td>Price ticket:</td>
 						<td><input type="number" name="priceTicket" min="1" /></td>
@@ -142,6 +133,7 @@
 						<th>Date flight</th>
 						<th>Date landing</th>
 						<th>Length travel</th>
+						<th>Flight duration</th>
 						<th>Price ticket</th>
 					</tr>
 				</table>
@@ -149,16 +141,14 @@
 		</div>
 	</div>
 
-
 	<div id="registerDest" class="tabcontent">
 		<div class="container">
 			<h1>Register destination</h1>
 			<form id="destRegForm">
 				<table align="center">
-
 					<tr>
 						<td align="left">Name airport:</td>
-						<td><input type="text" name="nameAerodroms" required /></td>
+						<td><input type="text" name="name" required /></td>
 					</tr>
 
 					<tr>
@@ -172,7 +162,6 @@
 					</tr>
 
 				</table>
-
 			</form>
 		</div>
 	</div>
@@ -187,6 +176,7 @@
 						<th>ID</th>
 						<th>Name</th>
 						<th>Address</th>
+
 					</tr>
 				</table>
 

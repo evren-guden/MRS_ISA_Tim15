@@ -13,7 +13,8 @@ function findDestination() {
 }
 
 function fillTable(data) {
-	var d_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	var d_list = data == null ? []
+			: (data instanceof Array ? data : [ data ]);
 	var table = $('#destinationTable');
 	$('#destinationTable').empty();
 
@@ -22,39 +23,27 @@ function fillTable(data) {
 	var form = $('<form align =left><input value=ID><input value= Name><input value = Address></form>');
 	cont.append(form);
 
-	$
-			.each(
-					d_list,
-					function(index, destination) {
+	$.each(d_list, function(index, destination) {
+	
+		var cont2 = $('<tr></tr>');
+		var form =  $('<td><form class="formsedit" id="form' + destination.idAerodromes
+				+ '"><input name="ident" value=' + destination.idAerodromes
+				+ ' readonly></form></td><td><input name="nameAerodroms" form="form'
+				+ destination.idAerodromes + '" value="' + destination.nameAerodroms
+				+ '"></td><td><input name="address" form="form' + destination.idAerodromes
+				+ '" value="' + destination.address
+				
+				+ '"></td><td><input type="submit" form="form' + destination.idAerodromes
+				+ '" id="bform' + destination.idAerodromes
+				+ '"></td><td><button class="delBtns" id="delBtn' + destination.idAerodromes
+				+ '">Delete</button></td>');
 
-						var cont2 = $('<tr></tr>');
-						var form = $('<td><form class="formsedit" id="form'
-								+ destination.idAerodromes
-								+ '"><input name="ident" value='
-								+ destination.idAerodromes
-								+ ' readonly></form></td><td><input name="nameAerodroms" form="form'
-								+ destination.idAerodromes
-								+ '" value="'
-								+ destination.nameAerodroms
-								+ '"></td><td><input name="address" form="form'
-								+ destination.idAerodromes
-								+ '" value="'
-								+ destination.address
-
-								+ '"></td><td><input type="submit" form="form'
-								+ destination.idAerodromes
-								+ '" id="bform'
-								+ destination.idAerodromes
-								+ '"></td><td><button class="delBtns" id="delBtn'
-								+ destination.idAerodromes
-								+ '">Delete</button></td>');
-
-						cont2.append(form);
-						cont.append(cont2);
-					}
-
-			);
-
+		cont2.append(form);
+		cont.append(cont2);
+	}
+	
+	);
+	
 	$('.delBtns').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id.substring(6);
@@ -73,7 +62,7 @@ function fillTable(data) {
 		});
 
 	});
-
+	
 	$('.formsedit').on('submit', function(e) {
 		e.preventDefault();
 		var iden = this.id;
@@ -93,7 +82,7 @@ function fillTable(data) {
 
 		var jsonData = JSON.stringify(formData);
 		$.ajax({
-			type : 'post',
+			type : 'post',show_flight_details_btn
 			url : "/destination/edit",
 			contentType : 'application/json',
 			dataType : 'json',
@@ -104,5 +93,6 @@ function fillTable(data) {
 			}
 		});
 	});
+	
 
 }
