@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.RentACarSearchDTO;
+import rs.travel.bookingWithEase.dto.VehicleSearchDTO;
 import rs.travel.bookingWithEase.model.Branch;
 import rs.travel.bookingWithEase.model.RACSpecialOffer;
 import rs.travel.bookingWithEase.model.RentACar;
@@ -27,6 +28,7 @@ import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.service.BranchService;
 import rs.travel.bookingWithEase.service.RACService;
 import rs.travel.bookingWithEase.service.RACSpecialOfferService;
+import rs.travel.bookingWithEase.service.VehicleService;
 
 @RestController
 @RequestMapping(value = "/rentacars")
@@ -37,6 +39,9 @@ public class RentACarController {
 	
 	@Autowired
 	private BranchService branchService;
+	
+	@Autowired
+	private VehicleService vehicleService;
 	
 	@Autowired 
 	private RACSpecialOfferService racOfferService;
@@ -200,5 +205,11 @@ public class RentACarController {
 		Collection<RentACar> racs = rentACarService.findByNameAndAddress(rentACar.getName(), rentACar.getAddress(), rentACar.getPickUp(), rentACar.getDropOff());
 
 		return new ResponseEntity<Collection<RentACar>>(racs, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/vehicles/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Vehicle>> searchVehicles(@RequestBody VehicleSearchDTO vehicleSearchDTO) {
+		Collection<Vehicle> vehs = vehicleService.search(vehicleSearchDTO);
+		return new ResponseEntity<Collection<Vehicle>>(vehs, HttpStatus.OK);
 	}
 }

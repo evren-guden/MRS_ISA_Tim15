@@ -42,6 +42,9 @@ public class Vehicle {
 	@ManyToOne
 	private Branch branch;
 	
+	@ManyToOne
+	private RentACar rentacar;
+	
 	@OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<VehicleReservation> vehicleReservations = new HashSet<VehicleReservation>();
 

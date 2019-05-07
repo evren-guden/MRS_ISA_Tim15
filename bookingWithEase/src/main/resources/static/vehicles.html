@@ -34,19 +34,38 @@
 
 	<div class="search-div">
 		<h2 align="center">Search</h2>
-		<form id="formsrc">
+		<form id="formsrcvehs">
+			<input name="rentacarId" id="racIdHidden" type="hidden">
 			<table align="center">
 				<tr>
 					<td>Type:</td>
-					<td><input type="text"></td>
-				</tr>
-				<tr>
-					<td>Color:</td>
-					<td><input type="text"></td>
+					<td><input name="type" type="text"></td>
 				</tr>
 				<tr>
 					<td>Gear:</td>
-					<td><input type="text"></td>
+					<td>
+						<select name="gear">
+							<option> </option>
+							<option>Automatic</option>
+							<option>Manual</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Minimum price:</td>
+					<td><input name="minPrice" type="text"></td>
+				</tr>
+				<tr>
+					<td>Maximum price:</td>
+					<td><input name="maxPrice" type="text"></td>
+				</tr>
+				<tr>
+					<td>Pick up:</td>
+					<td><input name="pickUp" type="date"></td>
+				</tr>
+				<tr>
+					<td>Drop off:</td>
+					<td><input name="dropOff" type="date"></td>
 				</tr>
 				<tr>
 					<td></td>

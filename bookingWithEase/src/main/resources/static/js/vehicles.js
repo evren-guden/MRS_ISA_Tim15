@@ -2,6 +2,7 @@ findVehicles();
 
 function findVehicles() {
 	var value = localStorage.getItem('showVeh');
+	$('#racIdHidden').val(value);
 	$.ajax({
 		type : 'GET',
 		url : "/rentacars/" + value + "/vehicles",
@@ -52,3 +53,24 @@ function fillTable(data) {
 					});
 
 }
+
+
+$(document).on('submit', '#formsrcvehs', function(e) {
+	e.preventDefault();
+
+	var formData = getFormData("#formsrcvehs");
+	var jsonData = JSON.stringify(formData);
+	$.ajax({
+		type : 'POST',
+		url : '/rentacars/vehicles/search',
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillTable
+	});
+
+});
