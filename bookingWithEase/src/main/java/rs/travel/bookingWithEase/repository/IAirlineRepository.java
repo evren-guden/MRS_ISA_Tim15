@@ -1,11 +1,8 @@
 package rs.travel.bookingWithEase.repository;
 
-import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import rs.travel.bookingWithEase.model.Airline;
-import rs.travel.bookingWithEase.model.Company;
 
 public interface IAirlineRepository extends JpaRepository<Airline, Long>{
 	

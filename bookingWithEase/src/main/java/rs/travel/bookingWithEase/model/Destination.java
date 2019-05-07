@@ -18,10 +18,10 @@ public class Destination {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idAerodromes;
+	private Long id;
 
 	@Column(name = "nameAerodroms")
-	private String nameAerodroms;
+	private String name;
 
 	@Column(name = "address")
 	private String address;
@@ -29,8 +29,6 @@ public class Destination {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Airline airline;
-	
-	
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Flight flight;
@@ -40,21 +38,31 @@ public class Destination {
 
 	@OneToOne(mappedBy = "endDestination")
 	Flight finalDestination;
+	
+	
+	/*@OneToOne(fetch=FetchType.LAZY ,cascade = CascadeType.ALL)
+	@JoinColumn(name="location")
+	private Location location;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "airline")
+	private Airline airline;*/
 
-	public Long getIdAerodromes() {
-		return idAerodromes;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdAerodromes(Long idAerodromes) {
-		this.idAerodromes = idAerodromes;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getNameAerodroms() {
-		return nameAerodroms;
+	public String getName() {
+		return name;
 	}
 
-	public void setNameAerodroms(String nameAerodroms) {
-		this.nameAerodroms = nameAerodroms;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getAddress() {
@@ -89,11 +97,11 @@ public class Destination {
 		this.finalDestination = finalDestination;
 	}
 
-	public Destination(Long idAerodromes, String nameAerodroms, String address, Airline airline, Flight flight,
+	public Destination(Long id, String name, String address, Airline airline, Flight flight,
 			Flight startDestination, Flight finalDestination) {
 		super();
-		this.idAerodromes = idAerodromes;
-		this.nameAerodroms = nameAerodroms;
+		this.id = id;
+		this.name = name;
 		this.address = address;
 		this.airline = airline;
 		this.flight = flight;

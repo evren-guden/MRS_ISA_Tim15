@@ -35,4 +35,8 @@ public class DestinationService {
 		destRepository.deleteById(id);
 	}
 	
+	public List<Destination> findByAirlineId(long companyId) {
+		return destRepository.findByAirlineId(companyId);
+	}
+	
 }

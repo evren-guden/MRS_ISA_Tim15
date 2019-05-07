@@ -11,7 +11,6 @@ function showHideSearch() {
 	}
 }
 
-
 function hello() {
 	$.ajax({
 		type : 'GET',
@@ -30,7 +29,6 @@ function hello() {
 	});
 }
 
-
 function findAirlines() {
 	$.ajax({
 		type : 'GET',
@@ -46,31 +44,25 @@ function findAirlines() {
 		}
 	});
 }
-
 	
-$('.formsedit').on('submit', '#formsrc', function(e) {
-		
-		e.preventDefault();
-		var formData = getFormData("#formsrc");
-		var jsonData = JSON.stringify(formData);
-		$.ajax({
-			type : 'POST',
-			url : '/flights/search',
-			contentType : 'application/json',
-			dataType : 'json',
-			data : jsonData,
-			beforeSend : function(xhr) {
-				/* Authorization header */
-				xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-			},
-			success : fillTable
-		});
-
+$(document).on('submit', '#formsrc', function(e) {
+	e.preventDefault();
+	var formData = getFormData("#formsrc");
+	var jsonData = JSON.stringify(formData);
+	$.ajax({
+		type : 'POST',
+		url : '/airlines/search',
+		contentType : 'application/json',
+		dataType : 'json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillTable
 	});
 
-
-
-
+});
 
 function formToJSON() {
 	var id = $('#src-air-id').val();
@@ -88,7 +80,6 @@ function formToJSON() {
 	});
 }
 
-
 function fillTable(data) {
 	var air_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
@@ -97,40 +88,49 @@ function fillTable(data) {
 	airsDiv.empty();
 	var counter = 0;
 
-	$
-			.each(
-					air_list,
-					function(index,air) {
-						var airDiv = $('<div class="company-div" id="airDiv_'
-								+ counter
-								+ '" style="bottom:'
-								+ (60 - counter * 40)
-								+ '%; top:'
-								+ (3 + counter * 40)
-								+ '%;"'
-								+ '>'
-								+ '<img src="../images/air.jpg" height = 90% width= 18%>'
-								+ '<h3>' + air.name + '</h3>');
+	$.each(
+			air_list,
+			function(index, air) {
+				var airDiv = $('<div class="airDiv" id="airDiv_'
+						+ counter
+						+ '" style="bottom:'
+						+ (60 - counter * 40)
+						+ '%; top:'
+						+ (3 + counter * 40)
+						+ '%;"'
+						+ '>'
+						+ '<img src="../images/air.jpg" height = 90% width= 18%>'
+						+ '<h3>' + air.name + '</h3>');
 
-						airDiv
-								.append('<p>'
-										+ air.address
-										+ '</p>'
-										+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
-										+ '</div>');
-						airDiv
-								.append('<div class="guest_ratings"> Guest ratings: '
-										+ (air.rating == null ? 0
-												: air.rating) + ' / 5 </div>');
-						airDiv
-						.append('<button class="show_details_btn">Show flights</button>');
-						
+				airDiv.append('<p>'
+								+ air.address
+								+ '</p>'
+								+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
+								+ '</div>');
+				airDiv.append('<div class="guest_ratings"> Guest ratings: '
+								+ (air.rating == null ? 0
+										: air.rating) + ' / 5 </div>');
+				airDiv.append('<button class="show_flights_btn" id="showf_' + air.id + '">Show flights</button>');
 
-						counter++;
-						airsDiv.append(airDiv);
+				counter++;
+				airsDiv.append(airDiv);
 
-					});
+			});
+					
+	$('.show_flights_btn').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id.substring(6);
+		if (localStorage.getItem("showFlt") === null) {
+			  localStorage.removeItem('showFlt');
+			}
+		localStorage.setItem('showFlt', iden);
+		window.location.href = "flights.html";
+	});
+}
 
+function showAllFlights() {
+	localStorage.removeItem('showFlt');
+	window.location.href = "flights.html";
 }
 
 

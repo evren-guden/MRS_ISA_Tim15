@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,82 +15,90 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
+import rs.travel.bookingWithEase.dto.DestinationDTO;
 import rs.travel.bookingWithEase.model.Airline;
 import rs.travel.bookingWithEase.model.Destination;
-
+import rs.travel.bookingWithEase.service.AirlineService;
 import rs.travel.bookingWithEase.service.DestinationService;
 
 @RestController
-
 @RequestMapping(value = "/destination")
 public class DestinationController {
-	
-	
+
 	@Autowired
-	private DestinationService dService;
-	
-	
-	
-	
+	private DestinationService destinationService;
+
+	@Autowired
+	private AirlineService airlineService;
+
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Destination>> getAll() {
-		
-		Collection<Destination> destinations = dService.findAll();
+
+		Collection<Destination> destinations = destinationService.findAll();
 
 		return new ResponseEntity<Collection<Destination>>(destinations, HttpStatus.OK);
 	}
+
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Destination> create(@RequestBody Destination destination){
-		
+	public ResponseEntity<Destination> create(@RequestBody DestinationDTO destinationDto) {
+
+		Airline airline = airlineService.findOne(destinationDto.getAirlineId()).get();
+
+		Destination des = new Destination();
+		des.setName(destinationDto.getName());
+		des.setAddress(destinationDto.getAddress());
+		des.setAirline(airline);
+		try {
+			des = destinationService.save(des);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (des == null) {
+			return new ResponseEntity<Destination>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new ResponseEntity<Destination>(des, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Destination> update(@RequestBody Destination destination) {
+
 		Destination des = null;
 		try {
-			des = dService.save(destination);
+			des = destinationService.save(destination);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(des == null) {
+
+		if (des == null) {
 			return new ResponseEntity<Destination>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Destination>(des, HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Destination> update(@RequestBody Destination destination){
-		
-		Destination des= null;
-		try {
-			des = dService.save(destination);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(des == null) {
-			return new ResponseEntity<Destination>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		return new ResponseEntity<Destination>(des, HttpStatus.OK);
-	}
-	
-	@DeleteMapping(value="/{id}")
-	public ResponseEntity<Void> deleteDestination(@PathVariable Long id){
-			
-			Optional<Destination> destination = dService.findOne(id);
-			
-			if (destination != null){
-				dService.delete(id);;
-				return new ResponseEntity<>(HttpStatus.OK);
-			} else {		
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deleteDestination(@PathVariable Long id) {
+
+		Optional<Destination> destination = destinationService.findOne(id);
+
+		if (destination != null) {
+			destinationService.delete(id);
+			;
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping(value = "/company/{companyId}")
+	public ResponseEntity<Collection<Destination>> getDestinationsByCompanyId(@PathVariable Long companyId) {
+		
+		Collection<Destination> destinations = destinationService.findByAirlineId(companyId);
+
+		return new ResponseEntity<Collection<Destination>>(destinations, HttpStatus.OK);
+	}
+}

@@ -4,11 +4,9 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,65 +16,69 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import rs.travel.bookingWithEase.dto.FlightDTO;
+import rs.travel.bookingWithEase.model.Airline;
+import rs.travel.bookingWithEase.model.Destination;
 import rs.travel.bookingWithEase.model.Flight;
-
+import rs.travel.bookingWithEase.service.AirlineService;
+import rs.travel.bookingWithEase.service.DestinationService;
 import rs.travel.bookingWithEase.service.FlightService;
 
-import rs.travel.bookingWithEase.service.IFlightService;
-
 @RestController
-@Controller
 @RequestMapping("/flights")
 public class FlightController {
 
 	@Autowired
 	private FlightService flightService;
-	
+
+	@Autowired
+	private DestinationService destinationService;
+
+	@Autowired
+	private AirlineService airlineService;
+
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Flight>> getAll(){
-		
+	public ResponseEntity<Collection<Flight>> getAll() {
+
 		Collection<Flight> flights = flightService.findAll();
 
 		return new ResponseEntity<Collection<Flight>>(flights, HttpStatus.OK);
 	}
-	
+
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Flight> create(@RequestBody Flight flight){
-		
-		Flight flig= null;
+	public ResponseEntity<Flight> create(@RequestBody FlightDTO flightDTO) {
+		Destination startDestination = destinationService.findOne(flightDTO.getStartDestinationId()).get();
+		Destination endDestination = destinationService.findOne(flightDTO.getEndDestinationId()).get();
+		Airline airline = airlineService.findOne(flightDTO.getAirlineId()).get();
+
+		Flight flight = new Flight(flightDTO.getNumber(), flightDTO.getDateFligh(), flightDTO.getDateLand(),
+				flightDTO.getTimeTravel(), flightDTO.getLengthTravel(), startDestination.getName(), endDestination.getName(),
+				flightDTO.getPriceTicket(), flightDTO.getInformationLuggage(), airline, startDestination, endDestination);
 		try {
-			flig = flightService.save(flight);
+			flight = flightService.save(flight);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(flig == null) {
+
+		if (flight == null) {
 			return new ResponseEntity<Flight>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
+
+		return new ResponseEntity<Flight>(flight, HttpStatus.OK);
 	}
-	
-	
-	
-	/*@RequestMapping(value = "/createFlight", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Flight> create(@RequestBody FlightDTO flightDTO) {
-		Flight retVal = flightService.create(new Flight(flightDTO));
-		return new ResponseEntity<>(retVal, HttpStatus.CREATED);
-	}*/
-	
-	
-	
-	
-	
-	
-	
-	
-	@PostMapping(value="/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Flight> update(@RequestBody Flight flight){
-		
+
+	/*
+	 * @RequestMapping(value = "/createFlight", method = RequestMethod.POST,
+	 * consumes = MediaType.APPLICATION_JSON_VALUE) public ResponseEntity<Flight>
+	 * create(@RequestBody FlightDTO flightDTO) { Flight retVal =
+	 * flightService.create(new Flight(flightDTO)); return new
+	 * ResponseEntity<>(retVal, HttpStatus.CREATED); }
+	 */
+
+	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Flight> update(@RequestBody Flight flight) {
+
 		Flight flig = null;
 		try {
 			flig = flightService.save(flight);
@@ -84,35 +86,40 @@ public class FlightController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(flig == null) {
+
+		if (flig == null) {
 			return new ResponseEntity<Flight>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
 	}
-	
-	@DeleteMapping(value="/{id}")
-public ResponseEntity<Void> deleteFlight(@PathVariable Long id){
-		
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
+
 		Optional<Flight> flight = flightService.findOne(id);
-		
-		if (flight != null){
-			flightService.delete(id);;
+
+		if (flight != null) {
+			flightService.delete(id);
+			;
 			return new ResponseEntity<>(HttpStatus.OK);
-		} else {		
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
+	@GetMapping("/airline/{id}")
+	public ResponseEntity<Collection<Flight>> getAllFlightsByArilineId(@PathVariable Long id) {
+
+		Collection<Flight> flights = flightService.findAllByAirlineId(id);
+
+		return new ResponseEntity<Collection<Flight>>(flights, HttpStatus.OK);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Flight>> search(@RequestBody FlightDTO flightDTO) {
+		Collection<Flight> services = flightService.search(flightDTO);
+		return new ResponseEntity<Collection<Flight>>(services, HttpStatus.OK);
+	}
+
 }
