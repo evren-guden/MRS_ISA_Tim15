@@ -6,17 +6,22 @@
 
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
-
+<script type="text/javascript" src="lib/alertify/alertify.min.js"></script>
 
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/showRooms.js"></script>
+<script type="text/javascript" src="js/hotelAdmin.js"></script>
 <script type="text/javascript" src="js/rooms.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
 <link rel="stylesheet" href="css/navbar.css" />
 <link rel="stylesheet" href="css/companies.css" />
+<link type="text/css" rel="stylesheet"
+	href="lib/alertify/css/alertify.min.css">
+<link type="text/css" rel="stylesheet"
+	href="lib/alertify/css/themes/semantic.min.css">
 
 <title>Booking With Ease</title>
 
@@ -35,7 +40,7 @@
 
 	<h1>Rooms</h1>
 
-	<div class="search-div" style="bottom:24%">
+	<div class="search-div" style="bottom: 24%">
 		<h2 align="center">Search</h2>
 		<form id="room_search_form">
 			<table align="center">
@@ -73,6 +78,18 @@
 
 
 	<div class="companies-div" id="vehsDiv"></div>
+
+	<div class="form-popup" id="myForm">
+		<form class="form-container" id="form_container">
+			<h1 style="font-size:30px">Choose special offers</h1>
+			<div id="check_container"></div>
+			<p id="p_price" class="totalPrice"></p>
+			<button type="button" class="popup_btn confirm" id="so_confirm_btn">Choose</button>
+			<button type="button" class="popup_btn close" onclick="closeForm()">Cancel</button>
+			
+		</form>
+	</div>
+
 
 </body>
 

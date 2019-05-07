@@ -80,7 +80,7 @@ function saveToken(data) {
 							window.location.href = "homePageAdmin.html";
 						} else if (data.authorities[0].authority === "ROLE_USER") {
 							localStorage.setItem("userHomepage",
-									"homePageUser.html");
+									"userProfile.html");
 							window.location.href = "homePageUser.html";
 						}
 					},

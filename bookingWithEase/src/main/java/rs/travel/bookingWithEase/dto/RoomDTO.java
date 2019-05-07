@@ -10,12 +10,28 @@ public class RoomDTO {
 	private int roomNumber;
 	private int floorNumber;
 	private int capacity;
+	private int rating;
 	private double pricePerNight;
 	private ArrayList<Price> prices;
 	private Long hotelId;
+	private double totalPrice;
 
 	public RoomDTO() {
 		super();
+	}
+	
+	public RoomDTO(Long id, int roomNumber, int floorNumber, int capacity, int rating, double pricePerNight,
+			ArrayList<Price> prices, Long hotelId, double totalPrice) {
+		super();
+		this.id = id;
+		this.roomNumber = roomNumber;
+		this.floorNumber = floorNumber;
+		this.capacity = capacity;
+		this.rating = rating;
+		this.pricePerNight = pricePerNight;
+		this.prices = prices;
+		this.hotelId = hotelId;
+		this.totalPrice = totalPrice;
 	}
 
 	public RoomDTO(Long id, int roomNumber, int floorNumber, int capacity, double pricePerNight, Long hotelId) {
@@ -39,7 +55,8 @@ public class RoomDTO {
 		this.hotelId = hotelId;
 		this.prices = prices;
 	}
-
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,6 +88,14 @@ public class RoomDTO {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+	
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 
 	public double getPricePerNight() {
 		return pricePerNight;
@@ -96,4 +121,12 @@ public class RoomDTO {
 		this.prices = prices;
 	}
 
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
 }

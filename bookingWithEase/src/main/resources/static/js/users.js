@@ -7,14 +7,30 @@ function getUsers() {
 		url : "/users",
 		type : "GET",
 		dataType : 'json',
-		success : fillTable,
+		success : fillUsersTable,
 		error : function(response) {
 			alert("Something went wrong! :(");
 		}
 	});
 }
 
-function fillTable(data) {
+function getMyRoomReservations() {
+
+	$.ajax({
+		url : "/users/" + JSON.parse(localStorage.getItem('currentUser')).id
+				+ "/roomReservations",
+		type : "GET",
+		dataType : 'json',
+		success : function(data) {
+			alert(JSON.stringify(data));
+		},
+		error : function(response) {
+			alert("Something went wrong while getting room reservations! :(");
+		}
+	});
+}
+
+function fillUsersTable(data) {
 	var users = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#usersTable').empty();
 	$('#usersTable')

@@ -18,6 +18,7 @@ public class CompanyService {
 	UserService userService;
 
 	public Company dtoToCompany(CompanyDTO companyDto) {
+		
 		Set<Admin> admins = new HashSet<Admin>();
 		if (companyDto.getAdmins() != null) {
 			for (String adminUsername : companyDto.getAdmins()) {

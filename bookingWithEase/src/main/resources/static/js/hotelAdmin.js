@@ -1,6 +1,8 @@
 var specialPriceCounter = 0;
+alertify.set('notifier', 'position', 'top-right');
 
 $(document).ready(function() {
+	
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 	getHotel(currentUser);
@@ -16,8 +18,10 @@ $(document).on('click', '#addNewRoom', function(e) {
 
 $(document).on('click', '#special_offers_btn', function(e) {
 	e.preventDefault();
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var hotelId = currentUser.company.id;
 
-	getSpecialOffers(fillSpecialOffers);
+	getSpecialOffers(hotelId, fillSpecialOffers);
 
 });
 
@@ -25,8 +29,10 @@ $(document).on('click', '#addSpecialOfferBtn', function(e) {
 	e.preventDefault();
 
 	addSpecialOffer(function() {
-		alert("Special offer added");
-		getSpecialOffers(fillSpecialOffers);
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var hotelId = currentUser.company.id;
+		alertify.notify("Special offer added");
+		getSpecialOffers(hotelId,fillSpecialOffers);
 	});
 
 });
@@ -49,7 +55,7 @@ $(document).on('click', '#edit_so_btn', function(e) {
 	var jsonData = JSON.stringify(formData);
 
 	updateSpecialOffer(currentUser.company.id, soId, jsonData, function(data) {
-		alert("Saved :)");
+		alertify.notify("Saved :)");
 		openCity(event, 'allSpecialOffers');
 		fillSpecialOffers(data);
 
@@ -62,7 +68,7 @@ $(document).on('click', '#pricelist_btn', function(e) {
 	var formData = getFormData('#pricelist_form');
 	// alert("pricelist " + JSON.stringify(formData));
 	updatePricelist(JSON.stringify(formData), function(data) {
-		alert("Saved :)");
+		alertify.notify("Saved :)");
 		fillPricelist(data);
 
 	});
@@ -114,9 +120,7 @@ function addSpecialOffer(callback) {
 
 }
 
-function getSpecialOffers(callback) {
-	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-	var hotelId = currentUser.company.id;
+function getSpecialOffers(hotelId, callback) {
 
 	$.ajax({
 		url : "/hotels/" + hotelId + "/specialOffers",
@@ -247,7 +251,7 @@ function fillHotelInfo(data) {
 					}
 				});
 
-				alert("Saved");
+				alertify.notify("Saved");
 				getHotel(JSON.parse(localStorage.getItem('currentUser')));
 			});
 
@@ -348,13 +352,17 @@ function fillSpecialOffers(data) {
 		var soId = this.id.substring(10);
 
 		var hotelId = currentUser.company.id;
+		alertify.confirm('Delete special offer', 'Are you sure?', function() {
+			deleteSpecialOffer(hotelId, soId, function(data) {
 
-		deleteSpecialOffer(hotelId, soId, function(data) {
+				alertify.notify("Special offer deleted!");
+				fillSpecialOffers(data);
 
-			alert("Special offer deleted!");
-			fillSpecialOffers(data);
-
+			});
+		}, function() {
+			alertify.notify("Canceled");
 		});
+		
 	});
 
 	$('.edit_so_btn').on('click', function(e) {
