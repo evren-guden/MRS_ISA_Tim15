@@ -6,6 +6,7 @@ $( document ).ready(function() {
 function findVehicles() {
 	var value = localStorage.getItem('showVeh');
 	if(localStorage.getItem('vehicleBegin') != null){
+		$('#racIdHidden').val(value);
 		$('#vehpickup').val(localStorage.getItem('vehicleBegin'));
 		$('#vehdropoff').val(localStorage.getItem('vehicleEnd'));
 		
@@ -79,6 +80,12 @@ function fillTable(data) {
 					});
 	$('.reserve_veh').on('click', function(e) {
 		e.preventDefault();
+		
+		if(localStorage.getItem('currentUser') === null){
+			alertify.error('Please, log in');
+			return;
+		}
+		
 		var vehId = this.id.substring(11);
 		var vrData = collectVehicleReservationData(vehId);
 
@@ -109,6 +116,7 @@ $(document).on('submit', '#formsrcvehs', function(e) {
 
 });
 
+// reservations
 function reserveVehicle(vrData) {
 
 	alertify.set('notifier', 'position', 'top-right');
