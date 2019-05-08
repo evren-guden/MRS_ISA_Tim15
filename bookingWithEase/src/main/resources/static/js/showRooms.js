@@ -123,7 +123,7 @@ function fillTableRooms(data) {
 								+ (3 + counter * 40)
 								+ '%;"'
 								+ '>'
-								+ '<img src="../images/hotel_room.jpg" height = 150 width= 150>'
+								+ '<img src="../images/hotel_room.jpg" height = 90% width= 18%>'
 								+ '<h3>Room number: ' + veh.roomNumber
 								+ '</h3>');
 
