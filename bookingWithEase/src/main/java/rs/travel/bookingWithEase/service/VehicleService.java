@@ -17,8 +17,12 @@ public class VehicleService {
 	@Autowired
 	private IVehicleRepository vehicleRepository;
 
-	public Optional<Vehicle> findOne(Long id) {
-		return vehicleRepository.findById(id);
+	public Vehicle findOne(Long id) {
+		Optional<Vehicle> vehicle = vehicleRepository.findById(id);
+		if (vehicle.isPresent()) {
+			return vehicle.get();
+		}
+		return null;
 	}
 
 	public List<Vehicle> findAll() {

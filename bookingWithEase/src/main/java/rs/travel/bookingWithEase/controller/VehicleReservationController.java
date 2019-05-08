@@ -30,7 +30,7 @@ public class VehicleReservationController {
 		return new ResponseEntity<Collection<VehicleReservation>>(vehRess, HttpStatus.OK);
 	}
 	
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	/*@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<VehicleReservation> create(@RequestBody VehicleReservation vehRes){
 		
 		VehicleReservation vehicleReservation = null;
@@ -46,5 +46,5 @@ public class VehicleReservationController {
 		}
 		
 		return new ResponseEntity<VehicleReservation>(vehicleReservation, HttpStatus.OK);
-	}
+	}*/
 }

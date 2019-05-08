@@ -98,7 +98,7 @@ public class UserController {
 	@GetMapping(value="/{userId}/roomReservations", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RoomReservation>> getUserRoomReservations(@PathVariable("userId") Long userId)
 	{	
-		RegisteredUser u = (RegisteredUser)userService.findOne(userId).get();
+		RegisteredUser u = (RegisteredUser)userService.findOne(userId);
 		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u),HttpStatus.OK);
 	}
 

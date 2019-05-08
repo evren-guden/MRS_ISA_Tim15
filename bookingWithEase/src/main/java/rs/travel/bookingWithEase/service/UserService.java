@@ -20,8 +20,14 @@ public class UserService {
 	@Autowired
 	private IUserRepository users;
 
-	public Optional<User> findOne(Long id) {
-		return users.findById(id);
+	public User findOne(Long id) {
+		Optional<User> user = users.findById(id);
+		
+		if (user.isPresent()) {
+			return user.get();
+		}
+		
+		return null;
 	}
 
 	public List<User> findAll() {

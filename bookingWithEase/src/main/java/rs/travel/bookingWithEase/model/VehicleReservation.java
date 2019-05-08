@@ -40,6 +40,7 @@ public class VehicleReservation {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public RegisteredUser getUser() {
 		return vehicle_user;
 	}

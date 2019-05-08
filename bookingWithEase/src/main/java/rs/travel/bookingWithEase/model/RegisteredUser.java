@@ -11,6 +11,11 @@ import javax.persistence.OneToMany;
 @Entity
 public class RegisteredUser extends User {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@OneToMany(mappedBy="user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RoomReservation> roomReservations = new HashSet<RoomReservation>();
 	
@@ -25,6 +30,22 @@ public class RegisteredUser extends User {
 			String city, String telephoneNumber, String passportNumber) {
 		super(id, username, firstName, lastName, email, password, city, telephoneNumber, passportNumber);
 
+	}
+
+	public Set<RoomReservation> getRoomReservations() {
+		return roomReservations;
+	}
+
+	public Set<VehicleReservation> getVehicleReservations() {
+		return vehicleReservations;
+	}
+
+	public void setRoomReservations(Set<RoomReservation> roomReservations) {
+		this.roomReservations = roomReservations;
+	}
+
+	public void setVehicleReservations(Set<VehicleReservation> vehicleReservations) {
+		this.vehicleReservations = vehicleReservations;
 	}
 
 }

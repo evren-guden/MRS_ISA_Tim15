@@ -114,12 +114,17 @@ function reserveVehicle(vrData) {
 	alertify.set('notifier', 'position', 'top-right');
 
 	var racId = localStorage.getItem('showVeh');
+	
+	if(vrData['checkInDate'] === "" || vrData['checkOutDate'] === ""){
+		alertify.error('Please, choose dates.');
+		return;
+	}
 
 	var jsonData = JSON.stringify(vrData);
 	// alert('rr ' + jsonData);
 	$.ajax({
 		type : 'POST',
-		url : '/vehicleReservations',
+		url : '/vehicles/' + vrData.vehicle_id + '/reservations',
 		contentType : 'application/json',
 		dataType : 'json',
 		data : jsonData,
@@ -146,6 +151,8 @@ function collectVehicleReservationData(vehicleId) {
 	vrData['racId'] = localStorage.getItem('showVeh');
 	vrData['checkInDate'] = $('#vehpickup').val();
 	vrData['checkOutDate'] = $('#vehdropoff').val();
+	
+	
 	if (JSON.parse(localStorage.getItem('currentUser')) != null)
 		vrData['user_id'] = JSON.parse(localStorage.getItem('currentUser')).id;
 
