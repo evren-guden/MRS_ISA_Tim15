@@ -17,10 +17,14 @@ import javax.persistence.OneToMany;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import rs.travel.bookingWithEase.serializer.RoomSerializer;
 
 @Component
 @Entity
-@JsonIgnoreProperties(value = { "room", "user" })
+@JsonIgnoreProperties(value = { "user" })
 public class RoomReservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +34,7 @@ public class RoomReservation implements Serializable {
 	private Long id;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonSerialize(using = RoomSerializer.class)
 	private Room room;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -85,7 +90,7 @@ public class RoomReservation implements Serializable {
 				+ ", checkOutDate=" + checkOutDate + ", reservationDate=" + reservationDate + ", specialOffers="
 				+ specialOffers + ", totalPrice=" + totalPrice + "]";
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -93,7 +98,7 @@ public class RoomReservation implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public Room getRoom() {
 		return room;
 	}

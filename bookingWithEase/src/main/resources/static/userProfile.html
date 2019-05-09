@@ -16,6 +16,7 @@
 
 <link rel="stylesheet" href="css/index.css" />
 <link rel="stylesheet" href="css/navbar.css" />
+<link rel="stylesheet" href="css/user.css" />
 
 <title>BookingWithEase</title>
 
@@ -30,10 +31,14 @@
 		<ul id="nav_ul">
 			<li><a href="javascript:homepage()">Home</li>
 			</a>
-			<li><a href="javascript:getMyRoomReservations()">My Room Reservations</li>
+			<li><a calss="tablinks" href="javascript:openCity(event, 'roomReservationsDiv')">My Room Reservations</li>
 			</a>
 		</ul>
 	</nav>
+	
+	<div class="tabcontent roomReservationsDiv" id="roomReservationsDiv" style="display:none">
+		
+	</div>
 
 </body>
 
