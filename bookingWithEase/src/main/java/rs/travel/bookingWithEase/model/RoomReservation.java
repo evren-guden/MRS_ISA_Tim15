@@ -33,11 +33,11 @@ public class RoomReservation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonSerialize(using = RoomSerializer.class)
 	private Room room;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private RegisteredUser user;
 
 	@Column(name = "checkInDate")
@@ -50,7 +50,7 @@ public class RoomReservation implements Serializable {
 	private Date reservationDate;
 
 	@Column(name = "specialOffers")
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	private Set<HotelSpecialOffer> specialOffers = new HashSet<HotelSpecialOffer>();
 
 	@Column(name = "totalPrice")

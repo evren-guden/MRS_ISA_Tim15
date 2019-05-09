@@ -1,12 +1,15 @@
 package rs.travel.bookingWithEase.controller;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,10 +32,10 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
-	@Autowired 
+
+	@Autowired
 	private RoomReservationService roomResService;
-	
+
 	@Autowired
 	private TokenUtils tokenUtils;
 
@@ -93,13 +96,32 @@ public class UserController {
 	}
 
 	// **************** RESERVATIONS *************
+
+	// @PreAuthorize("hasRole('USER')")
+	@GetMapping(value = "/{userId}/roomReservations", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<RoomReservation>> getUserRoomReservations(@PathVariable("userId") Long userId) {
+		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
+		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u), HttpStatus.OK);
+	}
 	
 	//@PreAuthorize("hasRole('USER')")
-	@GetMapping(value="/{userId}/roomReservations", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<RoomReservation>> getUserRoomReservations(@PathVariable("userId") Long userId)
-	{	
-		RegisteredUser u = (RegisteredUser)userService.findOne(userId);
-		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u),HttpStatus.OK);
+	@DeleteMapping(value = "/{userId}/roomReservations/{rrId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<RoomReservation>> deleteUserRoomReservation(@PathVariable("userId") Long userId,
+			@PathVariable("rrId") Long rrId) {
+		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
+		RoomReservation r = roomResService.findOne(rrId).get();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, 5);
+		if (cal.getTime().after(r.getCheckInDate())) {
+			System.out.println("\n\n ne moze da se obrise rezervacija \n\n");
+			return new ResponseEntity<Collection<RoomReservation>>(HttpStatus.UNPROCESSABLE_ENTITY);
+		} else {
+
+			roomResService.delete(rrId);
+		}
+		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u), HttpStatus.OK);
 	}
 
 }
