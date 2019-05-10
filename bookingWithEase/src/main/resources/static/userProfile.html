@@ -6,6 +6,7 @@
 
 <script type="text/javascript" src="lib/jQuery/jquery.min.js"></script>
 <script type="text/javascript" src="lib/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="lib/alertify/alertify.min.js"></script>
 
 <script type="text/javascript" src="js/index.js"></script>
 <link rel="stylesheet" href="css/login.css" />
@@ -16,6 +17,11 @@
 
 <link rel="stylesheet" href="css/index.css" />
 <link rel="stylesheet" href="css/navbar.css" />
+<link rel="stylesheet" href="css/user.css" />
+<link type="text/css" rel="stylesheet"
+	href="lib/alertify/css/alertify.min.css">
+<link type="text/css" rel="stylesheet"
+	href="lib/alertify/css/themes/semantic.min.css">
 
 <title>BookingWithEase</title>
 
@@ -30,10 +36,14 @@
 		<ul id="nav_ul">
 			<li><a href="javascript:homepage()">Home</li>
 			</a>
-			<li><a href="javascript:getMyRoomReservations()">My Room Reservations</li>
+			<li><a calss="tablinks" href="javascript:openCity(event, 'roomReservationsDiv')">My Room Reservations</li>
 			</a>
 		</ul>
 	</nav>
+	
+	<div class="tabcontent roomReservationsDiv" id="roomReservationsDiv" style="display:none">
+		
+	</div>
 
 </body>
 
