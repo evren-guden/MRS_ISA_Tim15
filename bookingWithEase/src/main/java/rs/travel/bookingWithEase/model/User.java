@@ -24,6 +24,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import rs.travel.bookingWithEase.dto.AccountDTO;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements UserDetails {
@@ -83,6 +85,17 @@ public class User implements UserDetails {
 		this.telephoneNumber = telephoneNumber;
 		this.passportNumber = passportNumber;
 		this.enabled = true;
+	}
+	
+	public User(AccountDTO dto) {
+		this.username = dto.getUsername();
+		this.password = dto.getPassword();
+		this.email = dto.getEmail();
+		this.firstName = dto.getName();
+		this.lastName = dto.getLastName();
+		this.city = dto.getCity();
+		this.telephoneNumber = dto.getPhoneNumber();
+		this.enabled = false;
 	}
 
 	public Long getId() {

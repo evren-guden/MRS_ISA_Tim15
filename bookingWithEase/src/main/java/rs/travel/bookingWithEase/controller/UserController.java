@@ -4,10 +4,14 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +20,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.travel.bookingWithEase.dto.AccountDTO;
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
+import rs.travel.bookingWithEase.model.ConfirmationToken;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.model.User;
 import rs.travel.bookingWithEase.security.TokenUtils;
-import rs.travel.bookingWithEase.service.UserService;
+import rs.travel.bookingWithEase.service.ConfTokenService;
+import rs.travel.bookingWithEase.service.EmailSenderService;
 import rs.travel.bookingWithEase.service.RoomReservationService;
+import rs.travel.bookingWithEase.service.UserService;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -38,6 +48,15 @@ public class UserController {
 
 	@Autowired
 	private TokenUtils tokenUtils;
+
+	@Autowired
+	private ConfTokenService confTokenService;
+
+	@Autowired
+	private EmailSenderService emailService;
+	
+	@Autowired
+	private Environment env;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> findAll() {
@@ -103,14 +122,14 @@ public class UserController {
 		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
 		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u), HttpStatus.OK);
 	}
-	
-	//@PreAuthorize("hasRole('USER')")
+
+	// @PreAuthorize("hasRole('USER')")
 	@DeleteMapping(value = "/{userId}/roomReservations/{rrId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RoomReservation>> deleteUserRoomReservation(@PathVariable("userId") Long userId,
 			@PathVariable("rrId") Long rrId) {
 		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
 		RoomReservation r = roomResService.findOne(rrId).get();
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.DATE, 5);
@@ -123,5 +142,56 @@ public class UserController {
 		}
 		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u), HttpStatus.OK);
 	}
+
+	// registration
+
+	@PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> registerUser(@RequestBody AccountDTO account) throws MessagingException {
+
+		if(!account.getPassword().equals(account.getConfPassword())) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		User existingUser = userService.findByEmail(account.getEmail());
+        if(existingUser != null) {
+        	return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+		
+        User user = new User(account);
+        
+        userService.save(user);
+        
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confTokenService.save(confirmationToken);
+        
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setFrom(env.getProperty("spring.mail.username"));
+        mailMessage.setText("To confirm your account, please click here : "
+        +"http://localhost:8080/users/confirm-account?token="+confirmationToken.getConfirmationToken());
+        
+        emailService.sendEmail(mailMessage);
+        
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	 @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
+	    public ResponseEntity<?> confirmUserAccount(@RequestParam("token")String confirmationToken)
+	    {
+	        ConfirmationToken token = confTokenService.findByConfirmationToken(confirmationToken);
+
+	        if(token != null)
+	        {
+	            User user = userService.findByEmail(token.getUser().getEmail());
+	            user.setEnabled(true);
+	            userService.save(user);
+	            return new ResponseEntity<>(HttpStatus.OK);
+	        }
+	 
+
+	        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 
 }

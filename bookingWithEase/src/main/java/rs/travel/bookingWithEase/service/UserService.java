@@ -69,4 +69,8 @@ public class UserService {
 		return u;
 	}
 
+	public User findByEmail(String email) {
+		User u = users.findByEmailIgnoreCase(email);
+		return u;
+	}
 }
