@@ -85,7 +85,7 @@ h2 {
 	opacity: 0.7;
 }
 
-.transbox-login {
+.transbox-login, .transbox-registration {
 	position: absolute;
 	top: 20%;
 	left: 35%;

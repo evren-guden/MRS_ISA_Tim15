@@ -77,8 +77,8 @@ function login_cancel() {
 	$('#transbox-login').css('opacity', '0');
 }
 
-function registration_clicked() {
-	alert("registration");
+function register_clicked() {
+	window.location.href = "registration.html";
 }
 
 function homepage_clicked() {
