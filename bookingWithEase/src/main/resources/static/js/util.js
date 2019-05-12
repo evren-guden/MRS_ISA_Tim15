@@ -26,7 +26,8 @@ $(document)
 function openCity(evt, cityName) {
 	if(cityName === "roomReservationsDiv")
 		getMyRoomReservations(fillRoomReservations);
-	
+	if(cityName === "myprofilediv")
+		getMyProfileData();
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {

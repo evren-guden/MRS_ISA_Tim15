@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,21 @@ public class UserController {
 			return new ResponseEntity<String>("Username is already taken", HttpStatus.CONFLICT);
 		}
 
+	}
+	
+	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> update(@RequestBody AccountDTO dto) throws Exception {
+		
+		User user = userService.findByEmail(dto.getEmail());
+
+		user.setFirstName(dto.getName());
+		user.setLastName(dto.getLastName());
+		user.setCity(dto.getCity());
+		user.setTelephoneNumber(dto.getPhoneNumber());
+		
+		User upUser = userService.update(user);
+		
+		return new ResponseEntity<User>(upUser, HttpStatus.OK);
 	}
 
 	/*
