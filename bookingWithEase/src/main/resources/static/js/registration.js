@@ -15,8 +15,8 @@ $(document).on('submit', '#registrationform', function(e) {
 			xhr.setRequestHeader("Authorization", "Bearer "
 					+ getJwtToken());
 		},
-		success : function(response) {
-			alert("Mail");
+		success : function() {
+			window.location.href="login.html";
 		},
 		statusCode : {
 			401 : function() {

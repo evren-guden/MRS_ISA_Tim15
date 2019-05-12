@@ -95,7 +95,7 @@ public class User implements UserDetails {
 		this.lastName = dto.getLastName();
 		this.city = dto.getCity();
 		this.telephoneNumber = dto.getPhoneNumber();
-		this.enabled = false;
+		//this.enabled = false;
 	}
 
 	public Long getId() {
@@ -195,7 +195,7 @@ public class User implements UserDetails {
 
 	@Override
     public boolean isEnabled() {
-        return enabled;
+        return this.enabled;
     }
 
     public void setEnabled(boolean enabled) {

@@ -50,6 +50,11 @@ public class UserService {
 
 	}
 
+	
+	public User update(User user) {
+		return users.save(user);
+	}
+
 	public void delete(Long id) {
 		users.deleteById(id);
 	}

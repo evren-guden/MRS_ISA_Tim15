@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,11 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.AccountDTO;
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
+import rs.travel.bookingWithEase.model.Authority;
 import rs.travel.bookingWithEase.model.ConfirmationToken;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.model.User;
 import rs.travel.bookingWithEase.security.TokenUtils;
+import rs.travel.bookingWithEase.service.AuthorityService;
 import rs.travel.bookingWithEase.service.ConfTokenService;
 import rs.travel.bookingWithEase.service.EmailSenderService;
 import rs.travel.bookingWithEase.service.RoomReservationService;
@@ -57,6 +61,12 @@ public class UserController {
 	
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private AuthorityService authService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> findAll() {
@@ -158,9 +168,12 @@ public class UserController {
         }
 		
         User user = new User(account);
-        
+        user.setPassword(passwordEncoder.encode(account.getPassword()));
+        Authority a = authService.findByName("ROLE_USER");
+        ArrayList<Authority> alist = new ArrayList<Authority>();
+        alist.add(a);
+        user.setAuthorities(alist);
         userService.save(user);
-        
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
         confTokenService.save(confirmationToken);
@@ -186,12 +199,16 @@ public class UserController {
 	        {
 	            User user = userService.findByEmail(token.getUser().getEmail());
 	            user.setEnabled(true);
-	            userService.save(user);
+	            Authority a = authService.findByName("ROLE_USER");
+	            ArrayList<Authority> alist = new ArrayList<Authority>();
+	            alist.add(a);
+	            user.setAuthorities(alist);
+	            userService.update(user);
 	            return new ResponseEntity<>(HttpStatus.OK);
 	        }
 	 
 
-	        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+	        return new ResponseEntity<String>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
 	    }
 
 }
