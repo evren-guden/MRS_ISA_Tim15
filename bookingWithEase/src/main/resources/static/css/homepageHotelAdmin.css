@@ -120,3 +120,13 @@ div.transbox {
 	background-color: #4D4D4D;
 	color: white;
 }
+
+.select {
+
+	max-height: 70px;
+	border: solid 1px black;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	color: black;
+	font-size: 15px;
+}

@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$('#src-hotel-checkIn').val(checkIn);
 	$('#src-hotel-checkOut').val(checkOut);
 	if (checkIn != "" && checkOut != "") {
-		searchRooms();
+		searchRooms(getSearchRoomsData(), fillTableRooms);
 	} else {
 		getRooms(localStorage.getItem("showRooms"));
 	}
@@ -70,7 +70,8 @@ function getRooms(hotelId) {
 	});
 }
 
-function searchRooms() {
+function getSearchRoomsData()
+{
 	var formData = getFormData('#room_search_form');
 	if (formData["floorNumber"] === "")
 		formData["floorNumber"] = -11;
@@ -78,7 +79,12 @@ function searchRooms() {
 
 	localStorage.setItem('latestHSearchCheckIn', formData['checkIn']);
 	localStorage.setItem('latestHSearchCheckOut', formData['checkOut']);
+	//alert(JSON.stringify(formData));
+	return formData;
+}
 
+function searchRooms(formData, callback) {
+	
 	var jsonData = JSON.stringify(formData);
 	// alert(jsonData);
 	$.ajax({
@@ -91,10 +97,7 @@ function searchRooms() {
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : function(data) {
-			// alert(JSON.stringify(data));
-			fillTableRooms(data);
-		},
+		success : callback,
 		error : function(response) {
 			alert("Something went wronggg! :(");
 		}
