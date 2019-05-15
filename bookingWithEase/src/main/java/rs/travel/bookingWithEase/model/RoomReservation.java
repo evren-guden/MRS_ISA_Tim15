@@ -12,8 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,39 +26,40 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import rs.travel.bookingWithEase.serializer.RoomSerializer;
 
-@Component
 @Entity
 @JsonIgnoreProperties(value = { "user" })
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class RoomReservation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "rr_gen")
+	@SequenceGenerator(name = "rr_gen", sequenceName = "RR_SEQ" )
+	protected Long id;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonSerialize(using = RoomSerializer.class)
-	private Room room;
+	protected Room room;
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	private RegisteredUser user;
+	protected RegisteredUser user;
 
 	@Column(name = "checkInDate")
-	private Date checkInDate;
+	protected  Date checkInDate;
 
 	@Column(name = "checkOutDate")
-	private Date checkOutDate;
+	protected  Date checkOutDate;
 
 	@Column(name = "reservationDate")
-	private Date reservationDate;
+	protected  Date reservationDate;
 
 	@Column(name = "specialOffers")
 	@OneToMany(fetch = FetchType.EAGER)
-	private Set<HotelSpecialOffer> specialOffers = new HashSet<HotelSpecialOffer>();
+	protected  Set<HotelSpecialOffer> specialOffers = new HashSet<HotelSpecialOffer>();
 
 	@Column(name = "totalPrice")
-	private double totalPrice;
+	protected double totalPrice;
 
 	public RoomReservation() {
 		super();

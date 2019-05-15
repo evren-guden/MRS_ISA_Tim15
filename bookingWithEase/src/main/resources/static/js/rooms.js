@@ -10,7 +10,7 @@ $(document).on('click', '#cancelNewRoom', function(e) {
 
 $(document).on('click', '#room_search_btn', function(e) {
 	e.preventDefault();
-	searchRooms();
+	searchRooms(getSearchRoomsData(), fillTableRooms);
 });
 
 function roomRegistration() {

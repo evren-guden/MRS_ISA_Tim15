@@ -12,6 +12,7 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/rooms.js"></script>
 <script type="text/javascript" src="js/hotels.js"></script>
+<script type="text/javascript" src="js/showRooms.js"></script>
 <script type="text/javascript" src="js/hotelAdmin.js"></script>
 
 <link rel="stylesheet" href="css/index.css" />
@@ -52,6 +53,13 @@
 		<button class="tablinks" onclick="openCity(event, 'addSpecialOffer')">Add
 			special offer</button>
 		<button class="tablinks" onclick="openCity(event, 'pricelist')">Pricelist</button>
+		<button class="tablinks" id="allQrrBtn"
+			onclick="openCity(event, 'allQuickRoomReservations')">All
+			Quick Reservations</button>
+		<button class="tablinks" id="openQrrBtn"
+			onclick="openCity(event, 'addQuickRoomReservation')">Add
+			Quick Reservation</button>
+
 	</div>
 
 	<div id="hotelInfo" class="tabcontent">
@@ -173,14 +181,13 @@
 									price</i></a>
 					</tr>
 					<tr>
-					<td>&nbsp;</td>
+						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
-						<td><input class="formBtn" type="submit"
-							id="addNewRoom" value="Add new"> <input class="formBtn"
-							type="button" id="cancelNewRoom" name="cancelNewRoom"
-							value="Cancel"></td>
+						<td><input class="formBtn" type="submit" id="addNewRoom"
+							value="Add new"> <input class="formBtn" type="button"
+							id="cancelNewRoom" name="cancelNewRoom" value="Cancel"></td>
 					</tr>
 
 
@@ -220,11 +227,11 @@
 					</tr>
 
 				</table>
-				
+
 				<table align="center">
-				    <tr>
-				    <td>&nbsp;</td>
-				    </tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
 					<tr>
 						<td>&nbsp;</td>
 						<td align="right"><input class="formBtn" type="submit"
@@ -372,6 +379,76 @@
 			</form>
 			<br>
 		</div>
+	</div>
+	
+	<div id="allQuickRoomReservations" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All Quick Room Reservations</h2>
+			<table align="center" id="allQrrTable" class="hotelsTable"
+				border=1>
+			</table>
+		</div>
+	</div>
+
+	<div id="addQuickRoomReservation" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">Add Quick Reservation</h2>
+
+			<form id="addQuickRoomReservationForm">
+				<table align="center">
+
+					<tr>
+						<td>Check in:</td>
+						<td><input type="date" class="qrrDate" name="checkIn"
+							id="qrr-checkIn"></td>
+					</tr>
+					<tr>
+						<td>Check out:</td>
+						<td><input type="date" class="qrrDate" name="checkOut"
+							id="qrr-checkOut"></td>
+					</tr>
+
+					<tr>
+						<td>Discount:</td>
+						<td><input type="text" name="discount" id="qrr-checkIn"></td>
+					</tr>
+
+					<tr>
+						<td align="left">Special offers: &nbsp;</td>
+						<td>
+							<div class="select" id="qrr-specialOffers">
+								<div align="left">&nbsp;</div>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td align="left">Rooms: &nbsp;</td>
+						<td>
+							<div class="select" id="qrr-rooms">
+								<div align="left">&nbsp;</div>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="button"
+							id="addQuickRoomReservationBtn" value="Add new"> <input
+							class="formBtn" type="button" id="cancelQuickRoomReservationBtn"
+							name="cancelQuickRoomReservationBtn" value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
+		</div>
+
+
 	</div>
 
 	<script>
