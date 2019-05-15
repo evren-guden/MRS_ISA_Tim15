@@ -3,6 +3,7 @@ package rs.travel.bookingWithEase.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import rs.travel.bookingWithEase.model.HotelSpecialOffer;
 import rs.travel.bookingWithEase.model.QuickRoomReservation;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.Room;
-import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.repository.IHotelSpecialOfferRepository;
 import rs.travel.bookingWithEase.repository.IQuickRoomReservationRepository;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
@@ -32,6 +32,10 @@ public class QuickRoomReservationService {
 	
 	@Autowired 
 	private RoomService roomService;
+	
+	public Optional<QuickRoomReservation> findOne(Long id) {
+		return quickRoomReservations.findById(id);
+	}
 
 	public List<QuickRoomReservation> findAll() {
 		return quickRoomReservations.findAll();

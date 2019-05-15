@@ -86,6 +86,15 @@ $(document).on('click', '#openQrrBtn', function(e) {
 
 });
 
+$(document).on('click', '#allQrrBtn', function(e) {
+	e.preventDefault();
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var hotelId = currentUser.company.id;
+
+	getQuickRoomReservations(hotelId, fillQrrTable);
+
+});
+
 $(document).on(
 		'click',
 		'#addQuickRoomReservationBtn',
@@ -117,7 +126,7 @@ $(document).on(
 			var hotelId = currentUser.company.id;
 
 			addQuickRoomReservations(hotelId, newFormData, function(data) {
-				alert(JSON.stringify(data));
+				alertify.notify("Quick Room Reservation Saved!");
 			});
 
 		});
@@ -176,7 +185,7 @@ function addSpecialOffersToQrr(data) {
 }
 
 function addRoomsToQrr(data) {
-	//alert(JSON.stringify(data));
+	// alert(JSON.stringify(data));
 	var rooms = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#qrr-rooms').empty();
 	var counter = 0;
@@ -299,10 +308,28 @@ function updateSpecialOffer(hotelId, soId, jsonData, callback) {
 	});
 }
 
+function getQuickRoomReservations(hotelId, callback) {
+	$
+			.ajax({
+				url : "/hotels/" + hotelId + "/quickRoomReservations",
+				type : "GET",
+				dataType : 'json',
+				beforeSend : function(xhr) {
+					/* Authorization header */
+					xhr.setRequestHeader("Authorization", "Bearer "
+							+ getJwtToken());
+				},
+				success : callback,
+				error : function(response) {
+					alert("Something went wrong while getting quick room reservations! :(");
+				}
+			});
+}
+
 function addQuickRoomReservations(hotelId, formData, callback) {
-	
+
 	var jsonData = JSON.stringify(formData);
-	
+
 	$.ajax({
 		url : "/hotels/" + hotelId + "/quickRoomReservations",
 		type : "POST",
@@ -316,6 +343,23 @@ function addQuickRoomReservations(hotelId, formData, callback) {
 		success : callback,
 		error : function(response) {
 			alert("Something went wrong while adding qrr! :(");
+		}
+	});
+}
+
+function deleteQuickRoomReservation(hotelId, qrrId, callback)
+{
+	$.ajax({
+		url : "/hotels/" + hotelId + "/quickRoomReservations/" + qrrId,
+		type : "DELETE",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : callback,
+		error : function(response) {
+			alert("Something went wrong while deleting qrr! :(");
 		}
 	});
 }
@@ -532,6 +576,56 @@ function fillSpecialOffers(data) {
 
 	});
 
+}
+
+function fillQrrTable(data) {
+	var qrrs = data == null ? [] : (data instanceof Array ? data : [ data ]);
+
+	$('#allQrrTable').empty();
+	$('#allQrrTable')
+			.append(
+					'<tr><th>Id</th><th>Room number</th><th>Check in</th><th>Check out</th><th>Price</th><th>Discount</th><th>Final price</th><th>&nbsp;</th><th>&nbsp;</th></tr>');
+
+	$.each(qrrs, function(index, qrr) {
+		// localStorage.setItem("specialOffer_" + specialOffer.id, JSON
+		// .stringify(specialOffer));
+
+		var tr = $('<tr></tr>');
+		var qrrTr = $('<td>' + qrr.id + '</td>' + '<td id="qrr_' + qrr.id
+				+ '">' + qrr.room.roomNumber + '</td>' + '<td>'
+				+ qrr.checkInDate.substring(0, 10) + '</td>' + '<td>'
+				+ qrr.checkOutDate.substring(0, 10) + '</td><td>'
+				+ qrr.totalPrice + '&#8364;</td><td>'
+				+ qrr.discount + '%<td>'
+				+ qrr.finalPrice + '&#8364;</td>'
+				+ '<td><button class="edit_qrr_btn" id="edit_qrr_' + qrr.id
+				+ '">Edit</button></td>'
+				+ '</td><td><button class="delete_qrr_btn" id="delete_qrr_'
+				+ qrr.id + '">Delete</button></td>');
+
+		tr.append(qrrTr);
+		$('#allQrrTable').append(tr);
+	});
+	
+	$('.delete_qrr_btn').on('click', function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var qrrId = this.id.substring(11);
+
+		var hotelId = currentUser.company.id;
+		alertify.confirm('Delete quick room reservation', 'Are you sure?', function() {
+			deleteQuickRoomReservation(hotelId, qrrId, function(data) {
+
+				alertify.notify("Quick room reservation deleted!");
+				fillQrrTable(data);
+
+			});
+		}, function() {
+			alertify.notify("Canceled");
+		});
+
+	});
 }
 
 function roomSpecialPrice() {
