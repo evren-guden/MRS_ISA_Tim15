@@ -67,7 +67,7 @@ public class RentACarController {
 
 		Collection<RentACar> racs = rentACarService.findAll();
 
-		return new ResponseEntity<Collection<RentACar>>(racs, HttpStatus.OK);
+		return new ResponseEntity<>(racs, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/{id}/branchs",produces=MediaType.APPLICATION_JSON_VALUE)
@@ -75,7 +75,7 @@ public class RentACarController {
 		
 		RentACar rac = rentACarService.findOne(id);
 		
-		return new ResponseEntity<Collection<Branch>>(rac.getBranches(), HttpStatus.OK);
+		return new ResponseEntity<>(rac.getBranches(), HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ADMINRAC')")
@@ -92,14 +92,14 @@ public class RentACarController {
 		Branch br = branchService.save(branch);
 		rentACarService.save(rac);
 		
-		return new ResponseEntity<Branch>(br, HttpStatus.OK);
+		return new ResponseEntity<>(br, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Vehicle>> getMyVehicles(@PathVariable("id") Long id){
 		RentACar rac = rentACarService.findOne(id);
 		
-		List<Vehicle> vehs = new ArrayList<Vehicle>();
+		List<Vehicle> vehs = new ArrayList<>();
 		
 		for (Branch br : rac.getBranches()) {
 			for (Vehicle vehicle : br.getVehicles()) {
@@ -107,7 +107,7 @@ public class RentACarController {
 			}
 		}
 		
-		return new ResponseEntity<Collection<Vehicle>>(vehs, HttpStatus.OK);
+		return new ResponseEntity<>(vehs, HttpStatus.OK);
 	}
 
 	/*@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -129,7 +129,7 @@ public class RentACarController {
 	public RACSpecialOffer getOneRacsOffer(@PathVariable("id") Long id, @PathVariable("offerId") Long offerId){
 		RentACar rac = rentACarService.findOne(id);
 		for (RACSpecialOffer off : rac.getSpecialOffers()) {
-			if(off.getId() == offerId) {
+			if(off.getId().equals(offerId)) {
 				return off;
 			}
 		}
@@ -140,7 +140,7 @@ public class RentACarController {
 	public ResponseEntity<RACSpecialOffer> addSpecialOffer(@PathVariable("id") Long id, @RequestBody RACSpecialOffer offer){
 		
 		if(offer.getName().trim().equals("") || offer.getName() == null || offer.getPrice() == null || offer.getPrice().doubleValue()<0) {
-			return new ResponseEntity<RACSpecialOffer>(HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
 		RACSpecialOffer so = null;
@@ -152,10 +152,10 @@ public class RentACarController {
 			so.setRacservice(rac);
 			rentACarService.save(rac);
 		} catch (Exception e) {
-			return new ResponseEntity<RACSpecialOffer>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<RACSpecialOffer>(so, HttpStatus.OK);
+		return new ResponseEntity<>(so, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "/{id}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -177,7 +177,7 @@ public class RentACarController {
 		
 		RACSpecialOffer of2 = racOfferService.save(of);
 		
-		return new ResponseEntity<RACSpecialOffer>(of2, HttpStatus.OK);
+		return new ResponseEntity<>(of2, HttpStatus.OK);
 		
 	}
 	
@@ -204,12 +204,12 @@ public class RentACarController {
 		
 		Collection<RentACar> racs = rentACarService.findByNameAndAddress(rentACar.getName(), rentACar.getAddress(), rentACar.getPickUp(), rentACar.getDropOff());
 
-		return new ResponseEntity<Collection<RentACar>>(racs, HttpStatus.OK);
+		return new ResponseEntity<>(racs, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/vehicles/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Vehicle>> searchVehicles(@RequestBody VehicleSearchDTO vehicleSearchDTO) {
 		Collection<Vehicle> vehs = vehicleService.search(vehicleSearchDTO);
-		return new ResponseEntity<Collection<Vehicle>>(vehs, HttpStatus.OK);
+		return new ResponseEntity<>(vehs, HttpStatus.OK);
 	}
 }

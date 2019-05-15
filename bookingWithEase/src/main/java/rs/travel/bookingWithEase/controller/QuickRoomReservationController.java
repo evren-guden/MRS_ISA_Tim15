@@ -1,8 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import rs.travel.bookingWithEase.dto.DefiningQrrDTO;
 import rs.travel.bookingWithEase.model.QuickRoomReservation;
-import rs.travel.bookingWithEase.model.RegisteredUser;
-import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.service.QuickRoomReservationService;
 
 @Controller
@@ -35,7 +31,7 @@ public class QuickRoomReservationController {
 
 		Collection<QuickRoomReservation> quickRoomRes = quickRoomReservationService.findAll();
 
-		return new ResponseEntity<Collection<QuickRoomReservation>>(quickRoomRes, HttpStatus.OK);
+		return new ResponseEntity<>(quickRoomRes, HttpStatus.OK);
 	}
 
 	// @PreAuthorize("hasRole('USER')")
@@ -48,21 +44,20 @@ public class QuickRoomReservationController {
 				quickRoomReservationService.save(qrr);
 			} catch (Exception e) {
 				e.printStackTrace();
+				
 			}
 		}
 	
-		return new ResponseEntity<Collection<QuickRoomReservation>>(quickRoomReservationService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(quickRoomReservationService.findAll(), HttpStatus.OK);
 	}
 	
 	// @PreAuthorize("hasRole('USER')")
 	@DeleteMapping(value = "/{qrrId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<QuickRoomReservation>> deleteUserRoomReservation(@PathVariable("hotelId") Long hotelId, @PathVariable("qrrId") Long qrrId) {
 
-		QuickRoomReservation r = quickRoomReservationService.findOne(qrrId).get();
 		quickRoomReservationService.delete(qrrId);
-		
-		
-		return new ResponseEntity<Collection<QuickRoomReservation>>(quickRoomReservationService.findAll(), HttpStatus.OK);
+				
+		return new ResponseEntity<>(quickRoomReservationService.findAll(), HttpStatus.OK);
 	}
 
 }

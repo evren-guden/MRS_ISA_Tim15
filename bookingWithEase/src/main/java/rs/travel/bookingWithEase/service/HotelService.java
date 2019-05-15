@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +24,12 @@ public class HotelService {
 	@Autowired
 	private IUserRepository users;
 
-	public Optional<Hotel> findOne(Long id) {
-		return hotels.findById(id);
+	public Hotel findOne(Long id) {
+		Optional<Hotel> hotelOpt = hotels.findById(id);
+		if (hotelOpt.isPresent()) {
+			return hotelOpt.get();
+		}
+		return null;
 	}
 
 	public List<Hotel> findAll() {
@@ -59,8 +61,8 @@ public class HotelService {
 
 	public Collection<Hotel> search(HotelSearchDTO hotelSearchDTO) {
 
-		ArrayList<Hotel> result1 = new ArrayList<Hotel>();
-		ArrayList<Hotel> result2 = new ArrayList<Hotel>();
+		ArrayList<Hotel> result1 = new ArrayList<>();
+		ArrayList<Hotel> result2 = new ArrayList<>();
 
 		if (hotelSearchDTO.getStars() == 0 && hotelSearchDTO.getRating() == 0)
 			result1 = hotels.findByNameAndAddress(hotelSearchDTO.getName(), hotelSearchDTO.getAddress());

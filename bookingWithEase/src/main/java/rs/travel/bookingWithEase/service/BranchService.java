@@ -15,8 +15,12 @@ public class BranchService {
 	@Autowired
 	private IBranchRepository branchRepository;
 
-	public Optional<Branch> findOne(Long id) {
-		return branchRepository.findById(id);
+	public Branch findOne(Long id) {
+		Optional<Branch> branchOpt = branchRepository.findById(id);
+		if(branchOpt.isPresent()) {
+			return branchOpt.get();
+		}
+		return null;
 	}
 
 	public List<Branch> findAll() {

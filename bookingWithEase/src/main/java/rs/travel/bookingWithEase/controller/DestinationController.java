@@ -1,7 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,13 +35,13 @@ public class DestinationController {
 
 		Collection<Destination> destinations = destinationService.findAll();
 
-		return new ResponseEntity<Collection<Destination>>(destinations, HttpStatus.OK);
+		return new ResponseEntity<>(destinations, HttpStatus.OK);
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destination> create(@RequestBody DestinationDTO destinationDto) {
 
-		Airline airline = airlineService.findOne(destinationDto.getAirlineId()).get();
+		Airline airline = airlineService.findOne(destinationDto.getAirlineId());
 
 		Destination des = new Destination();
 		des.setName(destinationDto.getName());
@@ -56,10 +55,10 @@ public class DestinationController {
 		}
 
 		if (des == null) {
-			return new ResponseEntity<Destination>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Destination>(des, HttpStatus.OK);
+		return new ResponseEntity<>(des, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -74,16 +73,16 @@ public class DestinationController {
 		}
 
 		if (des == null) {
-			return new ResponseEntity<Destination>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Destination>(des, HttpStatus.OK);
+		return new ResponseEntity<>(des, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteDestination(@PathVariable Long id) {
 
-		Optional<Destination> destination = destinationService.findOne(id);
+		Destination destination = destinationService.findOne(id);
 
 		if (destination != null) {
 			destinationService.delete(id);
@@ -99,6 +98,6 @@ public class DestinationController {
 		
 		Collection<Destination> destinations = destinationService.findByAirlineId(companyId);
 
-		return new ResponseEntity<Collection<Destination>>(destinations, HttpStatus.OK);
+		return new ResponseEntity<>(destinations, HttpStatus.OK);
 	}
 }

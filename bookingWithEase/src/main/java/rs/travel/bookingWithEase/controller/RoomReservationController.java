@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +28,7 @@ public class RoomReservationController {
 		
 		Collection<RoomReservation> roomRes = roomResService.findAll();
 		
-		return new ResponseEntity<Collection<RoomReservation>>(roomRes, HttpStatus.OK);
+		return new ResponseEntity<>(roomRes, HttpStatus.OK);
 	}
 	
 	//@PreAuthorize("hasRole('USER')")
@@ -45,10 +44,10 @@ public class RoomReservationController {
 		}
 		
 		if(roomReservation == null) {
-			return new ResponseEntity<RoomReservation>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return new ResponseEntity<RoomReservation>(roomReservation, HttpStatus.OK);
+		return new ResponseEntity<>(roomReservation, HttpStatus.OK);
 	}
 	
 }

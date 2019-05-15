@@ -44,13 +44,13 @@ public class AirlineController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Airline>> getAll() {
 		Collection<Airline> airlines = airlineService.findAll();
-		return new ResponseEntity<Collection<Airline>>(airlines, HttpStatus.OK);
+		return new ResponseEntity<>(airlines, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/airlines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Airline>> getAirlines() {
 		List<Airline> airlines = airlineService.findAll();
-		return new ResponseEntity<List<Airline>>(airlines, HttpStatus.OK);
+		return new ResponseEntity<>(airlines, HttpStatus.OK);
 	}
 
 	/*
@@ -64,7 +64,9 @@ public class AirlineController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AirlineDTO> getAirline(@PathVariable("id") Long id) {
-		Airline airline = airlineService.findOne(id).get();
+	
+		Airline airline = airlineService.findOne(id);
+		
 		if (airline == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -87,19 +89,19 @@ public class AirlineController {
 
 		Airline air = airlineService.save(airline);
 
-		return new ResponseEntity<Airline>(air, HttpStatus.OK);
+		return new ResponseEntity<>(air, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Airline> deleteAirline(@PathVariable("id") Long id) {
 		airlineService.delete(id);
-		return new ResponseEntity<Airline>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Airline>> search(@RequestBody AirlineDTO airline) {
 		Collection<Airline> services = airlineService.search(airline);
-		return new ResponseEntity<Collection<Airline>>(services, HttpStatus.OK);
+		return new ResponseEntity<>(services, HttpStatus.OK);
 	}
 
 }

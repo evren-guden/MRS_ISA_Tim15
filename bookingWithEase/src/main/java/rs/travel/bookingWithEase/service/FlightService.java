@@ -21,8 +21,12 @@ public class FlightService  {
 	@Autowired
 	private IFlightRepository flightRepository;
 
-	public Optional<Flight> findOne(Long id) {
-		return flightRepository.findById(id);
+	public Flight findOne(Long id) {
+		Optional<Flight> flightOpt = flightRepository.findById(id);
+		if(flightOpt.isPresent()) {
+			return flightOpt.get();
+		}
+		return null;
 	}
 
 	public List<Flight> findAll() {
@@ -45,7 +49,7 @@ public class FlightService  {
 		ConcurrentMap<Long, Flight> searchFlights = new ConcurrentHashMap<Long, Flight>();
 
 		for (Flight fl : flightRepository.findAll()) {
-			if (flightDto.getId() == null || flightDto.getId() == fl.getId()) {
+			if (flightDto.getId() == null || flightDto.getId().equals(fl.getId())) {
 				if (flightDto.getNumber() == null
 						|| fl.getNumber().toLowerCase().contains(flightDto.getNumber().toLowerCase())) {
 					if (flightDto.getStartDestination() == null

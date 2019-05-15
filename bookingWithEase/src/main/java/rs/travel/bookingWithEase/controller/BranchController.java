@@ -1,7 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class BranchController {
 
 		Collection<Branch> branches = branchService.findAll();
 
-		return new ResponseEntity<Collection<Branch>>(branches, HttpStatus.OK);
+		return new ResponseEntity<>(branches, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINRAC')")
@@ -48,32 +47,32 @@ public class BranchController {
 			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
-		Optional<Branch> branch = branchService.findOne(br.getId());
+		Branch branch = branchService.findOne(br.getId());
 
 		if (branch == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		branch.get().setName(br.getName());
-		branch.get().setAddress(br.getAddress());
+		branch.setName(br.getName());
+		branch.setAddress(br.getAddress());
 
-		Branch branch2 = branchService.save(branch.get());
+		Branch branch2 = branchService.save(branch);
 		return new ResponseEntity<>(branch2, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Branch> findOne(@PathVariable("id") Long id) {
 
-		Optional<Branch> br = branchService.findOne(id);
+		Branch br = branchService.findOne(id);
 
-		return new ResponseEntity<Branch>(br.get(), HttpStatus.OK);
+		return new ResponseEntity<>(br, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{id}/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Vehicle>> getMyVehicles(@PathVariable("id") Long id) {
-		Optional<Branch> branch = branchService.findOne(id);
+		Branch branch = branchService.findOne(id);
 
-		return new ResponseEntity<Collection<Vehicle>>(branch.get().getVehicles(), HttpStatus.OK);
+		return new ResponseEntity<>(branch.getVehicles(), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINRAC')")
@@ -81,27 +80,27 @@ public class BranchController {
 	public ResponseEntity<Vehicle> addVehicle(@PathVariable("id") Long id, @RequestBody Vehicle vehicle) {
 
 		if(vehicle.getRegistrationNumber().trim().equals("") || vehicle.getRegistrationNumber() == null) {
-			return new ResponseEntity<Vehicle>(HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		
 		if(vehicleService.findByRegNumber(vehicle.getRegistrationNumber()) != null) {
-			return new ResponseEntity<Vehicle>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
-		Optional<Branch> branch = branchService.findOne(id);
-		branch.get().addVehicle(vehicle);
-		vehicle.setBranch(branch.get());
+		Branch branch = branchService.findOne(id);
+		branch.addVehicle(vehicle);
+		vehicle.setBranch(branch);
 		Vehicle veh = vehicleService.save(vehicle);
-		branchService.save(branch.get());
+		branchService.save(branch);
 
-		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
+		return new ResponseEntity<>(veh, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINRAC')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
 
-		Optional<Branch> branch = branchService.findOne(id);
+		Branch branch = branchService.findOne(id);
 		if (branch != null) {
 			branchService.delete(id);
 			return new ResponseEntity<>(HttpStatus.OK);

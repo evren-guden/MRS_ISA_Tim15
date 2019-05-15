@@ -19,7 +19,7 @@ public class CompanyService {
 
 	public Company dtoToCompany(CompanyDTO companyDto) {
 		
-		Set<Admin> admins = new HashSet<Admin>();
+		Set<Admin> admins = new HashSet<>();
 		if (companyDto.getAdmins() != null) {
 			for (String adminUsername : companyDto.getAdmins()) {
 				User a = userService.findByUsername(adminUsername);

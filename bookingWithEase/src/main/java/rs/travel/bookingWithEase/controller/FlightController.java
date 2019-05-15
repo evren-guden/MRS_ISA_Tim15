@@ -1,7 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,14 +41,14 @@ public class FlightController {
 
 		Collection<Flight> flights = flightService.findAll();
 
-		return new ResponseEntity<Collection<Flight>>(flights, HttpStatus.OK);
+		return new ResponseEntity<>(flights, HttpStatus.OK);
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Flight> create(@RequestBody FlightDTO flightDTO) {
-		Destination startDestination = destinationService.findOne(flightDTO.getStartDestinationId()).get();
-		Destination endDestination = destinationService.findOne(flightDTO.getEndDestinationId()).get();
-		Airline airline = airlineService.findOne(flightDTO.getAirlineId()).get();
+		Destination startDestination = destinationService.findOne(flightDTO.getStartDestinationId());
+		Destination endDestination = destinationService.findOne(flightDTO.getEndDestinationId());
+		Airline airline = airlineService.findOne(flightDTO.getAirlineId());
 
 		Flight flight = new Flight(flightDTO.getNumber(), flightDTO.getDateFligh(), flightDTO.getDateLand(),
 				flightDTO.getTimeTravel(), flightDTO.getLengthTravel(), startDestination.getName(), endDestination.getName(),
@@ -62,10 +61,10 @@ public class FlightController {
 		}
 
 		if (flight == null) {
-			return new ResponseEntity<Flight>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Flight>(flight, HttpStatus.OK);
+		return new ResponseEntity<>(flight, HttpStatus.OK);
 	}
 
 	/*
@@ -88,7 +87,7 @@ public class FlightController {
 		}
 
 		if (flig == null) {
-			return new ResponseEntity<Flight>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
@@ -97,7 +96,7 @@ public class FlightController {
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
 
-		Optional<Flight> flight = flightService.findOne(id);
+		Flight flight = flightService.findOne(id);
 
 		if (flight != null) {
 			flightService.delete(id);
@@ -113,13 +112,13 @@ public class FlightController {
 
 		Collection<Flight> flights = flightService.findAllByAirlineId(id);
 
-		return new ResponseEntity<Collection<Flight>>(flights, HttpStatus.OK);
+		return new ResponseEntity<>(flights, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Flight>> search(@RequestBody FlightDTO flightDTO) {
 		Collection<Flight> services = flightService.search(flightDTO);
-		return new ResponseEntity<Collection<Flight>>(services, HttpStatus.OK);
+		return new ResponseEntity<>(services, HttpStatus.OK);
 	}
 
 }

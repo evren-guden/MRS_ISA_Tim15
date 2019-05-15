@@ -69,7 +69,7 @@ public class QuickRoomReservationService {
 		for(Long roomId : dto.getRooms())
 		{	
 			// TODO Validation
-			Room r = rooms.findById(roomId).get();
+			Room r = roomService.findById(roomId);
 			RoomDTO roomDto = roomService.roomToDTO(r);
 			roomService.calculateTotalPrice(roomDto, dto.getCheckIn(), dto.getCheckOut());
 			System.out.println("Total price is: " + roomDto.getTotalPrice());

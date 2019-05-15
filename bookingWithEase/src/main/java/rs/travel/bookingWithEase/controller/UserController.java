@@ -84,7 +84,7 @@ public class UserController {
 			return new ResponseEntity<String>(HttpStatus.OK);
 		} else {
 			System.out.println("conflict");
-			return new ResponseEntity<String>("Username is already taken", HttpStatus.CONFLICT);
+			return new ResponseEntity<>("Username is already taken", HttpStatus.CONFLICT);
 		}
 
 	}
@@ -101,7 +101,7 @@ public class UserController {
 		
 		User upUser = userService.update(user);
 		
-		return new ResponseEntity<User>(upUser, HttpStatus.OK);
+		return new ResponseEntity<>(upUser, HttpStatus.OK);
 	}
 
 	/*
@@ -146,7 +146,7 @@ public class UserController {
 	@GetMapping(value = "/{userId}/roomReservations", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RoomReservation>> getUserRoomReservations(@PathVariable("userId") Long userId) {
 		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
-		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u), HttpStatus.OK);
+		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}
 
 	// @PreAuthorize("hasRole('USER')")
@@ -154,7 +154,7 @@ public class UserController {
 	public ResponseEntity<Collection<RoomReservation>> deleteUserRoomReservation(@PathVariable("userId") Long userId,
 			@PathVariable("rrId") Long rrId) {
 		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
-		RoomReservation r = roomResService.findOne(rrId).get();
+		RoomReservation r = roomResService.findOne(rrId);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
@@ -166,7 +166,7 @@ public class UserController {
 
 			roomResService.delete(rrId);
 		}
-		return new ResponseEntity<Collection<RoomReservation>>(roomResService.findByUser(u), HttpStatus.OK);
+		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}
 
 	// registration
@@ -224,7 +224,7 @@ public class UserController {
 	        }
 	 
 
-	        return new ResponseEntity<String>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
+	        return new ResponseEntity<>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
 	    }
 
 }

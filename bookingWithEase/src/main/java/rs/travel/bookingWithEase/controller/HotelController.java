@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -79,7 +78,7 @@ public class HotelController {
 		Hotel updated = hotelService.findById(companyDto.getId());
 
 		if (updated == null) {
-			return new ResponseEntity<Hotel>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		Hotel hotel = new Hotel(company);
@@ -88,13 +87,14 @@ public class HotelController {
 			hotel = hotelService.save(hotel);
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 
 		if (hotel == null) {
-			return new ResponseEntity<Hotel>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
+		return new ResponseEntity<>(hotel, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,7 +103,7 @@ public class HotelController {
 		//Hotel hotel = new Hotel(company);
 		System.out.println("\n\n\n " + hotelSearchDTO + "\n\n\n");
 		Collection<Hotel> services = hotelService.search(hotelSearchDTO);
-		return new ResponseEntity<Collection<Hotel>>(services, HttpStatus.OK);
+		return new ResponseEntity<>(services, HttpStatus.OK);
 
 	}
 
@@ -125,10 +125,10 @@ public class HotelController {
 			System.out.println("Hotel id: " + newRoom.getHotel().getId());
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Room>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Room>(newRoom, HttpStatus.OK);
+		return new ResponseEntity<>(newRoom, HttpStatus.OK);
 
 	}
 
@@ -151,10 +151,10 @@ public class HotelController {
 			roomService.save(newRoom);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Collection<Room>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Collection<Room>>(roomService.findByHotelId(hotelId), HttpStatus.OK);
+		return new ResponseEntity<>(roomService.findByHotelId(hotelId), HttpStatus.OK);
 
 	}
 	
@@ -167,7 +167,7 @@ public class HotelController {
 		System.out.println("\n\n\n" + roomSearchDTO + "\n\n\n");
 
 		Collection<RoomDTO> services = roomService.search(roomSearchDTO);
-		return new ResponseEntity<Collection<RoomDTO>>(services, HttpStatus.OK);
+		return new ResponseEntity<>(services, HttpStatus.OK);
 	}
 
 
@@ -195,10 +195,10 @@ public class HotelController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<HotelSpecialOffer>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<HotelSpecialOffer>(newHSO, HttpStatus.OK);
+		return new ResponseEntity<>(newHSO, HttpStatus.OK);
 
 	}
 
@@ -208,9 +208,9 @@ public class HotelController {
 			@PathVariable("specialOfferId") Long specialOfferId) {
 		specialOfferService.delete(specialOfferId);
 		Hotel hotel = hotelService.findById(hotelId);
-		hotel.getSpecialOffers().removeIf(h -> (h.getId() == specialOfferId));
+		hotel.getSpecialOffers().removeIf(h -> (h.getId().equals(specialOfferId)));
 		hotelService.save(hotel);
-		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
+		return new ResponseEntity<>(hotelService.findById(hotelId).getSpecialOffers(),
 				HttpStatus.OK);
 	}
 
@@ -223,10 +223,10 @@ public class HotelController {
 			specialOfferService.save(hso);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Collection<HotelSpecialOffer>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Collection<HotelSpecialOffer>>(hotelService.findById(hotelId).getSpecialOffers(),
+		return new ResponseEntity<>(hotelService.findById(hotelId).getSpecialOffers(),
 				HttpStatus.OK);
 	}
 
@@ -243,7 +243,7 @@ public class HotelController {
 		hotelService.save(hotel);
 		serviceTypePrices.save(hstp);
 
-		return new ResponseEntity<Hotel>(hotelService.findById(id), HttpStatus.OK);
+		return new ResponseEntity<>(hotelService.findById(id), HttpStatus.OK);
 	}
 
 }

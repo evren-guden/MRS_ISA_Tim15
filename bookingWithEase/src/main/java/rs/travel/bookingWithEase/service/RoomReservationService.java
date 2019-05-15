@@ -15,7 +15,6 @@ import rs.travel.bookingWithEase.model.HotelSpecialOffer;
 import rs.travel.bookingWithEase.repository.IHotelSpecialOfferRepository;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
 import rs.travel.bookingWithEase.repository.IRoomReservationRepository;
-import rs.travel.bookingWithEase.repository.IUserRepository;
 
 @Service
 public class RoomReservationService {
@@ -24,7 +23,7 @@ public class RoomReservationService {
 	private IRoomReservationRepository roomReservations;
 
 	@Autowired
-	private IUserRepository users;
+	private UserService userService;
 
 	@Autowired
 	private IRoomRepository rooms;
@@ -32,8 +31,14 @@ public class RoomReservationService {
 	@Autowired
 	private IHotelSpecialOfferRepository hotelSpecialOffers;
 
-	public Optional<RoomReservation> findOne(Long id) {
-		return roomReservations.findById(id);
+	public RoomReservation findOne(Long id) {
+		Optional<RoomReservation> rrOpt = roomReservations.findById(id);
+
+		if (rrOpt.isPresent()) {
+			return rrOpt.get();
+		}  
+
+		return null;
 	}
 
 	public List<RoomReservation> findAll() {
@@ -56,7 +61,7 @@ public class RoomReservationService {
 		// TODO Validation
 		RegisteredUser u = null;
 		try {
-			u = (RegisteredUser) users.findById(dto.getUserId()).get();
+			u = (RegisteredUser) userService.findOne(dto.getUserId());
 		} catch (Exception e) {
 		}
 		Room r = (Room) rooms.getOne(dto.getRoomId());

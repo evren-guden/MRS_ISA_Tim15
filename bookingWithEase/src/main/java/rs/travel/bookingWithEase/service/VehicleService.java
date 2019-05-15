@@ -43,8 +43,8 @@ public class VehicleService {
 	
 	public List<Vehicle> search(VehicleSearchDTO dto){
 		
-		ArrayList<Vehicle> result1 = new ArrayList<Vehicle>();
-		ArrayList<Vehicle> result2 = new ArrayList<Vehicle>();
+		ArrayList<Vehicle> result1 = new ArrayList<>();
+		ArrayList<Vehicle> result2 = new ArrayList<>();
 		
 		result1 = vehicleRepository.findByTypeContainingIgnoreCaseAndGearContainingIgnoreCase(dto.getType(), dto.getGear());
 		double min, max;

@@ -42,7 +42,7 @@ public class VehicleController {
 
 		Collection<Vehicle> vehicles = vehicleService.findAll();
 
-		return new ResponseEntity<Collection<Vehicle>>(vehicles, HttpStatus.OK);
+		return new ResponseEntity<>(vehicles, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINRAC')")
@@ -50,11 +50,11 @@ public class VehicleController {
 	public ResponseEntity<Vehicle> create(@RequestBody Vehicle vehicle) {
 
 		if (vehicle.getRegistrationNumber().trim().equals("") || vehicle.getRegistrationNumber() == null) {
-			return new ResponseEntity<Vehicle>(HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
 		if (vehicleService.findByRegNumber(vehicle.getRegistrationNumber()) != null) {
-			return new ResponseEntity<Vehicle>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
 		Vehicle veh = null;
@@ -66,10 +66,10 @@ public class VehicleController {
 		}
 
 		if (veh == null) {
-			return new ResponseEntity<Vehicle>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
+		return new ResponseEntity<>(veh, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINRAC')")
@@ -84,17 +84,17 @@ public class VehicleController {
 		}
 
 		if (veh == null) {
-			return new ResponseEntity<Vehicle>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
+		return new ResponseEntity<>(veh, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vehicle> findOne(@PathVariable("id") Long id) {
 		Vehicle veh = vehicleService.findOne(id);
 
-		return new ResponseEntity<Vehicle>(veh, HttpStatus.OK);
+		return new ResponseEntity<>(veh, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINRAC')")
@@ -117,7 +117,7 @@ public class VehicleController {
 	public ResponseEntity<Collection<VehicleReservation>> getMyReservations(@PathVariable("id") Long id) {
 		Vehicle vehicle = vehicleService.findOne(id);
 
-		return new ResponseEntity<Collection<VehicleReservation>>(vehicle.getVehicleReservations(),
+		return new ResponseEntity<>(vehicle.getVehicleReservations(),
 				HttpStatus.OK);
 	}
 
@@ -148,9 +148,9 @@ public class VehicleController {
 		}
 
 		if (vehicleReservation == null) {
-			return new ResponseEntity<VehicleReservation>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<VehicleReservation>(vehicleReservation, HttpStatus.OK);
+		return new ResponseEntity<>(vehicleReservation, HttpStatus.OK);
 	}
 }

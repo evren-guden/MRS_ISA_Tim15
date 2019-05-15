@@ -19,8 +19,12 @@ public class DestinationService {
 	private IDestinationRepository destRepository;
 
 	
-	public Optional<Destination> findOne(Long id) {
-		return destRepository.findById(id);
+	public Destination findOne(Long id) {
+		Optional<Destination> destinationOpt = destRepository.findById(id);
+		if(destinationOpt.isPresent()) {
+			return destinationOpt.get();
+		}
+		return null;
 	}
 
 	public List<Destination> findAll() {

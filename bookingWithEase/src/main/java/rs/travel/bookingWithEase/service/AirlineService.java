@@ -19,8 +19,12 @@ public class AirlineService {
 	@Autowired
 	private IAirlineRepository airlines;
 
-	public Optional<Airline> findOne(Long id) {
-		return airlines.findById(id);
+	public Airline findOne(Long id) {
+		Optional<Airline> airOpt = airlines.findById(id);
+		if(airOpt.isPresent()) {
+			return airOpt.get();
+		}
+		return null;
 	}
 
 	public List<Airline> findAll() {
@@ -41,10 +45,10 @@ public class AirlineService {
 	}
 	
 	public Collection<Airline> search(AirlineDTO airline) {
-		ConcurrentMap<Long, Airline> searchAirlines = new ConcurrentHashMap<Long, Airline>();
+		ConcurrentMap<Long, Airline> searchAirlines = new ConcurrentHashMap<>();
 
 		for (Airline al : airlines.findAll()) {
-			if (airline.getId() == null || airline.getId() == al.getId()) {
+			if (airline.getId() == null || airline.getId().equals(al.getId())) {
 				if (airline.getAddress() == null
 						|| al.getAddress().toLowerCase().contains(airline.getAddress().toLowerCase())) {
 					if (airline.getName() == null

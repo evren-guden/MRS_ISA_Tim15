@@ -17,7 +17,6 @@ import rs.travel.bookingWithEase.dto.RoomSearchDTO;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.Price;
 import rs.travel.bookingWithEase.model.Room;
-import rs.travel.bookingWithEase.repository.IHotelRepository;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
 
 @Service
@@ -25,9 +24,6 @@ public class RoomService {
 
 	@Autowired
 	private IRoomRepository rooms;
-
-	@Autowired
-	private IHotelRepository hotels;
 
 	@Autowired
 	private HotelService hotelService;
@@ -46,8 +42,8 @@ public class RoomService {
 	}
 
 	public List<RoomDTO> search(RoomSearchDTO roomSearchDTO) {
-		ArrayList<Room> result1 = new ArrayList<Room>();
-		ArrayList<Room> result2 = new ArrayList<Room>();
+		ArrayList<Room> result1 = new ArrayList<>();
+		ArrayList<Room> result2 = new ArrayList<>();
 
 		if (roomSearchDTO.getCapacity() == 0 && roomSearchDTO.getFloorNumber() == -11) {
 			result1 = rooms.findByPriceRange(roomSearchDTO.getHotelId(), roomSearchDTO.getMinPrice(),
@@ -85,7 +81,7 @@ public class RoomService {
 	}
 
 	public List<Room> findByHotelId(Long id) {
-		return rooms.findByHotel(hotels.findById(id).get());
+		return rooms.findByHotel(hotelService.findOne(id));
 	}
 
 	public Room save(Room room) {

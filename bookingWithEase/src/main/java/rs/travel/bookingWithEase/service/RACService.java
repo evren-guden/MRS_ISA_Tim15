@@ -50,7 +50,7 @@ public class RACService {
 		ConcurrentMap<Long, RentACar> searchRAC = new ConcurrentHashMap<Long, RentACar>();
 
 		for (RentACar rac : rentacarsRepository.findAll()) {
-			if (rentACar.getId() == null || rentACar.getId() == rac.getId()) {
+			if (rentACar.getId() == null || rentACar.getId().equals(rac.getId())) {
 				if (rentACar.getAddress() == null
 						|| rac.getAddress().toLowerCase().contains(rentACar.getAddress().toLowerCase())) {
 					if (rentACar.getName() == null

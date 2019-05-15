@@ -8,8 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import rs.travel.bookingWithEase.model.VehicleReservation;
@@ -27,7 +25,7 @@ public class VehicleReservationController {
 		
 		Collection<VehicleReservation> vehRess = vehResService.findAll();
 		
-		return new ResponseEntity<Collection<VehicleReservation>>(vehRess, HttpStatus.OK);
+		return new ResponseEntity<>(vehRess, HttpStatus.OK);
 	}
 	
 	/*@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
