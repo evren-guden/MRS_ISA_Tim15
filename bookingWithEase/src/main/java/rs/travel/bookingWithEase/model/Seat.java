@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
@@ -19,74 +20,79 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 public class Seat {
+
+	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	Airplane airplane;
-	
-	
-	@OneToMany(mappedBy = "seat", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Ticket> ticket = new HashSet<Ticket>();
-	
-	
-	
-	@Column(name = "row")
-	private int row;
-	
-	@Column(name = "number")
-	private int number;
-	
-	@Column(name = "clss")
-	private CLASSS clss; // klasa
-	
-	@Column(name = "occupied")
-	private Boolean occupied;
 
-	public int getRow() {
-		return row;
-	}
+	@Column(nullable = false)
+	private Integer seatNumber;
 
-	public void setRow(int row) {
-		this.row = row;
-	}
+	@Column(nullable = false)
+	private Boolean available;
 
-	public int getNumber() {
-		return number;
-	}
+	@Column(nullable = false)
+	private SeatType type;
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Flight flight;
 
-	public CLASSS getClss() {
-		return clss;
-	}
-
-	public void setClss(CLASSS clss) {
-		this.clss = clss;
-	}
-
-	public Boolean getOccupied() {
-		return occupied;
-	}
-
-	public void setOccupied(Boolean occupied) {
-		this.occupied = occupied;
-	}
-
-	public Seat(int row, int number, CLASSS clss, Boolean occupied) {
-		super();
-		this.row = row;
-		this.number = number;
-		this.clss = clss;
-		this.occupied = occupied;
-	}
+	
 
 	public Seat() {
 		super();
 	}
+
+	public Seat(Integer seatNumber, Boolean available, SeatType type, Flight flight) {
+		super();
+		this.seatNumber = seatNumber;
+		this.available = available;
+		this.type = type;
+		this.flight = flight;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Integer getSeatNumber() {
+		return seatNumber;
+	}
+
+	public void setSeatNumber(Integer seatNumber) {
+		this.seatNumber = seatNumber;
+	}
+
+	public Boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
+
+	public SeatType getType() {
+		return type;
+	}
+
+	public void setType(SeatType type) {
+		this.type = type;
+	}
+
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
+
+
 
 }

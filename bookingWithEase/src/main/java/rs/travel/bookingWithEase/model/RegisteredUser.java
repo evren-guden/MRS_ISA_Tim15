@@ -22,6 +22,11 @@ public class RegisteredUser extends User {
 	@OneToMany(mappedBy="vehicle_user",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	private Set<VehicleReservation> vehicleReservations = new HashSet<VehicleReservation>();
 	
+	
+	
+	@OneToMany(mappedBy="f_user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<FlightReservation> flightReservations = new HashSet<FlightReservation>();
+	
 	public RegisteredUser() {
 		super();
 	}

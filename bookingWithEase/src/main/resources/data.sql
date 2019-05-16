@@ -15,6 +15,7 @@ insert into airline (id,name, address, description, rating) values (10,'Air Serb
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','bec','da',5,5,5,'bg',1,1,1,1);
 
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','ue','ne',3,3,3,'nis',2,2,2,2);
+insert into seat (id,available, seat_number,type,flight_id) values (7,true,7,1,12);
 
 
 insert into branch (id, rac_id, name, address) values (1, 101,'My branch 1', 'Novi Sad');

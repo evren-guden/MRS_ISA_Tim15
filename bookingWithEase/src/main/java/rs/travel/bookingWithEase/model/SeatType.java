@@ -1,6 +1,6 @@
 package rs.travel.bookingWithEase.model;
 
-public enum CLASSS {
+public enum SeatType {
 	ECONOMY, BUSSINES, FIRST
 
 }

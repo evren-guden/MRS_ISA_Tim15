@@ -28,8 +28,6 @@ public class Airline extends Company {
 	private Set<Destination> destinations = new HashSet<Destination>();
 	
 	
-	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Airplane> airplanes = new HashSet<Airplane>();
 
 	
 	@OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -71,7 +69,7 @@ public class Airline extends Company {
 
 	@Override
 	public String toString() {
-		return "Airline [flights=" + flights + ", destinations=" + destinations + ", airplanes=" + airplanes
+		return "Airline [flights=" + flights + ", destinations=" + destinations 
 				+ ", airlineCustomerServices=" + airlineCustomerServices + "]";
 	}
 	
@@ -80,6 +78,4 @@ public class Airline extends Company {
 		this.address = airlineDTO.getAddress();
 		this.description = airlineDTO.getDescription();
 	}
-	
-
 }

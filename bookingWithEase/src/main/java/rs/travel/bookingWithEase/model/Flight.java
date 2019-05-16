@@ -49,8 +49,7 @@ public class Flight {
 	@Column(name = "finalD")
 	private String finalD;
 	
-	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Ticket> tickets = new HashSet<Ticket>();
+	
 	
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Destination> transitions = new HashSet<Destination>();
@@ -78,6 +77,10 @@ public class Flight {
 	@JoinColumn(name = "final_id")
 	@JsonIgnore
 	private Destination endDestination;
+	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<FlightReservation> flightReservations = new HashSet<FlightReservation>();
+
+	
 	
 	
 	/*
@@ -170,13 +173,7 @@ public class Flight {
 		this.finalD = finalD;
 	}
 
-	public Set<Ticket> getTickets() {
-		return tickets;
-	}
 
-	public void setTickets(Set<Ticket> tickets) {
-		this.tickets = tickets;
-	}
 
 	public Set<Destination> getTransitions() {
 		return transitions;
@@ -235,7 +232,7 @@ public class Flight {
 	}
 
 	public Flight(Long id, String number, Date dateFligh, Date dateLand, int timeTravel, int lengthTravel,
-			String startD, String finalD, Set<Ticket> tickets, Set<Destination> transitions, double priceTicket,
+			String startD, String finalD, Set<Destination> transitions, double priceTicket,
 			String informationLuggage, Set<Destination> destinations, Airline airline, Destination startDestination,
 			Destination endDestination) {
 		super();
@@ -247,7 +244,6 @@ public class Flight {
 		this.lengthTravel = lengthTravel;
 		this.startD = startD;
 		this.finalD = finalD;
-		this.tickets = tickets;
 		this.transitions = transitions;
 		this.priceTicket = priceTicket;
 		this.informationLuggage = informationLuggage;
