@@ -42,6 +42,12 @@ function openCity(evt, cityName) {
 	evt.currentTarget.className += " active";
 }
 
+const arrayToObject = (array, keyField) =>
+array.reduce((obj, item) => {
+  obj[item[keyField]] = item
+  return obj
+}, {})
+
 function getFormData(formId) {
 	var formData = {};
 	var s_data = $(formId).serializeArray();

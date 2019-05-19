@@ -149,7 +149,7 @@ public class UserController {
 		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}
 
-	// @PreAuthorize("hasRole('USER')")
+	//@PreAuthorize("hasRole('USER')")
 	@DeleteMapping(value = "/{userId}/roomReservations/{rrId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RoomReservation>> deleteUserRoomReservation(@PathVariable("userId") Long userId,
 			@PathVariable("rrId") Long rrId) {
@@ -158,13 +158,13 @@ public class UserController {
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, 5);
+		cal.add(Calendar.DATE, 2);
 		if (cal.getTime().after(r.getCheckInDate())) {
-			System.out.println("\n\n ne moze da se obrise rezervacija \n\n");
-			return new ResponseEntity<Collection<RoomReservation>>(HttpStatus.UNPROCESSABLE_ENTITY);
+
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		} else {
 
-			roomResService.delete(rrId);
+			roomResService.cancelReservation(rrId);
 		}
 		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}

@@ -1,59 +1,128 @@
-$(document).ready(function() {
-	var checkIn = localStorage.getItem('latestHSearchCheckIn');
-	var checkOut = localStorage.getItem('latestHSearchCheckOut');
+alertify.set('notifier', 'position', 'top-right');
+$(document).ready(
+		function() {
+			hotelId = localStorage.getItem("showRooms");
+			if (hotelId !== null) {
+				var checkIn = localStorage.getItem('latestHSearchCheckIn');
+				var checkOut = localStorage.getItem('latestHSearchCheckOut');
 
-	$('#src-hotel-checkIn').val(checkIn);
-	$('#src-hotel-checkOut').val(checkOut);
-	if (checkIn != "" && checkOut != "") {
-		searchRooms(getSearchRoomsData(), fillTableRooms);
-	} else {
-		getRooms(localStorage.getItem("showRooms"));
-	}
+				hotelId = localStorage.getItem("showRooms");
+
+				var hotels = JSON.parse(localStorage.getItem("hotels"));
+
+				var hotel = hotels[hotelId];
+				$('#hotel_name_h').empty().append(
+						'Hotel: ' + hotel.name + ', ' + hotel.address);
+
+				$('#src-hotel-checkIn').val(checkIn);
+				$('#src-hotel-checkOut').val(checkOut);
+				$('#rooms_black_btn').css('background-color', 'gray');
+				if (checkIn != "" && checkOut != "") {
+
+					$('#rooms_black_btn').css('background-color', 'gray');
+					searchRooms(getSearchRoomsData(), fillTableRooms);
+
+				} else {
+					getRooms(hotelId);
+				}
+			}
+		});
+
+$(document).on('click', '#room_search_btn', function(e) {
+	e.preventDefault();
+	searchRooms(getSearchRoomsData(), fillTableRooms);
+	$('#info_black_btn').css('background-color', 'black');
+	$('#rooms_black_btn').css('background-color', 'black');
+	$('#qrr_black_btn').css('background-color', 'black');
+});
+
+$(document).on('click', '#qrr_search_btn', function(e) {
+	e.preventDefault();
+	searchQrr(getSearchRoomsData(), fillTableQrrs);
+	$('#info_black_btn').css('background-color', 'black');
+	$('#rooms_black_btn').css('background-color', 'black');
+	$('#qrr_black_btn').css('background-color', 'black');
+});
+
+$(document).on('click', '#info_black_btn', function(e) {
+	e.preventDefault();
+
+	$(this).css('background-color', 'gray');
+	$('#rooms_black_btn').css('background-color', 'black');
+	$('#qrr_black_btn').css('background-color', 'black');
+
+});
+
+$(document).on('click', '#rooms_black_btn', function(e) {
+	e.preventDefault();
+
+	$(this).css('background-color', 'gray');
+	$('#info_black_btn').css('background-color', 'black');
+	$('#qrr_black_btn').css('background-color', 'black');
+
+	clearSerachRoomForm();
+
+	getRooms(hotelId);
+
+});
+
+$(document).on('click', '#qrr_black_btn', function(e) {
+	e.preventDefault();
+
+	$(this).css('background-color', 'gray');
+	$('#info_black_btn').css('background-color', 'black');
+	$('#rooms_black_btn').css('background-color', 'black');
+
+	clearSerachRoomForm();
+
+	searchQrr(getSearchRoomsData(), fillTableQrrs);
+
 });
 
 $(document).on('change', '.so_check', function(e) {
 	var rrData = JSON.parse(localStorage.getItem('rrData'));
-    var oldPrice = Number(localStorage.getItem('currentPrice'));
+	var oldPrice = Number(localStorage.getItem('currentPrice'));
 
 	if (this.checked) {
 		var newPrice = oldPrice + parseInt($(this).attr('price'));
-         $('#p_price').empty().append( newPrice + '&#8364;');
-         
+		$('#p_price').empty().append(newPrice + '&#8364;');
+
 	} else {
 		var newPrice = oldPrice - parseInt($(this).attr('price'));
-		$('#p_price').empty().append( newPrice + '&#8364;');
+		$('#p_price').empty().append(newPrice + '&#8364;');
 	}
-	
+
 	localStorage.setItem('currentPrice', newPrice);
 });
 
-$(document).on('click', '#so_confirm_btn', function(e) {
-	e.preventDefault();
-	var soData = getFormData("#so_form");
+$(document).on(
+		'click',
+		'#so_confirm_btn',
+		function(e) {
+			e.preventDefault();
+			var soData = getFormData("#so_form");
 
-	var so_list = [];
-	$.each(soData, function(index, so) {
-		so_list.push(so);
-	});
-	var rrData = JSON.parse(localStorage.getItem('rrData'));
-	rrData['specialOffers'] = so_list;
-	closeForm();
-	var message = "Check in: " + rrData['checkIn'] + "</br></br>";
-	message += "Check out: " + rrData['checkOut'] + "</br></br>";
-	message += "Total price: " + localStorage.getItem('currentPrice') + "</br></br>"
+			var so_list = [];
+			$.each(soData, function(index, so) {
+				so_list.push(so);
+			});
+			var rrData = JSON.parse(localStorage.getItem('rrData'));
+			rrData['specialOffers'] = so_list;
+			closeForm();
+			var message = "Check in: " + rrData['checkIn'] + "</br></br>";
+			message += "Check out: " + rrData['checkOut'] + "</br></br>";
+			message += "Total price: " + localStorage.getItem('currentPrice')
+					+ "</br></br>"
 
-	alertify.confirm('Booking confirmation', message, function() {
-		bookRoom(JSON.stringify(rrData));
-	}, function() {
-		alertify.notify("Booking canceled");
-	});
+			alertify.confirm('Booking confirmation', message, function() {
+				bookRoom(JSON.stringify(rrData));
+			}, function() {
+				alertify.notify("Booking canceled");
+			});
 
-});
+		});
 
 function getRooms(hotelId) {
-
-	var checkIn = localStorage.getItem('latestHSearchCheckIn');
-	var checkOut = localStorage.getItem('latestHSearchCheckOut');
 
 	$.ajax({
 		url : "/hotels/" + hotelId + "/rooms",
@@ -70,8 +139,7 @@ function getRooms(hotelId) {
 	});
 }
 
-function getSearchRoomsData()
-{
+function getSearchRoomsData() {
 	var formData = getFormData('#room_search_form');
 	if (formData["floorNumber"] === "")
 		formData["floorNumber"] = -11;
@@ -79,12 +147,12 @@ function getSearchRoomsData()
 
 	localStorage.setItem('latestHSearchCheckIn', formData['checkIn']);
 	localStorage.setItem('latestHSearchCheckOut', formData['checkOut']);
-	//alert(JSON.stringify(formData));
+	// alert(JSON.stringify(formData));
 	return formData;
 }
 
 function searchRooms(formData, callback) {
-	
+
 	var jsonData = JSON.stringify(formData);
 	// alert(jsonData);
 	$.ajax({
@@ -102,6 +170,100 @@ function searchRooms(formData, callback) {
 			alert("Something went wronggg! :(");
 		}
 	});
+}
+
+function searchQrr(formData, callback) {
+
+	var jsonData = JSON.stringify(formData);
+	// alert(jsonData);
+	$.ajax({
+		url : "/hotels/" + hotelId + "/quickRoomReservations/search",
+		type : "POST",
+		dataType : 'json',
+		contentType : "application/json",
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : callback,
+		error : function(response) {
+			alert("Something went wrong while getting available qrrs! :(");
+		}
+	});
+}
+
+function fillTableQrrs(data) {
+
+	var qrrs_list = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+
+	var qrrsDiv = $('#vehsDiv');
+	qrrsDiv.empty();
+	var counter = 0;
+
+	$
+			.each(
+					qrrs_list,
+					function(index, qrr) {
+
+						//	alert(qrr.id +   ' ' + JSON.stringify(qrr));
+						var qrrDiv = $('<div class="company-div" id="qrrDiv_'
+								+ counter
+								+ '" style="bottom:'
+								+ (60 - counter * 40)
+								+ '%; top:'
+								+ (3 + counter * 40)
+								+ '%;"'
+								+ '>'
+								+ '<img src="../images/hotel_room.jpg" height = 90% width= 18%>'
+								+ '<h3>Room number: ' + qrr.room.roomNumber
+								+ '</h3>');
+
+						qrrDiv
+								.append('<p style="position: absolute;top:18%;left:22%;"> Floor: '
+										+ qrr.room.floorNumber + '</p>');
+						qrrDiv
+								.append('<p style="position: absolute;top:30%;left:22%;"> Capacity: '
+										+ qrr.room.roomCapacity + '</p></div>');
+						qrrDiv
+								.append('<p style="position: absolute;top:42%;left:22%;"> Check in: '
+										+ qrr.checkInDate.substring(0, 10)
+										+ '</p></div>');
+						qrrDiv
+								.append('<p style="position: absolute;top:54%;left:22%;"> Check out: '
+										+ qrr.checkOutDate.substring(0, 10)
+										+ '</p></div>');
+
+						qrrDiv.append('<p class="totalPrice">' + qrr.finalPrice
+								+ '&#8364;</p>');
+
+						qrrDiv.append('<p class="discount"><b>-' + qrr.discount
+								+ '%</b></p>');
+
+						qrrDiv.append('<p class="oldPrice">' + qrr.totalPrice
+								+ '&#8364;</p>');
+
+						qrrDiv
+								.append('<button class="show_details_btn book_qrr_btn" id="book_qrr_'
+										+ qrr.id + '">Book now</button>');
+						counter++;
+						qrrsDiv.append(qrrDiv);
+
+					});
+
+	$('.book_qrr_btn').on('click', function(e) {
+		e.preventDefault();
+		var qrrId = this.id.substring(9);
+		
+		alertify.confirm('Booking confirmation', 'Are you sure?', function() {
+			bookQrr(qrrId);
+		}, function() {
+			alertify.notify("Booking canceled");
+		});				
+
+	});
+
 }
 
 function fillTableRooms(data) {
@@ -244,6 +406,33 @@ function bookRoom(rrData) {
 	});
 }
 
+function bookQrr(qrrId) {
+
+	alertify.set('notifier', 'position', 'top-right');
+	
+	$.ajax({
+		type : 'PUT',
+		url : '/hotels/' + hotelId + '/quickRoomReservations/' + qrrId,
+		contentType : 'application/json',
+		dataType : 'json',
+		data : JSON
+				.stringify(JSON.parse(localStorage.getItem("currentUser")).id),
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function() {
+			alertify.notify('Booked!');
+		},
+		statusCode : {
+			403 : function() {
+
+				alertify.error('You must first log in!');
+			}
+		}
+	});
+}
+
 function collectRoomReservationData(roomId) {
 
 	var rrData = {};
@@ -320,14 +509,13 @@ function fillPopupForm(data) {
 	var form = $('<form id="so_form"></form>');
 	var rrData = JSON.parse(localStorage.getItem('rrData'));
 	var price = localStorage.getItem('totalPrice' + rrData['roomId']);
-	$('#p_price').empty().append(price
-			 + '&#8364;');
+	$('#p_price').empty().append(price + '&#8364;');
 	localStorage.setItem('currentPrice', price);
 	$.each(specialOffers, function(index, so) {
 		form.append('<input type="checkbox" class="so_check" name="' + so.name
-				+ '" value="' + so.id + '"price='+ so.price +'" id="' + so.id + '"><label for="'
-				+ so.id + '">' + so.name + '&nbsp;&nbsp;+' + so.price
-				+ '&#8364</label>');
+				+ '" value="' + so.id + '"price=' + so.price + '" id="' + so.id
+				+ '"><label for="' + so.id + '">' + so.name + '&nbsp;&nbsp;+'
+				+ so.price + '&#8364</label>');
 	});
 
 	formContainer.append(form);
@@ -344,4 +532,13 @@ function openForm() {
 
 function closeForm() {
 	document.getElementById("myForm").style.display = "none";
+}
+
+function clearSerachRoomForm() {
+	$('#src-hotel-checkIn').val("");
+	$('#src-hotel-checkOut').val("");
+	$('#src-hotel-floor').val("");
+	$('#src-hotel-capacity').val("");
+	$('#src-hotel-max').val("");
+	$('#src-hotel-min').val("");
 }

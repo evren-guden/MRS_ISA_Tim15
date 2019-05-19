@@ -1,3 +1,4 @@
+alertify.set('notifier', 'position', 'top-right');
 $(document).on('click', '#cancelAdminReg', function(e) {
 	e.preventDefault();
 	$('.transbox_admin_reg').css('opacity', '0');
@@ -83,14 +84,14 @@ function adminRegistration() {
 								+ getJwtToken());
 			},
 			success : function(response) {
-				alert("Admin user saved :)");
+				alertify.notify("Admin user saved :)");
 				window.location.href = "index.html";
 			},
 			error : function(response) {
 				if (response.status == 409) {
-					alert("Username is already taken");
+					alertify.notify("Username is already taken");
 				} else {
-					alert("Admin user saved :)");
+					alertify.notify("Admin user saved :)");
 				}
 
 			}
@@ -116,22 +117,22 @@ function validateAdminRegData(formData) {
 
 	if (username === "" || firstName === "" || lastName === "" || email === ""
 			|| email === "" || type === undefined) {
-		alert("Please fill in all fields");
+		alertify.notify("Please fill in all fields");
 		return false;
 	}
 
 	if (!validateEmail(email)) {
-		alert("Please insert a valid email address");
+		alertify.notify("Please insert a valid email address");
 		return false;
 	}
 
 	if (password !== confirmedPassword) {
-		alert("Entered passwords are not equal");
+		alertify.notify("Entered passwords are not equal");
 		return false;
 	}
 
 	if (password.length < 8) {
-		alert("Password must contain at least 8 characters");
+		alertify.notify("Password must contain at least 8 characters");
 		return false;
 	}
 

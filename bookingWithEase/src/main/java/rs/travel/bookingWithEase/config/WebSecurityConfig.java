@@ -114,7 +114,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicles");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicleReservations");
 		web.ignoring().antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations");
+		web.ignoring().antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations/available");
+		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/available");
 		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations");
+		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/search");
 		web.ignoring().antMatchers(HttpMethod.DELETE, "hotels/{hotelId}/quickRoomReservations/{qrrId}");
 	}
 }
