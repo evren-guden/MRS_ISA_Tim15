@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	getUsers();
-	alertify.set('notifier', 'position', 'top-right');
+
 });
 
 $(document).on('click', '.cancelRR', function(e) {

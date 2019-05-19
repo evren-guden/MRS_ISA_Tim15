@@ -56,7 +56,7 @@ function saveToken(data) {
 							localStorage.setItem("userId", data.id);
 							localStorage.setItem("currentUser", JSON
 									.stringify(data));
-							//alert("saved " + localStorage.getItem('currentUser'));
+						//	alert("saved " + localStorage.getItem('currentUser'));
 							if (data.company != null) {
 								localStorage.setItem("userCompanyId",
 										data.company.id);

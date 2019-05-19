@@ -21,7 +21,7 @@ function adminRegistrationChoosen() {
 	$('.transbox_admin_reg').css('z-index', '3');
 	$('.transbox_company_reg').css('z-index', '2');
 
-	$('input:radio[name="admin_type"]').change(function() {
+	$('input:radio[name="adminType"]').change(function() {
 		if ($(this).val() == 'airline') {
 			getAirlines();
 		} else if ($(this).val() == 'hotel') {
@@ -68,9 +68,10 @@ function adminRegistration() {
 	});
 
 	var validData = Boolean(validateAdminRegData(formData));
+	
 	if (validData) {
 		var jsonData = JSON.stringify(formData);
-
+		
 		$.ajax({
 			url : "/users",
 			type : "POST",
@@ -109,7 +110,7 @@ function validateAdminRegData(formData) {
 	var email = formData["email"];
 	var password = formData["password"];
 	var confirmedPassword = formData["confirmPassword"];
-	var type = formData["admin_type"];
+	var type = formData["adminType"];
 
 	// alert("username: " + username + " first: " + firstName + " last: "
 	// + lastName + " email: " + email + " pass: " + password + " pass2: "
