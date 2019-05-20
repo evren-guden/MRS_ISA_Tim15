@@ -120,7 +120,7 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (800, 5);
 INSERT INTO user_authority (user_id, authority_id) VALUES (900, 3);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1000, 4);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1100, 5);
-INSERT INTO user_authority (user_id, authority_id) VALUES (1, 4);
+
 
 insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date) values(1,1, 100,'2019-11-01 00:00:00', '2019-11-02 00:00:00');
 insert into RACSpecial_Offer (id, name, racservice_id) values (1,"Special offer", 101);

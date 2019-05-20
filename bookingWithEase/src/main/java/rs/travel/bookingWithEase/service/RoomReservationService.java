@@ -12,6 +12,7 @@ import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.model.HotelSpecialOffer;
+import rs.travel.bookingWithEase.model.QuickRoomReservation;
 import rs.travel.bookingWithEase.repository.IHotelSpecialOfferRepository;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
 import rs.travel.bookingWithEase.repository.IRoomReservationRepository;
@@ -52,9 +53,23 @@ public class RoomReservationService {
 	public RoomReservation save(RoomReservation roomRes) {
 		return roomReservations.save(roomRes);
 	}
-
-	public void delete(Long id) {
+	
+	public void delete(Long id)
+	{
 		roomReservations.deleteById(id);
+	}
+
+	public void cancelReservation(Long id) {
+		
+		RoomReservation rr = roomReservations.getOne(id);
+		if(rr instanceof QuickRoomReservation)
+		{
+			rr.setUser(null);
+			save(rr);
+		}else
+		{
+			roomReservations.delete(rr);
+		}
 	}
 
 	public RoomReservation dtoToReservation(RoomReservationDTO dto) {

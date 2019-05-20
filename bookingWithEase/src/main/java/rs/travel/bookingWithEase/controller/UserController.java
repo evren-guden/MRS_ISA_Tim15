@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.AccountDTO;
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
+import rs.travel.bookingWithEase.model.Admin;
 import rs.travel.bookingWithEase.model.Authority;
 import rs.travel.bookingWithEase.model.ConfirmationToken;
 import rs.travel.bookingWithEase.model.RegisteredUser;
@@ -59,13 +60,13 @@ public class UserController {
 
 	@Autowired
 	private EmailSenderService emailService;
-	
+
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private AuthorityService authService;
 
@@ -76,50 +77,55 @@ public class UserController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> add(@RequestBody AdminUserDTO adminUserDto) throws Exception {
-		adminUserDto.setType("hotel");
-		User newUser = userService.dtoToUser(adminUserDto);
 
+		Admin newUser = (Admin) userService.dtoToUser(adminUserDto);
+
+		Authority a = null;
+
+		switch (adminUserDto.getAdminType()) {
+		case "hotel":
+			a = authService.findByName("ROLE_ADMINHOTEL");
+			break;
+		case "rent-a-car":
+			a = authService.findByName("ROLE_ADMINRAC");
+			break;
+		case "airline":
+			a = authService.findByName("ROLE_ADMINAIRLINE");
+			break;
+		default:
+			a = null;
+		}
+
+		if (a != null) {
+			ArrayList<Authority> alist = new ArrayList<Authority>();
+			alist.add(a);
+			newUser.setAuthorities(alist);
+		}
+		
 		if (userService.save(newUser)) {
-			System.out.println("\nnew user created\n");
-			return new ResponseEntity<String>(HttpStatus.OK);
+	
+			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			System.out.println("conflict");
 			return new ResponseEntity<>("Username is already taken", HttpStatus.CONFLICT);
 		}
 
 	}
-	
+
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> update(@RequestBody AccountDTO dto) throws Exception {
-		
+
 		User user = userService.findByEmail(dto.getEmail());
 
 		user.setFirstName(dto.getName());
 		user.setLastName(dto.getLastName());
 		user.setCity(dto.getCity());
 		user.setTelephoneNumber(dto.getPhoneNumber());
-		
+
 		User upUser = userService.update(user);
-		
+
 		return new ResponseEntity<>(upUser, HttpStatus.OK);
 	}
-
-	/*
-	 * @RequestMapping(value = "/login", method = RequestMethod.POST) public
-	 * ResponseEntity<User> login(@RequestBody JwtAuthenticationRequest
-	 * authenticationRequest, HttpServletResponse response) {
-	 * 
-	 * final Authentication authentication = authenticationManager .authenticate(new
-	 * UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-	 * authenticationRequest.getPassword()));
-	 * 
-	 * // Ubaci username + password u kontext
-	 * SecurityContextHolder.getContext().setAuthentication(authentication); //
-	 * Kreiraj token User user = (User) authentication.getPrincipal();
-	 * 
-	 * // Vrati token kao odgovor na uspesno autentifikaciju return
-	 * ResponseEntity.ok(user); }
-	 */
 
 	@PreAuthorize("hasRole('ADMIN') or hasRole('ADMINRAC') or hasRole('ADMINHOTEL') or hasRole('ADMINAIRLINE') or hasRole('USER')")
 	@GetMapping(value = "/myprofile", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -158,13 +164,13 @@ public class UserController {
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, 5);
+		cal.add(Calendar.DATE, 2);
 		if (cal.getTime().after(r.getCheckInDate())) {
-			System.out.println("\n\n ne moze da se obrise rezervacija \n\n");
-			return new ResponseEntity<Collection<RoomReservation>>(HttpStatus.UNPROCESSABLE_ENTITY);
+
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		} else {
 
-			roomResService.delete(rrId);
+			roomResService.cancelReservation(rrId);
 		}
 		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}
@@ -174,57 +180,54 @@ public class UserController {
 	@PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> registerUser(@RequestBody AccountDTO account) throws MessagingException {
 
-		if(!account.getPassword().equals(account.getConfPassword())) {
+		if (!account.getPassword().equals(account.getConfPassword())) {
 			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-		
-		User existingUser = userService.findByEmail(account.getEmail());
-        if(existingUser != null) {
-        	return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-		
-        User user = new User(account);
-        user.setPassword(passwordEncoder.encode(account.getPassword()));
-        Authority a = authService.findByName("ROLE_USER");
-        ArrayList<Authority> alist = new ArrayList<Authority>();
-        alist.add(a);
-        user.setAuthorities(alist);
-        userService.save(user);
-        ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
-        confTokenService.save(confirmationToken);
-        
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setFrom(env.getProperty("spring.mail.username"));
-        mailMessage.setText("To confirm your account, please click here : "
-        +"http://localhost:8080/users/confirm-account?token="+confirmationToken.getConfirmationToken());
-        
-        emailService.sendEmail(mailMessage);
-        
+		User existingUser = userService.findByEmail(account.getEmail());
+		if (existingUser != null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+
+		User user = new User(account);
+		user.setPassword(passwordEncoder.encode(account.getPassword()));
+		Authority a = authService.findByName("ROLE_USER");
+		ArrayList<Authority> alist = new ArrayList<Authority>();
+		alist.add(a);
+		user.setAuthorities(alist);
+		userService.save(user);
+		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+		confTokenService.save(confirmationToken);
+
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setTo(user.getEmail());
+		mailMessage.setSubject("Complete Registration!");
+		mailMessage.setFrom(env.getProperty("spring.mail.username"));
+		mailMessage.setText("To confirm your account, please click here : "
+				+ "http://localhost:8080/users/confirm-account?token=" + confirmationToken.getConfirmationToken());
+
+		emailService.sendEmail(mailMessage);
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	 @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
-	    public ResponseEntity<?> confirmUserAccount(@RequestParam("token")String confirmationToken)
-	    {
-	        ConfirmationToken token = confTokenService.findByConfirmationToken(confirmationToken);
 
-	        if(token != null)
-	        {
-	            User user = userService.findByEmail(token.getUser().getEmail());
-	            user.setEnabled(true);
-	            Authority a = authService.findByName("ROLE_USER");
-	            ArrayList<Authority> alist = new ArrayList<Authority>();
-	            alist.add(a);
-	            user.setAuthorities(alist);
-	            userService.update(user);
-	            return new ResponseEntity<>(HttpStatus.OK);
-	        }
-	 
+	@RequestMapping(value = "/confirm-account", method = { RequestMethod.GET, RequestMethod.POST })
+	public ResponseEntity<?> confirmUserAccount(@RequestParam("token") String confirmationToken) {
+		ConfirmationToken token = confTokenService.findByConfirmationToken(confirmationToken);
 
-	        return new ResponseEntity<>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		if (token != null) {
+			User user = userService.findByEmail(token.getUser().getEmail());
+			user.setEnabled(true);
+			Authority a = authService.findByName("ROLE_USER");
+			ArrayList<Authority> alist = new ArrayList<Authority>();
+			alist.add(a);
+			user.setAuthorities(alist);
+			userService.update(user);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
+	}
 
 }

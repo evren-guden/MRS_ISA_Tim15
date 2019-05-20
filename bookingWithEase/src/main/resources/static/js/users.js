@@ -1,12 +1,12 @@
 $(document).ready(function() {
 	getUsers();
-	alertify.set('notifier', 'position', 'top-right');
+
 });
 
 $(document).on('click', '.cancelRR', function(e) {
 	var rrId = $(this).attr('id').substring(8);
 	var userId = JSON.parse(localStorage.getItem('currentUser')).id;
-	
+
 	alertify.confirm('Cancel reservation', 'Are you sure?', function() {
 		cancelRoomReservation(userId, rrId, function() {
 			alertify.notify('Reservation canceled');
@@ -92,7 +92,7 @@ function fillRoomReservations(data) {
 				+ '&#8364;</br>');
 
 		var today = new Date();
-		today.setDate(today.getDate() + 5);
+		today.setDate(today.getDate() + 2);
 		var checkIn = new Date(reservation.checkInDate);
 		if (today.getTime() <= checkIn.getTime())
 			reservationDiv.append('<button class="cancelRR" id="cancelRR'
@@ -131,19 +131,16 @@ function fillUsersTable(data) {
 
 }
 
-
-function getMyProfileData(){
+function getMyProfileData() {
 	$("#myprofilediv").empty();
-	
-	$
-	.ajax({
+
+	$.ajax({
 		type : 'GET',
 		url : "/users/myprofile",
 		dataType : "json",
 		beforeSend : function(xhr) {
 			/* Authorization header */
-			xhr.setRequestHeader("Authorization", "Bearer "
-					+ getJwtToken());
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : fillProfileData,
 		error : function(data) {
@@ -152,84 +149,103 @@ function getMyProfileData(){
 	});
 }
 
-function fillProfileData(data){
+function fillProfileData(data) {
 	$("#myprofilediv").empty();
 	var cont = $('#myprofilediv');
-	
+	cont
+			.append('<img style="position:absolute; top:10%; left:7%;" src="../images/user-profile.png" height = 40% width= 25%>');
 	var form = $('<form id="formChangeProfile"></form>');
-	var tab = $('<table id="profileTable" align="center" style="padding-top:10%;"></table>');
-	
-	tab.append('<tr><td>Username:</td><td><input name="username" value='+ data.username +' readonly></td></tr>');
-	tab.append('<tr><td>First Name:</td><td><input name="name" class="changefield" value='+ data.firstName +' readonly></td></tr>' );
-	tab.append('<tr><td>Last Name:</td><td><input name="lastName" class="changefield" value='+ data.lastName +' readonly></td></tr>');
-	tab.append('<tr><td>Email:</td><td><input name="email" value='+ data.email +' readonly></td></tr>');
-	tab.append('<tr><td>Phone number:</td><td><input name="phoneNumber" class="changefield" value='+ data.telephoneNumber +' readonly></td></tr>');
-	tab.append('<tr><td>City:</td><td><input name="city" class="changefield" value='+ data.city +' readonly></td></tr>');
-	tab.append('<tr><td> </td><td><button type="button" id="editProfile">Edit</button></td></tr>');
+	var tab = $('<table id="profileTable" align="center" style="position:absolute; top:10%; left:42%;"></table>');
+
+	tab.append('<tr><td>Username:</td><td><input name="username" value='
+			+ data.username + ' readonly></td></tr>');
+	tab
+			.append('<tr><td>First Name:</td><td><input name="name" class="changefield" value='
+					+ data.firstName + ' readonly></td></tr>');
+	tab
+			.append('<tr><td>Last Name:</td><td><input name="lastName" class="changefield" value='
+					+ data.lastName + ' readonly></td></tr>');
+	tab.append('<tr><td>Email:</td><td><input name="email" value=' + data.email
+			+ ' readonly></td></tr>');
+	tab
+			.append('<tr><td>Phone number:</td><td><input name="phoneNumber" class="changefield" value='
+					+ (data.telephoneNumber == null ? "/"
+							: data.telephoneNumber) + ' readonly></td></tr>');
+	tab
+			.append('<tr><td>City:</td><td><input name="city" class="changefield" value='
+					+ (data.city == null ? "/" : data.city)
+					+ ' readonly></td></tr>');
+	tab
+			.append('<tr><td>&nbsp;</td></tr><tr><td></td><td align="right" ><button type="button" id="editProfile">Edit Profile</button></td></tr>');
 	form.append(tab);
 	cont.append(form);
-	cont.append('<button id="changepswbtn">Change password</button>')
-	
-	$('#editProfile').click(function(e){
+	cont
+			.append('<button id="changepswbtn" style="position:absolute; top:86%; left:71%;">Change password</button>')
+
+	$('#editProfile').click(function(e) {
 		e.preventDefault();
 		$("#editProfile").attr("disabled", true);
-		$('.changefield').removeAttr('readonly');;
+		$('.changefield').removeAttr('readonly');
+		;
 		editBtn();
-		
+
 	});
-	
-	$('#changepswbtn').click(function(e){
+
+	$('#changepswbtn').click(function(e) {
 		openCity(event, 'changepswdiv');
 	});
-	
-	function editBtn(){
-		form.append('<input type="submit" id="doEdit" value="Save changes">');
 
-		$(document).on('submit', '#formChangeProfile', function(e){
-			
-			e.preventDefault();
-			var formData = getFormData("#formChangeProfile");
-			var jsonData = JSON.stringify(formData);
-			$
-			.ajax({
-				type : 'PUT',
-				url : "/users",
-				dataType : "json",
-				contentType: "application/json",
-				data: jsonData,
-				beforeSend : function(xhr) {
-					/* Authorization header */
-					xhr.setRequestHeader("Authorization", "Bearer "
-							+ getJwtToken());
-				},
-				success : getMyProfileData,
-				error : function(data) {
-					alert(data);
-				}
-			});
-		});
+	function editBtn() {
+		form
+				.append('<input  style="position:absolute; top: 74%; left: 75%;" type="submit" id="doEdit" value="Save changes">');
+
+		$(document).on(
+				'submit',
+				'#formChangeProfile',
+				function(e) {
+
+					e.preventDefault();
+					var formData = getFormData("#formChangeProfile");
+					var jsonData = JSON.stringify(formData);
+					$.ajax({
+						type : 'PUT',
+						url : "/users",
+						dataType : "json",
+						contentType : "application/json",
+						data : jsonData,
+						beforeSend : function(xhr) {
+							/* Authorization header */
+							xhr.setRequestHeader("Authorization", "Bearer "
+									+ getJwtToken());
+						},
+						success : function(data) {
+							getMyProfileData(data);
+							alertify.notify("Changes saved!")
+						},
+						error : function(data) {
+							alert(data);
+						}
+					});
+				});
 	}
 }
 
+$(document).on('submit', '#changepswform', function(e) {
 
-$(document).on('submit', '#changepswform', function(e){
-	
 	e.preventDefault();
 	var formData = getFormData("#changepswform");
 	var jsonData = JSON.stringify(formData);
-	$
-	.ajax({
+	$.ajax({
 		type : 'POST',
 		url : "/auth/change-password",
 		dataType : "json",
-		contentType: "application/json",
-		data: jsonData,
+		contentType : "application/json",
+		data : jsonData,
 		beforeSend : function(xhr) {
 			/* Authorization header */
-			xhr.setRequestHeader("Authorization", "Bearer "
-					+ getJwtToken());
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : function(){
+		success : function() {
 			alert("success");
 		},
 		error : function(data) {

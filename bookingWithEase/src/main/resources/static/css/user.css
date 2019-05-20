@@ -13,10 +13,10 @@
 
 #myprofilediv, #changepswdiv{
 	position: absolute;
-	top: 40%;
-	right: 30%;
-	bottom: 20%;
-	left: 30%;
+	top: 20%;
+	right: 27%;
+	bottom: 30%;
+	left: 27%;
 	background-color: black;
 	overflow-y: auto;
 	color: white;
