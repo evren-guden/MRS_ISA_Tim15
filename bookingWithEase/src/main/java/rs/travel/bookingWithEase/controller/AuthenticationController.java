@@ -93,11 +93,10 @@ public class AuthenticationController {
 		}
 	}
 
-	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
+	@RequestMapping(value = "/change-password", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	//@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
 		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
-		System.out.println("changing....");
 		Map<String, String> result = new HashMap<>();
 		result.put("result", "success");
 		return ResponseEntity.accepted().body(result);

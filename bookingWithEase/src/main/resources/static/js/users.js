@@ -246,10 +246,27 @@ $(document).on('submit', '#changepswform', function(e) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : function() {
-			alert("success");
+			alertify.alert("Success", "Password is changed.");
+			$('#oldpsw').val("");
+			$('#newpsw').val("");
 		},
-		error : function(data) {
-			alert(data);
+		statusCode : {
+			403 : function() {
+				alertify.alert('Error', 'Old password is not correct!');
+			}
 		}
 	});
 });
+
+
+function showPswchangeFunction(){
+	var x = document.getElementById("newpsw");
+	var y = document.getElementById("oldpsw");
+	if (x.type === "password") {
+		x.type = "text";
+		y.type = "text";
+	} else {
+		x.type = "password";
+		y.type = "password";
+	}
+}
