@@ -41,9 +41,9 @@ function roomRegistration() {
 			contentType : "application/json",
 			data : jsonData,
 			dataType : 'json',
-			success : function(response) {
-				alertify.notify("Room added :)");
-				//window.location.href = "hotels.html";
+			success : function(data, textStatus, response) {
+				alertify.notify(response.getResponseHeader('message'));
+	
 			},
 			error : function(response) {
 				alert("Something went wrong room reservation! :("

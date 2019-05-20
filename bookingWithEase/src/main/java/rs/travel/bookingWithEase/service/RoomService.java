@@ -84,8 +84,23 @@ public class RoomService {
 		return rooms.findByHotel(hotelService.findOne(id));
 	}
 
-	public Room save(Room room) {
-		return rooms.save(room);
+	public String addNewRoom(Room room) {
+		
+		if(rooms.findByRoomNumberAndHotel(room.getHotel().getId(), room.getRoomNumber()) != null)
+		{
+			return "Room with the same number already exists";
+		}
+		
+		rooms.save(room);
+		 
+		return "Room added";
+	}
+	
+	public String updateRoom(Room room) {
+		
+		rooms.save(room);
+		 
+		return "Room updated";
 	}
 
 	public void delete(Long id) {
