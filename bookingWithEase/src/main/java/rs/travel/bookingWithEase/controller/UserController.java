@@ -101,9 +101,9 @@ public class UserController {
 			alist.add(a);
 			newUser.setAuthorities(alist);
 		}
-		
+
 		if (userService.save(newUser)) {
-	
+
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			System.out.println("conflict");
@@ -180,13 +180,19 @@ public class UserController {
 	@PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> registerUser(@RequestBody AccountDTO account) throws MessagingException {
 
-		if (!account.getPassword().equals(account.getConfPassword())) {
+		if (account.getUsername().trim().isEmpty() || account.getUsername() == null
+				|| account.getPassword().trim().isEmpty() || account.getPassword() == null
+				|| account.getEmail().trim().isEmpty() || account.getEmail() == null) {
 			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+
+		if (!account.getPassword().equals(account.getConfPassword())) {
+			return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
 		}
 
 		User existingUser = userService.findByEmail(account.getEmail());
 		if (existingUser != null) {
-			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
 		User user = new User(account);
