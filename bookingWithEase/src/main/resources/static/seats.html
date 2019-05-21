@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,10 +13,16 @@
 
 <link rel="stylesheet" href="css/navbar.css" />
 <link rel="stylesheet" href="css/index.css" />
-<link rel="stylesheet" href="css/airlines.css" />
+
+<link rel="stylesheet" href="css/seats.css" />
+
+
+
+
 </head>
 <body>
-	<nav>
+<h1>Click on seats you want to reserve</h1>
+<nav>
 		<div class="brand">
 			<h2>Booking With Ease</h2>
 		</div>
@@ -29,125 +36,61 @@
 			</ul>
 		</nav>
 	</nav>
-	<h1>Seats</h1>
-	<div style="width: 47%; float: left">
-		<table id="flightSeats" border="1" style="float: right">
-			<tr>
-				<td><button id="1-1">1-1</button></td>
-				<td><button id="1-2">1-2</button></td>
-				<td><button id="1-3">1-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="2-1">2-1</button></td>
-				<td><button id="2-2">2-2</button></td>
-				<td><button id="2-3">2-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="3-1">3-1</button></td>
-				<td><button id="3-2">3-2</button></td>
-				<td><button id="3-3">3-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="4-1">4-1</button></td>
-				<td><button id="4-2">4-2</button></td>
-				<td><button id="4-3">4-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="5-1">5-1</button></td>
-				<td><button id="5-2">5-2</button></td>
-				<td><button id="5-3">5-3</button></td>
-			</tr>
-		</table>
-	</div>
-
-	<div style="width: 47%; float: right">
-		<table id="flightSeats" border="1">
-			<tr>
-				<td><button id="1-4">1-4</button></td>
-				<td><button id="1-5">1-5</button></td>
-				<td><button id="1-6">1-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="2-4">2-4</button></td>
-				<td><button id="2-5">2-5</button></td>
-				<td><button id="2-6">2-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="3-4">3-4</button></td>
-				<td><button id="3-5">3-5</button></td>
-				<td><button id="3-6">3-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="4-4">4-4</button></td>
-				<td><button id="4-5">4-5</button></td>
-				<td><button id="4-6">4-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="5-4">5-4</button></td>
-				<td><button id="5-5">5-5</button></td>
-				<td><button id="5-6">5-6</button></td>
-			</tr>
-		</table>
-	</div>
+	<br>
 	
 	<div style="width: 47%; float: left">
-		<table id="flightSeats" border="1" style="float: right">
-			<tr>
-				<td><button id="6-1">6-1</button></td>
-				<td><button id="6-2">6-2</button></td>
-				<td><button id="6-3">6-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="7-1">7-1</button></td>
-				<td><button id="7-2">7-2</button></td>
-				<td><button id="7-3">7-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="8-1">8-1</button></td>
-				<td><button id="8-2">8-2</button></td>
-				<td><button id="8-3">8-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="9-1">9-1</button></td>
-				<td><button id="9-2">9-2</button></td>
-				<td><button id="9-3">9-3</button></td>
-			</tr>
-			<tr>
-				<td><button id="10-1">10-1</button></td>
-				<td><button id="10-2">10-2</button></td>
-				<td><button id="10-3">10-3</button></td>
-			</tr>
-		</table>
+		<table id="seatsTableLeft" border="1" style="float: right"></table>
 	</div>
 
-	<div style="width: 47%; float: right">
-		<table id="flightSeats" border="1">
-			<tr>
-				<td><button id="6-4">6-4</button></td>
-				<td><button id="6-5">6-5</button></td>
-				<td><button id="6-6">6-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="7-4">7-4</button></td>
-				<td><button id="7-5">7-5</button></td>
-				<td><button id="7-6">7-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="8-4">8-4</button></td>
-				<td><button id="8-5">8-5</button></td>
-				<td><button id="8-6">8-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="9-4">9-4</button></td>
-				<td><button id="9-5">9-5</button></td>
-				<td><button id="9-6">9-6</button></td>
-			</tr>
-			<tr>
-				<td><button id="10-4">10-4</button></td>
-				<td><button id="10-5">10-5</button></td>
-				<td><button id="10-6">10-6</button></td>
-			</tr>
-		</table>
+	<div style="width: 47%; float: left">
+		<table id="seatsTableRight" border="1"></table>
 	</div>
+	<div style="width: 40%; float: right">	
+		<button onclick="back();">Back</button>
+		<button onclick="next();">Reserve</button>
+	</div>
+	
+	
+<br>
+<br><br><br><br><br><br><br><br><br><br>
+<div style="width:40%;height:40; float: right">
+
+<h2>Type of seats</h2>
+<div class="row">
+  <div class="column">
+    <div class="card1">
+      <h3>Busy</h5>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card2">
+      <h5>Chosen</h5>
+       </div>
+  </div>
+  
+  <div class="column">
+    <div class="card3">
+      <h5>First</h5>
+      
+    </div>
+  </div>
+  
+   <div class="column">
+    <div class="card4">
+      <h5>Bussines</h5>
+      
+    </div>
+  </div>
+  
+  <div class="column">
+    <div class="card5">
+      <h5>Economic</h5>
+      
+    </div>
+  </div>
+</div>
+</div>
+
 </body>
 </html>
