@@ -11,9 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import rs.travel.bookingWithEase.serializer.VehicleSerializer;
 
 @Entity
 public class VehicleReservation {
@@ -23,7 +20,6 @@ public class VehicleReservation {
 	private Long id;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonSerialize(using = VehicleSerializer.class)
 	private Vehicle vehicle;
 
 	@ManyToOne

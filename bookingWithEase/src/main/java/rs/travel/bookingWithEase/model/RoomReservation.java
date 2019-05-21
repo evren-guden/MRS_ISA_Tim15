@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -53,7 +52,7 @@ public class RoomReservation implements Serializable {
 	protected  Date reservationDate;
 
 	@Column(name = "specialOffers")
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	protected  Set<HotelSpecialOffer> specialOffers = new HashSet<HotelSpecialOffer>();
 
 	@Column(name = "totalPrice")

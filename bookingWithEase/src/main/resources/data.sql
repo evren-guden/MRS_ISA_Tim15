@@ -12,11 +12,12 @@ insert into airline (id,name, address, description, rating) values (6,'Austrian 
 insert into airline (id,name, address, description, rating) values (7,'Swiss International Air', 'Switzerland', '', 1);
 insert into airline (id,name, address, description, rating) values (9,'Turkish Airlines', 'Turkey', '', 1);
 insert into airline (id,name, address, description, rating) values (10,'Air Serbia', 'Serbia', '', 1);
-insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','bec','da',5,5,5,'bg',1,1,1,1);
+insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-05-22','2019-05-30','bec','da',5,5,5,'bg',1,1,1,1);
 
-insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','ue','ne',3,3,3,'nis',2,2,2,2);
-insert into seat (id,available, seat_number,type,flight_id) values (7,true,7,1,12);
-
+insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-05-29','2019-06-29','ue','ne',3,3,3,'nis',2,2,2,2);
+--insert into seat (id,available, seat_number,type,flight_id) values (7,true,7,1,12);
+insert into destination(id)values(1);
+insert into destination(id)values(2);
 
 insert into branch (id, rac_id, name, address) values (1, 101,'My branch 1', 'Novi Sad');
 insert into branch (id, rac_id, name, address) values (2, 303,'My branch 1', 'Novi Sad');
@@ -92,6 +93,10 @@ insert into room_reservation(id, room_id, check_in_date, check_out_date,total_pr
 insert into room_reservation(id, room_id, check_in_date, check_out_date,total_price ) values (101, 101, '2019-11-01 00:00:00', '2019-11-15 00:00:00', 200);
 
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
+INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (101, 'user1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko1', 'Markovic1', 'user1@example.com', true);
+INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (102, 'user2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko2', 'Markovic2', 'user2@example.com', true);
+INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (103, 'user3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko3', 'Markovic3', 'user3@example.com', true);
+
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (300, 'adminrac', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (400, 'adminhotel', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 200, 2);
@@ -120,11 +125,30 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (800, 5);
 INSERT INTO user_authority (user_id, authority_id) VALUES (900, 3);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1000, 4);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1100, 5);
+INSERT INTO user_authority (user_id, authority_id) VALUES (1, 4);
 
+INSERT INTO friend_request (sender_id, reciever_id, date_created) VALUES (100, 101, '2019-06-01 00:00:00');
+INSERT INTO friend_request (sender_id, reciever_id, date_created) VALUES (102, 100, '2019-06-01 00:00:00');
+INSERT INTO friend_request (sender_id, reciever_id, date_created) VALUES (101, 103, '2019-06-01 00:00:00');
 
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(1,1, 100,'2018-11-01 00:00:00', '2018-11-02 00:00:00', 100);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(2,1, 100,'2019-01-01 00:00:00', '2019-01-02 00:00:00', 200);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(3,1, 100,'2019-02-01 00:00:00', '2019-02-02 00:00:00', 105);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(4,1, 100,'2019-04-01 00:00:00', '2019-04-02 00:00:00', 150);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(5,1, 100,'2019-03-01 00:00:00', '2019-03-02 00:00:00', 250);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date) values(1,1, 100,'2019-11-01 00:00:00', '2019-11-02 00:00:00');
 insert into RACSpecial_Offer (id, name, racservice_id) values (1,"Special offer", 101);
+
+insert into seat (flight_id, seat_number, type, available) values (11,  1, 1, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  2, 1, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  3, 1, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  4, 2, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  5, 2, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  6, 2, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  7, 0, true);
+insert into seat (flight_id, seat_number, type, available) values (11,  8, 1, false);
+insert into seat (flight_id, seat_number, type, available) values (11,  9, 2, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 10, 2, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 11, 2, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 12, 1, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 13, 1, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 14, 1, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 15, 0, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 16, 0, true);
+insert into seat (flight_id, seat_number, type, available) values (11, 17, 1, false);
+insert into seat (flight_id, seat_number, type, available) values (11, 18, 1, false);

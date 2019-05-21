@@ -27,10 +27,10 @@ public class Flight {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "number")
 	private String number;
-	
+
 	@Column(name = "dateFligh")
 	private Date dateFligh;
 
@@ -42,29 +42,25 @@ public class Flight {
 
 	@Column(name = "lengthTravel")
 	private int lengthTravel;
-	
+
 	@Column(name = "startD")
 	private String startD;
-	
+
 	@Column(name = "finalD")
 	private String finalD;
-	
-	
-	
+
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Destination> transitions = new HashSet<Destination>();
 
 	@Column(name = "priceTicket")
 	private double priceTicket;
-	
-	
+
 	@Column(name = "informationLuggage")
 	private String informationLuggage;
-    
-	
-	@OneToMany(cascade=CascadeType.REFRESH,fetch=FetchType.LAZY,mappedBy="flight")
-	private Set<Destination> destinations=new HashSet<Destination>();
-	
+
+	@OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, mappedBy = "flight")
+	private Set<Destination> destinations = new HashSet<Destination>();
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	Airline airline;
 
@@ -77,37 +73,26 @@ public class Flight {
 	@JoinColumn(name = "final_id")
 	@JsonIgnore
 	private Destination endDestination;
+	
 	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<FlightReservation> flightReservations = new HashSet<FlightReservation>();
 
-	
-	
-	
-	/*
-	
-	@Column(name = "firstClassPrice")
-	private Double firstClassPrice;
-	
-	@Column(name = "businessClassPrice")
-	private Double businessClassPrice;
-	
-	@Column(name = "economyClassPrice")
-	private Double economyClassPrice;
-
-	@Column(name = "pricePerBag")
-	private Double pricePerBag;
-	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "flight", cascade=CascadeType.ALL, fetch=FetchType.LAZY) 
 	private Set<Seat> seats;
 	
-	*/
-	
-	
-	
-
-	
-	
-	
+	/*
+	 * 
+	 * @Column(name = "firstClassPrice") private Double firstClassPrice;
+	 * 
+	 * @Column(name = "businessClassPrice") private Double businessClassPrice;
+	 * 
+	 * @Column(name = "economyClassPrice") private Double economyClassPrice;
+	 * 
+	 * @Column(name = "pricePerBag") private Double pricePerBag;
+	 * 
+	 * 
+	 * 
+	 */
 
 	public Long getId() {
 		return id;
@@ -173,8 +158,6 @@ public class Flight {
 		this.finalD = finalD;
 	}
 
-
-
 	public Set<Destination> getTransitions() {
 		return transitions;
 	}
@@ -232,9 +215,8 @@ public class Flight {
 	}
 
 	public Flight(Long id, String number, Date dateFligh, Date dateLand, int timeTravel, int lengthTravel,
-			String startD, String finalD, Set<Destination> transitions, double priceTicket,
-			String informationLuggage, Set<Destination> destinations, Airline airline, Destination startDestination,
-			Destination endDestination) {
+			String startD, String finalD, Set<Destination> transitions, double priceTicket, String informationLuggage,
+			Set<Destination> destinations, Airline airline, Destination startDestination, Destination endDestination) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -252,9 +234,9 @@ public class Flight {
 		this.startDestination = startDestination;
 		this.endDestination = endDestination;
 	}
-	
-	public Flight(String number, Date dateFligh, Date dateLand, int timeTravel, int lengthTravel,
-			String startD, String finalD, double priceTicket, String informationLuggage, Airline airline, Destination startDestination,
+
+	public Flight(String number, Date dateFligh, Date dateLand, int timeTravel, int lengthTravel, String startD,
+			String finalD, double priceTicket, String informationLuggage, Airline airline, Destination startDestination,
 			Destination endDestination) {
 		super();
 		this.number = number;
@@ -275,14 +257,4 @@ public class Flight {
 		super();
 	}
 
-	
-
-
-
-
-
-	
-	
-	
-	
 }

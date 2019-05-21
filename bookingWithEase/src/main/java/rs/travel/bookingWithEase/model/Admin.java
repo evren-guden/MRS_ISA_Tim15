@@ -32,8 +32,6 @@ public class Admin extends User {
 			String city, String telephoneNumber, String passportNumber, ADMIN_TYPE type, Company company) {
 		super(id, username, firstName, lastName, email, password, city, telephoneNumber, passportNumber);
 		this.type = type;
-		this.company = company;
-		
 	}
 
 	public ADMIN_TYPE getType() {

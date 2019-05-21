@@ -1,4 +1,3 @@
-alertify.set('notifier', 'position', 'top-right');
 $(document).on('click', '#cancelAdminReg', function(e) {
 	e.preventDefault();
 	$('.transbox_admin_reg').css('opacity', '0');
@@ -21,7 +20,7 @@ function adminRegistrationChoosen() {
 	$('.transbox_admin_reg').css('z-index', '3');
 	$('.transbox_company_reg').css('z-index', '2');
 
-	$('input:radio[name="adminType"]').change(function() {
+	$('input:radio[name="admin_type"]').change(function() {
 		if ($(this).val() == 'airline') {
 			getAirlines();
 		} else if ($(this).val() == 'hotel') {
@@ -68,10 +67,9 @@ function adminRegistration() {
 	});
 
 	var validData = Boolean(validateAdminRegData(formData));
-	
 	if (validData) {
 		var jsonData = JSON.stringify(formData);
-		
+
 		$.ajax({
 			url : "/users",
 			type : "POST",
@@ -85,14 +83,14 @@ function adminRegistration() {
 								+ getJwtToken());
 			},
 			success : function(response) {
-				alertify.notify("Admin user saved :)");
+				alert("Admin user saved :)");
 				window.location.href = "index.html";
 			},
 			error : function(response) {
 				if (response.status == 409) {
-					alertify.notify("Username is already taken");
+					alert("Username is already taken");
 				} else {
-					alertify.notify("Admin user saved :)");
+					alert("Admin user saved :)");
 				}
 
 			}
@@ -110,7 +108,7 @@ function validateAdminRegData(formData) {
 	var email = formData["email"];
 	var password = formData["password"];
 	var confirmedPassword = formData["confirmPassword"];
-	var type = formData["adminType"];
+	var type = formData["admin_type"];
 
 	// alert("username: " + username + " first: " + firstName + " last: "
 	// + lastName + " email: " + email + " pass: " + password + " pass2: "
@@ -118,22 +116,22 @@ function validateAdminRegData(formData) {
 
 	if (username === "" || firstName === "" || lastName === "" || email === ""
 			|| email === "" || type === undefined) {
-		alertify.notify("Please fill in all fields");
+		alert("Please fill in all fields");
 		return false;
 	}
 
 	if (!validateEmail(email)) {
-		alertify.notify("Please insert a valid email address");
+		alert("Please insert a valid email address");
 		return false;
 	}
 
 	if (password !== confirmedPassword) {
-		alertify.notify("Entered passwords are not equal");
+		alert("Entered passwords are not equal");
 		return false;
 	}
 
 	if (password.length < 8) {
-		alertify.notify("Password must contain at least 8 characters");
+		alert("Password must contain at least 8 characters");
 		return false;
 	}
 
