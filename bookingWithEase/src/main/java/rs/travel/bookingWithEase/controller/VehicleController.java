@@ -127,9 +127,9 @@ public class VehicleController {
 		
 		VehicleReservation vehRes = new VehicleReservation();
 		vehRes.setCheckInDate(vehResdto.getCheckInDate());
-		vehRes.setCheckOutDate(vehRes.getCheckOutDate());
-		vehRes.setTotalPrice(vehResdto.getTotalPrice());
 		
+		vehRes.setCheckOutDate(vehResdto.getCheckOutDate());
+		vehRes.setTotalPrice(vehResdto.getTotalPrice());
 		VehicleReservation vehicleReservation = null;
 		Vehicle veh = null;
 		RegisteredUser user = null;

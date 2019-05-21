@@ -71,6 +71,13 @@ function fillTable(data) {
 						vehDiv
 								.append('<p style="position: absolute;top:65%;left:25%;">'
 										+ veh.gear + '</p>');
+						if (veh.totalPrice != undefined && veh.totalPrice != 0) {
+							localStorage.setItem('totalPriceVeh' + veh.id,
+									veh.totalPrice);
+							vehDiv.append('<p class="totalPrice">'
+									+ veh.totalPrice + '&#8364;</p>');
+						}
+						
 						vehDiv
 								.append('<button class="show_details_btn reserve_veh" id="reserve_veh' + veh.id + '">Make reservation</button>');
 
@@ -89,9 +96,10 @@ function fillTable(data) {
 		var vehId = this.id.substring(11);
 		var vrData = collectVehicleReservationData(vehId);
 
+		localStorage.setItem('vrData',JSON.stringify(vrData) )
 
-		reserveVehicle(vrData);
-
+		//reserveVehicle(vrData);
+		openFormRSO();
 	});
 }
 
@@ -128,20 +136,21 @@ function reserveVehicle(vrData) {
 		return;
 	}
 
-	var jsonData = JSON.stringify(vrData);
+	var jsonData = JSON.parse(vrData);
 	// alert('rr ' + jsonData);
 	$.ajax({
 		type : 'POST',
-		url : '/vehicles/' + vrData.vehicle_id + '/reservations',
+		url : '/vehicles/' + jsonData['vehicle_id'] + '/reservations',
 		contentType : 'application/json',
 		dataType : 'json',
-		data : jsonData,
+		data : vrData,
 		beforeSend : function(xhr) {
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : function() {
 			alertify.notify('Vehicle reserved!');
+			window.location.replace("vehicles.html");
 		},
 		statusCode : {
 			403 : function() {
@@ -169,3 +178,84 @@ function collectVehicleReservationData(vehicleId) {
 	return vrData;
 
 }
+
+function getRACSpecialOffers(racId) {
+
+	$.ajax({
+		url : "/rentacars/" + racId + "/specialOffers",
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillRACPopupForm,
+		error : function(response) {
+			alert("Something went wrong! :(");
+		}
+	});
+}
+
+
+
+function fillRACPopupForm(data) {
+
+	var specialOffers = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+
+	var formContainer = $('#check_container');
+	formContainer.empty();
+	var form = $('<form id="so_form"></form>');
+	var vrData = JSON.parse(localStorage.getItem('vrData'));
+	var price = localStorage.getItem('totalPrice' + vrData['vehicleId']);
+	$('#p_price').empty().append(price + '&#8364;');
+	localStorage.setItem('currentPrice', price);
+	$.each(specialOffers, function(index, so) {
+		form.append('<input type="checkbox" class="so_check" name="' + so.name
+				+ '" value="' + so.id + '"price=' + so.price + '" id="' + so.id
+				+ '"><label for="' + so.id + '">' + so.name + '&nbsp;&nbsp;+'
+				+ so.price + '&#8364</label>');
+	});
+
+	formContainer.append(form);
+
+}
+
+function openFormRSO() {
+
+	var racId = localStorage.getItem('showVeh');
+	getRACSpecialOffers(racId);
+
+	document.getElementById("myVehResForm").style.display = "block";
+}
+
+function closeForm() {
+	document.getElementById("myVehResForm").style.display = "none";
+}
+
+
+$(document).on(
+		'click',
+		'#so_rac_confirm_btn',
+		function(e) {
+			e.preventDefault();
+			var soData = getFormData("#so_form");
+
+			var so_list = [];
+			$.each(soData, function(index, so) {
+				so_list.push(so);
+			});
+			var vrData = JSON.parse(localStorage.getItem('vrData'));
+			vrData['specialOffers'] = so_list;
+			closeForm();
+			var message = "Check in: " + vrData['checkInDate'] + "</br></br>";
+			message += "Check out: " + vrData['checkOutDate'] + "</br></br>";
+			message += "Total price: " + localStorage.getItem('currentPrice')
+					+ "</br></br>"
+
+			alertify.confirm('Booking confirmation', message, function() {
+				reserveVehicle(JSON.stringify(vrData));
+			}, function() {
+				alertify.notify("Booking canceled");
+			});
+
+		});

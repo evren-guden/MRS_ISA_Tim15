@@ -81,3 +81,19 @@
 	border-bottom: solid gray 1px;
 	color:white;
 }
+
+.cancelVR {
+	position: absolute;
+	top: 77%;
+	left: 84%;
+		background: #339DFF;
+	color: #fff;
+	text-decoration: none;
+	font-size: 13px;
+	border-radius: 50px;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	width: 13%;
+	height: 20%;
+	text-align: center;
+}
