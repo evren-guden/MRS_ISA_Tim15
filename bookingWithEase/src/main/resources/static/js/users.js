@@ -158,8 +158,40 @@ function fillVehicleReservations(data) {
 		counter++;
 		vrDiv.append(reservationDiv);
 	});
+	
+	$(document).on('click', '.cancelVR', function(e) {
+		var vrId = $(this).attr('id').substring(8);
+		var userId = JSON.parse(localStorage.getItem('currentUser')).id;
+
+		alertify.confirm('Cancel reservation', 'Are you sure?', function() {
+			cancelVehicleReservation(vrId);
+		}, function() {
+			alertify.notify("Canceled");
+		});
+
+	});
 
 }
+
+
+function cancelVehicleReservation(vrId) {
+	$
+			.ajax({
+				url : "vehicleReservations/" + vrId,
+				type : "DELETE",
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+				},
+				success : getMyVehicleReservations,
+				statusCode : {
+					422 : function() {
+						alertify
+								.error("The deadline for canceling the reservation has expired");
+					}
+				}
+			});
+}
+
 
 function fillUsersTable(data) {
 	var users = data == null ? [] : (data instanceof Array ? data : [ data ]);

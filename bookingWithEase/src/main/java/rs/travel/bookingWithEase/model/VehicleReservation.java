@@ -22,7 +22,7 @@ public class VehicleReservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonSerialize(using = VehicleSerializer.class)
 	private Vehicle vehicle;
 
