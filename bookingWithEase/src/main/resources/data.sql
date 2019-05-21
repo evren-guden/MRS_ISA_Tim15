@@ -122,5 +122,9 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (1000, 4);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1100, 5);
 
 
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date) values(1,1, 100,'2019-11-01 00:00:00', '2019-11-02 00:00:00');
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(1,1, 100,'2018-11-01 00:00:00', '2018-11-02 00:00:00', 100);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(2,1, 100,'2019-01-01 00:00:00', '2019-01-02 00:00:00', 200);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(3,1, 100,'2019-02-01 00:00:00', '2019-02-02 00:00:00', 105);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(4,1, 100,'2019-04-01 00:00:00', '2019-04-02 00:00:00', 150);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(5,1, 100,'2019-03-01 00:00:00', '2019-03-02 00:00:00', 250);
 insert into RACSpecial_Offer (id, name, racservice_id) values (1,"Special offer", 101);

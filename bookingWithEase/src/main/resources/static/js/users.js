@@ -104,6 +104,63 @@ function fillRoomReservations(data) {
 
 }
 
+function getMyVehicleReservations() {
+
+	$.ajax({
+		url : "/vehicleReservations/" + JSON.parse(localStorage.getItem('currentUser')).id,
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillVehicleReservations,
+		error : function(response) {
+			alert("Something went wrong");
+		}
+	});
+}
+
+function fillVehicleReservations(data) {
+
+	var reservation_list = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+
+	var vrDiv = $('#vehicleReservationsDiv');
+	vrDiv.empty();
+	var counter = 0;
+
+	$.each(reservation_list, function(index, reservation) {
+		var reservationDiv = $('<div class="vrDiv" id="vrDiv_' + counter
+				+ '" style="bottom:' + (55 - counter * 45) + '%; top:'
+				+ (3 + counter * 45) + '%;"' + '></div>');
+		reservationDiv.append('Rent-a-car: ' + reservation.vehicle.vehicleRacName + ', '
+				+ reservation.vehicle.vehicleRacAddress + ' </br>');
+		reservationDiv.append('Vehicle type: ' + reservation.vehicle.vehicleType
+				+ ' </br>');
+		reservationDiv.append('Vehicle capacity: ' + reservation.vehicle.passengerNumber
+				+ ' </br>');
+		//reservationDiv.append('Reservation date: '
+		//		+ reservation.reservationDate.substring(0, 10) + ' </br>');
+		reservationDiv.append('Check in: '
+				+ reservation.checkInDate.substring(0, 10) + ' </br>');
+		reservationDiv.append('Check out: '
+				+ reservation.checkOutDate.substring(0, 10) + ' </br></br>');
+		reservationDiv.append('Price: ' + reservation.totalPrice
+				+ '&#8364;</br>');
+
+		var today = new Date();
+		today.setDate(today.getDate() + 2);
+		var checkIn = new Date(reservation.checkInDate);
+		if (today.getTime() <= checkIn.getTime())
+			reservationDiv.append('<button class="cancelVR" id="cancelVR'
+					+ reservation.id + '">Cancel reservation</button>');
+
+		counter++;
+		vrDiv.append(reservationDiv);
+	});
+
+}
+
 function fillUsersTable(data) {
 	var users = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#usersTable').empty();
