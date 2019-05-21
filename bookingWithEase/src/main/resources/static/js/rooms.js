@@ -1,3 +1,4 @@
+alertify.set('notifier', 'position', 'top-right');
 $(document).on('click', '#addNewRoom', function(e) {
 	e.preventDefault();
 	roomRegistration();
@@ -6,11 +7,6 @@ $(document).on('click', '#addNewRoom', function(e) {
 $(document).on('click', '#cancelNewRoom', function(e) {
 	e.preventDefault();
 	window.location.href = "hotels.html";
-});
-
-$(document).on('click', '#room_search_btn', function(e) {
-	e.preventDefault();
-	searchRooms(getSearchRoomsData(), fillTableRooms);
 });
 
 function roomRegistration() {
@@ -46,7 +42,7 @@ function roomRegistration() {
 			data : jsonData,
 			dataType : 'json',
 			success : function(response) {
-				alert("Room added :)");
+				alertify.notify("Room added :)");
 				//window.location.href = "hotels.html";
 			},
 			error : function(response) {
@@ -100,48 +96,48 @@ function validateNewRoomData(formData) {
 	var pricePerNight = formData["pricePerNight"];
 
 	if (roomNumber === "") {
-		alert("Please enter a room number");
+		alertify.notify("Please enter a room number");
 		return false;
 	}
 	if (!isInt(roomNumber)) {
-		alert("Please enter a valid number for room number");
+		alertify.notify("Please enter a valid number for room number");
 		return false;
 	}
 	if (floorNumber === "") {
-		alert("Please enter a floor number");
+		alertify.notify("Please enter a floor number");
 		return false;
 	}
 	if (!isInt(floorNumber)) {
-		alert("Please enter a valid number for floor number");
+		alertify.notify("Please enter a valid number for floor number");
 		return false;
 	}
 	if (capacity === "") {
-		alert("Please enter a capacity");
+		alertify.notify("Please enter a capacity");
 		return false;
 	}
 	if (!isInt(capacity)) {
-		alert("Please enter a valid number for capacity");
+		alertify.notify("Please enter a valid number for capacity");
 		return false;
 	}
 	if (!isDouble(pricePerNight)) {
-		alert("Please enter a valid price");
+		alertify.notify("Please enter a valid price");
 		return false;
 	}
 
 	for (el in formData) {
 
 		if (el.startsWith('room_sp_') && formData[el] === "") {
-			alert("Please fill in all prices");
+			alertify.notify("Please fill in all prices");
 			return false;
 		}
 
 		if (el.startsWith('start_date_') && formData[el] === "") {
-			alert("Please fill in all start dates");
+			alertify.notify("Please fill in all start dates");
 			return false;
 		}
 
 		if (el.startsWith('end_date_') && formData[el] === "") {
-			alert("Please fill in all end dates");
+			alertify.notify("Please fill in all end dates");
 			return false;
 		}
 

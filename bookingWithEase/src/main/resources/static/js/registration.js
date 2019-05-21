@@ -2,6 +2,10 @@ $(document).on('submit', '#registrationform', function(e) {
 
 	e.preventDefault();
 
+	if (!validateRegForm()) {
+		return;
+	}
+
 	var formData = getFormData("#registrationform");
 	var jsonData = JSON.stringify(formData);
 
@@ -12,20 +16,53 @@ $(document).on('submit', '#registrationform', function(e) {
 		data : jsonData,
 		dataType : 'json',
 		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Authorization", "Bearer "
-					+ getJwtToken());
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : function() {
-			window.location.href="login.html";
+			window.location.href = "index.html";
 		},
 		statusCode : {
-			401 : function() {
-				alert('Bad credentials');
+			409 : function() {
+				alertify.alert('Error', 'This email is already taken!');
+			},
+			412 : function() {
+				alertify.alert('Error', 'Passwords do not match!');
 			},
 			422 : function() {
-				alert('Please enter all required fields');
+				alertify.alert('Error', 'Please enter all required fields');
 			}
 		}
 	});
 
+});
+
+function validateRegForm() {
+	if ($('#registrationpassword').val() === $('#registrationconfpassword')
+			.val()) {
+		if ($('#registrationpassword').val().length > 5) {
+			return true;
+		} else {
+			alertify.alert("Error", "Password is too short!");
+			return false;
+		}
+	} else {
+		alertify.alert("Error", "Password and confirmation password do not match!");
+		return false;
+	}
+}
+
+function showPswRegFunction() {
+	var x = document.getElementById("registrationpassword");
+	var y = document.getElementById("registrationconfpassword");
+	if (x.type === "password") {
+		x.type = "text";
+		y.type = "text";
+	} else {
+		x.type = "password";
+		y.type = "password";
+	}
+}
+
+$(document).on('click', '#cancel_registration', function(e) {
+	window.location.href = "index.html";
 });

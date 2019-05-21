@@ -38,7 +38,7 @@
 		</ul>
 	</nav>
 
-	<h1>Rooms</h1>
+	<h1 id="hotel_name_h">Rooms</h1>
 
 	<div class="search-div" style="bottom: 24%">
 		<h2 align="center">Search</h2>
@@ -46,19 +46,19 @@
 			<table align="center">
 				<tr>
 					<td>Floor:</td>
-					<td><input name="floorNumber" type="text"></td>
+					<td><input name="floorNumber" id="src-hotel-floor" type="text"></td>
 				</tr>
 				<tr>
 					<td>Capacity:</td>
-					<td><input name="capacity" type="text"></td>
+					<td><input name="capacity" id="src-hotel-capacity" type="text"></td>
 				</tr>
 				<tr>
 					<td>Min price:</td>
-					<td><input name="minPrice" type="text"></td>
+					<td><input name="minPrice" id="src-hotel-min" type="text"></td>
 				</tr>
 				<tr>
 					<td>Max price:</td>
-					<td><input name="maxPrice" type="text"></td>
+					<td><input name="maxPrice" id="src-hotel-max" type="text"></td>
 				</tr>
 				<tr>
 					<td>Check in:</td>
@@ -68,15 +68,20 @@
 					<td>Check out:</td>
 					<td><input type="date" name="checkOut" id="src-hotel-checkOut"></td>
 				</tr>
+				<tr><td>&nbsp;</td></tr>
 				<tr>
-					<td></td>
-					<td><input id="room_search_btn" type="button" value="Search"></td>
+			
+					<td><input id="room_search_btn" type="button" value="Search rooms"></td>
+					<td><input id="qrr_search_btn" type="button" value="Search quick reservations"></td>
 				</tr>
 			</table>
 		</form>
 	</div>
-
-
+	
+	<button class="black_btn" id="info_black_btn">Info</button>
+	<button class="black_btn" id="rooms_black_btn">All Rooms</button>
+	<button class="black_btn" id="qrr_black_btn">All Quick Reservations</button>
+	
 	<div class="companies-div" id="vehsDiv"></div>
 
 	<div class="form-popup" id="myForm">

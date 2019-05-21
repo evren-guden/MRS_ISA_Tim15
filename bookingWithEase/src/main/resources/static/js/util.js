@@ -28,6 +28,8 @@ function openCity(evt, cityName) {
 		getMyRoomReservations(fillRoomReservations);
 	if(cityName === "myprofilediv")
 		getMyProfileData();
+	if(cityName === "vehicleReservationsDiv")
+		getMyVehicleReservations();
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {
@@ -41,6 +43,12 @@ function openCity(evt, cityName) {
 	$('#' + cityName).slideToggle(1000);
 	evt.currentTarget.className += " active";
 }
+
+const arrayToObject = (array, keyField) =>
+array.reduce((obj, item) => {
+  obj[item[keyField]] = item
+  return obj
+}, {})
 
 function getFormData(formId) {
 	var formData = {};

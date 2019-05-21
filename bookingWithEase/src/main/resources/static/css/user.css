@@ -13,10 +13,10 @@
 
 #myprofilediv, #changepswdiv{
 	position: absolute;
-	top: 40%;
-	right: 30%;
-	bottom: 20%;
-	left: 30%;
+	top: 20%;
+	right: 27%;
+	bottom: 30%;
+	left: 27%;
 	background-color: black;
 	overflow-y: auto;
 	color: white;
@@ -57,4 +57,27 @@
 	background: #fff;
 	color: #339DFF;
 	box-shadow: 0 4px 4px rgba(83, 100, 255, 0.32);
+}
+
+#vehicleReservationsDiv{
+	position: absolute;
+	top: 20%;
+	right: 15%;
+	bottom: 5%;
+	left: 15%;
+	background-color: black;
+	overflow-y: scroll;
+	color: white;
+	font-size: 20px;
+	opacity: 0.95;
+}
+
+.vrDiv {
+	position: absolute;
+	top: 3%;
+	left: 3%;
+	bottom: 60%;
+	right: 3%;
+	border-bottom: solid gray 1px;
+	color:white;
 }

@@ -19,14 +19,17 @@ public class UserService {
 
 	@Autowired
 	private IUserRepository users;
+	
+	@Autowired
+	private CompanyService companyService;
 
 	public User findOne(Long id) {
 		Optional<User> user = users.findById(id);
-
+		
 		if (user.isPresent()) {
 			return user.get();
 		}
-
+		
 		return null;
 	}
 
@@ -50,6 +53,7 @@ public class UserService {
 
 	}
 
+	
 	public User update(User user) {
 		return users.save(user);
 	}
@@ -59,13 +63,12 @@ public class UserService {
 	}
 
 	public User dtoToUser(AdminUserDTO adminUserDto) {
-		System.out.println("****************************** \n\n\n username: " + adminUserDto.getUsername() + " type: "
-				+ adminUserDto.getType() + " company: " + adminUserDto.getCompanyId());
-		Company company = new Company();
-
+		
+		Company company = companyService.findOne(adminUserDto.getCompanyId());
+		
 		return new Admin(null, adminUserDto.getUsername(), adminUserDto.getFirstName(), adminUserDto.getLastName(),
 				adminUserDto.getEmail(), adminUserDto.getPassword(), "", "", "",
-				ADMIN_TYPE.strToAdmin(adminUserDto.getType()), company);
+				ADMIN_TYPE.strToAdmin(adminUserDto.getAdminType()), company);
 	}
 
 	public User findByUsername(String username) throws UsernameNotFoundException {
@@ -77,6 +80,4 @@ public class UserService {
 		User u = users.findByEmailIgnoreCase(email);
 		return u;
 	}
-	
-	
 }

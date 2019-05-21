@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/rentacars/{id}/vehicles").permitAll()
 			.antMatchers("/vehicles/{id}/reservations").permitAll()
 			.antMatchers("/airlines").permitAll()
-			.antMatchers("/flights/**").permitAll()
+			.antMatchers("/flights").permitAll()
 			.antMatchers("/flights/search").permitAll()
 			.antMatchers("/hotels").permitAll()
 			.antMatchers("/hotels/rooms").permitAll()
@@ -73,9 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "hotels/{hotelId}/roomReservations").permitAll()
 			.antMatchers("/companies").permitAll()
 			.antMatchers("/users").permitAll()
-			.antMatchers("/users/inviteFriends").permitAll()
-			.antMatchers("/users/friends/**").permitAll()
-			.antMatchers("/seats/**").permitAll()
 			.antMatchers("/users/{userId}/roomReservations").permitAll()
 			.antMatchers("/users/{userId}/roomReservations/{rrId}").permitAll()
 			//.antMatchers(HttpMethod.GET, "/rentacars").permitAll()
@@ -110,17 +107,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET, "/users/{roomId}/roomReservations");
 		web.ignoring().antMatchers(HttpMethod.GET, "/airlines");
 		web.ignoring().antMatchers(HttpMethod.POST, "/airlines/search");
-		web.ignoring().antMatchers(HttpMethod.GET, "/flights/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/flights");
 		web.ignoring().antMatchers(HttpMethod.POST, "/flights/search");
 		web.ignoring().antMatchers(HttpMethod.GET, "/hotels");
 		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/search");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicles");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicleReservations");
 		web.ignoring().antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations");
+		web.ignoring().antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations/available");
+		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/available");
 		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations");
+		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/search");
 		web.ignoring().antMatchers(HttpMethod.DELETE, "hotels/{hotelId}/quickRoomReservations/{qrrId}");
-		web.ignoring().antMatchers(HttpMethod.GET, "/seats/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/users/friends/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/users/inviteFriends");		
 	}
 }
