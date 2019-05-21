@@ -33,6 +33,7 @@
 		<button class="tablinks" onclick="openCity(event, 'allDest'); findDestination();">All destination</button>
 		<button class="tablinks" onclick="openCity(event, 'addFlight')">Add	flight</button>
 		<button class="tablinks" onclick="openCity(event, 'allF'); findFlights();">All flight</button>
+		<button class="tablinks" onclick="openCity(event, 'eP')">Edit profile</button>
 
 	</div>
 	<div id="editAirline" class="tabcontent">
@@ -183,6 +184,56 @@
 			</form>
 		</div>
 	</div>
+	
+	
+	
+	
+<div id="eP" class="tabcontent">
+		<div class="container">
+			<h2>Editing profile:</h2>
+			<form id="editProfile">
+				<table>
+
+					<tr>
+						<td>Username</td>
+						<td><input type="text" disabled/></td>
+					</tr>
+					<tr>
+						<td>New password:</td>
+						<td><input type="text" name="nPas" required/></td>
+					</tr>
+					<tr>
+						<td>Repeat new password:</td>
+						<td><input type="text" name="repP" required/></td>
+					</tr>
+					<tr>
+						<td>First name:</td>
+						<td><input type="text" name="fName" required/></td>
+					</tr>
+					<tr>
+						<td>Last name:</td>
+						<td><input type="text" name="lName" required/></td>
+					</tr>
+					<tr>
+						<td>Email:</td>
+						<td><input type="email" name="email" required/></td>
+					</tr>
+					<tr>
+						<td>Phone number:</td>
+						<td><input type="text" name="phone" required/></td>
+					</tr>
+					
+
+					<tr>
+						<td></td>
+						<td><input type="submit" value="Submit" /></td>
+					</tr>
+
+				</table>
+			</form>
+			<br>
+		</div>
+	</div>	
 
 	<script>
 		function openCity(evt, cityName) {
