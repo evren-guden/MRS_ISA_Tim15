@@ -29,7 +29,7 @@ public class Room implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "roomNumber")
+	@Column(name = "roomNumber", nullable = false)
 	private int roomNumber;
 
 	@Column(name = "floorNumber")

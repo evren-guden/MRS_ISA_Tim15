@@ -17,14 +17,21 @@ import rs.travel.bookingWithEase.dto.RoomSearchDTO;
 import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.Price;
 import rs.travel.bookingWithEase.model.Room;
+import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.repository.IRoomRepository;
+import rs.travel.bookingWithEase.repository.IRoomReservationRepository;
+import rs.travel.booking_with_ease.exceptions.EntityAlreadyExistsException;
+import rs.travel.booking_with_ease.exceptions.EntityNotEditableException;
 
 @Service
 public class RoomService {
 
 	@Autowired
 	private IRoomRepository rooms;
-
+	
+	@Autowired 
+	private IRoomReservationRepository roomReservations;
+	
 	@Autowired
 	private HotelService hotelService;
 
@@ -84,11 +91,44 @@ public class RoomService {
 		return rooms.findByHotel(hotelService.findOne(id));
 	}
 
-	public Room save(Room room) {
-		return rooms.save(room);
+	public Room addNewRoom(Room room) throws EntityAlreadyExistsException {
+		
+		if(rooms.findByRoomNumberAndHotel(room.getHotel().getId(), room.getRoomNumber()) != null)
+		{
+			throw new EntityAlreadyExistsException("Room with the same number already exists");
+		}
+		
+		rooms.save(room);
+		 
+		return room;
+	}
+	
+	public String updateRoom(Room room) throws EntityAlreadyExistsException, EntityNotEditableException {
+		
+		Room oldRoom = rooms.findByRoomNumberAndHotel(room.getHotel().getId(), room.getRoomNumber());
+		if(oldRoom != null)
+		{	
+			if(oldRoom.getId() != room.getId())
+				throw new EntityAlreadyExistsException("Room with the same number already exists");
+		}
+		
+		rooms.save(room);
+		 
+		return "Room updated";
 	}
 
-	public void delete(Long id) {
+	public void delete(Long id) throws EntityNotEditableException {
+		
+		ArrayList<RoomReservation> reservations = roomReservations.findByRoomId(id);
+		
+		// remove quick reservations which are not booked
+		reservations.removeIf(rr -> (rr.getUser() == null));
+		
+		if(reservations.size() > 0)
+		{	
+			throw new EntityNotEditableException("Unable to delete the room. The room has its reservations.");
+		}
+		
 		rooms.deleteById(id);
 	}
 
@@ -97,10 +137,14 @@ public class RoomService {
 		if (hotel == null) {
 			return null;
 		}
-
+		
+		HashSet<Price> prices = new HashSet<>();
+		prices = roomDto.getPrices() == null ? prices : new HashSet<Price>(roomDto.getPrices());
+		
 		Room room = new Room(roomDto.getId(), roomDto.getRoomNumber(), roomDto.getFloorNumber(), roomDto.getCapacity(),
 				roomDto.getPricePerNight(), hotel);
-		room.setPrices(new HashSet<Price>(roomDto.getPrices()));
+		
+		room.setPrices(prices);
 		return room;
 	}
 

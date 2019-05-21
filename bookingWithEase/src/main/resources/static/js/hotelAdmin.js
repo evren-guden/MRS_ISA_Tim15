@@ -11,8 +11,7 @@ $(document).ready(function() {
 $(document).on('click', '#addNewRoom', function(e) {
 	e.preventDefault();
 	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-	// specialPriceCounter = 0;
-	// $(".delete_tr").remove();
+
 	getRooms(currentUser.company.id);
 });
 

@@ -32,6 +32,8 @@ import rs.travel.bookingWithEase.service.HotelService;
 import rs.travel.bookingWithEase.service.HotelServiceTypePricesService;
 import rs.travel.bookingWithEase.service.HotelSpecialOfferService;
 import rs.travel.bookingWithEase.service.RoomService;
+import rs.travel.booking_with_ease.exceptions.EntityAlreadyExistsException;
+import rs.travel.booking_with_ease.exceptions.EntityNotEditableException;
 
 @RestController
 @RequestMapping(value = "/hotels")
@@ -52,22 +54,16 @@ public class HotelController {
 	@Autowired
 	private HotelSpecialOfferService specialOfferService;
 
-	@PreAuthorize("hasRole('ADMINHOTEL')")
-	@GetMapping("/secured/all")
-	public String securedHello() {
-		return "Secured Hello";
-	}
-
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Hotel> getAll() throws JsonProcessingException {
+	public ResponseEntity<Collection<Hotel>> getAll() throws JsonProcessingException {
 
-		return hotelService.findAll();
+		return new ResponseEntity<>(hotelService.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{hotelId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Hotel findById(@PathVariable("hotelId") Long id) throws JsonProcessingException {
+	public ResponseEntity<Hotel> findById(@PathVariable("hotelId") Long id) throws JsonProcessingException {
 
-		return hotelService.findById(id);
+		return new ResponseEntity<>(hotelService.findById(id), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINHOTEL')")
@@ -99,9 +95,7 @@ public class HotelController {
 
 	@PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Hotel>> search(@RequestBody HotelSearchDTO hotelSearchDTO) {
-		//Company company = companyService.dtoToCompany(companyDTO);
-		//Hotel hotel = new Hotel(company);
-		System.out.println("\n\n\n " + hotelSearchDTO + "\n\n\n");
+		
 		Collection<Hotel> services = hotelService.search(hotelSearchDTO);
 		return new ResponseEntity<>(services, HttpStatus.OK);
 
@@ -117,43 +111,36 @@ public class HotelController {
 
 	// @PreAuthorize("hasRole('ADMINHOTEL')")
 	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
+	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) throws EntityAlreadyExistsException {
 		Room newRoom = roomService.dtoToRoom(roomDto);
-		System.out.println("\n\n\n" + newRoom + "\n\n\n");
-		try {
-			roomService.save(newRoom);
-			System.out.println("Hotel id: " + newRoom.getHotel().getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 
-		return new ResponseEntity<>(newRoom, HttpStatus.OK);
+		roomService.addNewRoom(newRoom);
+		
+	//	HttpHeaders responseHeaders = new HttpHeaders();
+	//	responseHeaders.set("message", message);
+	
+		return new ResponseEntity<>(newRoom, HttpStatus.CREATED);
 
 	}
 
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<Room> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
+	public ResponseEntity<Collection<Room>> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) throws EntityNotEditableException {
 		roomService.delete(roomId);
 
-		return roomService.findByHotelId(hotelId);
+		return new ResponseEntity<>(roomService.findByHotelId(hotelId), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{hotelId}/rooms/{roomId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,
-			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
+			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) throws EntityAlreadyExistsException, EntityNotEditableException {
 		Room newRoom = roomService.dtoToRoom(roomDto);
 		// newRoom.setHotel(hotelService.findById(hotelId));
 		System.out.println("hotelId" + newRoom.getHotel().getId() + " roomId " + newRoom.getId());
-		try {
-			roomService.save(newRoom);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
+	
+		roomService.updateRoom(newRoom);
+		
 		return new ResponseEntity<>(roomService.findByHotelId(hotelId), HttpStatus.OK);
 
 	}
@@ -174,10 +161,10 @@ public class HotelController {
 	// *************** SPECIAL OFFERS ************
 
 	@GetMapping(value = "/{hotelId}/specialOffers", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Collection<HotelSpecialOffer> getSpecialOffers(@PathVariable("hotelId") Long id)
+	public ResponseEntity<Collection<HotelSpecialOffer>> getSpecialOffers(@PathVariable("hotelId") Long id)
 			throws JsonProcessingException {
 
-		return hotelService.findById(id).getSpecialOffers();
+		return new ResponseEntity<>(hotelService.findById(id).getSpecialOffers(), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMINHOTEL')")
@@ -188,7 +175,7 @@ public class HotelController {
 		HotelSpecialOffer newHSO = null;
 		try {
 			newHSO = specialOfferService.save(hotelSpecialOffer);
-			System.out.println("\n\nHotel service id: " + newHSO.getId());
+		
 			Hotel hotel = hotelService.findById(id);
 			hotel.getSpecialOffers().add(newHSO);
 			hotelService.save(hotel);

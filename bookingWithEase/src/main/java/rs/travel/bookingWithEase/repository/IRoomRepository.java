@@ -14,6 +14,9 @@ import rs.travel.bookingWithEase.model.Room;
 public interface IRoomRepository extends JpaRepository<Room, Long> {
 
 	ArrayList<Room> findByHotel(Hotel hotel);
+	
+	@Query("SELECT r FROM Room r WHERE r.hotel.id = ?1 AND r.roomNumber = ?2")
+	Room findByRoomNumberAndHotel(Long hotelId, int roomNumber);
 
 	@Query("SELECT r FROM Room r WHERE r.hotel.id = ?1 AND r.capacity = ?2 AND r.floorNumber = ?3"
 			+ " AND ?5 >= r.pricePerNight AND ?4 <= r.pricePerNight")
