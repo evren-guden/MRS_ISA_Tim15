@@ -3,7 +3,6 @@ package rs.travel.bookingWithEase.controller;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +32,8 @@ import rs.travel.bookingWithEase.service.HotelService;
 import rs.travel.bookingWithEase.service.HotelServiceTypePricesService;
 import rs.travel.bookingWithEase.service.HotelSpecialOfferService;
 import rs.travel.bookingWithEase.service.RoomService;
+import rs.travel.booking_with_ease.exceptions.EntityAlreadyExistsException;
+import rs.travel.booking_with_ease.exceptions.EntityNotEditableException;
 
 @RestController
 @RequestMapping(value = "/hotels")
@@ -110,21 +111,21 @@ public class HotelController {
 
 	// @PreAuthorize("hasRole('ADMINHOTEL')")
 	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) {
+	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) throws EntityAlreadyExistsException {
 		Room newRoom = roomService.dtoToRoom(roomDto);
 
-		String message = roomService.addNewRoom(newRoom);
+		roomService.addNewRoom(newRoom);
 		
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("message", message);
+	//	HttpHeaders responseHeaders = new HttpHeaders();
+	//	responseHeaders.set("message", message);
 	
-		return new ResponseEntity<>(newRoom, responseHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(newRoom, HttpStatus.CREATED);
 
 	}
 
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@DeleteMapping(value = "/{hotelId}/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Room>> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
+	public ResponseEntity<Collection<Room>> deleteRoom(@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) throws EntityNotEditableException {
 		roomService.delete(roomId);
 
 		return new ResponseEntity<>(roomService.findByHotelId(hotelId), HttpStatus.OK);
@@ -133,17 +134,13 @@ public class HotelController {
 	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PutMapping(value = "/{hotelId}/rooms/{roomId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Room>> updateRoom(@RequestBody RoomDTO roomDto,
-			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) {
+			@PathVariable("roomId") Long roomId, @PathVariable("hotelId") Long hotelId) throws EntityAlreadyExistsException, EntityNotEditableException {
 		Room newRoom = roomService.dtoToRoom(roomDto);
 		// newRoom.setHotel(hotelService.findById(hotelId));
 		System.out.println("hotelId" + newRoom.getHotel().getId() + " roomId " + newRoom.getId());
-		try {
-			roomService.updateRoom(newRoom);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
+	
+		roomService.updateRoom(newRoom);
+		
 		return new ResponseEntity<>(roomService.findByHotelId(hotelId), HttpStatus.OK);
 
 	}

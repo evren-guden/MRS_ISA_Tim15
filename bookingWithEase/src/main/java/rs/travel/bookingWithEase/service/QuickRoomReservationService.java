@@ -16,10 +16,8 @@ import rs.travel.bookingWithEase.model.HotelSpecialOffer;
 import rs.travel.bookingWithEase.model.QuickRoomReservation;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.Room;
-import rs.travel.bookingWithEase.model.User;
 import rs.travel.bookingWithEase.repository.IHotelSpecialOfferRepository;
 import rs.travel.bookingWithEase.repository.IQuickRoomReservationRepository;
-import rs.travel.bookingWithEase.repository.IRoomRepository;
 
 @Service
 public class QuickRoomReservationService {
@@ -29,9 +27,6 @@ public class QuickRoomReservationService {
 
 	@Autowired
 	private IHotelSpecialOfferRepository hotelSpecialOffers;
-	
-	@Autowired
-	private IRoomRepository rooms;
 	
 	@Autowired 
 	private RoomService roomService;

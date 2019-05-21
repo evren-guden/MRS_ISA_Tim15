@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import rs.travel.bookingWithEase.dto.DefiningQrrDTO;
-import rs.travel.bookingWithEase.dto.RoomDTO;
 import rs.travel.bookingWithEase.dto.RoomSearchDTO;
 import rs.travel.bookingWithEase.model.QuickRoomReservation;
-import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.service.QuickRoomReservationService;
 
 @Controller

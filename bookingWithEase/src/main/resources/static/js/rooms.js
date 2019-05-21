@@ -41,13 +41,13 @@ function roomRegistration() {
 			contentType : "application/json",
 			data : jsonData,
 			dataType : 'json',
-			success : function(data, textStatus, response) {
-				alertify.notify(response.getResponseHeader('message'));
+			success : function(data) {
+				alertify.notify("Room added :)");
 	
 			},
-			error : function(response) {
-				alert("Something went wrong room reservation! :("
-						+ JSON.stringify(response));
+			error : function(xhr, status, error) {
+				var err = JSON.parse(xhr.responseText);
+				alertify.alert("Exception", err.apierror.message);
 			}
 		});
 	} else {
@@ -64,8 +64,9 @@ function deleteRoom(hotelId, roomId, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(data) {
-			alert(data);
+		error : function(xhr, status, error ) {
+			var err = JSON.parse(xhr.responseText);
+			alertify.alert("Exception", err.apierror.message);
 		}
 	});
 
@@ -82,8 +83,9 @@ function updateRoom(hotelId, roomId, jsonData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(data) {
-			alert(data);
+		error : function(xhr, status, error) {
+			var err = JSON.parse(xhr.responseText);
+			alertify.alert("Exception", err.apierror.message);
 		}
 	});
 

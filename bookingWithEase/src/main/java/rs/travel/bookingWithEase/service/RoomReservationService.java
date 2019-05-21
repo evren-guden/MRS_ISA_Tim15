@@ -67,7 +67,7 @@ public class RoomReservationService {
 			rr.setUser(null);
 			save(rr);
 		}else
-		{
+		{	
 			roomReservations.delete(rr);
 		}
 	}
@@ -85,7 +85,6 @@ public class RoomReservationService {
 		for(Long id : dto.getSpecialOffers())
 		{
 			HotelSpecialOffer so = hotelSpecialOffers.getOne(id);
-			System.out.println("\n So added: " + so.getName() + " " + so.getId());
 			soSet.add(so);
 		}
 		
