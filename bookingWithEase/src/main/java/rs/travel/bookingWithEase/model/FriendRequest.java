@@ -11,9 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.springframework.stereotype.Component;
-
-@Component
 @Entity
 public class FriendRequest {
 
@@ -22,10 +19,10 @@ public class FriendRequest {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-	private RegisteredUser sender;
+	private User sender;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-	private RegisteredUser reciever;
+	private User reciever;
 	
 	@Column(nullable = false)
 	private Date dateCreated;
@@ -34,7 +31,7 @@ public class FriendRequest {
 		super();
 	}
 
-	public FriendRequest(RegisteredUser sender, RegisteredUser reciever, Date dateCreated) {
+	public FriendRequest(User sender, User reciever, Date dateCreated) {
 		super();
 		this.sender = sender;
 		this.reciever = reciever;
@@ -49,19 +46,19 @@ public class FriendRequest {
 		this.id = id;
 	}
 
-	public RegisteredUser getSender() {
+	public User getSender() {
 		return sender;
 	}
 
-	public void setSender(RegisteredUser sender) {
+	public void setSender(User sender) {
 		this.sender = sender;
 	}
 
-	public RegisteredUser getReciever() {
+	public User getReciever() {
 		return reciever;
 	}
 
-	public void setReciever(RegisteredUser reciever) {
+	public void setReciever(User reciever) {
 		this.reciever = reciever;
 	}
 
