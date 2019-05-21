@@ -1,4 +1,3 @@
-alertify.set('notifier', 'position', 'top-right');
 $(document).on('click', '#cancelCompReg', function(e) {
 	e.preventDefault();
 	$('.transbox_company_reg').css('opacity', '0');
@@ -33,14 +32,14 @@ function companyRegistration() {
 			data : jsonData,
 			dataType : 'json',
 			success : function(response) {
-				alertify.notify("Company saved :)");
+				alert("Company saved :)");
 			},
 			error : function(response) {
 				alert("Something went wrong! :(");
 			}
 		});
 	} else {
-		alertify.notify("Please fill in all fields");
+		alert("Please fill in all fields");
 	}
 }
 

@@ -25,13 +25,10 @@ $(document).on('submit', '#loginform', function(e) {
 		},
 		statusCode : {
 			401 : function() {
-				alertify.alert('Error', 'Bad credentials');
-			},
-			403 : function() {
-				alertify.alert('Error', 'Account is not enabled');
+				alert('Bad credentials');
 			},
 			422 : function() {
-				alertify.error('Please enter all required fields');
+				alert('Please enter all required fields');
 			}
 		}
 	});
@@ -59,7 +56,7 @@ function saveToken(data) {
 							localStorage.setItem("userId", data.id);
 							localStorage.setItem("currentUser", JSON
 									.stringify(data));
-						//	alert("saved " + localStorage.getItem('currentUser'));
+							//alert("saved " + localStorage.getItem('currentUser'));
 							if (data.company != null) {
 								localStorage.setItem("userCompanyId",
 										data.company.id);

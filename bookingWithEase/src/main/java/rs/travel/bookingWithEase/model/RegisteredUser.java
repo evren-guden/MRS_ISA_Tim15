@@ -8,25 +8,21 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import org.springframework.stereotype.Component;
+
+@Component
 @Entity
 public class RegisteredUser extends User {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy="user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RoomReservation> roomReservations = new HashSet<RoomReservation>();
-	
-	@OneToMany(mappedBy="vehicle_user",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "vehicle_user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<VehicleReservation> vehicleReservations = new HashSet<VehicleReservation>();
-	
-	
-	
-	@OneToMany(mappedBy="f_user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "f_user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<FlightReservation> flightReservations = new HashSet<FlightReservation>();
-	
+
 	public RegisteredUser() {
 		super();
 	}

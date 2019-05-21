@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -29,9 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.AccountDTO;
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
-import rs.travel.bookingWithEase.model.Admin;
 import rs.travel.bookingWithEase.model.Authority;
 import rs.travel.bookingWithEase.model.ConfirmationToken;
+import rs.travel.bookingWithEase.model.FriendRequest;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.model.User;
@@ -39,6 +41,7 @@ import rs.travel.bookingWithEase.security.TokenUtils;
 import rs.travel.bookingWithEase.service.AuthorityService;
 import rs.travel.bookingWithEase.service.ConfTokenService;
 import rs.travel.bookingWithEase.service.EmailSenderService;
+import rs.travel.bookingWithEase.service.FriendsRequestService;
 import rs.travel.bookingWithEase.service.RoomReservationService;
 import rs.travel.bookingWithEase.service.UserService;
 
@@ -70,6 +73,9 @@ public class UserController {
 	@Autowired
 	private AuthorityService authService;
 
+	@Autowired
+	private FriendsRequestService friendsRequestService;
+	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> findAll() {
 		return userService.findAll();
@@ -77,34 +83,12 @@ public class UserController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> add(@RequestBody AdminUserDTO adminUserDto) throws Exception {
-
-		Admin newUser = (Admin) userService.dtoToUser(adminUserDto);
-
-		Authority a = null;
-
-		switch (adminUserDto.getAdminType()) {
-		case "hotel":
-			a = authService.findByName("ROLE_ADMINHOTEL");
-			break;
-		case "rent-a-car":
-			a = authService.findByName("ROLE_ADMINRAC");
-			break;
-		case "airline":
-			a = authService.findByName("ROLE_ADMINAIRLINE");
-			break;
-		default:
-			a = null;
-		}
-
-		if (a != null) {
-			ArrayList<Authority> alist = new ArrayList<Authority>();
-			alist.add(a);
-			newUser.setAuthorities(alist);
-		}
+		adminUserDto.setType("hotel");
+		User newUser = userService.dtoToUser(adminUserDto);
 
 		if (userService.save(newUser)) {
-
-			return new ResponseEntity<>(HttpStatus.OK);
+			System.out.println("\nnew user created\n");
+			return new ResponseEntity<String>(HttpStatus.OK);
 		} else {
 			System.out.println("conflict");
 			return new ResponseEntity<>("Username is already taken", HttpStatus.CONFLICT);
@@ -126,6 +110,23 @@ public class UserController {
 
 		return new ResponseEntity<>(upUser, HttpStatus.OK);
 	}
+
+	/*
+	 * @RequestMapping(value = "/login", method = RequestMethod.POST) public
+	 * ResponseEntity<User> login(@RequestBody JwtAuthenticationRequest
+	 * authenticationRequest, HttpServletResponse response) {
+	 * 
+	 * final Authentication authentication = authenticationManager .authenticate(new
+	 * UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+	 * authenticationRequest.getPassword()));
+	 * 
+	 * // Ubaci username + password u kontext
+	 * SecurityContextHolder.getContext().setAuthentication(authentication); //
+	 * Kreiraj token User user = (User) authentication.getPrincipal();
+	 * 
+	 * // Vrati token kao odgovor na uspesno autentifikaciju return
+	 * ResponseEntity.ok(user); }
+	 */
 
 	@PreAuthorize("hasRole('ADMIN') or hasRole('ADMINRAC') or hasRole('ADMINHOTEL') or hasRole('ADMINAIRLINE') or hasRole('USER')")
 	@GetMapping(value = "/myprofile", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -164,13 +165,13 @@ public class UserController {
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, 2);
+		cal.add(Calendar.DATE, 5);
 		if (cal.getTime().after(r.getCheckInDate())) {
-
-			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+			System.out.println("\n\n ne moze da se obrise rezervacija \n\n");
+			return new ResponseEntity<Collection<RoomReservation>>(HttpStatus.UNPROCESSABLE_ENTITY);
 		} else {
 
-			roomResService.cancelReservation(rrId);
+			roomResService.delete(rrId);
 		}
 		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}
@@ -180,19 +181,13 @@ public class UserController {
 	@PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> registerUser(@RequestBody AccountDTO account) throws MessagingException {
 
-		if (account.getUsername().trim().isEmpty() || account.getUsername() == null
-				|| account.getPassword().trim().isEmpty() || account.getPassword() == null
-				|| account.getEmail().trim().isEmpty() || account.getEmail() == null) {
-			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-		}
-
 		if (!account.getPassword().equals(account.getConfPassword())) {
-			return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
 		User existingUser = userService.findByEmail(account.getEmail());
 		if (existingUser != null) {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 
 		User user = new User(account);
@@ -236,4 +231,58 @@ public class UserController {
 		return new ResponseEntity<>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
+	@GetMapping(value = "/friends/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<User>> getAllFriends(@PathVariable("userId") Long userId) {
+		
+		List<User> friends = new ArrayList<User>();
+		HashSet<FriendRequest> userFriends = friendsRequestService.findBySenderId(userId);
+		
+		for (FriendRequest friendRequest : userFriends) {
+			friends.add(friendRequest.getReciever());
+		}
+		
+		userFriends = friendsRequestService.findByRecieverId(userId);
+		
+		for (FriendRequest friendRequest : userFriends) {
+			friends.add(friendRequest.getSender());
+		}
+		
+		return new ResponseEntity<Collection<User>>(friends, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/inviteFriends", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> inviteFriends(@RequestBody AccountDTO account) throws MessagingException {
+
+		if(!account.getPassword().equals(account.getConfPassword())) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		User existingUser = userService.findByEmail(account.getEmail());
+        if(existingUser != null) {
+        	return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+		
+        User user = new User(account);
+        user.setPassword(passwordEncoder.encode(account.getPassword()));
+        Authority a = authService.findByName("ROLE_USER");
+        ArrayList<Authority> alist = new ArrayList<Authority>();
+        alist.add(a);
+        user.setAuthorities(alist);
+        userService.save(user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confTokenService.save(confirmationToken);
+        
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setFrom(env.getProperty("spring.mail.username"));
+        mailMessage.setText("To confirm your account, please click here : "
+        +"http://localhost:8080/users/confirm-account?token="+confirmationToken.getConfirmationToken());
+        
+        emailService.sendEmail(mailMessage);
+        
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }

@@ -7,7 +7,7 @@ public class AdminUserDTO {
 	private String lastName;
 	private String email;
 	private String password;
-	private String adminType;
+	private String admin_type;
 	private Long companyId;
 
 	public AdminUserDTO() {
@@ -15,14 +15,14 @@ public class AdminUserDTO {
 	}
 
 	public AdminUserDTO(String username, String firstName, String lastName, String email, String password,
-			String adminType, Long companyId) {
+			String admin_type, Long companyId) {
 		super();
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.adminType = adminType;
+		this.admin_type = admin_type;
 		this.companyId = companyId;
 	}
 
@@ -66,12 +66,20 @@ public class AdminUserDTO {
 		this.password = password;
 	}
 
-	public String getAdminType() {
-		return adminType;
+	public String getType() {
+		return admin_type;
 	}
 
-	public void setAdminType(String adminType) {
-		this.adminType = adminType;
+	public void setType(String admin_type) {
+		this.admin_type = admin_type;
+	}
+
+	public String getAdmin_type() {
+		return admin_type;
+	}
+
+	public void setAdmin_type(String admin_type) {
+		this.admin_type = admin_type;
 	}
 
 	public Long getCompanyId() {

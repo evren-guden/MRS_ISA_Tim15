@@ -30,8 +30,4 @@ public class VehicleReservationService {
 	public void delete(Long id) {
 		vehicleReservationRepository.deleteById(id);
 	}
-	
-	public List<VehicleReservation> findByUser(Long userId){
-		return vehicleReservationRepository.findByUser(userId);
-	}
 }

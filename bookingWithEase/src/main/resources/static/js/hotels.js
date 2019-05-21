@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 	getHotels(fillHotelsTable);
 });
@@ -27,7 +26,7 @@ $(document).on('click', '#edit_room_btn', function(e) {
 	var jsonData = JSON.stringify(formData);	
 	
 	updateRoom(currentUser.company.id, roomId, jsonData, function() {
-		alertify.notify("Saved :)");
+		alert("Saved :)");
 		getRooms(currentUser.company.id);
 		openCity(event, 'allRooms');
 	});
@@ -78,7 +77,7 @@ function showRooms(data) {
 
 		deleteRoom(hotelId, roomId, function() {
 			getRooms(hotelId);
-			alertify.notify("Room deleted!");
+			alert("Room deleted!");
 		});
 	});
 
@@ -166,9 +165,7 @@ function fillHotelsTable(data) {
 	/*
 	 * $('#hotelsTable').empty(); $('#hotelsTable').append('<tr><th>Id</th><th>Name</th><th>Address</th><th>Description</th></tr>');
 	 */
-	var hotels_dict = arrayToObject(hotels, "id");
-	localStorage.setItem("hotels", JSON.stringify(hotels_dict));
-	
+
 	var hotelsDiv = $('#hotels-div');
 	hotelsDiv.empty();
 	var counter = 0;
@@ -205,34 +202,30 @@ function fillHotelsTable(data) {
 								.append('<div class="guest_ratings"> Guest ratings: '
 										+ (hotel.rating == null ? 0
 												: hotel.rating) + ' / 5 </div>');
-				/*		hotelDiv
-						.append('<button class="show_details_btn sd_qrr" id="qrr_'
-								+ hotel.id + '">Quick reservations</button>');
-				*/		
 						hotelDiv
-								.append('<button class="show_details_btn sd_rooms" id="showr_'
-										+ hotel.id + '">Show details</button>');
+								.append('<button class="show_details_btn" id="showr_'
+										+ hotel.id + '">Show rooms</button>');
 
 						counter++;
 						hotelsDiv.append(hotelDiv);
 
 					});
 
-	$('.sd_rooms').on('click', function(e) {
+	$('.show_details_btn').on('click', function(e) {
 		e.preventDefault();
 
 		var iden = this.id.substring(6);
-	//	localStorage.removeItem('showQrr');
-		
+
+		if (localStorage.getItem("showRooms") === null) {
+			localStorage.removeItem('showRooms');
+		}
 		localStorage.setItem('showRooms', iden);
 		var formData = getFormData('#form-hotels-search');
 		localStorage.setItem('latestHSearchCheckIn', formData['checkIn']);
 		localStorage.setItem('latestHSearchCheckOut', formData['checkOut']);
 		window.location.href = "rooms.html";
 	});
-	
-	
-	// da li se ovo negde koristi?
+
 	$('.roomsBtn').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id.substring(5);
@@ -263,7 +256,7 @@ function fillHotelsTable(data) {
 				}
 
 				if (formData["name"] === "") {
-					alertify.notify("Please enter a hotel name");
+					alert("Please enter a hotel name");
 					return;
 				}
 
@@ -285,7 +278,7 @@ function fillHotelsTable(data) {
 					}
 				});
 
-				alertify.notify("Saved");
+				alert("Saved");
 			});
 
 }
