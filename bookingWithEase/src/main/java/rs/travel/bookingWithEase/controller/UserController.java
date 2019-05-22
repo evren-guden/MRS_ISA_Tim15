@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
@@ -32,6 +34,7 @@ import rs.travel.bookingWithEase.dto.AdminUserDTO;
 import rs.travel.bookingWithEase.model.Admin;
 import rs.travel.bookingWithEase.model.Authority;
 import rs.travel.bookingWithEase.model.ConfirmationToken;
+import rs.travel.bookingWithEase.model.FriendRequest;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.RoomReservation;
 import rs.travel.bookingWithEase.model.User;
@@ -39,6 +42,7 @@ import rs.travel.bookingWithEase.security.TokenUtils;
 import rs.travel.bookingWithEase.service.AuthorityService;
 import rs.travel.bookingWithEase.service.ConfTokenService;
 import rs.travel.bookingWithEase.service.EmailSenderService;
+import rs.travel.bookingWithEase.service.FriendsRequestService;
 import rs.travel.bookingWithEase.service.RoomReservationService;
 import rs.travel.bookingWithEase.service.UserService;
 
@@ -69,6 +73,9 @@ public class UserController {
 
 	@Autowired
 	private AuthorityService authService;
+	
+	@Autowired
+	private FriendsRequestService friendsRequestService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> findAll() {
@@ -236,4 +243,58 @@ public class UserController {
 		return new ResponseEntity<>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
+	@GetMapping(value = "/friends/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<User>> getAllFriends(@PathVariable("userId") Long userId) {
+		
+		List<User> friends = new ArrayList<User>();
+		HashSet<FriendRequest> userFriends = friendsRequestService.findBySenderId(userId);
+		
+		for (FriendRequest friendRequest : userFriends) {
+			friends.add(friendRequest.getReciever());
+		}
+		
+		userFriends = friendsRequestService.findByRecieverId(userId);
+		
+		for (FriendRequest friendRequest : userFriends) {
+			friends.add(friendRequest.getSender());
+		}
+		
+		return new ResponseEntity<Collection<User>>(friends, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/inviteFriends", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> inviteFriends(@RequestBody AccountDTO account) throws MessagingException {
+
+		if(!account.getPassword().equals(account.getConfPassword())) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		User existingUser = userService.findByEmail(account.getEmail());
+        if(existingUser != null) {
+        	return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+		
+        User user = new User(account);
+        user.setPassword(passwordEncoder.encode(account.getPassword()));
+        Authority a = authService.findByName("ROLE_USER");
+        ArrayList<Authority> alist = new ArrayList<Authority>();
+        alist.add(a);
+        user.setAuthorities(alist);
+        userService.save(user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(user);
+
+        confTokenService.save(confirmationToken);
+        
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setFrom(env.getProperty("spring.mail.username"));
+        mailMessage.setText("To confirm your account, please click here : "
+        +"http://localhost:8080/users/confirm-account?token="+confirmationToken.getConfirmationToken());
+        
+        emailService.sendEmail(mailMessage);
+        
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }
