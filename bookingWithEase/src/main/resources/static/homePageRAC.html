@@ -42,6 +42,13 @@
 		<button class="tablinks" onclick="openDiv(event, 'addOfferDiv')">Add
 			offer</button>
 
+		<button class="tablinks" id="myquickreservations"
+			onclick="openDiv(event, 'allQuickReservationsDiv')">Quick
+			reservations</button>
+		<button class="tablinks" id="openQvrBtn"
+			onclick="openCity(event, 'addQuickVehicleReservationDiv')">Add
+			Quick Reservation</button>
+
 	</div>
 
 	<div id="maincontent">
@@ -204,7 +211,7 @@
 					</tr>
 					<tr>
 						<td align="left">Additional payment:</td>
-						<td><input type="text" name="price" id="editPriceOf" required/></td>
+						<td><input type="text" name="price" id="editPriceOf" required /></td>
 					</tr>
 					<tr>
 						<td align="left"></td>
@@ -252,6 +259,70 @@
 			</form>
 
 		</div>
+	</div>
+
+
+	<div id="allQuickReservationsDiv" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All quick reservations</h2>
+			<table align="center" id="quickReservationsTable" class="hotelsTable"
+				border=1>
+
+			</table>
+		</div>
+	</div>
+
+	<div id="addQuickVehicleReservationDiv" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">Add Quick Reservation</h2>
+
+			<form id="addQuickVehicleReservationForm">
+				<table align="center">
+
+					<tr>
+						<td>Pick up:</td>
+						<td><input type="date" class="qvrDate" name="checkIn"
+							id="qvr_checkIn"></td>
+					</tr>
+					<tr>
+						<td>Drop off:</td>
+						<td><input type="date" class="qvrDate" name="checkOut"
+							id="qvr_checkOut"></td>
+					</tr>
+
+					<tr>
+						<td>Discount:</td>
+						<td><input type="text" name="discount" id="qvr_discount"></td>
+					</tr>
+
+					<tr>
+						<td align="left">Vehicles: &nbsp;</td>
+						<td>
+							<div class="select" id="qvr_vehicles">
+								<div align="left">&nbsp;</div>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="button"
+							id="addQuickVehicleReservationBtn" value="Add new"> <input
+							class="formBtn" type="button"
+							id="cancelQuickVehicleReservationBtn"
+							name="cancelQuickVehicleReservationBtn" value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+
+		</div>
+
+
 	</div>
 
 </body>

@@ -192,6 +192,10 @@ $(document).on('click', '#mybranchsbtn', function(e) {
 	findBranchs();
 });
 
+$(document).on('click', '#myquickreservations', function(e) {
+	findQuickReservations();
+});
+
 function findBranchs() {
 
 	$.ajax({
@@ -431,7 +435,6 @@ function fillVehicleTable(data) {
 
 }
 
-
 $(document).on('submit', '#addOfferForm', function(e) {
 
 	e.preventDefault();
@@ -466,29 +469,34 @@ $(document).on('submit', '#addOfferForm', function(e) {
 
 });
 
-$(document).on('submit', '#editOfferForm', function(e) {
+$(document).on(
+		'submit',
+		'#editOfferForm',
+		function(e) {
 
-	e.preventDefault();
+			e.preventDefault();
 
-	var formData = getFormData("#editOfferForm");
-	var jsonData = JSON.stringify(formData);
+			var formData = getFormData("#editOfferForm");
+			var jsonData = JSON.stringify(formData);
 
-	$.ajax({
-		url : "/rentacars/" + localStorage.getItem('userCompanyId') + "/specialOffers",
-		type : "PUT",
-		contentType : "application/json",
-		data : jsonData,
-		dataType : 'json',
-		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		},
-		success : findOffers,
-		error : function(response) {
-			alert("Something went wrong! :(");
-		}
-	});
+			$.ajax({
+				url : "/rentacars/" + localStorage.getItem('userCompanyId')
+						+ "/specialOffers",
+				type : "PUT",
+				contentType : "application/json",
+				data : jsonData,
+				dataType : 'json',
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("Authorization", "Bearer "
+							+ getJwtToken());
+				},
+				success : findOffers,
+				error : function(response) {
+					alert("Something went wrong! :(");
+				}
+			});
 
-});
+		});
 
 $(document).on('click', '#myoffersbtn', function(e) {
 	findOffers();
@@ -498,7 +506,8 @@ function findOffers() {
 
 	$.ajax({
 		type : 'GET',
-		url : "/rentacars/" + localStorage.getItem('userCompanyId') + "/specialOffers",
+		url : "/rentacars/" + localStorage.getItem('userCompanyId')
+				+ "/specialOffers",
 		dataType : "json",
 		beforeSend : function(xhr) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
@@ -520,17 +529,27 @@ function fillOfferTable(data) {
 			.append(
 					'<tr><th>Id</th><th>Name</th><th>Description</th><th>Price</th></tr>');
 
-	$.each(of_list, function(index, offer) {
+	$
+			.each(
+					of_list,
+					function(index, offer) {
 
-		var tr = $('<tr></tr>');
-		var form = $('<td>' + offer.id + '</td><td>'
-				+ offer.name + '</td><td>' + offer.description
-				+ '</td><td>' + offer.price + '</td><td><button class="oeditBtns" id="oeditbtn'
-				+ offer.id + '">Edit</button></td><td><button class="odelBtns" id="odelBtn' + offer.id
-				+ '">Delete</button></td>');
-		tr.append(form);
-		table.append(tr);
-	});
+						var tr = $('<tr></tr>');
+						var form = $('<td>'
+								+ offer.id
+								+ '</td><td>'
+								+ offer.name
+								+ '</td><td>'
+								+ offer.description
+								+ '</td><td>'
+								+ offer.price
+								+ '</td><td><button class="oeditBtns" id="oeditbtn'
+								+ offer.id
+								+ '">Edit</button></td><td><button class="odelBtns" id="odelBtn'
+								+ offer.id + '">Delete</button></td>');
+						tr.append(form);
+						table.append(tr);
+					});
 
 	$('.odelBtns').on(
 			'click',
@@ -572,7 +591,8 @@ function fillOfferTable(data) {
 
 				$.ajax({
 					type : 'GET',
-					url : "/rentacars/" + localStorage.getItem('userCompanyId') + "/specialOffers/" + iden.substring(8),
+					url : "/rentacars/" + localStorage.getItem('userCompanyId')
+							+ "/specialOffers/" + iden.substring(8),
 					dataType : "json",
 					beforeSend : function(xhr) {
 						xhr.setRequestHeader("Authorization", "Bearer "
@@ -591,4 +611,240 @@ function fillOfferTable(data) {
 
 			});
 
+}
+
+// quick reservations
+
+function findQuickReservations() {
+
+	$.ajax({
+		type : 'GET',
+		url : "/rentacars/" + localStorage.getItem("userCompanyId")
+				+ "/quickReservations",
+		dataType : "json",
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillQuickReservationsTable,
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
+
+function fillQuickReservationsTable(data) {
+	var qr_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+
+	var table = $('#quickReservationsTable');
+	$('#quickReservationsTable').empty();
+	$('#quickReservationsTable')
+			.append(
+					'<tr><th>Id</th><th>Vehicle Id</th><th>Pick Up</th><th>Drop Off</th><th>Discount</th><th>Final Price</th></tr>');
+
+	$
+			.each(
+					qr_list,
+					function(index, qres) {
+
+						var tr = $('<tr></tr>');
+						var form = $('<td>'
+								+ qres.id
+								+ '</td><td>'
+								+ qres.vehicle.vehicleId
+								+ '</td><td>'
+								+ qres.checkInDate.substring(0, 10)
+								+ '</td><td>'
+								+ qres.checkOutDate.substring(0, 10)
+								+ '</td><td>'
+								+ qres.discount
+								+ '</td><td>'
+								+ qres.finalPrice
+								+ '</td><td><button class="qeditBtns" id="qeditbtn'
+								+ qres.id
+								+ '">Edit</button></td><td><button class="qdelBtns" id="qdelBtn'
+								+ qres.id + '">Delete</button></td>');
+						tr.append(form);
+						table.append(tr);
+					});
+
+	$('.qdelBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id.substring(7);
+
+				alertify.confirm("Delete Quick Reservation", "Are you sure?",
+						function() {
+							$.ajax({
+								type : 'delete',
+								url : "/quickVehicleReservations/" + iden,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader("Authorization",
+											"Bearer " + getJwtToken());
+								},
+								success : function(response) {
+									findQuickReservations();
+								},
+								error : function(data) {
+									alert(data);
+								}
+							});
+							alertify.notify('Quick Reservation Deleted',
+									'success', 2);
+						}, function() {
+						});
+			});
+
+	$('.qeditBtns').on(
+			'click',
+			function(e) {
+				e.preventDefault();
+				var iden = this.id;
+				openDiv(event, 'editQuickReservationDiv');
+				localStorage.setItem("editQuickReservationId", iden);
+
+				$.ajax({
+					type : 'GET',
+					url : "/quickVehicleReservations/" + iden.substring(8),
+					dataType : "json",
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(data) {
+						$('#editIdQr').val(data.id);
+						$('#editNameQr').val(data.name);
+						$('#editAddrQr').val(data.address);
+					},
+					error : function(data) {
+						alert(data);
+					}
+				});
+
+			});
+
+}
+
+$(document).on('change', '.qvrDate', function(e) {
+
+	var newCheckIn = $('#qvr_checkIn').val();
+	var newCheckOut = $('#qvr_checkOut').val();
+	if (newCheckIn === "" || newCheckOut === "") {
+		return;
+	}
+
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var racId = currentUser.company.id;
+
+	var formData = {};
+	// formData["floorNumber"] = -11;
+	formData["rentacarId"] = racId;
+	formData["type"] = "";
+	formData["gear"] = "";
+	formData["pickUp"] = newCheckIn;
+	formData["dropOff"] = newCheckOut;
+
+	searchVehiclesQvr(formData);
+
+});
+
+function searchVehiclesQvr(formData) {
+
+	var jsonData = JSON.stringify(formData);
+	// alert(jsonData);
+	$.ajax({
+		url : "/rentacars/vehicles/search",
+		type : "POST",
+		dataType : 'json',
+		contentType : "application/json",
+		data : jsonData,
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : addVehiclesToQrr,
+		error : function(response) {
+			alert("Something went wronggg! :(");
+		}
+	});
+}
+
+function addVehiclesToQrr(data) {
+	// alert(JSON.stringify(data));
+	var vehs = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$('#qvr_vehicles').empty();
+	var counter = 0;
+	$
+			.each(
+					vehs,
+					function(index, veh) {
+
+						counter++;
+						var newItem = $('<div align="left"></div');
+						newItem
+								.append('<input type="checkbox" class= "qvr_vehicle_checkbox" name="qvr_vehicle_checkbox'
+										+ veh.id
+										+ '" value="'
+										+ veh.id
+										+ '" />'
+										+ veh.registrationNumber
+										+ " "
+										+ veh.type);
+						$('#qvr_vehicles').append(newItem);
+
+					});
+
+	if (counter == 0)
+		$('#qvr_vehicles').append("none available");
+}
+
+$(document).on(
+		'click',
+		'#addQuickVehicleReservationBtn',
+		function(e) {
+			e.preventDefault();
+			var formData = getFormData('#addQuickVehicleReservationForm');
+
+			var newFormData = {};
+			var vehicles = [];
+
+			for ( var el in formData) {
+				if (el.startsWith('qvr_vehicle_')) {
+					vehicles.push(formData[el]);
+
+				} else if (!el.startsWith('start_date_')
+						&& !el.startsWith('end_date')) {
+					newFormData[el] = formData[el];
+				}
+			}
+
+			newFormData["vehicles"] = vehicles;
+
+			var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+			var racId = currentUser.company.id;
+
+			addQuickVehicleReservations(racId, newFormData);
+
+		});
+
+function addQuickVehicleReservations(racId, formData) {
+
+	var jsonData = JSON.stringify(formData);
+
+	$.ajax({
+		url : "/rentacars/" + racId + "/quickReservations",
+		type : "POST",
+		dataType : 'json',
+		contentType : 'application/json',
+		data : jsonData,
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(data) {
+			alertify.notify("Quick Room Reservation Saved!");
+		},
+		error : function(response) {
+			alert("Something went wrong while adding qrr! :(");
+		}
+	});
 }
