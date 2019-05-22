@@ -90,5 +90,18 @@ public class QuickRoomReservationController {
 		return new ResponseEntity<>(quickRoomReservationService.findOne(qrrId), HttpStatus.OK);
 
 	}
+	
+	@PreAuthorize("hasRole('ADMINHOTEL')")
+	@PutMapping(value = "/{qrrId}/update", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<QuickRoomReservation> updateQrr(@RequestBody DefiningQrrDTO qrrDto,
+			@PathVariable("qrrId") Long qrrId) {
+		
+		
+		quickRoomReservationService.updateQrr(qrrId, qrrDto);
+		
+
+		return new ResponseEntity<>(quickRoomReservationService.findOne(qrrId), HttpStatus.OK);
+
+	}
 
 }

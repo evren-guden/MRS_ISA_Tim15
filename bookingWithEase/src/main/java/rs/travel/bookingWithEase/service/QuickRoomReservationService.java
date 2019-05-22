@@ -69,6 +69,23 @@ public class QuickRoomReservationService {
 		return qrr;
 	}
 	
+	public QuickRoomReservation updateQrr(Long qrrId, DefiningQrrDTO qrrDto)
+	{
+		QuickRoomReservation oldQrr = findOne(qrrId);
+		List<QuickRoomReservation> reservations = dtoToReservations(qrrDto);
+		QuickRoomReservation newQrr = reservations.get(0);
+		System.out.println("\n\n\n" + newQrr.getDiscount() + " " + newQrr.getFinalPrice());
+		oldQrr.setDiscount(newQrr.getDiscount());
+		oldQrr.setCheckInDate(newQrr.getCheckInDate());
+		oldQrr.setCheckOutDate(newQrr.getCheckOutDate());
+		oldQrr.setFinalPrice(newQrr.getFinalPrice());
+		oldQrr.setTotalPrice(newQrr.getTotalPrice());
+		oldQrr.setSpecialOffers(newQrr.getSpecialOffers());
+		
+		save(oldQrr);
+		return null;
+	}
+	
 	public List<QuickRoomReservation> search(RoomSearchDTO roomSearchDTO) {
 		ArrayList<QuickRoomReservation> result1 = new ArrayList<>();
 		ArrayList<QuickRoomReservation> result2 = new ArrayList<>();
