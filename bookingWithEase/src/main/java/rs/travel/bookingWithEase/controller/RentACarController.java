@@ -19,13 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.travel.bookingWithEase.dto.DefiningQrrDTO;
+import rs.travel.bookingWithEase.dto.QuickVehicleReservationDTO;
 import rs.travel.bookingWithEase.dto.RentACarSearchDTO;
 import rs.travel.bookingWithEase.dto.VehicleSearchDTO;
 import rs.travel.bookingWithEase.model.Branch;
+import rs.travel.bookingWithEase.model.QuickRoomReservation;
+import rs.travel.bookingWithEase.model.QuickVehicleReservation;
 import rs.travel.bookingWithEase.model.RACSpecialOffer;
 import rs.travel.bookingWithEase.model.RentACar;
 import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.service.BranchService;
+import rs.travel.bookingWithEase.service.QuickVehicleReservationService;
 import rs.travel.bookingWithEase.service.RACService;
 import rs.travel.bookingWithEase.service.RACSpecialOfferService;
 import rs.travel.bookingWithEase.service.VehicleService;
@@ -45,6 +50,9 @@ public class RentACarController {
 	
 	@Autowired 
 	private RACSpecialOfferService racOfferService;
+	
+	@Autowired
+	private QuickVehicleReservationService quickVehService;
 
 	@GetMapping("/all")
 	public String hello() {
@@ -211,5 +219,30 @@ public class RentACarController {
 	public ResponseEntity<Collection<Vehicle>> searchVehicles(@RequestBody VehicleSearchDTO vehicleSearchDTO) {
 		Collection<Vehicle> vehs = vehicleService.search(vehicleSearchDTO);
 		return new ResponseEntity<>(vehs, HttpStatus.OK);
+	}
+	
+	// quick reservations
+	
+	@GetMapping(value="/{racId}/quickReservations", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<QuickVehicleReservation>> getMyQuickReservations(@PathVariable("racId") Long racId) {
+
+		Collection<QuickVehicleReservation> qvr = quickVehService.findByRac(racId);
+
+		return new ResponseEntity<Collection<QuickVehicleReservation>>(qvr, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/{racId}/quickReservations", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> create(@RequestBody QuickVehicleReservationDTO dto) {
+		List<QuickVehicleReservation> reservations = quickVehService.dtoToReservations(dto);
+		for (QuickVehicleReservation qvr : reservations) {
+			try {
+				quickVehService.add(qvr);
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			}
+		}
+	
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -1,14 +1,19 @@
 package rs.travel.bookingWithEase.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -16,22 +21,29 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import rs.travel.bookingWithEase.serializer.VehicleSerializer;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class VehicleReservation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "vr_gen")
+	@SequenceGenerator(name = "vr_gen", sequenceName = "VR_SEQ" )
+	protected Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonSerialize(using = VehicleSerializer.class)
-	private Vehicle vehicle;
+	protected Vehicle vehicle;
 
 	@ManyToOne
-	private RegisteredUser vehicle_user;
+	protected RegisteredUser vehicle_user;
 
-	private Date checkInDate;
-	private Date checkOutDate;
-	private Double totalPrice;
+	protected Date checkInDate;
+	protected Date checkOutDate;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	protected  Set<RACSpecialOffer> racSpecialOffers = new HashSet<RACSpecialOffer>();
+
+	
+	protected Double totalPrice;
 
 	public VehicleReservation() {
 	}
@@ -84,5 +96,22 @@ public class VehicleReservation {
 
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	@JsonIgnore
+	public RegisteredUser getVehicle_user() {
+		return vehicle_user;
+	}
+
+	public Set<RACSpecialOffer> getRacSpecialOffers() {
+		return racSpecialOffers;
+	}
+
+	public void setVehicle_user(RegisteredUser vehicle_user) {
+		this.vehicle_user = vehicle_user;
+	}
+
+	public void setRacSpecialOffers(Set<RACSpecialOffer> racSpecialOffers) {
+		this.racSpecialOffers = racSpecialOffers;
 	}
 }
