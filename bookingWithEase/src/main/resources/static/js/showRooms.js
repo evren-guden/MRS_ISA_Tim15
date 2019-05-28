@@ -220,9 +220,9 @@ function fillTableQrrs(data) {
 								+ '<h3>Room number: ' + qrr.room.roomNumber
 								+ '</h3>');
 
-						qrrDiv
+					/*	qrrDiv
 								.append('<p style="position: absolute;top:18%;left:22%;"> Floor: '
-										+ qrr.room.floorNumber + '</p>');
+										+ qrr.room.floorNumber + '</p>');*/
 						qrrDiv
 								.append('<p style="position: absolute;top:30%;left:22%;"> Capacity: '
 										+ qrr.room.roomCapacity + '</p></div>');

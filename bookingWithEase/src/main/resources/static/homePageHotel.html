@@ -450,6 +450,61 @@
 
 
 	</div>
+	
+	<div id="editQuickRoomReservation" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black">Edit quick room reservation</h2>
+
+			<form id="editQuickRoomReservationForm">
+			<input type="hidden" name="id"
+							id="qrr-id-edit" readonly>
+				<table align="center">
+					<tr>
+						<td>Room number:</td>
+						<td><input type="text" name="roomNumber"
+							id="qrr-roomNumber-edit" readonly></td>
+					</tr>
+					<tr>
+						<td>Check in:</td>
+						<td><input type="date" class="qrrDate" name="checkIn"
+							id="qrr-checkIn-edit"></td>
+					</tr>
+					<tr>
+						<td>Check out:</td>
+						<td><input type="date" class="qrrDate" name="checkOut"
+							id="qrr-checkOut-edit"></td>
+					</tr>
+
+					<tr>
+						<td>Discount:</td>
+						<td><input type="text" name="discount" id="qrr-discount-edit"></td>
+					</tr>
+
+					<tr>
+						<td align="left">Special offers: &nbsp;</td>
+						<td>
+							<div class="select" id="qrr-specialOffers-edit">
+								<div align="left">&nbsp;</div>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="button"
+							id="editQuickRoomReservationBtn" value="Save"> <input
+							class="formBtn" type="button" id="cancelQuickRoomReservationBtn"
+							name="cancelEditQuickRoomReservationBtn" value="Cancel"></td>
+					</tr>
+
+				</table>
+				</form>
+
+		</div>
+	</div>
 
 	<script>
 		function openCity(evt, cityName) {

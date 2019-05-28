@@ -41,7 +41,7 @@
 			<li><a href="javascript:adminRegistrationChoosen()">Admin
 					registration</li>
 			</a>
-			<li><a href=""></li>
+			<li><a href="javascript:discountsChoosen()">Discounts</li>
 			</a>
 
 		</ul>
@@ -172,6 +172,59 @@
 			</table>
 
 		</form>
+	</div>
+	
+	<div class="transbox_discounts" style="opacity: 0">
+		<h2 class="form-h" align="center">Discounts</h2>
+		<form id="discountsForm">
+			<table align="center">
+				<tr>
+					<td align="left">Price (&euro;):</td>
+					<td align="left">
+					<input id="discount-price" class="input-number" type="number" min="1" value="1">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Points:</td>
+					<td align="left"><input id="discount-points" class="input-number" type="number" min="1" value="1"></td>
+				</tr>
+			
+				<tr>
+					<td>&nbsp;</td>
+					<td align="right"><input type="button" name="saveDiscounts"
+						 value="Save" id="saveDiscounts"></td>
+				</tr>
+				
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				
+				<tr>
+					<td align="left">Discount (%):</td>
+					<td align="left">
+					<input id="discount-discount" class="input-number" type="number" min="1"  value="1">
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Points:</td>
+					<td align="left"><input id="discount-points2" class="input-number" type="number" min="1" value="1"></td>
+				</tr>
+			
+				<tr>
+					<td>&nbsp;</td>
+					<td align="right"><input type="button" name="saveDiscounts"
+						 value="Add" id="addDiscount"></td>
+				</tr>
+			
+
+			</table>
+
+		</form>
+	
+		</br>
+		<table id="disc_table" align="center" border=1 style="background-color:white; color:black">
+			
+		</table>
 	</div>
 
 </body>
