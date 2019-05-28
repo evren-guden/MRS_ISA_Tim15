@@ -17,7 +17,6 @@ insert into flight (id, date_fligh, date_land, finald, information_luggage, leng
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','ue','ne',3,3,3,'nis',2,2,2,2);
 
 
-
 insert into branch (id, rac_id, name, address) values (1, 101,'My branch 1', 'Novi Sad');
 insert into branch (id, rac_id, name, address) values (2, 303,'My branch 1', 'Novi Sad');
 insert into branch (id, rac_id, name, address) values (3, 101,'My branch 2', 'Zlatibor');
@@ -87,6 +86,9 @@ insert into hotel_special_offers (hotel_id, special_offers_id) values (300, 106)
 insert into hotel_special_offers (hotel_id, special_offers_id) values (400, 107);
 
 insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (100, true, 10,  false, 0, false, 0, false, 0);
+insert into discounts (id, price, points) values (1, 500, 1);
+insert into discount (id, points, discount) values (1, 15, 10);
+insert into discounts_discs(discounts_id, discs_id) values (1, 1);
 
 insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date, reservation_date, total_price ) values (100, 102, 100, '2019-11-01 00:00:00', '2019-11-15 00:00:00', '2019-05-15 00:00:00', 200);
 insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date, reservation_date, total_price ) values (101, 101, 100, '2019-11-01 00:00:00', '2019-11-15 00:00:00', '2019-05-15 00:00:00', 200);

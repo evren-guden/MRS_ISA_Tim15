@@ -9,6 +9,34 @@ $(document).on('click', '#registerAdmin', function(e) {
 	adminRegistration();
 });
 
+$(document).on('click', '#saveDiscounts', function(e) {
+	e.preventDefault();
+
+	var disc = JSON.parse(localStorage.getItem("discounts"));
+	disc.price = $("#discount-price").val();
+	disc.points = $("#discount-points").val();
+	
+	$('#discount-price').val(disc.price);
+	$('#discount-points').val(disc.points);
+	
+	updateDiscount(disc, function(){alertify.notify("Saved"); localStorage.setItem("discount", disc);});
+		
+});
+
+$(document).on('click', '#addDiscount', function(e) {
+	e.preventDefault();
+	var disc = JSON.parse(localStorage.getItem("discounts"));
+	
+	var d = {};
+	d["points"] = $('#discount-points2').val();
+	d["discount"] = $('#discount-discount').val();
+
+	$('#disc_table').append('<tr><td>' + d.points + '</td><td>' + d.discount+ ' %</td>' +
+	 '<td><button class="delete_discount" >Delete</button></td></tr>');
+	alertify.notify("Added");
+	
+});
+
 function allUsers() {
 	window.location.href = "users.html";
 }
@@ -17,9 +45,11 @@ function adminRegistrationChoosen() {
 
 	$('.transbox_company_reg').css('opacity', '0');
 	$('.transbox_admin_reg').css('opacity', '0.9');
+	$('.transbox_discounts').css('opacity', '0');
 
 	$('.transbox_admin_reg').css('z-index', '3');
 	$('.transbox_company_reg').css('z-index', '2');
+	$('.transbox_discounts').css('z-index', '2');
 
 	$('input:radio[name="adminType"]').change(function() {
 		if ($(this).val() == 'airline') {
@@ -40,9 +70,11 @@ function fillAdmins(adminType) {
 function companyRegistrationChoosen() {
 	$('.transbox_admin_reg').css('opacity', '0');
 	$('.transbox_company_reg').css('opacity', '0.9');
+	$('.transbox_discounts').css('opacity', '0');
 
 	$('.transbox_company_reg').css('z-index', '3');
 	$('.transbox_admin_reg').css('z-index', '2');
+	$('.transbox_discounts').css('z-index', '2');
 
 	$('input:radio[name="cmpType"]').change(function() {
 		if ($(this).val() == 'airline') {
@@ -55,6 +87,43 @@ function companyRegistrationChoosen() {
 
 		fillAdmins($(this).val());
 	});
+}
+
+function discountsChoosen() {
+	$('.transbox_admin_reg').css('opacity', '0');
+	$('.transbox_company_reg').css('opacity', '0');
+	$('.transbox_discounts').css('opacity', '0.9');
+
+	$('.transbox_company_reg').css('z-index', '2');
+	$('.transbox_admin_reg').css('z-index', '2');
+	$('.transbox_discounts').css('z-index', '3');
+	
+	getDiscounts(fillDiscounts);
+	
+	
+	
+}
+
+function fillDiscounts(data)
+{
+	//alert("fill discounts " + JSON.stringify(data));
+	localStorage.setItem('discounts', JSON.stringify(data));
+	//alert("a " + localStorage.getItem('discounts'));
+	$('#discount-price').val(data[0].price);
+	$('#discount-points').val(data[0].points);
+	
+	if(data[0].discounts < 1){return;}
+	
+	var table = $('#disc_table');
+	table.empty();
+	table.append('<th>Points</th><th>Discount</th><th>&nbsp;</th>');
+	
+	$.each(data[0].discounts, function(index, d) {
+
+		table.append('<tr><td>' + d.points + '</td><td>' + d.discount+ ' %</td>' +
+					 '<td><button class="delete_discount" >Delete</button></td></tr>');
+	});
+	
 }
 
 function adminRegistration() {
@@ -189,6 +258,28 @@ function getUsers() {
 	});
 }
 
+function getDiscounts(callback) {
+	$.ajax({
+		url : "/discounts",
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : callback,
+		error : function(response) {
+			alert("Something went wrong when trying to get discounts! :(");
+		}
+	});
+}
+
+function updateDiscount(data, callback)
+{
+	
+	callback();
+}
+
 function fillHotels(data) {
 	var hotels = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#select_company').empty();
@@ -246,3 +337,4 @@ function getRentacars() {
 		}
 	});
 }
+
