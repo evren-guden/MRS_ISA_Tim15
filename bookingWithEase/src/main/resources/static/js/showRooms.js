@@ -144,7 +144,8 @@ function getSearchRoomsData() {
 	if (formData["floorNumber"] === "")
 		formData["floorNumber"] = -11;
 	formData["hotelId"] = localStorage.getItem('showRooms');
-
+	
+	
 	localStorage.setItem('latestHSearchCheckIn', formData['checkIn']);
 	localStorage.setItem('latestHSearchCheckOut', formData['checkOut']);
 	// alert(JSON.stringify(formData));
@@ -152,7 +153,15 @@ function getSearchRoomsData() {
 }
 
 function searchRooms(formData, callback) {
-
+	var checkIn = formData['checkIn'];
+	var checkOut = formData['checkOut'];
+	
+	if(!check_dates(new Date(checkIn),new Date(checkOut), true))
+	{
+		alertify.notify("Invalid dates!");
+		return;
+	}
+	
 	var jsonData = JSON.stringify(formData);
 	// alert(jsonData);
 	$.ajax({
@@ -173,7 +182,15 @@ function searchRooms(formData, callback) {
 }
 
 function searchQrr(formData, callback) {
-
+	var checkIn = formData['checkIn'];
+	var checkOut = formData['checkOut'];
+	
+	if(!check_dates(new Date(checkIn),new Date(checkOut), true))
+	{
+		alertify.notify("Invalid dates!");
+		return;
+	}
+	
 	var jsonData = JSON.stringify(formData);
 	// alert(jsonData);
 	$.ajax({
@@ -409,6 +426,12 @@ function bookRoom(rrData) {
 function bookQrr(qrrId) {
 
 	alertify.set('notifier', 'position', 'top-right');
+	var user;
+	if(localStorage.getItem("currentUser") == null)
+	{
+		alertify.error('You must first log in!');
+		return;
+	}
 	
 	$.ajax({
 		type : 'PUT',

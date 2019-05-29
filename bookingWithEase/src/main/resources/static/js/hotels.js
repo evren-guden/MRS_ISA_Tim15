@@ -1,4 +1,4 @@
-
+alertify.set('notifier', 'position', 'top-right');
 $(document).ready(function() {
 	getHotels(fillHotelsTable);
 });
@@ -142,8 +142,19 @@ function getRooms(hotelId) {
 function searchHotels()
 {
 	var formData = getFormData("#form-hotels-search");
-	localStorage.setItem("latestHSearchCheckIn",formData['checkIn']);
-	localStorage.setItem("latestHSearchCheckOut", formData['checkOut']);
+	var checkIn = formData['checkIn'];
+	var checkOut = formData['checkOut'];
+	
+	if(!check_dates(new Date(checkIn),new Date(checkOut), true))
+	{
+		alertify.notify("Invalid dates!");
+		return;
+	}
+
+	localStorage.setItem("latestHSearchCheckIn", checkIn);
+	localStorage.setItem("latestHSearchCheckOut", checkOut);
+		
+	if(check_dates())
 	
 	var jsonData = JSON.stringify(formData);
 	$.ajax({
@@ -168,7 +179,7 @@ function fillHotelsTable(data) {
 	 */
 	var hotels_dict = arrayToObject(hotels, "id");
 	localStorage.setItem("hotels", JSON.stringify(hotels_dict));
-	
+	hotels.sort((a, b) => (String(a.name).valueOf() > String(b.name).valueOf() ? 1 : -1));
 	var hotelsDiv = $('#hotels-div');
 	hotelsDiv.empty();
 	var counter = 0;
@@ -181,8 +192,8 @@ function fillHotelsTable(data) {
 						var stars_str = '';
 
 						for (var i = 0; i != stars; i++) {
-							stars_str += '<img class="star" src="../images/hotel_star.png" height = 17 width= 18 style="top:15%; left:'
-									+ (120 + i * 30) + '%;" >';
+							stars_str += '<img class="star" src="../images/hotel_star.png" height = 17 width= 18 style="position:relative; top:15%; left:'
+									+ (7 + i * 2) + '%;" >';
 						}
 						var hotelDiv = $('<div class="company-div" id="hotel-div-"'
 								+ counter

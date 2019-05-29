@@ -32,16 +32,22 @@ insert into vehicle (id, registration_number, type, gear, color, branch_id) valu
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (8, 'BB-11', 'neki_tip2', 'manual', 'green',4);
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (9, 'CC-11', 'neki_tip3', 'automatic', 'black', 4);
 
-insert into hotel (id, name, address, description, rating, stars) values (100, 'Park', 'Novi Sad', '',4.5, 5);
-insert into hotel (id, name, address, description, rating, service_type_prices_id,stars) values (200, 'Palisad', 'Zlatibor', '',4.2, 100, 3);
-insert into hotel (id, name, address, description, rating, stars) values (300, 'Park 2', 'Novi Sad', '',5, 5);
-insert into hotel (id, name, address, description, rating, stars) values (400, 'Palisad 2', 'Zlatibor', '',4, 3);
-
+insert into hotel (id, name, address, description, rating, stars) values (100, 'Hotel van de Vijsel', 'Amsterdam', '',4.5, 4);
+insert into hotel (id, name, address, description, rating, service_type_prices_id,stars) values (200, 'Amsterdam Marriott Hotel', 'Amsterdam', '',4.2, 100, 5);
+insert into hotel (id, name, address, description, rating, stars) values (300, 'The Peninsula Paris', 'Paris', '',5, 5);
+insert into hotel (id, name, address, description, rating, stars) values (400, 'Hotel de Nesle', 'Paris', '',4, 3);
+insert into hotel (id, name, address, description, rating, stars) values (500, 'Red Planet Tokyo Asakusa', 'Tokyo', '',4, 3);
 
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (100, 101, 1, 2, 5, 45, 100);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (101, 102, 1, 2, 5, 45, 100);
-insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (102, 103, 1, 2, 5, 45, 200);
-insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (103, 104, 1, 2, 5, 45, 300);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (102, 103, 1, 2, 3.7, 40, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (106, 104, 1, 2, 4, 40, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (107, 105, 1, 3, 4, 45, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (108, 203, 2, 3, 5, 40, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (109, 204, 2, 2, 5, 40, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (110, 301, 3, 4, 5, 50, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (111, 302, 3, 3, 5, 45, 200);
+insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (103, 303, 3, 2, 5, 40, 300);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (104, 201, 3, 2, 5, 55, 100);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (105, 202, 2, 2, 5, 55, 100);
 
@@ -64,6 +70,8 @@ insert into room_prices (room_id, prices_id) values (101, 104);
 insert into room_prices (room_id, prices_id) values (101, 105);
 insert into room_prices (room_id, prices_id) values (102, 106);
 insert into room_prices (room_id, prices_id) values (102, 107);
+insert into room_prices (room_id, prices_id) values (106, 106);
+insert into room_prices (room_id, prices_id) values (106, 107);
 
 insert into hotel_special_offer (id, name, description, price) values (100, 'Wellness','', 10);
 insert into hotel_special_offer (id, name, description, price) values (101, 'Wellness','', 12);

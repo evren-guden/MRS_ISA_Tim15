@@ -62,6 +62,23 @@ function getFormData(formId) {
 	return formData;
 }
 
+function check_dates(start, end, future)
+{	
+	if(start === undefined || end === undefined)
+	{
+		return true;
+	}
+	
+	var now = new Date();
+	if(start.getTime() >= end.getTime() || (start.getTime() < now.getTime() && future ))
+	{
+		return false;
+	}
+	
+	return true;
+	
+}
+
 function util_login() {
 	sessionStorage.setItem('openLoginForm', true);
 	window.location.href = "index.html";

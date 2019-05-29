@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/hotels/{hotelId}/rooms").permitAll()
 			.antMatchers(HttpMethod.GET, "/hotels/{hotelId}/specialOffers").permitAll()
 			.antMatchers(HttpMethod.GET, "hotels/{hotelId}/roomReservations").permitAll()
+			.antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations/available").permitAll()
 			.antMatchers("/companies").permitAll()
 			.antMatchers("/users").permitAll()
 			.antMatchers("/users/inviteFriends").permitAll()
@@ -118,11 +119,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/search");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicles");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicleReservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations/available");
-		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/available");
-		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations");
-		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/search");
+		web.ignoring().antMatchers(HttpMethod.GET, "/hotels/{hotelId}/quickRoomReservations");
+		web.ignoring().antMatchers(HttpMethod.GET, "/hotels/{hotelId}/quickRoomReservations/available");
+		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations/search");
+		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations/available");
+		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations");
 		web.ignoring().antMatchers(HttpMethod.DELETE, "hotels/{hotelId}/quickRoomReservations/{qrrId}");
 		web.ignoring().antMatchers(HttpMethod.GET, "/seats/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "/users/friends/**");
