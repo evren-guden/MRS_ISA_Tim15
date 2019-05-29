@@ -32,13 +32,13 @@
 	</nav>
 	<div class="tab">
 
-		<button class="tablinks" id="mybranchsbtn">My branchs</button>
+		<button class="tablinks" id="mybranchsbtn" onclick="openDiv(event, 'allBranchesDiv')">My branchs</button>
 		<button class="tablinks" onclick="openDiv(event, 'addBranchDiv')">Add
 			branch</button>
-		<button class="tablinks" id="myvehiclesbtn">My vehicles</button>
+		<button class="tablinks" id="myvehiclesbtn" onclick="openDiv(event, 'allVehiclesDiv')">My vehicles</button>
 		<button class="tablinks" onclick="openDiv(event, 'addVehicleDiv')">Add
 			vehicle</button>
-		<button class="tablinks" id="myoffersbtn">My offers</button>
+		<button class="tablinks" id="myoffersbtn" onclick="openDiv(event, 'allOffersDiv')">My offers</button>
 		<button class="tablinks" onclick="openDiv(event, 'addOfferDiv')">Add
 			offer</button>
 
@@ -51,7 +51,7 @@
 
 	</div>
 
-	<div id="maincontent">
+	<div id="maincontent" style="display: none;">
 		<h2 id="tableCap" align="center"></h2>
 		<div align="center" id="branchSearch"></div>
 		<table id="branchTable"
@@ -60,11 +60,11 @@
 		</table>
 	</div>
 
-	<div id="addBranchDiv" class="tabcontent">
+	<div id="addBranchDiv" class="tabcontent" align="center">
 		<div class="container">
 			<h2>Adding Branch:</h2>
 			<form id="addBranchForm">
-				<table align="center">
+				<table >
 					<tr>
 						<td align="left">Name:</td>
 						<td align="left"><input type="text" name="name" required></td>
@@ -109,14 +109,14 @@
 		</div>
 	</div>
 
-	<div id="addVehicleDiv" class="tabcontent">
+	<div id="addVehicleDiv" class="tabcontent" align="center">
 		<div class="container">
 			<h1>Adding Vehicle:</h1>
 			Branch: <select id="selectbranch" name="branchid">
 				<option></option>
 			</select>
 			<form id="addVehicleForm">
-				<table style="align: center">
+				<table >
 
 					<tr>
 						<td align="left">Registration number:</td>
@@ -186,8 +186,8 @@
 	<div id="allOffersDiv" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black;">All special offers</h2>
-			<table align="center" id="specialOffersTable" class="hotelsTable"
-				border=1>
+			<table align="center" id="specialOffersTable" class="racTable"
+				border=1 style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
 
 			</table>
 		</div>
@@ -262,10 +262,30 @@
 	</div>
 
 
+	<div id="allBranchesDiv" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All Branches</h2>
+			<table align="center" id="allBranchesTable" class="racTable"
+				border=1 style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
+
+			</table>
+		</div>
+	</div>
+	
+	<div id="allVehiclesDiv" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">All Vehicles</h2>
+			<table align="center" id="allVehiclesTable" class="racTable"
+				border=1 style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
+
+			</table>
+		</div>
+	</div>
+
 	<div id="allQuickReservationsDiv" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black;">All quick reservations</h2>
-			<table align="center" id="quickReservationsTable" class="hotelsTable"
+			<table align="center" id="quickReservationsTable" class="racTable"
 				border=1>
 
 			</table>

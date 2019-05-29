@@ -99,6 +99,33 @@ div.transbox {
 	border: 1px solid #ccc;
 	border-top: none;
 	background: white;
-	opacity: 0.6;
+	opacity: 0.8;
 	filter: alpha(opacity = 40);
+}
+
+
+.racTable{
+	border-collapse: collapse;
+	width: 80%;
+}
+
+.racTable th, .racTable td {
+	text-align: left;
+	padding: 8px;
+}
+
+.racTable tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+.racTable tr:hover {
+	background-color: #ddd;
+}
+
+.racTable th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4D4D4D;
+	color: white;
 }

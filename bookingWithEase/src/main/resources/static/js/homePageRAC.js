@@ -218,9 +218,9 @@ function fillBranchTable(data) {
 	var br_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My branchs");
 	$('#branchSearch').empty();
-	var table = $('#branchTable');
-	$('#branchTable').empty();
-	$('#branchTable').append(
+	var table = $('#allBranchesTable');
+	table.empty();
+	table.append(
 			'<tr><th>Id</th><th>Name</th><th>Address</th></tr>');
 
 	$
@@ -351,9 +351,9 @@ function fillVehicleTable(data) {
 				}
 			});
 
-	var table = $('#branchTable');
-	$('#branchTable').empty();
-	$('#branchTable')
+	var table = $('#allVehiclesTable');
+	table.empty();
+	table
 			.append(
 					'<tr><th>Id</th><th>Registration number</th><th>Type</th><th>Gear</th><th>Color</th></tr>');
 
@@ -523,9 +523,9 @@ function fillOfferTable(data) {
 	var of_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My Offers");
 	$('#branchSearch').empty();
-	var table = $('#branchTable');
-	$('#branchTable').empty();
-	$('#branchTable')
+	var table = $('#specialOffersTable');
+	table.empty();
+	table
 			.append(
 					'<tr><th>Id</th><th>Name</th><th>Description</th><th>Price</th></tr>');
 
@@ -844,7 +844,7 @@ function addQuickVehicleReservations(racId, formData) {
 			alertify.notify("Quick Room Reservation Saved!");
 		},
 		error : function(response) {
-			alert("Something went wrong while adding qrr! :(");
+			//alert("Something went wrong while adding qrr! :(");
 		}
 	});
 }
