@@ -30,11 +30,69 @@ $(document).ready(
 
 $(document).on('click', '#room_search_btn', function(e) {
 	e.preventDefault();
+	
+	if(!validateRoomSearchData()){
+		return;
+	}
+	
 	searchRooms(getSearchRoomsData(), fillTableRooms);
 	$('#info_black_btn').css('background-color', 'black');
 	$('#rooms_black_btn').css('background-color', 'black');
 	$('#qrr_black_btn').css('background-color', 'black');
 });
+
+function validateRoomSearchData(){
+	var date1 = $('#src-hotel-checkIn').val();
+	
+	if(!date1){
+		alertify.alert("Date", "Please, enter check in date");
+	}
+	
+	var date2 = $('#src-hotel-checkOut').val();
+	
+	if(!date2){
+		alertify.alert("Date", "Please, enter check out date");
+	}
+	
+	
+	var now = new Date();
+	if(new Date(date1).getTime() < now.getTime()){
+		alertify.alert("Date not valid", "Check in date is past");
+		return false;
+	}
+	
+	if(date2 < date1){
+		alertify.alert("Date not valid", "Check out date must be greater than check in date");
+		return false;
+	}
+	
+	var floor = $('#src-hotel-floor').val();
+	if(!!floor && !$.isNumeric(floor)){
+		alertify.alert("Invalid input", "Floor field must be a number");
+		return false;
+	}
+	
+	var cap = $('#src-hotel-capacity').val();
+	if(!!cap && !$.isNumeric(cap)){
+		alertify.alert("Invalid input", "Capacity field must be a number");
+		return false;
+	}
+	
+	var minp = $('#src-hotel-min').val();
+	if(!!minp && !$.isNumeric(minp)){
+		alertify.alert("Invalid input", "Min price field must be a number");
+		return false;
+	}
+	
+	var maxp = $('#src-hotel-max').val();
+	if(!!maxp && !$.isNumeric(maxp)){
+		alertify.alert("Invalid input", "Max price field must be a number");
+		return false;
+	}
+	
+	
+	return true;
+}
 
 $(document).on('click', '#qrr_search_btn', function(e) {
 	e.preventDefault();

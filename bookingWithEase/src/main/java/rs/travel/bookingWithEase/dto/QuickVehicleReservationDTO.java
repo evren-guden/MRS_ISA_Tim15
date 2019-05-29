@@ -7,7 +7,7 @@ public class QuickVehicleReservationDTO {
 
 	private Date checkIn;
 	private Date checkOut;
-	private int discount;
+	private Integer discount;
 	private List<Long> specialOffers;
 	private List<Long> vehicles;
 
@@ -22,7 +22,7 @@ public class QuickVehicleReservationDTO {
 		return checkOut;
 	}
 
-	public int getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
 
@@ -42,7 +42,7 @@ public class QuickVehicleReservationDTO {
 		this.checkOut = checkOut;
 	}
 
-	public void setDiscount(int discount) {
+	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
 
