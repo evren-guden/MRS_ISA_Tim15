@@ -47,6 +47,11 @@ function findRentacars() {
 
 $(document).on('submit', '#formsrc', function(e) {
 	e.preventDefault();
+	
+	if(!validateRACSearchData()){
+		return;
+	}
+	
 	var begin = $('#srcRacPickUp').val();
 	var end = $('#srcRacDropOff').val();
 	localStorage.setItem("vehicleBegin", begin);
@@ -67,6 +72,22 @@ $(document).on('submit', '#formsrc', function(e) {
 	});
 
 });
+
+function validateRACSearchData(){
+	var date1 = $('#srcRacPickUp').val();
+	var date2 = $('#srcRacDropOff').val();
+	var now = new Date();
+	if(new Date(date1).getTime() < now.getTime()){
+		alertify.alert("Date not valid", "Pick up date is past");
+		return false;
+	}
+	
+	if(date2 < date1){
+		alertify.alert("Date not valid", "Drop off date must be greater than pick up date");
+		return false;
+	}
+	return true;
+}
 
 function formToJSON() {
 	var id = $('#src-rac-id').val();
