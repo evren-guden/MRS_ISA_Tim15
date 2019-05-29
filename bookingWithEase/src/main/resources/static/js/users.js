@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	getUsers();
+	alertify.set('notifier', 'position', 'top-right');
 
 });
 
@@ -31,6 +32,7 @@ function getUsers() {
 }
 
 function cancelRoomReservation(userId, rrId, callback) {
+	
 	$
 			.ajax({
 				url : "users/" + userId + "/roomReservations/" + rrId,
@@ -165,6 +167,7 @@ function fillVehicleReservations(data) {
 
 		alertify.confirm('Cancel reservation', 'Are you sure?', function() {
 			cancelVehicleReservation(vrId);
+			alertify.notify("Reservation canceled");
 		}, function() {
 			alertify.notify("Canceled");
 		});

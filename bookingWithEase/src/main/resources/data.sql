@@ -17,20 +17,21 @@ insert into flight (id, date_fligh, date_land, finald, information_luggage, leng
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','ue','ne',3,3,3,'nis',2,2,2,2);
 
 
-insert into branch (id, rac_id, name, address) values (1, 101,'My branch 1', 'Novi Sad');
-insert into branch (id, rac_id, name, address) values (2, 303,'My branch 1', 'Novi Sad');
-insert into branch (id, rac_id, name, address) values (3, 101,'My branch 2', 'Zlatibor');
-insert into branch (id, rac_id, name, address) values (4, 101,'My branch 3', 'Kraljevo');
+insert into branch (id, rac_id, name, address) values (1, 101,'Atlas NS', 'Novi Sad');
+insert into branch (id, rac_id, name, address) values (2, 303,'DDM BG', 'Beograd');
+insert into branch (id, rac_id, name, address) values (3, 101,'Atlas ZL', 'Zlatibor');
+insert into branch (id, rac_id, name, address) values (4, 101,'Atlas KV', 'Kraljevo');
 
-insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (1, 'AA-11', 'neki_tip', 'automatic', 'red', 1, 400);
-insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (2, 'BB-11', 'neki_tip2', 'manual', 'green',1, 350);
-insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (3, 'CC-11', 'neki_tip3', 'automatic', 'black', 1, 100);
-insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (4, 'DD-11', 'neki_tip2', 'manual', 'green',1, 700);
-insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (5, 'EE-11', 'neki_tip3', 'automatic', 'black', 1, 560);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (6, 'BB-11', 'neki_tip2', 'manual', 'green',3);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (7, 'CC-11', 'neki_tip3', 'automatic', 'black', 3);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (8, 'BB-11', 'neki_tip2', 'manual', 'green',4);
-insert into vehicle (id, registration_number, type, gear, color, branch_id) values (9, 'CC-11', 'neki_tip3', 'automatic', 'black', 4);
+
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (1, 'AA-11', 'Audi A4', 'automatic', 'red', 1, 400);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (2, 'BB-11', 'Renault Megane', 'manual', 'green',1, 350);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (3, 'CC-11', 'Volkswagen Passat', 'automatic', 'black', 1, 100);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (4, 'DD-11', 'Skoda Octavia', 'manual', 'green',1, 700);
+insert into vehicle (id, registration_number, type, gear, color, branch_id, price_per_day) values (5, 'EE-11', 'Skoda Fabia', 'automatic', 'black', 1, 560);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (6, 'BB-11', 'Audi A4', 'manual', 'green',3);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (7, 'CC-11', 'Audi A4', 'automatic', 'black', 3);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (8, 'BB-11', 'Audi A4', 'manual', 'green',4);
+insert into vehicle (id, registration_number, type, gear, color, branch_id) values (9, 'CC-11', 'Audi A4', 'automatic', 'black', 4);
 
 insert into hotel (id, name, address, description, rating, stars) values (100, 'Hotel van de Vijsel', 'Amsterdam', '',4.5, 4);
 insert into hotel (id, name, address, description, rating, service_type_prices_id,stars) values (200, 'Amsterdam Marriott Hotel', 'Amsterdam', '',4.2, 100, 5);
@@ -103,7 +104,7 @@ insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date
 insert into quick_room_reservation(id, room_id, check_in_date, check_out_date, reservation_date, total_price, discount, final_price) values (103, 102, '2019-12-01 00:00:00', '2019-12-15 00:00:00', '2019-05-15 00:00:00', 600, 10, 540);
 insert into quick_room_reservation(id, room_id, check_in_date, check_out_date, reservation_date, total_price, discount, final_price) values (104, 102, '2019-12-16 00:00:00', '2019-12-25 00:00:00', '2019-05-15 00:00:00', 600, 20, 480);
 
-INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', true);
+INSERT INTO registered_user (id, username, password, first_name, last_name, email, telephone_number, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', '0652232235',  true);
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (101, 'user1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko1', 'Markovic1', 'user1@example.com', true);
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (102, 'user2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko2', 'Markovic2', 'user2@example.com', true);
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (103, 'user3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko3', 'Markovic3', 'user3@example.com', true);
@@ -138,15 +139,16 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (1000, 4);
 INSERT INTO user_authority (user_id, authority_id) VALUES (1100, 5);
 
 
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(1,1, 100,'2018-11-01 00:00:00', '2018-11-02 00:00:00', 100);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(2,1, 100,'2019-01-01 00:00:00', '2019-01-02 00:00:00', 200);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(3,1, 100,'2019-02-01 00:00:00', '2019-02-02 00:00:00', 105);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(4,1, 100,'2019-04-01 00:00:00', '2019-04-02 00:00:00', 150);
-insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(5,1, 100,'2019-03-01 00:00:00', '2019-03-02 00:00:00', 250);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(111,1, 100,'2018-11-01 00:00:00', '2018-11-02 00:00:00', 100);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(222,1, 100,'2019-01-01 00:00:00', '2019-01-02 00:00:00', 200);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(333,1, 100,'2019-02-01 00:00:00', '2019-02-02 00:00:00', 105);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(444,1, 100,'2019-04-01 00:00:00', '2019-04-02 00:00:00', 150);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(555,1, 100,'2019-03-01 00:00:00', '2019-03-02 00:00:00', 250);
+insert into vehicle_reservation (id, vehicle_id, vehicle_user_id, check_in_date, check_out_date, total_price) values(666,1, 100,'2019-07-01 00:00:00', '2019-07-03 00:00:00', 250);
 
 insert into quick_vehicle_reservation (id, vehicle_id, check_in_date, check_out_date, total_price, discount) values (150, 1, '2019-03-01 00:00:00', '2019-03-02 00:00:00', 250, 15);
 
-insert into RACSpecial_Offer (id, name, racservice_id, price) values (1,"Special offer", 101, 10);
+insert into RACSpecial_Offer (id, name, racservice_id, price) values (1,"Pick vehicle at airport", 101, 10);
 
 INSERT INTO friend_request (sender_id, reciever_id, date_created) VALUES (100, 101, '2019-06-01 00:00:00');
 INSERT INTO friend_request (sender_id, reciever_id, date_created) VALUES (102, 100, '2019-06-01 00:00:00');

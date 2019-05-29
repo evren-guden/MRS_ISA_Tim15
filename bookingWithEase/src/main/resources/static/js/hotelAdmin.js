@@ -97,7 +97,7 @@ $(document).on('click', '#allQrrBtn', function(e) {
 $(document).on('click', '#editQuickRoomReservationBtn', function(e) {
 	e.preventDefault();
 	var formData = getFormData('#editQuickRoomReservationForm');
-	alertify.alert(JSON.stringify(formData));
+//	alertify.alert(JSON.stringify(formData));
 	var newFormData = {};
 	var specialOffers = [];
 	var rooms = [];

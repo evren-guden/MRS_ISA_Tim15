@@ -171,7 +171,8 @@ $(document).on(
 			message += "Check out: " + rrData['checkOut'] + "</br></br>";
 			message += "Total price: " + localStorage.getItem('currentPrice')
 					+ "</br></br>"
-
+			
+			rrData["totalPrice"] = localStorage.getItem('currentPrice');
 			alertify.confirm('Booking confirmation', message, function() {
 				bookRoom(JSON.stringify(rrData));
 			}, function() {
@@ -458,7 +459,7 @@ function bookRoom(rrData) {
 	var hotelId = localStorage.getItem('showRooms');
 
 	var jsonData = rrData;
-	// alert('rr ' + jsonData);
+	 alert('rr ' + jsonData);
 	$.ajax({
 		type : 'POST',
 		url : '/hotels/' + hotelId + '/roomReservations',

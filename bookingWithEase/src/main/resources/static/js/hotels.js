@@ -141,9 +141,9 @@ function getRooms(hotelId) {
 
 function searchHotels()
 {
-	if(!validateSearchHotelData()){
+/*	if(!validateSearchHotelData()){
 		return;
-	}
+	}*/
 	
 	var formData = getFormData("#form-hotels-search");
 	var checkIn = formData['checkIn'];

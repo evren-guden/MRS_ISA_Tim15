@@ -71,11 +71,11 @@ function fillTable(data) {
 						vehDiv
 								.append('<p style="position: absolute;top:65%;left:25%;">'
 										+ veh.gear + '</p>');
-						if (veh.totalPrice != undefined && veh.totalPrice != 0) {
+						if (veh.pricePerDay != undefined && veh.pricePerDay != 0) {
 							localStorage.setItem('totalPriceVeh' + veh.id,
-									veh.totalPrice);
+									veh.pricePerDay);
 							vehDiv.append('<p class="totalPrice">'
-									+ veh.totalPrice + '&#8364;</p>');
+									+ veh.pricePerDay + '&#8364;</p>');
 						}
 						
 						vehDiv
@@ -95,7 +95,15 @@ function fillTable(data) {
 		
 		var vehId = this.id.substring(11);
 		var vrData = collectVehicleReservationData(vehId);
-
+		
+		if(vrData == null){
+			return;
+		}
+		
+		if(!validateVehicleSearchData()){
+			return;
+		}
+		
 		localStorage.setItem('vrData',JSON.stringify(vrData) )
 
 		//reserveVehicle(vrData);
@@ -157,6 +165,8 @@ function reserveVehicle(vrData) {
 		alertify.error('Please, choose dates.');
 		return;
 	}
+	
+	//vrData['totalPrice'] = 
 
 	var jsonData = JSON.parse(vrData);
 	// alert('rr ' + jsonData);
@@ -189,13 +199,22 @@ function collectVehicleReservationData(vehicleId) {
 	vrData['vehicle_id'] = vehicleId;
 	vrData['racId'] = localStorage.getItem('showVeh');
 	vrData['checkInDate'] = $('#vehpickup').val();
+	if(!vrData['checkInDate']){
+		alertify.alert("", "Please, enter pick up date");
+		return;
+	}
 	vrData['checkOutDate'] = $('#vehdropoff').val();
 	
+	if(!vrData['checkOutDate']){
+		alertify.alert("", "Please, enter drop off date");
+		return null;
+	}
 	
 	if (JSON.parse(localStorage.getItem('currentUser')) != null)
 		vrData['user_id'] = JSON.parse(localStorage.getItem('currentUser')).id;
 
-	//rrData['totalPrice'] = localStorage.getItem('currentPrice');
+	var vehPrice = localStorage.getItem('totalPriceVeh' + vehicleId);
+	vrData['totalPrice'] = vehPrice * differenceBetweenDates(vrData['checkInDate'], vrData['checkOutDate']);
 
 	return vrData;
 
@@ -228,7 +247,7 @@ function fillRACPopupForm(data) {
 	formContainer.empty();
 	var form = $('<form id="so_form"></form>');
 	var vrData = JSON.parse(localStorage.getItem('vrData'));
-	var price = localStorage.getItem('totalPrice' + vrData['vehicleId']);
+	var price = localStorage.getItem('totalPriceVeh' + vrData['vehicleId']);
 	$('#p_price').empty().append(price + '&#8364;');
 	localStorage.setItem('currentPrice', price);
 	$.each(specialOffers, function(index, so) {
@@ -271,7 +290,7 @@ $(document).on(
 			closeForm();
 			var message = "Check in: " + vrData['checkInDate'] + "</br></br>";
 			message += "Check out: " + vrData['checkOutDate'] + "</br></br>";
-			message += "Total price: " + localStorage.getItem('currentPrice')
+			message += "Total price: " + vrData['totalPrice'] 
 					+ "</br></br>"
 
 			alertify.confirm('Booking confirmation', message, function() {
@@ -281,3 +300,14 @@ $(document).on(
 			});
 
 		});
+
+function differenceBetweenDates(date1, date2){
+
+	// end - start returns difference in milliseconds 
+	var diff = new Date(new Date(date2).getTime() - new Date(date1).getTime());
+
+	// get days
+	var days = diff/1000/60/60/24;
+	
+	return days;
+}
