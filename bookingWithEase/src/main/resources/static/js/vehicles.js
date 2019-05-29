@@ -106,6 +106,11 @@ function fillTable(data) {
 
 $(document).on('submit', '#formsrcvehs', function(e) {
 	e.preventDefault();
+	
+	if(!validateVehicleSearchData()){
+		return;
+	}
+	
 	$('#racIdHidden').val(localStorage.getItem('showVeh'));
 	var formData = getFormData("#formsrcvehs");
 	var jsonData = JSON.stringify(formData);
@@ -123,6 +128,23 @@ $(document).on('submit', '#formsrcvehs', function(e) {
 	});
 
 });
+
+function validateVehicleSearchData(){
+	var date1 = $('#vehpickup').val();
+	var date2 = $('#vehdropoff').val();
+	var now = new Date();
+	if(new Date(date1).getTime() < now.getTime()){
+		alertify.alert("Date not valid", "Pick up date is past");
+		return false;
+	}
+	
+	if(date2 < date1){
+		alertify.alert("Date not valid", "Drop off date must be greater than pick up date");
+		return false;
+	}
+	return true;
+}
+
 
 // reservations
 function reserveVehicle(vrData) {

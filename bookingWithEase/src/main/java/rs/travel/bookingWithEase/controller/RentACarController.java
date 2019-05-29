@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.travel.bookingWithEase.dto.DefiningQrrDTO;
 import rs.travel.bookingWithEase.dto.QuickVehicleReservationDTO;
 import rs.travel.bookingWithEase.dto.RentACarSearchDTO;
 import rs.travel.bookingWithEase.dto.VehicleSearchDTO;
 import rs.travel.bookingWithEase.model.Branch;
-import rs.travel.bookingWithEase.model.QuickRoomReservation;
 import rs.travel.bookingWithEase.model.QuickVehicleReservation;
 import rs.travel.bookingWithEase.model.RACSpecialOffer;
 import rs.travel.bookingWithEase.model.RentACar;
@@ -242,7 +240,6 @@ public class RentACarController {
 				
 			}
 		}
-	
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

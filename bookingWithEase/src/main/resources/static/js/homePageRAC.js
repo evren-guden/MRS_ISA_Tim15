@@ -218,9 +218,9 @@ function fillBranchTable(data) {
 	var br_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My branchs");
 	$('#branchSearch').empty();
-	var table = $('#branchTable');
-	$('#branchTable').empty();
-	$('#branchTable').append(
+	var table = $('#allBranchesTable');
+	table.empty();
+	table.append(
 			'<tr><th>Id</th><th>Name</th><th>Address</th></tr>');
 
 	$
@@ -351,9 +351,9 @@ function fillVehicleTable(data) {
 				}
 			});
 
-	var table = $('#branchTable');
-	$('#branchTable').empty();
-	$('#branchTable')
+	var table = $('#allVehiclesTable');
+	table.empty();
+	table
 			.append(
 					'<tr><th>Id</th><th>Registration number</th><th>Type</th><th>Gear</th><th>Color</th></tr>');
 
@@ -438,6 +438,11 @@ function fillVehicleTable(data) {
 $(document).on('submit', '#addOfferForm', function(e) {
 
 	e.preventDefault();
+	
+	if(!validateRACSOData()){
+		return;
+	}
+	
 	var formData = getFormData("#addOfferForm");
 	var jsonData = JSON.stringify(formData);
 	iden = localStorage.getItem('userCompanyId');
@@ -453,6 +458,10 @@ $(document).on('submit', '#addOfferForm', function(e) {
 		success : function(response, HttpStatus) {
 			console.log(HttpStatus);
 			findOffers();
+			alertify.success("Offer added");
+			$('#soracname').val("");
+			$('#special_offer_description').val("");
+			$('#inputPrice').val("");
 		},
 		statusCode : {
 			409 : function() {
@@ -468,6 +477,16 @@ $(document).on('submit', '#addOfferForm', function(e) {
 	});
 
 });
+
+function validateRACSOData(){
+	var price = $('#inputPrice').val();
+	if(!$.isNumeric(price)){
+		alertify.alert("Invalid input", "Price must be a number");
+		return false;
+	}
+	
+	return true;
+}
 
 $(document).on(
 		'submit',
@@ -523,9 +542,9 @@ function fillOfferTable(data) {
 	var of_list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#tableCap').html("My Offers");
 	$('#branchSearch').empty();
-	var table = $('#branchTable');
-	$('#branchTable').empty();
-	$('#branchTable')
+	var table = $('#specialOffersTable');
+	table.empty();
+	table
 			.append(
 					'<tr><th>Id</th><th>Name</th><th>Description</th><th>Price</th></tr>');
 
@@ -802,6 +821,11 @@ $(document).on(
 		'#addQuickVehicleReservationBtn',
 		function(e) {
 			e.preventDefault();
+			
+			if(!validateQVRData()){
+				return;
+			}
+			
 			var formData = getFormData('#addQuickVehicleReservationForm');
 
 			var newFormData = {};
@@ -826,6 +850,28 @@ $(document).on(
 
 		});
 
+function validateQVRData(){
+	var date1 = $('#qvr_checkIn').val();
+	var date2 = $('#qvr_checkOut').val();
+	var now = new Date();
+	if(new Date(date1).getTime() < now.getTime()){
+		alertify.alert("Date not valid", "Pick up date is past");
+		return false;
+	}
+	
+	if(date2 < date1){
+		alertify.alert("Date not valid", "Drop off date must be greater than pick up date");
+		return false;
+	}
+	
+	var disc = $('#qvr_discount').val();
+	if(!$.isNumeric(disc)){
+		alertify.alert("Invalid input", "Discount must be a number");
+		return false;
+	}
+	return true;
+}
+
 function addQuickVehicleReservations(racId, formData) {
 
 	var jsonData = JSON.stringify(formData);
@@ -841,10 +887,12 @@ function addQuickVehicleReservations(racId, formData) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : function(data) {
-			alertify.notify("Quick Room Reservation Saved!");
+			alertify.success("Quick Room Reservation Saved!");
 		},
-		error : function(response) {
-			alert("Something went wrong while adding qrr! :(");
+		statusCode : {
+			200 : function() {
+				alertify.success("Quick Room Reservation Saved!");
+			}
 		}
 	});
 }

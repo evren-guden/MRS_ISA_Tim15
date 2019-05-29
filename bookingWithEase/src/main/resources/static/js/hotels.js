@@ -141,6 +141,10 @@ function getRooms(hotelId) {
 
 function searchHotels()
 {
+	if(!validateSearchHotelData()){
+		return;
+	}
+	
 	var formData = getFormData("#form-hotels-search");
 	var checkIn = formData['checkIn'];
 	var checkOut = formData['checkOut'];
@@ -169,6 +173,45 @@ function searchHotels()
 		},
 		success : fillHotelsTable
 	});
+}
+
+function validateSearchHotelData(){
+	var date1 = $('#src-hotel-checkIn').val();
+	
+	if(!date1){
+		alertify.alert("Date", "Please, enter check in date");
+	}
+	
+	var date2 = $('#src-hotel-checkOut').val();
+	
+	if(!date2){
+		alertify.alert("Date", "Please, enter check out date");
+	}
+	
+	var now = new Date();
+	if(new Date(date1).getTime() < now.getTime()){
+		alertify.alert("Date not valid", "Check in date is past");
+		return false;
+	}
+	
+	if(date2 < date1){
+		alertify.alert("Date not valid", "Check out date must be greater than check in date");
+		return false;
+	}
+	
+	var stars = $('#src-hotel-stars').val();
+	if(!!stars && !$.isNumeric(stars)){
+		alertify.alert("Invalid input", "Stars field must be a number");
+		return false;
+	}
+	
+	var rating = $('#src-hotel-rating').val();
+	if(!!rating && !$.isNumeric(rating)){
+		alertify.alert("Invalid input", "Rating field must be a number");
+		return false;
+	}
+	
+	return true;
 }
 
 function fillHotelsTable(data) {
