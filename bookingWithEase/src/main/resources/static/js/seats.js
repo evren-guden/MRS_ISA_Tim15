@@ -64,7 +64,7 @@ function drawSeats(data) {
 		if(class_name.includes("_selected")){
 			for(var i = 0; i < selected_seats_list.length; i++){ 
 				if (selected_seats_list[i] === idSeat) {
-					delete selected_seats_list[i];
+					selected_seats_list.splice(i, 1);
 					
 					var lastIndex = class_name.lastIndexOf("_selected");
 					this.className = class_name.substring(0, lastIndex);

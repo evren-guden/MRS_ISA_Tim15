@@ -81,6 +81,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/seats/**").permitAll()
 			.antMatchers("/users/{userId}/roomReservations").permitAll()
 			.antMatchers("/users/{userId}/roomReservations/{rrId}").permitAll()
+			
+			.antMatchers("/flightReservation/**").permitAll()
+			.antMatchers("/passengers/**").permitAll()
+			.antMatchers("/users/sendMailReservation/**").permitAll()
 			//.antMatchers(HttpMethod.GET, "/rentacars").permitAll()
 			//.antMatchers("**.html").permitAll()
 			//.antMatchers("**.css").permitAll()
@@ -125,8 +129,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations");
 		web.ignoring().antMatchers(HttpMethod.POST, "hotels/{hotelId}/quickRoomReservations/search");
 		web.ignoring().antMatchers(HttpMethod.DELETE, "hotels/{hotelId}/quickRoomReservations/{qrrId}");
+		
 		web.ignoring().antMatchers(HttpMethod.GET, "/seats/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "/users/friends/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/users/inviteFriends");		
+		web.ignoring().antMatchers(HttpMethod.POST, "/users/inviteFriends/");
+		web.ignoring().antMatchers(HttpMethod.GET, "/users/sendMailReservation/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/flightReservation/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/users/confirm-invite");
+		web.ignoring().antMatchers(HttpMethod.POST, "/users/confirm-invite");
+		web.ignoring().antMatchers(HttpMethod.GET, "/passengers/**");
+		web.ignoring().antMatchers(HttpMethod.POST, "/passengers/**");
 	}
 }

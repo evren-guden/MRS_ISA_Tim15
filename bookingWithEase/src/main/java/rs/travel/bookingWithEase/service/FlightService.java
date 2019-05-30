@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.FlightDTO;
 import rs.travel.bookingWithEase.model.Flight;
+import rs.travel.bookingWithEase.model.FlightReservation;
 import rs.travel.bookingWithEase.repository.IFlightRepository;
 
 
@@ -76,6 +77,10 @@ public class FlightService  {
 		}
 		
 		return searchFlights.values();
+	}
+
+	public Flight findByFlightReservations(FlightReservation flightReservation) {
+		return flightRepository.findByFlightReservations(flightReservation);
 	}
 
 }

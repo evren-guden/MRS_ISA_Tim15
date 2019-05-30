@@ -3,8 +3,7 @@ findFriends();
 function findFriends() {
 	$.ajax({
 		type : 'GET',
-		/* url : localStorage.getItem('showFlt') != null?"/flights/airline/" + localStorage.getItem('showFlt'): "/flights", */
-		url : "/users/friends/" + 100,
+		url : "/users/friends/" + JSON.parse(localStorage.getItem('userId')),
 		dataType : "json",
 		beforeSend: function (xhr) {
 	        /* Authorization header */
@@ -18,6 +17,8 @@ function findFriends() {
 }
 
 function fillTable(data) {
+	localStorage.removeItem('invFriends');
+	
 	var friends_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 
@@ -33,11 +34,10 @@ function fillTable(data) {
 	$.each(friends_list, function(index, friend) {
 		var friendTr = '<tr><td class=friendsRow>' + friend.firstName
 				+ '</td><td class=friendsRow>' + friend.lastName
-				+ '</td><td class=friendsRow><input type=checkbox name=fri' + counter + ' value=fr' + counter + '></td></tr>';
+				+ '</td><td class=friendsRow><input type=checkbox class="inv_friends_cb" id="fri_' + friend.id + '" name=fri' + counter + ' value=fr' + counter + '></td></tr>';
 				
 		counter++;
 		friendDiv += friendTr;
-	
 	});
 			
 	friendDiv += '</table></br>';
@@ -52,5 +52,45 @@ function back() {
 }
 
 function next() {
+	var inv_friends_cb_list = document.getElementsByClassName("inv_friends_cb");
+	var invited_friends = localStorage.getItem("invFriends") != null ? JSON.parse(localStorage.getItem("invFriends")) : [];
+	
+	for(var i=0; i< inv_friends_cb_list.length; i++){
+		var iden = inv_friends_cb_list[i].id.substring(4);
+		var isChecked = document.getElementById("fri_"+iden).checked;
+		
+		if(isChecked){
+			invited_friends.push(iden);
+		}
+	}
+	
+	localStorage.setItem('invFriends', JSON.stringify(invited_friends));
+	inviteFriends();
 	window.location.href = "passengers.html";
+}
+
+function inviteFriends() {
+	
+	var jsonData = JSON.stringify({
+		"flightReservationId":localStorage.getItem("flightReservationId"),
+		"invFriends":JSON.parse(localStorage.getItem('invFriends'))
+	});
+	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",		
+		url : "/users/inviteFriends",
+		dataType : "json",
+		data : jsonData,
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : function() {
+			alert("invites send");
+		},
+		error : function() {
+			alert('ERROR INV');
+		}
+	});
 }

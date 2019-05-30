@@ -16,12 +16,9 @@ import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 @Entity
 public class Seat {
-
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +33,8 @@ public class Seat {
 	@Column(nullable = false)
 	private SeatType type;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Flight flight;
-
-	
 
 	public Seat() {
 		super();
@@ -92,7 +87,5 @@ public class Seat {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
-
-
 
 }
