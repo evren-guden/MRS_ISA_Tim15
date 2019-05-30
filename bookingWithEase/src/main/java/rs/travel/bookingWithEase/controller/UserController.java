@@ -31,9 +31,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.AccountDTO;
 import rs.travel.bookingWithEase.dto.AdminUserDTO;
+import rs.travel.bookingWithEase.dto.InviteFriendsFlightDTO;
 import rs.travel.bookingWithEase.model.Admin;
 import rs.travel.bookingWithEase.model.Authority;
 import rs.travel.bookingWithEase.model.ConfirmationToken;
+import rs.travel.bookingWithEase.model.Flight;
+import rs.travel.bookingWithEase.model.FlightInvite;
+import rs.travel.bookingWithEase.model.FlightReservation;
 import rs.travel.bookingWithEase.model.FriendRequest;
 import rs.travel.bookingWithEase.model.RegisteredUser;
 import rs.travel.bookingWithEase.model.RoomReservation;
@@ -42,6 +46,9 @@ import rs.travel.bookingWithEase.security.TokenUtils;
 import rs.travel.bookingWithEase.service.AuthorityService;
 import rs.travel.bookingWithEase.service.ConfTokenService;
 import rs.travel.bookingWithEase.service.EmailSenderService;
+import rs.travel.bookingWithEase.service.FlightInviteService;
+import rs.travel.bookingWithEase.service.FlightReservationService;
+import rs.travel.bookingWithEase.service.FlightService;
 import rs.travel.bookingWithEase.service.FriendsRequestService;
 import rs.travel.bookingWithEase.service.RoomReservationService;
 import rs.travel.bookingWithEase.service.UserService;
@@ -73,9 +80,18 @@ public class UserController {
 
 	@Autowired
 	private AuthorityService authService;
-	
+
 	@Autowired
 	private FriendsRequestService friendsRequestService;
+
+	@Autowired
+	private FlightReservationService flightReservationService;
+
+	@Autowired
+	private FlightInviteService flightInviteService;
+	
+	@Autowired
+	private FlightService flightService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public Collection<User> findAll() {
@@ -245,56 +261,118 @@ public class UserController {
 
 	@GetMapping(value = "/friends/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<User>> getAllFriends(@PathVariable("userId") Long userId) {
-		
+
 		List<User> friends = new ArrayList<User>();
 		HashSet<FriendRequest> userFriends = friendsRequestService.findBySenderId(userId);
-		
+
 		for (FriendRequest friendRequest : userFriends) {
 			friends.add(friendRequest.getReciever());
 		}
-		
+
 		userFriends = friendsRequestService.findByRecieverId(userId);
-		
+
 		for (FriendRequest friendRequest : userFriends) {
 			friends.add(friendRequest.getSender());
 		}
-		
+
 		return new ResponseEntity<Collection<User>>(friends, HttpStatus.OK);
 	}
-	
+
 	@PostMapping(value = "/inviteFriends", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> inviteFriends(@RequestBody AccountDTO account) throws MessagingException {
+	public ResponseEntity<?> inviteFriends(@RequestBody InviteFriendsFlightDTO invFriendsFlDTO)
+			throws MessagingException {
 
-		if(!account.getPassword().equals(account.getConfPassword())) {
-			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		FlightReservation flightReservation = flightReservationService
+				.findById(invFriendsFlDTO.getFlightReservationId());
+
+		SimpleMailMessage mailMessage;
+
+		for (Long friendId : invFriendsFlDTO.getInvFriends()) {
+			User friend = userService.findOne(friendId);
+
+			if (flightInviteService.findByFriendEmailAndReservationId(friend.getEmail(),
+					flightReservation.getId()) != null) {
+				continue;
+			}
+
+			FlightInvite flightInvite = new FlightInvite();
+			flightInvite.setAccepted(false);
+
+			Date dt = new Date();
+			Calendar c = Calendar.getInstance();
+			c.setTime(dt);
+			c.add(Calendar.DATE, 2);
+			dt = c.getTime();
+
+			flightInvite.setExpirationDate(dt);
+			flightInvite.setFriendEmail(friend.getEmail());
+			flightInvite.setFirstname(friend.getFirstName());
+			flightInvite.setLastname(friend.getLastName());
+			flightInvite.setPassport(friend.getPassportNumber());
+			flightInvite.setReservation(flightReservation);
+			flightInvite.setSeatId((long) 0);
+
+			flightInviteService.save(flightInvite);
+
+			ConfirmationToken confirmationToken = new ConfirmationToken(friend);
+			confTokenService.save(confirmationToken);
+
+			mailMessage = new SimpleMailMessage();
+			mailMessage.setTo(friend.getEmail());
+			mailMessage.setSubject("Flight invite");
+			mailMessage.setFrom(env.getProperty("spring.mail.username"));
+			mailMessage.setText(
+					"To confirm invitation, please click here : " + "http://localhost:8080/users/confirm-invite?flight="
+							+ flightReservation.getId() + "&token=" + confirmationToken.getConfirmationToken());
+
+			emailService.sendEmail(mailMessage);
 		}
-		
-		User existingUser = userService.findByEmail(account.getEmail());
-        if(existingUser != null) {
-        	return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-		
-        User user = new User(account);
-        user.setPassword(passwordEncoder.encode(account.getPassword()));
-        Authority a = authService.findByName("ROLE_USER");
-        ArrayList<Authority> alist = new ArrayList<Authority>();
-        alist.add(a);
-        user.setAuthorities(alist);
-        userService.save(user);
-        ConfirmationToken confirmationToken = new ConfirmationToken(user);
 
-        confTokenService.save(confirmationToken);
-        
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setFrom(env.getProperty("spring.mail.username"));
-        mailMessage.setText("To confirm your account, please click here : "
-        +"http://localhost:8080/users/confirm-account?token="+confirmationToken.getConfirmationToken());
-        
-        emailService.sendEmail(mailMessage);
-        
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
+	@RequestMapping(value = "/confirm-invite", method = { RequestMethod.GET, RequestMethod.POST })
+	public ResponseEntity<?> confirmInvitation(@RequestParam("flight") Long flightId,
+			@RequestParam("token") String confirmationToken) {
+
+		ConfirmationToken token = confTokenService.findByConfirmationToken(confirmationToken);
+
+		if (token != null) {
+			FlightInvite invite = flightInviteService.findByFriendEmailAndReservationId(token.getUser().getEmail(),
+					flightId);
+			invite.setAccepted(true);
+
+			flightInviteService.save(invite);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>("Your account is enabled!", HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+
+	@GetMapping(value = "/sendMailReservation/{fliResId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> sendMailReservation(@PathVariable("fliResId") Long fliResId) throws MessagingException {
+
+		FlightReservation flightReservation = flightReservationService.findById(fliResId);
+
+		Flight flight = flightService.findByFlightReservations(flightReservation);
+		List<FlightInvite> flightInvites = flightInviteService.findByReservationIdAndAcceptedAndSeatIdIsNot(fliResId, true, (long) 0);
+		
+		String mailText = "";
+		double price = flight.getPriceTicket()*flightInvites.size();
+
+		for (FlightInvite fi : flightInvites) {
+			mailText += fi.getFirstname() + " " + fi.getLastname() + " " + fi.getSeatId() + " " + fi.getPassport() + "\n";			
+		}
+		
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setTo(flightReservation.getFUser().getEmail());
+		mailMessage.setSubject("Reservation #" + fliResId);
+		mailMessage.setFrom(env.getProperty("spring.mail.username"));
+		mailMessage.setText("Your reservation #" + fliResId + ": \n\n"+mailText+"Price is: "+price);
+
+		emailService.sendEmail(mailMessage);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 }

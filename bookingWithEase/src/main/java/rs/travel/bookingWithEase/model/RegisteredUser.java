@@ -8,25 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class RegisteredUser extends User {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy="user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RoomReservation> roomReservations = new HashSet<RoomReservation>();
-	
-	@OneToMany(mappedBy="vehicle_user",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "vehicle_user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<VehicleReservation> vehicleReservations = new HashSet<VehicleReservation>();
-	
-	
-	
-	@OneToMany(mappedBy="f_user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "fUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<FlightReservation> flightReservations = new HashSet<FlightReservation>();
-	
+
 	public RegisteredUser() {
 		super();
 	}
@@ -51,6 +51,16 @@ public class RegisteredUser extends User {
 
 	public void setVehicleReservations(Set<VehicleReservation> vehicleReservations) {
 		this.vehicleReservations = vehicleReservations;
+	}
+
+	@JsonIgnore
+	public Set<FlightReservation> getFlightReservations() {
+		return flightReservations;
+	}
+
+	@JsonIgnore
+	public void setFlightReservations(Set<FlightReservation> flightReservations) {
+		this.flightReservations = flightReservations;
 	}
 
 }

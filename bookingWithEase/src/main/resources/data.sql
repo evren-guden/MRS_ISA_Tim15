@@ -104,10 +104,12 @@ insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date
 insert into quick_room_reservation(id, room_id, check_in_date, check_out_date, reservation_date, total_price, discount, final_price) values (103, 102, '2019-12-01 00:00:00', '2019-12-15 00:00:00', '2019-05-15 00:00:00', 600, 10, 540);
 insert into quick_room_reservation(id, room_id, check_in_date, check_out_date, reservation_date, total_price, discount, final_price) values (104, 102, '2019-12-16 00:00:00', '2019-12-25 00:00:00', '2019-05-15 00:00:00', 600, 20, 480);
 
+
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, telephone_number, enabled) VALUES (100, 'user', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'user@example.com', '0652232235',  true);
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (101, 'user1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko1', 'Markovic1', 'user1@example.com', true);
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (102, 'user2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko2', 'Markovic2', 'user2@example.com', true);
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (103, 'user3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko3', 'Markovic3', 'user3@example.com', true);
+
 
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (300, 'adminrac', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);

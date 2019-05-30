@@ -37,6 +37,12 @@ public class FlightInvite {
 	@Column(nullable = false)
 	private String passport;
 
+	@Column(nullable = true)
+	private String firstname;
+
+	@Column(nullable = true)
+	private String lastname;
+
 	public FlightInvite() {
 		super();
 	}
@@ -111,6 +117,22 @@ public class FlightInvite {
 
 	public void setPassport(String passport) {
 		this.passport = passport;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 }
