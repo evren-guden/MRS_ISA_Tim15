@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.travel.bookingWithEase.dto.DestinationDTO;
 import rs.travel.bookingWithEase.model.Airline;
 import rs.travel.bookingWithEase.model.Destination;
+import rs.travel.bookingWithEase.model.Flight;
+import rs.travel.bookingWithEase.repository.FlightInviteRepository;
 import rs.travel.bookingWithEase.service.AirlineService;
 import rs.travel.bookingWithEase.service.DestinationService;
+import rs.travel.bookingWithEase.service.FlightService;
 
 @RestController
 @RequestMapping(value = "/destination")
@@ -26,6 +29,9 @@ public class DestinationController {
 
 	@Autowired
 	private DestinationService destinationService;
+	
+	@Autowired
+	private FlightService flightService;
 
 	@Autowired
 	private AirlineService airlineService;
@@ -41,14 +47,18 @@ public class DestinationController {
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destination> create(@RequestBody DestinationDTO destinationDto) {
 
+		
 		Airline airline = airlineService.findOne(destinationDto.getAirlineId());
-
+		
 		Destination des = new Destination();
 		des.setName(destinationDto.getName());
 		des.setAddress(destinationDto.getAddress());
 		des.setAirline(airline);
+		
 		try {
+			
 			des = destinationService.save(des);
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,11 +72,27 @@ public class DestinationController {
 	}
 
 	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Destination> update(@RequestBody Destination destination) {
+	public ResponseEntity<Destination> update(@RequestBody DestinationDTO destinationDto) {
 
-		Destination des = null;
+		Destination des = destinationService.findOne(destinationDto.getId());
+		Airline airline = airlineService.findOne(destinationDto.getAirlineId());
+		
+		for(Flight f : flightService.findAllByAirlineId(airline.getId())) {
+			if(f.getStartD().equals(des.getAddress() + " (" + des.getName() + ")" )) {
+				f.setStartD(destinationDto.getAddress() + " (" + destinationDto.getName() + ")");
+				flightService.save(f);
+			}
+			if(f.getFinalD().equals(des.getAddress() + " (" + des.getName() + ")" )) {
+				f.setFinalD(destinationDto.getAddress() + " (" + destinationDto.getName() + ")");
+				flightService.save(f);
+			}
+		}
+		
+		des.setName(destinationDto.getName());
+		des.setAddress(destinationDto.getAddress());
+		des.setAirline(airline);
 		try {
-			des = destinationService.save(destination);
+			des = destinationService.save(des);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

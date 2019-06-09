@@ -57,9 +57,9 @@ public class FlightService  {
 				if (flightDto.getNumber() == null
 						|| fl.getNumber().toLowerCase().contains(flightDto.getNumber().toLowerCase())) {
 					if (flightDto.getStartDestination() == null
-							|| fl.getStartDestination().getName().toLowerCase().contains(flightDto.getStartDestination().toLowerCase())) {
+							|| fl.getStartDestination().getAddress().toLowerCase().contains(flightDto.getStartDestination().toLowerCase())) {
 						if (flightDto.getEndDestination() == null
-								|| fl.getEndDestination().getName().toLowerCase().contains(flightDto.getEndDestination().toLowerCase())) {
+								|| fl.getEndDestination().getAddress().toLowerCase().contains(flightDto.getEndDestination().toLowerCase())) {
 							if (flightDto.getDateFligh() == null 
 								|| flightDto.getDateFligh().compareTo(fl.getDateFligh()) == 0) {
 								if (flightDto.getPriceTicket() == 0 

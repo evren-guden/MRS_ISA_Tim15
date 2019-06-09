@@ -1,81 +1,9 @@
-$(document).on('click', '#logoutClicked', function(e) {
-	e.preventDefault();
-	window.location.href = "index.html";
-})
-
-$(document).on('submit', '#destRegForm', function(e) {
-	e.preventDefault();
-	var formData = getFormData("#destRegForm");
-	formData["airlineId"] = localStorage.getItem('companyId');
-	var jsonData = JSON.stringify(formData);
+$(document).ready(function(){ 
 	
-	$.ajax({
-		url : "/destination",
-		type : "POST",
-		contentType : "application/json",
-		data : jsonData,
-		dataType : 'json',
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
-		success : function(response) {
-			alert("Airport saved :)");
-			window.location.href = "homePageAirline.html";
-		},
-		error : function(response) {
-			alert("Something went wrong! :(");
-		}
-	});
-
-});
-
-//find all airlines
-findAirlines();
-
-function findAirlines() {
-	$.ajax({
-		type : 'GET',
-		url : "/airlines",
-		dataType : "json",
-		beforeSend: function (xhr) {
-	        /* Authorization header */
-	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-	    },
-		success : fillDropdown,
-		error : function(data) {
-			alert(data);
-		}
-	});
-}
-
-function fillDropdown(data) {
-	var s = '<option value="-1">Please Select Airline Company</option>';  
-	for (var i = 0; i < data.length; i++) {  
-    	s += '<option value="' + data[i].id + '">' + data[i].name + '</option>';  
-   	}  
-   	$("#airlinesDropdown").html(s); 
-   	
-   	$('#airlinesDropdown').on('change', function(e) {
-		e.preventDefault();
-		var iden = $(this).children("option:selected").val();
-
-		$.ajax({
-			type : 'GET',
-			url : "/airlines/" + iden,
-			beforeSend: function (xhr) {
-		        /* Authorization header */
-		        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		    },
-			success : fillAirlineData,
-			error : function(data) {
-				alert(data);
-			}
-		});
-		
-		findDestinationByFlightId(iden);
-
-	});
+	
+	fillAirlineData();
+	
+	$('#pageTitle').html('Booking With Ease - <i>' + JSON.parse(localStorage.currentUser).company.name) + "</i>";
 	
 	$('#editCompanyForm').on('submit', function(e) {
 		e.preventDefault();
@@ -106,16 +34,78 @@ function fillDropdown(data) {
 		    },
 			data : jsonData,
 			success : function(data) {
-				alert(data);
+				console.log(data);
+				
+				var editedUser = JSON.parse(localStorage.currentUser);
+				editedUser.company.name = data.name;
+				editedUser.company.address = data.address;
+				editedUser.company.description = data.description;
+				localStorage.setItem("currentUser", JSON.stringify(editedUser));
+				$('#pageTitle').html('Booking With Ease - <i>' + JSON.parse(localStorage.currentUser).company.name) + "</i>";
+				window.location.href = "homePageAirline.html";
 			},
 			error : function(data) {
-				alert(data);
+				console.log(data);
 			}
 		});
 	});
+});
+
+$(document).on('click', '#logoutClicked', function(e) {
+	e.preventDefault();
+	window.location.href = "index.html";
+})
+
+$(document).on('submit', '#destRegForm', function(e) {
+	e.preventDefault();
+	var formData = getFormData("#destRegForm");
+	formData["airlineId"] = localStorage.getItem('companyId');
+	var jsonData = JSON.stringify(formData);
+	console.log(jsonData);
+	$.ajax({
+		url : "/destination",
+		type : "POST",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : function(response) {
+			
+			window.location.href = "homePageAirline.html";
+		},
+		error : function(response) {
+			console.log(response)
+			console.log("Something went wrong! :(");
+		}
+	});
+
+});
+
+
+function findAirline() {
+
+	var airlineId = JSON.parse(localStorage.currentUser).company.id;
+	$.ajax({
+		type : 'GET',
+		url : "/airlines/" + airlineId,
+		dataType : "json",
+		beforeSend: function (xhr) {
+	        // Authorization header 
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : fillAirlineData,
+		error : function(data) {
+			console.log(data);
+		}
+	});
 }
 
-function fillAirlineData(data) {
+
+function fillAirlineData() {
+	var data = JSON.parse(localStorage.currentUser).company;
 	if($('#companyName') != null) {
 		$('#companyName').val(data.name);
 		$('#companyAddress').val(data.address);
@@ -131,7 +121,7 @@ function fillAirlineData(data) {
 function findDestination() {
 	$.ajax({
 		type : 'GET',
-		url : "/destination",
+		url : "/destination/company/" + localStorage.getItem("companyId"),
 		dataType : "json",
 		beforeSend: function (xhr) {
 	        /* Authorization header */
@@ -139,7 +129,7 @@ function findDestination() {
 	    },
 		success : fillTable,
 		error : function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -152,14 +142,14 @@ function fillTable(data) {
 
 	//var cont = $('#help');
 	//cont.empty();
-	$('#destinationTable').append('<tr><br><br><th>ID</th><th>Name</th><th>Address</th></tr>');
+	$('#destinationTable').append('<tr><br><br><th></th><th>Name</th><th>Address</th></tr>');
 	//cont.append(form);
 
 	$.each(d_list, function(index, destination) {
 	
 		var tr = $('<tr></tr>');
 		var form =  $('<td><form class="formsedit" id="form' + destination.id
-				+ '"><input name="ident" value=' + destination.id
+				+ '"><input hidden name="ident" value=' + destination.id
 				+ ' readonly></form></td><td><input name="name" form="form'
 				+ destination.id + '" value="' + destination.name
 				+ '"></td><td><input name="address" form="form' + destination.id
@@ -210,13 +200,15 @@ function fillTable(data) {
 
 		for (var i = 0; i < s_data.length; i++) {
 			var record = s_data[i];
+			console.log(record);
 			if (record.name === "ident") {
 				formData["id"] = record.value;
 			} else {
 				formData[record.name] = record.value;
 			}
 		}
-
+		formData["airlineId"] = localStorage.getItem('companyId');
+		console.log(formData);
 		var jsonData = JSON.stringify(formData);
 		$.ajax({
 			type : 'post',
@@ -244,11 +236,12 @@ $(document).on('submit', '#addFlightForm', function(e) {
 	e.preventDefault();
 	
 	var formData = getFormData("#addFlightForm");
-	formData["startDestinationId"] = $("#startDestinationDropdown option:selected").val();
-	formData["endDestinationId"] = $("#endDestinationDropdown option:selected").val();
+	//formData["startDestinationId"] = $("#startDestinationDropdown option:selected").val();
+	//formData["endDestinationId"] = $("#endDestinationDropdown option:selected").val();
 	formData["airlineId"] = localStorage.getItem('companyId');
+	
 	var jsonData = JSON.stringify(formData);
-
+	console.log(formData);
 	$.ajax({
 		url : "/flights",
 		type : "POST",
@@ -287,6 +280,7 @@ function findFlights() {
 }
 
 function fillTable1(data) {
+	
 	var f_list = data == null ? []
 			: (data instanceof Array ? data : [ data ]);
 	var table = $('#tab-flights');
@@ -296,15 +290,16 @@ function fillTable1(data) {
 					'<tr><th>Flight number</th><th>Start destination </th><th>End destination </th><th>Date flight </th><th>Date landing </th><th>Length travel</th><th>Flight duration</th><th> Price ticket</th></tr>');
 
 	$.each(f_list, function(index, flight) {
-
+		
 		var tr = $('<tr></tr>');
-		var form = $('<td><form class="formsedit" id="form' + flight.id
+		var form = $('<td><form class="formseditf" id="form' + flight.id
 				+ '"><input name="ident" value=' + flight.number
-				+ ' readonly></form></td><td><input name="startD" form="form'
-				+ flight.id + '" value="' + flight.startD
-				+ '"></td><td><input name="finalD" form="form' + flight.id
-				+ '" value="' + flight.finalD
-				+ '"></td><td><input name="dateFligh" form="form' + flight.id
+				+ ' readonly><input hidden name="idenf" value=' + flight.id + ' readonly>'
+				+ '</form></td><td><select id="startDestinationDropdownf' + flight.id 
+				+ '"name ="startDestinationId"></select></td>'
+				+ '<td><select id="endDestinationDropdownf' + flight.id
+				+ '"name ="endDestinationId"></select></td>'
+				+ '<td><input name="dateFligh" form="form' + flight.id
 				+ '" value="' + flight.dateFligh.substring(0, 10)
 				+ '"></td><td><input name="dateLand" form="form'
 				+ flight.id + '" value="' + flight.dateLand.substring(0, 10)
@@ -314,18 +309,21 @@ function fillTable1(data) {
 				+ '" value="' + flight.timeTravel
 				+ '"></td><td><input name="priceTicket" form="form'+ flight.id
 				+ '" value="' + flight.priceTicket
+				+ '"></td><td><input type="submit" form="form' + flight.id
+				+ '" id="bform' + flight.id
 				+ '"></td><td><button class="delBtns1" id="delBtn' + flight.id
 				+ '">Delete</button></td>');
 		tr.append(form);
 		table.append(tr);
-	}
+		findDestinationByFlightId2(flight);
+	});
 
-	);
+	
+	
 	$('.delBtns1').on('click', function(e) {
 		e.preventDefault();
 		var iden = this.id.substring(6);
-		console.log(iden);
-
+		
 		$.ajax({
 			type : 'delete',
 			url : "/flights/" + iden,
@@ -343,24 +341,30 @@ function fillTable1(data) {
 		});
 
 	});
-
-	$('.formsedit').on('submit', function(e) {
+	
+	$('.formseditf').on('submit', function(e) {
+	
 		e.preventDefault();
 		var iden = this.id;
-		// var formData = getFormData(iden);
-
+	
+		
 		var formData = {};
 		var s_data = $('#' + this.id).serializeArray();
 
 		for (var i = 0; i < s_data.length; i++) {
 			var record = s_data[i];
-			if (record.name === "ident") {
+			if (record.name === "idenf") {
 				formData["id"] = record.value;
 			} else {
 				formData[record.name] = record.value;
 			}
 		}
-
+		var onlyId = iden.split("m")[1];
+		formData["startDestinationId"] = $("#startDestinationDropdownf" + onlyId + " option:selected").val();
+		formData["startDestination"] = $("#startDestinationDropdownf" + onlyId + " option:selected").text();
+		formData["endDestinationId"] = $("#endDestinationDropdownf" + onlyId + " option:selected").val();
+		formData["endDestination"] = $("#endDestinationDropdownf" + onlyId + " option:selected").text();
+		console.log(formData);
 		var jsonData = JSON.stringify(formData);
 		$.ajax({
 			type : 'post',
@@ -371,7 +375,7 @@ function fillTable1(data) {
 			data : jsonData,
 			success : findFlights,
 			error : function(data) {
-				alert(data);
+				alert("Error while editing flight");
 			}
 		});
 	});
@@ -379,10 +383,12 @@ function fillTable1(data) {
 }
 
 
-function findDestinationByFlightId(airlineId) {
+
+
+function findDestinationByFlightId() {
 	$.ajax({
 		type : 'GET',
-		url : "/destination/company/" + airlineId,
+		url : "/destination/company/" + localStorage.getItem('companyId'),
 		dataType : "json",
 		beforeSend: function (xhr) {
 	        /* Authorization header */
@@ -395,7 +401,26 @@ function findDestinationByFlightId(airlineId) {
 	});
 }
 
+function findDestinationByFlightId2(flight) {
+	$.ajax({
+		type : 'GET',
+		url : "/destination/company/" + localStorage.getItem('companyId'),
+		dataType : "json",
+		beforeSend: function (xhr) {
+	        /* Authorization header */
+	        xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+	    },
+		success : function(data) {
+		fillDestinationSelect2(data, flight)
+		},
+		error : function(data) {
+			alert(data);
+		}
+	});
+}
+
 function fillDestinationSelect(data) {
+	console.log(data);
 	var s = '<option value="-1">Please Select Start destination</option>';  
 	for (var i = 0; i < data.length; i++) {  
     	s += '<option value="' + data[i].id + '">' + data[i].name + '</option>';  
@@ -436,4 +461,29 @@ function fillDestinationSelect(data) {
 			}
 		}
 	});
+}
+
+function fillDestinationSelect2(data, flight) {
+	
+	var s = '';  
+	for (var i = 0; i < data.length; i++) {  
+		if(data[i].address + ' ('+ data[i].name + ')' == flight.startD)
+			s += '<option selected value="' + data[i].id + '">' + data[i].address + ' ('+ data[i].name + ')' + '</option>'; 
+		else 
+			s += '<option value="' + data[i].id + '">' + data[i].address + ' ('+ data[i].name + ')' + '</option>'; 
+   	}  
+   	$("#startDestinationDropdownf" + flight.id).html(s);
+   	
+   
+   	
+   	s = '';  
+	for (var i = 0; i < data.length; i++) {  
+		if(data[i].address + ' ('+ data[i].name + ')' == flight.finalD)
+			s += '<option selected value="' + data[i].id + '">' + data[i].address + ' ('+ data[i].name + ')' + '</option>';  
+		else 
+			s += '<option value="' + data[i].id + '">' + data[i].address + ' ('+ data[i].name + ')' + '</option>';
+   	}  
+   	$("#endDestinationDropdownf"+ flight.id).html(s); 
+   	
+   	
 }

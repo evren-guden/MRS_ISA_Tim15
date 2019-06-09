@@ -18,7 +18,7 @@
 
 	<nav>
 		<div class="brand">
-			<h2>Booking With Ease</h2>
+			<h2 id="pageTitle">Booking With Ease </h2> 
 		</div>
 		<ul id="nav_ul">
 			<li><a href="javascript:homepage()">Home</li>
@@ -27,12 +27,12 @@
 	</nav>
 
 	<div class="tab">
-		<select id="airlinesDropdown" name="airlinesDropdown"></select>
-		<button class="tablinks" onclick="openCity(event, 'editAirline')">Editing an airline</button>
+		
+		<button class="tablinks" onclick="openCity(event, 'editAirline'); fillAirlineData();">Edit Airline Info</button>
 		<button class="tablinks" onclick="openCity(event, 'registerDest')">Add destination</button>
-		<button class="tablinks" onclick="openCity(event, 'allDest'); findDestination();">All destination</button>
-		<button class="tablinks" onclick="openCity(event, 'addFlight')">Add	flight</button>
-		<button class="tablinks" onclick="openCity(event, 'allF'); findFlights();">All flight</button>
+		<button class="tablinks" onclick="openCity(event, 'allDest'); findDestination();">All destinations</button>
+		<button class="tablinks" onclick="openCity(event, 'addFlight'); findDestinationByFlightId()">Add flight</button>
+		<button class="tablinks" onclick="openCity(event, 'allF'); findFlights();">All flights</button>
 		<button class="tablinks" onclick="openCity(event, 'eP')">Edit profile</button>
 
 	</div>
@@ -83,23 +83,23 @@
 					<tr>
 						<td>Start:</td>
 						<!-- <td><input type="text" name="startD" required /></td>-->
-						<td><select id="startDestinationDropdown" name="startDestinationDropdown"></select></td>
+						<td><select id="startDestinationDropdown" name="startDestinationId"></select></td>
 					</tr>
 					<tr>
 						<td>Final:</td>
 						<!-- <td><input type="text" name="finalD" required /></td>-->
-						<td><select id="endDestinationDropdown" name="endDestinationDropdown"></select></td>
+						<td><select id="endDestinationDropdown" name="endDestinationId"></select></td>
 					</tr>
 					<tr>
-						<td>Date fligh:</td>
+						<td>Flight date:</td>
 						<td><input type="date" name="dateFligh" required /></td>
 					</tr>
 					<tr>
-						<td>Date land:</td>
+						<td>Landing date:</td>
 						<td><input type="date" name="dateLand" required /></td>
 					</tr>
 					<tr>
-						<td>Length travel:</td>
+						<td>Travel length :</td>
 						<td><input type="number" name="lengthTravel" min="0" /></td>
 					</tr>
 					<tr>
@@ -107,7 +107,7 @@
 						<td><input type="number" name="timeTravel" required/></td>
 					</tr>
 					<tr>
-						<td>Price ticket:</td>
+						<td>Ticket price:</td>
 						<td><input type="number" name="priceTicket" min="1" /></td>
 					</tr>
 
@@ -131,8 +131,8 @@
 						<th>ID</th>
 						<th>Start destination</th>
 						<th>End destination</th>
-						<th>Date flight</th>
-						<th>Date landing</th>
+						<th>Flight date</th>
+						<th>Landing date</th>
 						<th>Length travel</th>
 						<th>Flight duration</th>
 						<th>Price ticket</th>
@@ -148,12 +148,12 @@
 			<form id="destRegForm">
 				<table align="center">
 					<tr>
-						<td align="left">Name airport:</td>
+						<td align="left">Airport Name:</td>
 						<td><input type="text" name="name" required /></td>
 					</tr>
 
 					<tr>
-						<td align="left">Address airport:</td>
+						<td align="left">Airport address:</td>
 						<td><input type="text" name="address" required /></td>
 					</tr>
 

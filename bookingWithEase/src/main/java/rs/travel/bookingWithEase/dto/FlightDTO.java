@@ -55,6 +55,8 @@ public class FlightDTO {
 		this.startDestinationId = startDestinationId;
 		this.endDestinationId = endDestinationId;
 	}
+	
+	public FlightDTO() {}
 
 	public Long getId() {
 		return id;

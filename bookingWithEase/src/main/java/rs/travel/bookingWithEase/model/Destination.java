@@ -1,5 +1,7 @@
 package rs.travel.bookingWithEase.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
@@ -27,17 +30,17 @@ public class Destination {
 	private String address;
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Airline airline;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Flight flight;
 
-	@OneToOne(mappedBy = "startDestination")
-	Flight startDestination;
+	@OneToMany(mappedBy = "startDestination")
+	private Set<Flight> startDestination;
 
-	@OneToOne(mappedBy = "endDestination")
-	Flight finalDestination;
+	@OneToMany(mappedBy = "endDestination")
+	private Set<Flight> finalDestination;
 	
 	
 	/*@OneToOne(fetch=FetchType.LAZY ,cascade = CascadeType.ALL)
@@ -81,24 +84,24 @@ public class Destination {
 		this.airline = airline;
 	}
 
-	public Flight getStartDestination() {
+	public Set<Flight> getStartDestination() {
 		return startDestination;
 	}
 
-	public void setStartDestination(Flight startDestination) {
+	public void setStartDestination(Set<Flight> startDestination) {
 		this.startDestination = startDestination;
 	}
 
-	public Flight getFinalDestination() {
+	public Set<Flight> getFinalDestination() {
 		return finalDestination;
 	}
 
-	public void setFinalDestination(Flight finalDestination) {
+	public void setFinalDestination(Set<Flight> finalDestination) {
 		this.finalDestination = finalDestination;
 	}
 
 	public Destination(Long id, String name, String address, Airline airline, Flight flight,
-			Flight startDestination, Flight finalDestination) {
+			Set<Flight> startDestination, Set<Flight> finalDestination) {
 		super();
 		this.id = id;
 		this.name = name;
