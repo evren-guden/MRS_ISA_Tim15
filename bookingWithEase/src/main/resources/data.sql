@@ -12,9 +12,15 @@ insert into airline (id,name, address, description, rating) values (6,'Austrian 
 insert into airline (id,name, address, description, rating) values (7,'Swiss International Air', 'Switzerland', '', 1);
 insert into airline (id,name, address, description, rating) values (9,'Turkish Airlines', 'Turkey', '', 1);
 insert into airline (id,name, address, description, rating) values (10,'Air Serbia', 'Serbia', '', 1);
-insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','bec','da',5,5,5,'bg',1,1,1,1);
+insert into destination(id, address, name_aerodroms, airline_id) values (1, "Belgrade", "Nikola Tesla", 1);
+insert into destination(id, address, name_aerodroms, airline_id) values (2, "Belgrade", "Nikola Tesla", 2);
+insert into destination(id, address, name_aerodroms, airline_id) values (3, "Dubai", "UAE Airport", 2);
+insert into destination(id, address, name_aerodroms, airline_id) values (4, "Paris", "Charl de Gol", 1);
 
-insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','ue','ne',3,3,3,'nis',2,2,2,2);
+insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','Belgrade (Nikola Tesla)','da',5,5,5,'Paris (Charl de Gol)',1,1,1,4);
+
+insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','Paris (Charl de Gol)','ne',3,3,3,'Dubai (UAE Airport)',2,2,4,3);
+
 
 
 insert into branch (id, rac_id, name, address) values (1, 101,'Atlas NS', 'Novi Sad');
@@ -114,7 +120,7 @@ INSERT INTO registered_user (id, username, password, first_name, last_name, emai
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (300, 'adminrac', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (400, 'adminhotel', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 200, 2);
-INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (500, 'adminairline', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1);
+INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type, company_id) VALUES (500, 'adminairline', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1, 1);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (600, 'adminrac2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (700, 'adminhotel2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 300, 2);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (800, 'adminairline2', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1);

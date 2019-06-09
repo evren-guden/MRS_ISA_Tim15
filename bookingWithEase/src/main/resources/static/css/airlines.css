@@ -27,7 +27,7 @@ img.star
 {
 	position: absolute;
 	top: 15%;
-	left: 80%;
+	left: 75%;
 	font-size: 18px;
 }
 
@@ -35,7 +35,23 @@ img.star
 {
 	position: absolute;
 	top: 27%;
-	left: 80%;
+	left: 75%;
+	font-size: 18px;
+}
+
+.date1
+{
+	position: absolute;
+	top: 39%;
+	left: 75%;
+	font-size: 18px;
+}
+
+.date2
+{
+	position: absolute;
+	top: 51%;
+	left: 75%;
 	font-size: 18px;
 }
 
@@ -75,7 +91,7 @@ div img
 	top: 3%;
 	left: 2%;
 }
-div h3
+div h4
 {
 	position: absolute;
 	top: -3%;
