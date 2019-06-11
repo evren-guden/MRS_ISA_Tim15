@@ -100,4 +100,8 @@ public class QuickVehicleReservationService {
 
 		return reservations;
 	}
+	
+	public void remove(Long id) {
+		quickVehRep.deleteById(id);
+	}
 }

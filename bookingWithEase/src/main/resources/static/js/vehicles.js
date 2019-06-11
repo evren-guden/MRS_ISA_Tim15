@@ -423,7 +423,7 @@ function fillTableQvrs(data) {
 
 						qvrDiv
 								.append('<button class="show_details_btn book_qvr_btn" id="book_qvr_'
-										+ qvr.id + '">Book now</button>');
+										+ qvr.id + '">Reserve now</button>');
 						counter++;
 						qvrsDiv.append(qvrDiv);
 
@@ -434,13 +434,47 @@ function fillTableQvrs(data) {
 		var qvrId = this.id.substring(9);
 		
 		alertify.confirm('Booking confirmation', 'Are you sure?', function() {
-			//bookQrr(qrrId);
+			reserveQvr(qvrId);
 		}, function() {
 			alertify.notify("Booking canceled");
 		});				
 
 	});
 
+}
+
+function reserveQvr(qvrId) {
+
+	alertify.set('notifier', 'position', 'top-right');
+	var user;
+	if(localStorage.getItem("currentUser") == null)
+	{
+		alertify.error('You must first log in!');
+		return;
+	}
+	
+	$.ajax({
+		type : 'POST',
+		url : '/quickVehicleReservations/' + qvrId,
+		contentType : 'application/json',
+		dataType : 'json',
+		data : JSON
+				.stringify(JSON.parse(localStorage.getItem("currentUser")).id),
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function() {
+			alertify.notify('Reserved!');
+			findQuickVehicleReservations();
+		},
+		statusCode : {
+			403 : function() {
+
+				alertify.error('You must first log in!');
+			}
+		}
+	});
 }
 
 function clearVehicleSearchData(){
