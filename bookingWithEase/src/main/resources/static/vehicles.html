@@ -43,7 +43,7 @@
 			<table align="center">
 				<tr>
 					<td>Type:</td>
-					<td><input name="type" type="text"></td>
+					<td><input name="type" id="searchType" type="text"></td>
 				</tr>
 				<tr>
 					<td>Gear:</td>
@@ -57,11 +57,11 @@
 				</tr>
 				<tr>
 					<td>Minimum price:</td>
-					<td><input name="minPrice" type="text"></td>
+					<td><input name="minPrice" id="searchMinPrice" type="text"></td>
 				</tr>
 				<tr>
 					<td>Maximum price:</td>
-					<td><input name="maxPrice" type="text"></td>
+					<td><input name="maxPrice" id="searchMaxPrice" type="text"></td>
 				</tr>
 				<tr>
 					<td>Pick up:</td>
@@ -78,6 +78,11 @@
 			</table>
 		</form>
 	</div>
+
+		
+	<button class="black_btn" id="info_veh_btn">Info</button>
+	<button class="black_btn" id="all_vehs_btn">All Vehicles</button>
+	<button class="black_btn" id="qvr_btn">All Quick Reservations</button>
 
 
 	<div class="companies-div" id="vehsDiv"></div>

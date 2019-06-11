@@ -18,7 +18,7 @@ import rs.travel.bookingWithEase.model.QuickVehicleReservation;
 import rs.travel.bookingWithEase.service.QuickVehicleReservationService;
 
 @Controller
-@RequestMapping(value = "/quickVehicleReservations")
+@RequestMapping(value = "rentacars/{racId}/quickVehicleReservations")
 public class QuickVehicleReservationController {
 
 	@Autowired
