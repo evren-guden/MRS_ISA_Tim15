@@ -1,5 +1,12 @@
 findVehicles();
 
+$(document).ready(function() {
+
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+	getRAC(currentUser);
+});
+
 function fillSelect() {
 	$.ajax({
 		type : 'GET',
@@ -55,6 +62,71 @@ $(document).on('click', '#logoutClicked', function(e) {
 	e.preventDefault();
 	logout();
 });
+
+function getRAC(user) {
+	var racId = user.company.id;
+
+	$.ajax({
+		url : "/rentacars/" + racId,
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillRacInfo,
+		error : function(response) {
+			alertify.alert("Something went wrong! :(");
+		}
+	});
+}
+
+function fillRacInfo(data) {
+	$('#rac_name').empty().append(data.name);
+	$('#rac_address').empty().append(data.address);
+	$('#rac_description').empty().append(data.description);
+	$('#rac_rating').empty().append(data.rating);
+
+	$('#edit_rac_id').val(data.id);
+	$('#edit_rac_name').val(data.name);
+	$('#edit_rac_address').val(data.address);
+	$('#edit_rac_description').val(data.description);
+
+	$('#edit_rac_form').on(
+			'submit',
+			function(e) {
+
+				e.preventDefault();
+				var iden = this.id;
+
+				var formData = getFormData("#edit_rac_form");
+				var jsonData = JSON.stringify(formData);
+
+				$.ajax({
+					type : 'put',
+					url : "/rentacars",
+					contentType : 'application/json',
+					dataType : 'json',
+					data : jsonData,
+					beforeSend : function(xhr) {
+						/* Authorization header */
+						xhr.setRequestHeader("Authorization", "Bearer "
+								+ getJwtToken());
+					},
+					success : function(data){
+						window.location.href = "homePageRAC.html";
+						alertify.success("Saved");
+					},
+					error : function(data) {
+						alertify.alert(data);
+					}
+				});
+
+				//alertify.notify("Saved");
+				getRAC(JSON.parse(localStorage.getItem('currentUser')));
+			});
+
+}
 
 $(document).on('submit', '#addVehicleForm', function(e) {
 
