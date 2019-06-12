@@ -17,6 +17,8 @@ public class DestinationDTO {
 		this.address = address;
 		this.airlineId = airlineId;
 	}
+	
+	public DestinationDTO() {}
 
 	public Long getId() {
 		return id;

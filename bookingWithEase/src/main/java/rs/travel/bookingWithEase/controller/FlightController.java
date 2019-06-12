@@ -51,7 +51,7 @@ public class FlightController {
 		Airline airline = airlineService.findOne(flightDTO.getAirlineId());
 
 		Flight flight = new Flight(flightDTO.getNumber(), flightDTO.getDateFligh(), flightDTO.getDateLand(),
-				flightDTO.getTimeTravel(), flightDTO.getLengthTravel(), startDestination.getName(), endDestination.getName(),
+				flightDTO.getTimeTravel(), flightDTO.getLengthTravel(), startDestination.getAddress() + " (" + startDestination.getName() + ")", endDestination.getAddress()+ " (" + endDestination.getName() + ")",
 				flightDTO.getPriceTicket(), flightDTO.getInformationLuggage(), airline, startDestination, endDestination);
 		try {
 			flight = flightService.save(flight);
@@ -76,21 +76,33 @@ public class FlightController {
 	 */
 
 	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Flight> update(@RequestBody Flight flight) {
+	public ResponseEntity<Flight> update(@RequestBody FlightDTO flightDTO) {
 
-		Flight flig = null;
+		Flight flight = flightService.findOne(flightDTO.getId());
+		
+		if (flight == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		flight.setDateFligh(flightDTO.getDateFligh());
+		flight.setDateLand(flightDTO.getDateLand());
+		flight.setLengthTravel(flightDTO.getLengthTravel());
+		flight.setPriceTicket(flightDTO.getPriceTicket());
+		flight.setTimeTravel(flightDTO.getTimeTravel());
+		flight.setFinalD(flightDTO.getEndDestination());
+		flight.setStartD(flightDTO.getStartDestination());
+		Destination startD = destinationService.findOne(flightDTO.getStartDestinationId());
+		Destination endD = destinationService.findOne(flightDTO.getEndDestinationId());
+		flight.setStartDestination(startD);
+		flight.setEndDestination(endD);
 		try {
-			flig = flightService.save(flight);
+			flightService.save(flight);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if (flig == null) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		
 
-		return new ResponseEntity<Flight>(flig, HttpStatus.OK);
+		return new ResponseEntity<Flight>(flight, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -100,7 +112,6 @@ public class FlightController {
 
 		if (flight != null) {
 			flightService.delete(id);
-			;
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

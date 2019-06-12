@@ -42,4 +42,8 @@ public class FlightInviteService {
 				seatId);
 	}
 
+	public FlightInvite findByReservationId(Long quickFliResId) {
+		return flightInviteRepository.findByReservationId(quickFliResId);
+	}
+
 }

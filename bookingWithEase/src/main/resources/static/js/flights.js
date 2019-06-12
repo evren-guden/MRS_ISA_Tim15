@@ -34,13 +34,15 @@ function fillTable(data) {
 			+ '%;"'
 			+ '>'
 			+ '<img src="../images/air.jpg" height = 90% width= 18%>'
-			+ '<h3>' + flight.startD + ' - ' + flight.finalD + '</h3>');
+			+ '<h4>' + flight.startD + ' - ' + flight.finalD + '</h4>');
 
 		airDiv.append('<p>' + flight.airline.name + '</p></div>');
 		airDiv.append('<div class="guest_ratings"> Price: ' + flight.priceTicket + '€' + '</div>');
 		airDiv.append('<div class="flight_duration"> Duration: ' + flight.lengthTravel + 'min' + '</div>');
+		airDiv.append('<div class="date1"> Flight Date: ' + flight.dateFligh.split("T")[0] +  '</div>');
+		airDiv.append('<div class="date2"> Landing Date: ' + flight.dateLand.split("T")[0] +  '</div>');
 		airDiv.append('<button class="show_flights_btn" id="shows_' + flight.id + '">Show seats</button>');
-
+	console.log(flight)
 		counter++;
 		airsDiv.append(airDiv);
 
@@ -69,7 +71,7 @@ function fillTable(data) {
 				localStorage.setItem("flightReservationId", data.id);
 			},
 			error: function() {
-				alert('error');
+				console.log('error');
 			},
 			async: false
 		});
@@ -82,6 +84,7 @@ function fillTable(data) {
 $(document).on('submit', '#formsrc', function(e) {
 	e.preventDefault();
 	var formData = getFormData("#formsrc");
+	console.log(formData);
 	var jsonData = JSON.stringify(formData);
 	$.ajax({
 		type: 'POST',

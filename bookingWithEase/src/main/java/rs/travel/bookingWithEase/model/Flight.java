@@ -68,12 +68,12 @@ public class Flight {
 	@ManyToOne(fetch = FetchType.EAGER)
 	Airline airline;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "start_id")
 	@JsonIgnore
 	private Destination startDestination;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "final_id")
 	@JsonIgnore
 	private Destination endDestination;

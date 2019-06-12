@@ -27,7 +27,7 @@ img.star
 {
 	position: absolute;
 	top: 15%;
-	left: 80%;
+	left: 75%;
 	font-size: 18px;
 }
 
@@ -35,9 +35,46 @@ img.star
 {
 	position: absolute;
 	top: 27%;
+	left: 75%;
+	font-size: 18px;
+}
+
+.date1
+{
+	position: absolute;
+	top: 39%;
+	left: 75%;
+	font-size: 18px;
+}
+
+.date2
+{
+	position: absolute;
+	top: 51%;
+	left: 75%;
+	font-size: 18px;
+}
+
+
+.current_price
+{
+	position: absolute;
+	top: 39%;
 	left: 80%;
 	font-size: 18px;
 }
+
+
+.seat_number
+{
+	position: absolute;
+	top: 36%;
+	left: 22%;
+}
+
+
+
+
 
 .airsDiv
 {
@@ -76,6 +113,13 @@ div img
 	left: 2%;
 }
 div h3
+{
+	position: absolute;
+	top: -3%;
+	left: 22%;
+}
+
+div h4
 {
 	position: absolute;
 	top: -3%;

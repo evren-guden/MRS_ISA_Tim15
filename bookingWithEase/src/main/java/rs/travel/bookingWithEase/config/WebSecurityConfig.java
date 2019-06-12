@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/flightReservation/**").permitAll()
 			.antMatchers("/passengers/**").permitAll()
 			.antMatchers("/users/sendMailReservation/**").permitAll()
+			.antMatchers("/quickFlightReservation/**").permitAll()
 			//.antMatchers(HttpMethod.GET, "/rentacars").permitAll()
 			//.antMatchers("**.html").permitAll()
 			//.antMatchers("**.css").permitAll()
@@ -142,6 +143,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, "/users/confirm-invite");
 		web.ignoring().antMatchers(HttpMethod.GET, "/passengers/**");
 		web.ignoring().antMatchers(HttpMethod.POST, "/passengers/**");
-
+		web.ignoring().antMatchers(HttpMethod.GET, "/quickFlightReservation/**");
+		web.ignoring().antMatchers(HttpMethod.POST, "/quickFlightReservation/**");
 	}
 }
