@@ -31,7 +31,10 @@
 		</ul>
 	</nav>
 	<div class="tab">
-
+		<button class="tablinks" onclick="openCity(event, 'racInfo')">Rent-a-car
+			info</button>
+		<button class="tablinks" onclick="openCity(event, 'editRacInfo')">Edit
+			rent-a-car info</button>
 		<button class="tablinks" id="mybranchsbtn" onclick="openDiv(event, 'allBranchesDiv')">My branchs</button>
 		<button class="tablinks" onclick="openDiv(event, 'addBranchDiv')">Add
 			branch</button>
@@ -58,6 +61,74 @@
 			style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
 
 		</table>
+	</div>
+	
+	<div id="racInfo" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black; font-size: 21px;">Rent-a-car
+				info</h2>
+			<table id="rac_info_table" align="center" style="font-size: 19px;">
+				<tr style="border-bottom: 1px solid black">
+					<td align="left">Name:</td>
+					<td><p id="rac_name"></p></td>
+				</tr>
+
+				<tr style="border-bottom: 1px solid black">
+					<td align="left">Address:</td>
+					<td><p id="rac_address"></p></td>
+				</tr>
+				<tr style="border-bottom: 1px solid black">
+					<td>Description: &nbsp;</td>
+					<td align="left"><p id="rac_description">&nbsp;</p></td>
+				</tr>
+				<tr>
+					<td align="left">Rating:</td>
+					<td><p id="rac_rating"></p></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div id="editRacInfo" class="tabcontent">
+		<div class="container">
+			<h2 align=center style="color: black;">Edit rent-a-car info</h2>
+			<form id="edit_rac_form">
+				<input type="hidden" name="id" id="edit_rac_id">
+				<table align="center">
+
+					<tr>
+						<td align="left">Name:</td>
+						<td><input type="text" name="name" id="edit_rac_name"
+							required /></td>
+					</tr>
+
+					<tr>
+						<td align="left">Address:</td>
+						<td><input type="text" name="address" id="edit_rac_address"
+							required /></td>
+					</tr>
+					<tr>
+						<td>Description: &nbsp;</td>
+						<td align="left"><textarea cols="22" rows="5"
+								name="description" id="edit_rac_description"></textarea></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="submit"
+							id="registerCompany" value="Submit"> <input
+							class="formBtn" type="button" id="cancelCompReg"
+							name="cancelCompReg" value="Cancel"></td>
+					</tr>
+
+				</table>
+
+			</form>
+			<br>
+		</div>
 	</div>
 
 	<div id="addBranchDiv" class="tabcontent" align="center">

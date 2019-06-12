@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.travel.bookingWithEase.dto.QuickVehicleReservationDTO;
+import rs.travel.bookingWithEase.dto.RACUpdateDTO;
 import rs.travel.bookingWithEase.dto.RentACarSearchDTO;
 import rs.travel.bookingWithEase.dto.VehicleSearchDTO;
 import rs.travel.bookingWithEase.model.Branch;
@@ -67,6 +68,18 @@ public class RentACarController {
 	    public String alternate() {
 	        return "alternate";
 	    }
+	
+	@GetMapping(value = "/{racId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RentACar> getOne(@PathVariable("racId") Long racId){
+		RentACar rac = rentACarService.findOne(racId);
+		
+		if(rac == null) {
+			return new ResponseEntity<RentACar>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<RentACar>(rac, HttpStatus.OK);
+		
+	}
 
 	@RequestMapping(method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RentACar>> getAll() {
@@ -74,6 +87,27 @@ public class RentACarController {
 		Collection<RentACar> racs = rentACarService.findAll();
 
 		return new ResponseEntity<>(racs, HttpStatus.OK);
+	}
+	
+	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RentACar> updateRAC(@RequestBody RACUpdateDTO dto){
+		
+		if(dto.getName().trim().equals("") || dto.getName()==null) {
+			return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		
+		RentACar rac = rentACarService.findOne(dto.getId());
+
+		if (rac == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		rac.setName(dto.getName());
+		rac.setAddress(dto.getAddress());
+		rac.setDescription(dto.getDescription());
+		
+		RentACar rac2 = rentACarService.save(rac);
+		return new ResponseEntity<RentACar>(rac2, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/{id}/branchs",produces=MediaType.APPLICATION_JSON_VALUE)
