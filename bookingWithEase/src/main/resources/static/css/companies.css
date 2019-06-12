@@ -156,19 +156,19 @@ div p {
 	color: black;
 }
 
-#info_black_btn {
+#info_black_btn, #info_veh_btn {
 	position: absolute;
 	top: 22%;
 	left: 30%;
 }
 
-#rooms_black_btn {
+#rooms_black_btn, #all_vehs_btn {
 	position: absolute;
 	top: 22%;
 	left: 37%;
 }
 
-#qrr_black_btn {
+#qrr_black_btn, #qvr_btn {
 	position: absolute;
 	top: 22%;
 	left: 48%;

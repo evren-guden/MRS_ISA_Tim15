@@ -311,3 +311,177 @@ function differenceBetweenDates(date1, date2){
 	
 	return days;
 }
+
+$(document).on('click', '#info_veh_btn', function(e) {
+	e.preventDefault();
+
+	$(this).css('background-color', 'gray');
+	$('#all_vehs_btn').css('background-color', 'black');
+	$('#qvr_btn').css('background-color', 'black');
+	
+	var vehsDiv = $('#vehsDiv');
+	vehsDiv.empty();
+
+});
+
+$(document).on('click', '#all_vehs_btn', function(e) {
+	e.preventDefault();
+
+	$(this).css('background-color', 'gray');
+	$('#info_veh_btn').css('background-color', 'black');
+	$('#qvr_btn').css('background-color', 'black');
+
+	clearVehicleSearchData();
+
+	findVehicles();
+
+});
+
+$(document).on('click', '#qvr_btn', function(e) {
+	e.preventDefault();
+
+	$(this).css('background-color', 'gray');
+	$('#info_veh_btn').css('background-color', 'black');
+	$('#all_vehs_btn').css('background-color', 'black');
+
+	clearVehicleSearchData();
+	
+	var vehsDiv = $('#vehsDiv');
+	vehsDiv.empty();
+	
+	findQuickVehicleReservations();
+
+});
+
+function findQuickVehicleReservations(){
+	var racId = localStorage.getItem('showVeh');
+	$.ajax({
+		url : "/rentacars/" + racId + "/quickReservations",
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillTableQvrs,
+		error : function(response) {
+			alertify.alert("Something went wrong");
+		}
+	});
+}
+
+function fillTableQvrs(data) {
+
+	var qvrs_list = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+
+	var qvrsDiv = $('#vehsDiv');
+	qvrsDiv.empty();
+	var counter = 0;
+
+	$
+			.each(
+					qvrs_list,
+					function(index, qvr) {
+
+						//	alert(qrr.id +   ' ' + JSON.stringify(qrr));
+						var qvrDiv = $('<div class="company-div" id="qvrDiv_'
+								+ counter
+								+ '" style="bottom:'
+								+ (60 - counter * 40)
+								+ '%; top:'
+								+ (3 + counter * 40)
+								+ '%;"'
+								+ '>'
+								+ '<img src="../images/cars.jpg" height = 90% width= 18%>'
+								+ '<h3>Registration number: ' + qvr.vehicle.vehicleRegistration
+								+ '</h3>');
+
+					/*	qvrDiv
+								.append('<p style="position: absolute;top:18%;left:22%;"> Floor: '
+										+ qrr.room.floorNumber + '</p>');*/
+						qvrDiv
+								.append('<p style="position: absolute;top:30%;left:22%;"> Type: '
+										+ qvr.vehicle.vehicleType + '</p></div>');
+						qvrDiv
+								.append('<p style="position: absolute;top:42%;left:22%;"> Check in: '
+										+ qvr.checkInDate.substring(0, 10)
+										+ '</p></div>');
+						qvrDiv
+								.append('<p style="position: absolute;top:54%;left:22%;"> Check out: '
+										+ qvr.checkOutDate.substring(0, 10)
+										+ '</p></div>');
+
+						qvrDiv.append('<p class="totalPrice">' + qvr.totalPrice*(100 - qvr.discount)/100
+								+ '&#8364;</p>');
+
+						qvrDiv.append('<p class="discount"><b>-' + qvr.discount
+								+ '%</b></p>');
+
+						qvrDiv.append('<p class="oldPrice">' + qvr.totalPrice
+								+ '&#8364;</p>');
+
+						qvrDiv
+								.append('<button class="show_details_btn book_qvr_btn" id="book_qvr_'
+										+ qvr.id + '">Reserve now</button>');
+						counter++;
+						qvrsDiv.append(qvrDiv);
+
+					});
+
+	$('.book_qvr_btn').on('click', function(e) {
+		e.preventDefault();
+		var qvrId = this.id.substring(9);
+		
+		alertify.confirm('Booking confirmation', 'Are you sure?', function() {
+			reserveQvr(qvrId);
+		}, function() {
+			alertify.notify("Booking canceled");
+		});				
+
+	});
+
+}
+
+function reserveQvr(qvrId) {
+
+	alertify.set('notifier', 'position', 'top-right');
+	var user;
+	if(localStorage.getItem("currentUser") == null)
+	{
+		alertify.error('You must first log in!');
+		return;
+	}
+	
+	$.ajax({
+		type : 'POST',
+		url : '/quickVehicleReservations/' + qvrId,
+		contentType : 'application/json',
+		dataType : 'json',
+		data : JSON
+				.stringify(JSON.parse(localStorage.getItem("currentUser")).id),
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function() {
+			alertify.notify('Reserved!');
+			findQuickVehicleReservations();
+		},
+		statusCode : {
+			403 : function() {
+
+				alertify.error('You must first log in!');
+			}
+		}
+	});
+}
+
+function clearVehicleSearchData(){
+	
+	$('#searchType').val("");
+	$('#searchMinPrice').val("");
+	$('#searchMaxPrice').val("");
+	$('#vehpickup').val("");
+	$('#vehdropoff').val("");
+}

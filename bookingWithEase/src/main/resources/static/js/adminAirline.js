@@ -485,14 +485,7 @@ function fillDestinationSelect2(data, flight) {
    	}  
    	$("#endDestinationDropdownf"+ flight.id).html(s); 
    	
-   	
 }
-
-
-
-
-
-
 
 
 function findQuickReservations() {

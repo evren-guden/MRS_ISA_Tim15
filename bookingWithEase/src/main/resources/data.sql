@@ -14,11 +14,9 @@ insert into airline (id,name, address, description, rating) values (9,'Turkish A
 insert into airline (id,name, address, description, rating) values (10,'Air Serbia', 'Serbia', '', 1);
 
 
-
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','Belgrade (NTesla)','da',5,5,5,'Paris (CdeGol)',1,1,1,4);
 
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','Paris (CdeGol)','ne',3,3,3,'Dubai (UAE)',2,2,4,3);
-
 
 
 insert into destination(id, address, name_aerodroms, airline_id) values (1, "Belgrade", "NTesla", 1);
