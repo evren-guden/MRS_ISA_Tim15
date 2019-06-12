@@ -11,6 +11,11 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript" src="js/adminAirline.js"></script>
+<script type="text/javascript" src="lib/alertify/alertify.min.js"></script>
+
+<link type="text/css" rel="stylesheet" href="lib/alertify/css/alertify.min.css">
+<link type="text/css" rel="stylesheet" href="lib/alertify/css/themes/semantic.min.css">
+
 
 </head>
 
@@ -33,6 +38,10 @@
 		<button class="tablinks" onclick="openCity(event, 'allDest'); findDestination();">All destinations</button>
 		<button class="tablinks" onclick="openCity(event, 'addFlight'); findDestinationByFlightId()">Add flight</button>
 		<button class="tablinks" onclick="openCity(event, 'allF'); findFlights();">All flights</button>
+
+		<button class="tablinks" onclick="openCity(event, 'addQuickFlightReservation'); findFlightsSelect();">Add Quick Reservations</button>
+		<button class="tablinks" onclick="openCity(event, 'quickRes'); findQuickReservations();">All Quick Reservations</button>
+
 		<button class="tablinks" onclick="openCity(event, 'eP')">Edit profile</button>
 
 	</div>
@@ -185,6 +194,80 @@
 		</div>
 	</div>
 	
+	
+<div id="quickRes" class="tabcontent">
+		<div class="container">
+			<h1>All Quick Flight Reservations</h1>
+			<table align="center" id="allQfrTable" class="airlinesTable"
+				border=1>
+			</table>
+		</div>
+	</div>
+	
+	<div id="addQuickFlightReservation" class="tabcontent">
+		<div class="container">
+			<h1 align=center style="color: black;">Add Quick Flight Reservation</h1>
+			<form id="addQuickFlightReservationForm">
+				<table align="center">
+					<tr>
+						<td>Flight:</td>
+						<td>
+							<select id="qfrAdd-flight-select"></select>
+						</td>
+					</tr>
+					<tr>
+						<td>Discount (%):</td>
+						<td><input type="text" name="discount" id="qfrAdd-discount"></td>
+					</tr>
+					<tr>
+						<td align="left">Seats: &nbsp;</td>
+						<td>
+							<div class="select" id="qfr-seats">
+								<div align="left">&nbsp;</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right"><input class="formBtn" type="button"
+							id="addQuickRoomReservationBtn" value="Add new"> <input
+							class="formBtn" type="button" id="cancelQuickRoomReservationBtn"
+							name="cancelQuickRoomReservationBtn" value="Cancel"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	
+	<div id="editQuickFlightReservation" class="tabcontent">
+		<div class="container">
+			<h1 align=center style="color: black">Edit quick flight reservation</h1>
+			<form id="editQuickFlightReservationForm">
+				<input type="hidden" name="id" id="qfr-id-edit" readonly>
+				<table align="center">
+					<tr>
+						<td>Seat id:</td>
+						<td><input type="text" name="seatId" id="qfr-seatId-edit" readonly></td>
+					</tr>
+					<tr>
+						<td>Discount:</td>
+						<td><input type="text" name="discount" id="qfr-discount-edit"></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td align="right">
+							<input class="formBtn" type="button" id="editQuickFlightReservationBtn" value="Save">
+							<input class="formBtn" type="button" id="cancelQuickFlightReservationBtn"
+									name="cancelEditQuickFlightReservationBtn" value="Cancel">
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>	
 	
 	
 	

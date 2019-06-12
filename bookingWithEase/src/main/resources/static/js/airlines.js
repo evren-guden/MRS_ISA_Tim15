@@ -107,6 +107,7 @@ function fillTable(data) {
 								+ '</p>'
 								+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
 								+ '</div>');
+				airDiv.append('<div class="seat_number"><a id="quick_'+air.id+'" href="">See discount tickets</a></div>');
 				airDiv.append('<div class="guest_ratings"> Guest ratings: '
 								+ (air.rating == null ? 0
 										: air.rating) + ' / 5 </div>');
@@ -125,6 +126,16 @@ function fillTable(data) {
 			}
 		localStorage.setItem('showFlt', iden);
 		window.location.href = "flights.html";
+	});
+	
+	$('a').on('click', function(e) {
+		e.preventDefault();
+		var iden = this.id.substring(6);
+		if (localStorage.getItem("showFlt") === null) {
+			  localStorage.removeItem('showFlt');
+			}
+		localStorage.setItem('showFlt', iden);
+		window.location.href = "quickFlightReservation.html";
 	});
 }
 

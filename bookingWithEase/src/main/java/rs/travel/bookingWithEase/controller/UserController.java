@@ -319,6 +319,7 @@ public class UserController {
 
 			mailMessage = new SimpleMailMessage();
 			mailMessage.setTo(friend.getEmail());
+			mailMessage.setTo("delicmarkk@gmail.com");
 			mailMessage.setSubject("Flight invite");
 			mailMessage.setFrom(env.getProperty("spring.mail.username"));
 			mailMessage.setText(
@@ -366,6 +367,7 @@ public class UserController {
 		
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setTo(flightReservation.getFUser().getEmail());
+		mailMessage.setTo("delicmarkk@gmail.com");
 		mailMessage.setSubject("Reservation #" + fliResId);
 		mailMessage.setFrom(env.getProperty("spring.mail.username"));
 		mailMessage.setText("Your reservation #" + fliResId + ": \n\n"+mailText+"Price is: "+price);

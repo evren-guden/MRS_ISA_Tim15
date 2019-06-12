@@ -485,5 +485,169 @@ function fillDestinationSelect2(data, flight) {
    	}  
    	$("#endDestinationDropdownf"+ flight.id).html(s); 
    	
-   	
+}
+
+
+function findQuickReservations() {
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var airlineId = currentUser.company.id;
+
+	$.ajax({
+		url: "/quickFlightReservation/" + airlineId + "/quickReservations",
+		type: "GET",
+		dataType: 'json',
+		beforeSend: function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success: fillQuickFlightReservations,
+		error: function(response) {
+			alert("Something went wrong while getting quick flight reservations! :(");
+		}
+	});
+}
+
+function fillQuickFlightReservations(data) {
+	var qfrs = data == null ? [] : (data instanceof Array ? data : [data]);
+
+	var qfrs_dict = arrayToObject(qfrs, "id");
+	localStorage.setItem("qfrs", JSON.stringify(qfrs_dict));
+
+	$('#allQfrTable').empty();
+	$('#allQfrTable').append('<tr><th>Id</th><th>Flight number</th><th>Seat id</th><th>Date</th><th>Price</th><th>Discount</th><th>Final price</th><th>&nbsp;</th><th>&nbsp;</th></tr>');
+
+	$.each(qfrs, function(index, qfr) {
+
+		var tr = $('<tr></tr>');
+
+		var qfrTr = $('<td>' + qfr.qfrId + '</td>' + '<td id="qfr_' + qfr.qfrId
+			+ '">' + qfr.flightNumber + '</td>' + '<td>'
+			+ qfr.seatId + '</td>' + '<td>'
+			+ qfr.dateFligh.substring(0, 10) + '</td><td>'
+			+ qfr.originalPrice + '&#8364;</td><td>' + qfr.discount + '%<td>'
+			+ qfr.currentPrice + '&#8364;</td>'
+			+ '<td><button class="edit_qfr_btn" id="edit_qfr_' + qfr.qfrId
+			+ '">Edit</button></td>'
+			+ '</td><td><button class="delete_qfr_btn" id="delete_qfr_'
+			+ qfr.qfrId + '">Delete</button></td>');
+
+		tr.append(qfrTr);
+
+		$('#allQfrTable').append(tr);
+	});
+
+	$('.delete_qfr_btn').on('click',function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var qfrId = this.id.substring(11);
+		var airlineId = currentUser.company.id;
+		
+		alertify.confirm('Delete quick flight reservation', 'Are you sure?',
+			function() {
+				deleteQuickFlightReservation(airlineId, qfrId,
+					function(data) {
+						alertify.notify("Quick flight reservation deleted!");
+						fillQuickFlightReservations(data);
+					}
+				);
+			},
+			function() {
+				alertify.notify("Canceled");
+			}
+		);
+	});
+	
+	$('.edit_qfr_btn').on('click', function(e) {
+		e.preventDefault();
+
+		var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+		var qfrId = this.id.substring(9);
+		var airlineId = currentUser.company.id;
+
+		//getSpecialOffers(hotelId, addSpecialOffersToEditQrr);
+		fillEditQfrForm(qfrId);
+		openCity(event, 'editQuickFlightReservation');
+
+	});
+}
+
+function deleteQuickFlightReservation(airlineId, qfrId, callback) {
+	$.ajax({
+		url : "/quickFlightReservation/" + airlineId + "/quickReservations/" + qfrId,
+		type : "DELETE",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : callback,
+		error : function(response) {
+			alert("Something went wrong while deleting qfr!");
+		}
+	});
+}
+
+function fillEditQrrForm(qfrId) {
+	var qrrInfo = JSON.parse(localStorage.getItem('qrrs'))[qrrId];
+	// alert(JSON.stringify(qrrInfo));
+	$('#qrr-id-edit').val(qrrInfo.id);
+	$('#qrr-roomNumber-edit').val(qrrInfo.room.roomNumber);
+	$('#qrr-checkIn-edit').val(qrrInfo.checkInDate.substring(0, 10));
+	$('#qrr-checkOut-edit').val(qrrInfo.checkOutDate.substring(0, 10));
+	$('#qrr-discount-edit').val(qrrInfo.discount);
+
+	var checks = $('.qrr_so_checkbox');
+
+	$.each(checks, function(index, check) {
+
+		var sos = qrrInfo.specialOffers;
+		for ( var v in sos) {
+
+			if ($(check).val() == sos[v].id) {
+				$('#qrr_so_checkbox_' + sos[v].id).prop('checked', true);
+			}
+		}
+	});
+}
+
+function fillEditQfrForm(qfrId) {
+	var qfrInfo = JSON.parse(localStorage.getItem('qfrs'))[qfrId];
+
+	$('#qfr-id-edit').val(qfrInfo.id);
+	$('#qfr-seatId-edit').val(qfrInfo.seatId);
+	$('#qfr-discount-edit').val(qfrInfo.discount);
+}
+
+function findFlightsSelect() {
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var id = currentUser.company.id;
+	
+	$.ajax({
+		url : "/flights/airline/" + id,
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillFlightsSelect,
+		error : function(response) {
+			alert("Something went wrong while deleting qfr!");
+		}
+	});
+}
+
+function fillFlightsSelect(data){
+	var flights = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	
+	var select = document.getElementById("qfrAdd-flight-select"); 
+
+	$.each(flights, function(index, flight) {
+	    var el = document.createElement("option");
+	    el.textContent = flight.number + "(" + flight.id + ")";
+	    el.value = flight.number + "(" + flight.id + ")";
+		el.id = flight.id;
+	    select.appendChild(el);
+	});
 }

@@ -22,7 +22,7 @@ public class FlightInvite {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private FlightReservation reservation;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String friendEmail;
 
 	@Column(nullable = false)
@@ -34,7 +34,7 @@ public class FlightInvite {
 	@Column(nullable = false)
 	private Long seatId;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String passport;
 
 	@Column(nullable = true)

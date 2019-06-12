@@ -21,5 +21,9 @@ public class SeatService {
 	public Seat findById(Long seatId) {
 		return seatRepository.getOne(seatId);
 	}
+
+	public Seat save(Seat seat) {
+		return seatRepository.save(seat);
+	}
 	
 }

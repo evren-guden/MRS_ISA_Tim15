@@ -18,4 +18,6 @@ public interface IFlightInviteRepository extends JpaRepository<FlightInvite, Lon
 
 	List<FlightInvite> findByReservationIdAndAcceptedAndSeatIdIsNot(Long flightReservationId, boolean accepted, Long seatId);
 
+	FlightInvite findByReservationId(Long quickFliResId);
+
 }

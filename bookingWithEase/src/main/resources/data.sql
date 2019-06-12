@@ -12,16 +12,17 @@ insert into airline (id,name, address, description, rating) values (6,'Austrian 
 insert into airline (id,name, address, description, rating) values (7,'Swiss International Air', 'Switzerland', '', 1);
 insert into airline (id,name, address, description, rating) values (9,'Turkish Airlines', 'Turkey', '', 1);
 insert into airline (id,name, address, description, rating) values (10,'Air Serbia', 'Serbia', '', 1);
-insert into destination(id, address, name_aerodroms, airline_id) values (1, "Belgrade", "Nikola Tesla", 1);
-insert into destination(id, address, name_aerodroms, airline_id) values (2, "Belgrade", "Nikola Tesla", 2);
-insert into destination(id, address, name_aerodroms, airline_id) values (3, "Dubai", "UAE Airport", 2);
-insert into destination(id, address, name_aerodroms, airline_id) values (4, "Paris", "Charl de Gol", 1);
-
-insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','Belgrade (Nikola Tesla)','da',5,5,5,'Paris (Charl de Gol)',1,1,1,4);
-
-insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','Paris (Charl de Gol)','ne',3,3,3,'Dubai (UAE Airport)',2,2,4,3);
 
 
+insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (11,'2019-04-30','2019-05-30','Belgrade (NTesla)','da',5,5,5,'Paris (CdeGol)',1,1,1,4);
+
+insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (12,'2019-09-30','2019-06-30','Paris (CdeGol)','ne',3,3,3,'Dubai (UAE)',2,2,4,3);
+
+
+insert into destination(id, address, name_aerodroms, airline_id) values (1, "Belgrade", "NTesla", 1);
+insert into destination(id, address, name_aerodroms, airline_id) values (2, "Belgrade", "NTesla", 2);
+insert into destination(id, address, name_aerodroms, airline_id) values (3, "Dubai", "UAE", 2);
+insert into destination(id, address, name_aerodroms, airline_id) values (4, "Paris", "CdeGol", 1);
 
 insert into branch (id, rac_id, name, address) values (1, 101,'Atlas NS', 'Novi Sad');
 insert into branch (id, rac_id, name, address) values (2, 303,'DDM BG', 'Beograd');
@@ -117,6 +118,7 @@ INSERT INTO registered_user (id, username, password, first_name, last_name, emai
 INSERT INTO registered_user (id, username, password, first_name, last_name, email, enabled) VALUES (103, 'user3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko3', 'Markovic3', 'user3@example.com', true);
 
 
+
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (200, 'admin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'admin@example.com', true, 0);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (300, 'adminrac', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (400, 'adminhotel', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 200, 2);
@@ -127,6 +129,9 @@ INSERT INTO admin (id, username, password, first_name, last_name, email, enabled
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (900, 'adminrac3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Bojana', 'Zoric', 'admin@example.com', true, 101, 3);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, company_id, type) VALUES (1000, 'adminhotel3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mijailovic', 'admin@example.com', true, 200, 2);
 INSERT INTO admin (id, username, password, first_name, last_name, email, enabled, type) VALUES (1100, 'adminairline3', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marina', 'Simovic', 'admin@example.com', true, 1);
+
+
+
 
 INSERT INTO authority (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO authority (id, name) VALUES (2, 'ROLE_ADMIN');
@@ -180,3 +185,11 @@ insert into seat (flight_id, seat_number, type, available) values (11, 15, 0, tr
 insert into seat (flight_id, seat_number, type, available) values (11, 16, 0, true);
 insert into seat (flight_id, seat_number, type, available) values (11, 17, 1, false);
 insert into seat (flight_id, seat_number, type, available) values (11, 18, 1, false);
+
+insert into quick_flight_reservation (id, flight_id, check_in_date, check_out_date, total_price, discount) values (1001, 11, '2019-07-01 00:00:00', '2019-08-02 00:00:00', 45, 10);
+insert into quick_flight_reservation (id, flight_id, check_in_date, check_out_date, total_price, discount) values (1002, 11, '2019-07-01 00:00:00', '2019-08-02 00:00:00', 45, 10);
+insert into quick_flight_reservation (id, flight_id, check_in_date, check_out_date, total_price, discount) values (1003, 11, '2019-07-01 00:00:00', '2019-08-02 00:00:00', 45, 10);
+
+insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (8, 1001, '2019-07-01 00:00:00', false);
+insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (17, 1002, '2019-07-01 00:00:00', false);
+insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (18, 1003, '2019-07-01 00:00:00', false);

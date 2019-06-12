@@ -3,7 +3,6 @@ package rs.travel.bookingWithEase.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,6 @@ import rs.travel.bookingWithEase.model.Seat;
 import rs.travel.bookingWithEase.model.User;
 import rs.travel.bookingWithEase.service.FlightInviteService;
 import rs.travel.bookingWithEase.service.FlightReservationService;
-import rs.travel.bookingWithEase.service.RegisteredUserService;
 import rs.travel.bookingWithEase.service.SeatService;
 import rs.travel.bookingWithEase.service.UserService;
 
