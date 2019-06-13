@@ -96,9 +96,9 @@ function fillRoomReservations(data) {
 		var today = new Date();
 		today.setDate(today.getDate() + 2);
 		var checkIn = new Date(reservation.checkInDate);
-		if (today.getTime() <= checkIn.getTime())
+		if (today.getTime() <= checkIn.getTime()){
 			reservationDiv.append('<button class="cancelRR" id="cancelRR'
-					+ reservation.id + '">Cancel reservation</button>');
+					+ reservation.id + '">Cancel reservation</button>');}
 
 		counter++;
 		rrDiv.append(reservationDiv);
@@ -153,9 +153,19 @@ function fillVehicleReservations(data) {
 		var today = new Date();
 		today.setDate(today.getDate() + 2);
 		var checkIn = new Date(reservation.checkInDate);
-		if (today.getTime() <= checkIn.getTime())
+		var checkOut = new Date(reservation.checkOutDate);
+		if (today.getTime() <= checkIn.getTime()){
 			reservationDiv.append('<button class="cancelVR" id="cancelVR'
 					+ reservation.id + '">Cancel reservation</button>');
+		}
+		if (today.getTime() >= checkOut.getTime()){
+			if(reservation.rate == null){
+			reservationDiv.append('<button class="rate" id="rate'
+					+ reservation.id + '">Rate</button>');
+			}else {
+				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate + '</h2>');
+			}
+		}
 
 		counter++;
 		vrDiv.append(reservationDiv);
