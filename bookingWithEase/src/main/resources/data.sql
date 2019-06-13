@@ -193,3 +193,7 @@ insert into quick_flight_reservation (id, flight_id, check_in_date, check_out_da
 insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (8, 1001, '2019-07-01 00:00:00', false);
 insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (17, 1002, '2019-07-01 00:00:00', false);
 insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (18, 1003, '2019-07-01 00:00:00', false);
+
+insert into vehicle_rate (id, rate, reservation_id) values(1, 4.0, 111);
+insert into vehicle_rate (id, rate, reservation_id) values(2, 3.0, 111);
+insert into vehicle_rate (id, rate, reservation_id) values(3, 2.0, 111);

@@ -139,7 +139,7 @@ function fillTable(data) {
 										+ rac.description + '</p>');
 						racDiv
 								.append('<div class="guest_ratings"> Guest ratings: '
-										+ (rac.rating == null ? 0 : rac.rating)
+										+ (rac.rating == null ? " no ratings" : rac.rating)
 										+ ' / 5 </div>');
 						racDiv
 								.append('<button class="show_details_btn" id="showv_'

@@ -16,17 +16,25 @@ import rs.travel.bookingWithEase.model.RentACar;
 import rs.travel.bookingWithEase.model.Vehicle;
 import rs.travel.bookingWithEase.model.VehicleReservation;
 import rs.travel.bookingWithEase.repository.IRACRepository;
+import rs.travel.bookingWithEase.repository.IVehicleRateRepository;
 
 @Service
 public class RACService {
 
 	@Autowired
 	private IRACRepository rentacarsRepository;
+	
+	@Autowired
+	private IVehicleRateRepository vehRateRepository;
 
 	public RentACar findOne(Long id) {
 		Optional<RentACar> rac = rentacarsRepository.findById(id);
 
 		if (rac.isPresent()) {
+			
+			Double rating = vehRateRepository.findAverageByCompany(id);
+			rac.get().setRating(rating);
+			
 			return rac.get();
 		}
 
@@ -34,7 +42,14 @@ public class RACService {
 	}
 
 	public List<RentACar> findAll() {
-		return rentacarsRepository.findAll();
+		
+		List<RentACar> racs = rentacarsRepository.findAll();
+		
+		for (RentACar rentACar : racs) {
+			rentACar.setRating(vehRateRepository.findAverageByCompany(rentACar.getId()));
+		}
+		
+		return racs;
 	}
 
 	public RentACar save(RentACar rentACar) {

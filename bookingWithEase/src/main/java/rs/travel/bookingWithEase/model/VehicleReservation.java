@@ -13,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +46,9 @@ public class VehicleReservation {
 	
 	protected Double totalPrice;
 
+	@OneToOne
+	private VehicleRate rate;
+	
 	public VehicleReservation() {
 	}
 
@@ -113,5 +117,13 @@ public class VehicleReservation {
 
 	public void setRacSpecialOffers(Set<RACSpecialOffer> racSpecialOffers) {
 		this.racSpecialOffers = racSpecialOffers;
+	}
+
+	public VehicleRate getRate() {
+		return rate;
+	}
+
+	public void setRate(VehicleRate rate) {
+		this.rate = rate;
 	}
 }

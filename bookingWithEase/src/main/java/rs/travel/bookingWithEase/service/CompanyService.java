@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import rs.travel.bookingWithEase.dto.CompanyDTO;
 import rs.travel.bookingWithEase.model.Company;
 import rs.travel.bookingWithEase.model.User;
+import rs.travel.bookingWithEase.model.VehicleRate;
 import rs.travel.bookingWithEase.repository.ICompanyRepository;
+import rs.travel.bookingWithEase.repository.IVehicleRateRepository;
 import rs.travel.bookingWithEase.model.Admin;
 
 @Service
@@ -19,6 +21,7 @@ public class CompanyService {
 	@Autowired
 	private UserService userService;
 	
+	
 	@Autowired
 	private ICompanyRepository companies;
 	
@@ -26,6 +29,7 @@ public class CompanyService {
 		Optional<Company> companyOpt = companies.findById(id);
 		
 		if (companyOpt.isPresent()) {
+			
 			return companyOpt.get();
 		}
 		
