@@ -32,6 +32,7 @@ import rs.travel.bookingWithEase.service.BranchService;
 import rs.travel.bookingWithEase.service.QuickVehicleReservationService;
 import rs.travel.bookingWithEase.service.RACService;
 import rs.travel.bookingWithEase.service.RACSpecialOfferService;
+import rs.travel.bookingWithEase.service.VehicleRateService;
 import rs.travel.bookingWithEase.service.VehicleService;
 
 @RestController
@@ -52,6 +53,9 @@ public class RentACarController {
 	
 	@Autowired
 	private QuickVehicleReservationService quickVehService;
+	
+	@Autowired
+	private VehicleRateService vehRateService;
 
 	@GetMapping("/all")
 	public String hello() {
@@ -143,6 +147,7 @@ public class RentACarController {
 		
 		for (Branch br : rac.getBranches()) {
 			for (Vehicle vehicle : br.getVehicles()) {
+				vehicle.setRate(vehRateService.getAverageByVehicle(vehicle.getId()));
 				vehs.add(vehicle);
 			}
 		}

@@ -12,6 +12,7 @@ import rs.travel.bookingWithEase.model.Hotel;
 import rs.travel.bookingWithEase.model.Room;
 import rs.travel.bookingWithEase.dto.HotelSearchDTO;
 import rs.travel.bookingWithEase.model.Admin;
+import rs.travel.bookingWithEase.repository.IHotelRateRepository;
 import rs.travel.bookingWithEase.repository.IHotelRepository;
 import rs.travel.bookingWithEase.repository.IUserRepository;
 
@@ -22,24 +23,39 @@ public class HotelService {
 	private IHotelRepository hotels;
 
 	@Autowired
+	private IHotelRateRepository hotelRateRepository;
+	
+	@Autowired
 	private IUserRepository users;
 
 	public Hotel findOne(Long id) {
 		Optional<Hotel> hotelOpt = hotels.findById(id);
 		if (hotelOpt.isPresent()) {
+			Double rating = hotelRateRepository.findAverageByCompany(id);
+			hotelOpt.get().setRating(rating);
 			return hotelOpt.get();
 		}
 		return null;
 	}
 
 	public List<Hotel> findAll() {
-		return hotels.findAll();
+		
+		List<Hotel> hs = hotels.findAll();
+		
+		for (Hotel hotel : hs) {
+			Double rating = hotelRateRepository.findAverageByCompany(hotel.getId());
+			hotel.setRating(rating);
+		}
+		
+		return hs;
 	}
 
 	public Hotel findById(Long id) {
 
 		Optional<Hotel> dbHotel = hotels.findById(id);
 		if (dbHotel.isPresent()) {
+			Double rating = hotelRateRepository.findAverageByCompany(id);
+			dbHotel.get().setRating(rating);
 			return dbHotel.get();
 		} else {
 			return null;
@@ -84,6 +100,11 @@ public class HotelService {
 				System.out.println("hotel id " + h.getId() + " name " + h.getName());
 			}
 			result1.retainAll(result2); // intersection
+		}
+		
+		for (Hotel hotel : result1) {
+			Double rating = hotelRateRepository.findAverageByCompany(hotel.getId());
+			hotel.setRating(rating);
 		}
 		
 		return result1;

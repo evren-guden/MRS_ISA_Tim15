@@ -42,6 +42,7 @@ public class Vehicle {
 	@ManyToOne
 	private Branch branch;
 	
+	private Double rate;
 	
 	@OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<VehicleReservation> vehicleReservations = new HashSet<VehicleReservation>();
@@ -153,6 +154,14 @@ public class Vehicle {
 
 	public void setVehicleReservations(Set<VehicleReservation> vehicleReservations) {
 		this.vehicleReservations = vehicleReservations;
+	}
+
+	public Double getRate() {
+		return rate;
+	}
+
+	public void setRate(Double rate) {
+		this.rate = rate;
 	}
 
 }

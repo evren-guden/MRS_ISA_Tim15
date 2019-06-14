@@ -12,23 +12,37 @@ import org.springframework.stereotype.Service;
 import rs.travel.bookingWithEase.dto.AirlineDTO;
 import rs.travel.bookingWithEase.model.Airline;
 import rs.travel.bookingWithEase.repository.IAirlineRepository;
+import rs.travel.bookingWithEase.repository.IFlightRateRepository;
 
 @Service
 public class AirlineService {
 
 	@Autowired
 	private IAirlineRepository airlines;
+	
+	@Autowired
+	private IFlightRateRepository flightRateRepository;
 
 	public Airline findOne(Long id) {
 		Optional<Airline> airOpt = airlines.findById(id);
 		if(airOpt.isPresent()) {
+			Double rating = flightRateRepository.findAverageByCompany(id);
+			airOpt.get().setRating(rating);
 			return airOpt.get();
 		}
 		return null;
 	}
 
 	public List<Airline> findAll() {
-		return airlines.findAll();
+		
+		List<Airline> as = airlines.findAll();
+		
+		for (Airline airline : as) {
+			Double rating = flightRateRepository.findAverageByCompany(airline.getId());
+			airline.setRating(rating);
+		}
+		
+		return as;
 	}
 
 	public Airline save(Airline airline) {
@@ -57,6 +71,11 @@ public class AirlineService {
 					}
 				}
 			}
+		}
+		
+		for (Airline a : searchAirlines.values()) {
+			Double rating = flightRateRepository.findAverageByCompany(a.getId());
+			a.setRating(rating);
 		}
 		
 		return searchAirlines.values();

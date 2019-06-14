@@ -17,8 +17,8 @@ public class VehicleRateService {
 	@Autowired
 	private IVehicleReservationRepository vehResRepository;
 	
-	public double getAverageByVehicle(Long companyId) {
-		Double rating = vehRateRepository.findAverageByCompany(companyId);
+	public double getAverageByVehicle(Long vehicleId) {
+		Double rating = vehRateRepository.findAverageByVehicle(vehicleId);
 		
 		if(rating == null) {
 			return -1;

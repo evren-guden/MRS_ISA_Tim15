@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import rs.travel.bookingWithEase.dto.VehicleSearchDTO;
 import rs.travel.bookingWithEase.model.Vehicle;
+import rs.travel.bookingWithEase.repository.IVehicleRateRepository;
 import rs.travel.bookingWithEase.repository.IVehicleRepository;
 
 @Service
@@ -16,17 +17,31 @@ public class VehicleService {
 
 	@Autowired
 	private IVehicleRepository vehicleRepository;
+	
+	@Autowired
+	private IVehicleRateRepository vehRateRepository;
 
 	public Vehicle findOne(Long id) {
 		Optional<Vehicle> vehicle = vehicleRepository.findById(id);
 		if (vehicle.isPresent()) {
+			
+			Double rating = vehRateRepository.findAverageByVehicle(id);
+
+			vehicle.get().setRate(rating);
+			
 			return vehicle.get();
 		}
 		return null;
 	}
 
 	public List<Vehicle> findAll() {
-		return vehicleRepository.findAll();
+		List<Vehicle> vehs = vehicleRepository.findAll();
+		
+		for (Vehicle vehicle : vehs) {
+			vehicle.setRate(vehRateRepository.findAverageByVehicle(vehicle.getId()));
+			System.out.println("Rating: " + vehicle.getRate());
+		}
+		return vehs;
 	}
 
 	public Vehicle save(Vehicle vehicle) {
@@ -70,6 +85,11 @@ public class VehicleService {
 		}
 		
 		result1.retainAll(result2);
+		
+		for (Vehicle vehicle : result1) {
+			vehicle.setRate(vehRateRepository.findAverageByVehicle(vehicle.getId()));
+			System.out.println("Rating search: " + vehicle.getRate());
+		}
 		
 		return result1;
 	}

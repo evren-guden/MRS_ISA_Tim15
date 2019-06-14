@@ -195,5 +195,8 @@ insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) v
 insert into flight_invite (seat_id, reservation_id, expiration_date, accepted) values (18, 1003, '2019-07-01 00:00:00', false);
 
 insert into vehicle_rate (id, rate, reservation_id) values(1, 4.0, 111);
-insert into vehicle_rate (id, rate, reservation_id) values(2, 3.0, 111);
-insert into vehicle_rate (id, rate, reservation_id) values(3, 2.0, 111);
+insert into vehicle_rate (id, rate, reservation_id) values(2, 3.0, 222);
+insert into vehicle_rate (id, rate, reservation_id) values(3, 2.0, 333);
+
+insert into hotel_rate (id, rate, reservation_id) values(1, 4.0, 100);
+insert into hotel_rate (id, rate, reservation_id) values(2, 3.0, 101);
