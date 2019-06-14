@@ -109,7 +109,7 @@ function fillTable(data) {
 								+ '</div>');
 				airDiv.append('<div class="seat_number"><a id="quick_'+air.id+'" href="">See discount tickets</a></div>');
 				airDiv.append('<div class="guest_ratings"> Guest ratings: '
-								+ (air.rating == null ? 0
+								+ (air.rating == null ? "no ratings"
 										: air.rating) + ' / 5 </div>');
 				airDiv.append('<button class="show_flights_btn" id="showf_' + air.id + '">Show flights</button>');
 

@@ -119,9 +119,10 @@ function getHotels(successFunction) {
 }
 
 var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-if (currentUser != null)
-	getRooms(currentUser.company.id);
-
+if (currentUser != null){
+	if(currentUser.company != null)
+		getRooms(currentUser.company.id);
+	}
 function getRooms(hotelId) {
 
 	$.ajax({
@@ -257,7 +258,7 @@ function fillHotelsTable(data) {
 										+ '</div>');
 						hotelDiv
 								.append('<div class="guest_ratings"> Guest ratings: '
-										+ (hotel.rating == null ? 0
+										+ (hotel.rating == null ? " no ratings"
 												: hotel.rating) + ' / 5 </div>');
 				/*		hotelDiv
 						.append('<button class="show_details_btn sd_qrr" id="qrr_'

@@ -378,7 +378,7 @@ function fillTableRooms(data) {
 										+ veh.pricePerNight + ' &#8364;</p>');
 						vehDiv
 								.append('<p style="position: absolute;top:2%;left:80%;">Guest ratings: '
-										+ (veh.rating == null ? 0 : veh.rating)
+										+ (veh.rating == 0 ? "no ratings" : veh.rating)
 										+ ' / 5 </p>');
 
 						if (veh.totalPrice != undefined && veh.totalPrice != 0) {
