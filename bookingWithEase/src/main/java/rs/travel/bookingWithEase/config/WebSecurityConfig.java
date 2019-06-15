@@ -59,40 +59,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
             .antMatchers("/users/confirm").permitAll()
 			.antMatchers("/auth/**").permitAll()
-			.antMatchers("/rentacars/search").permitAll()
 			.antMatchers("/branchs").permitAll()
-			.antMatchers("/rentacars/{id}/vehicles").permitAll()
-			.antMatchers(HttpMethod.GET, "rentacars/{racId}/quickReservations").permitAll()
+
 			.antMatchers("/vehicles/{id}/reservations").permitAll()
-			.antMatchers("/airlines").permitAll()
-			.antMatchers("/flights/**").permitAll()
-			.antMatchers("/flights/search").permitAll()
-			.antMatchers("/hotels").permitAll()
-			.antMatchers("/hotels/rooms").permitAll()
-			.antMatchers("/hotels/search").permitAll()
-			.antMatchers(HttpMethod.GET, "/hotels/{id}").permitAll()
-			.antMatchers("/hotels/{hotelId}/rooms").permitAll()
-			.antMatchers(HttpMethod.GET, "/hotels/{hotelId}/specialOffers").permitAll()
-			.antMatchers("hotels/{hotelId}/quickRoomReservations/search").permitAll()
-			.antMatchers(HttpMethod.GET, "hotels/{hotelId}/roomReservations").permitAll()
-			.antMatchers(HttpMethod.GET, "hotels/{hotelId}/quickRoomReservations/available").permitAll()
-			.antMatchers("/companies").permitAll()
-			.antMatchers("/users").permitAll()
+	
 			.antMatchers("/users/inviteFriends").permitAll()
 			.antMatchers("/users/friends/**").permitAll()
 			.antMatchers("/seats/**").permitAll()
-			.antMatchers("/users/{userId}/roomReservations").permitAll()
-			.antMatchers("/users/{userId}/roomReservations/{rrId}").permitAll()
 			
 			.antMatchers("/flightReservation/**").permitAll()
 			.antMatchers("/passengers/**").permitAll()
 			.antMatchers("/users/sendMailReservation/**").permitAll()
-			.antMatchers("/quickFlightReservation/**").permitAll()
-			//.antMatchers(HttpMethod.GET, "/rentacars").permitAll()
-			//.antMatchers("**.html").permitAll()
-			//.antMatchers("**.css").permitAll()
-			//.antMatchers("**.js").permitAll()
-			//.antMatchers("**.js.**").permitAll()
+		
 			.anyRequest().authenticated().and()
 			//.formLogin()
 			//.loginPage("/login.html").permitAll().and()
@@ -106,33 +84,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
-		web.ignoring().antMatchers(HttpMethod.POST, "/users/registration");
 		web.ignoring().antMatchers(HttpMethod.GET, "/users/confirm-account");
 		web.ignoring().antMatchers(HttpMethod.POST, "/users/confirm-account");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/images/**");
-		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars");
-		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/searchNameAddress");
+
 		web.ignoring().antMatchers(HttpMethod.GET, "/branchs");
-		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/{id}/vehicles");
-		web.ignoring().antMatchers(HttpMethod.POST, "/rentacars/vehicles/search");
-		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/{id}/specialOffers");
+
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicles/{id}/reservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/{racId}/quickReservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "/users/{roomId}/roomReservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "/airlines");
-		web.ignoring().antMatchers(HttpMethod.POST, "/airlines/search");
-		web.ignoring().antMatchers(HttpMethod.GET, "/flights/**");
+	
+		
 		web.ignoring().antMatchers(HttpMethod.POST, "/flights/search");
-		web.ignoring().antMatchers(HttpMethod.GET, "/hotels");
-		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/search");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicles");
 		web.ignoring().antMatchers(HttpMethod.GET, "/vehicleReservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "/hotels/{hotelId}/quickRoomReservations");
-		web.ignoring().antMatchers(HttpMethod.GET, "/hotels/{hotelId}/quickRoomReservations/available");
-		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations/search");
-		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations/available");
-		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations");
-		web.ignoring().antMatchers(HttpMethod.DELETE, "hotels/{hotelId}/quickRoomReservations/{qrrId}");
 		
 		web.ignoring().antMatchers(HttpMethod.GET, "/seats/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "/users/friends/**");
@@ -147,5 +110,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, "/passengers/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "/quickFlightReservation/**");
 		web.ignoring().antMatchers(HttpMethod.POST, "/quickFlightReservation/**");
+		
+		// sigurno treba ovde
+		web.ignoring().antMatchers(HttpMethod.POST, "/users/registration");
+		web.ignoring().antMatchers(HttpMethod.GET, "/hotels/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/rentacars/**");
+		web.ignoring().antMatchers("/rentacars/search");
+		web.ignoring().antMatchers(HttpMethod.POST, "/rentacars/vehicles/search");
+		web.ignoring().antMatchers(HttpMethod.GET, "/flights/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/airlines/**");
+		web.ignoring().antMatchers(HttpMethod.POST,"/hotels/search");
+		web.ignoring().antMatchers(HttpMethod.POST, "/airlines/search");
+		web.ignoring().antMatchers(HttpMethod.POST,"/hotels/rooms");
+		web.ignoring().antMatchers(HttpMethod.POST, "/hotels/{hotelId}/quickRoomReservations/search");
 	}
 }

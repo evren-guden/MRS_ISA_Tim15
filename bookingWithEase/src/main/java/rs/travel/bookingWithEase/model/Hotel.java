@@ -21,7 +21,7 @@ public class Hotel extends Company {
 	@Column(name = "stars")
 	private int stars;
 	
-	@OneToOne()
+	@OneToOne(cascade = CascadeType.MERGE)
 	private HotelServiceTypePrices serviceTypePrices = new HotelServiceTypePrices();
 
 	@OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

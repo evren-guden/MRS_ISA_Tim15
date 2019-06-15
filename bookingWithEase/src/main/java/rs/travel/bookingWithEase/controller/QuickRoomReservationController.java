@@ -37,7 +37,7 @@ public class QuickRoomReservationController {
 		return new ResponseEntity<>(quickRoomRes, HttpStatus.OK);
 	}
 
-	// @PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<QuickRoomReservation>> create(@RequestBody DefiningQrrDTO roomResDTO) {
 		List<QuickRoomReservation> reservations = quickRoomReservationService.dtoToReservations(roomResDTO);
@@ -54,7 +54,7 @@ public class QuickRoomReservationController {
 		return new ResponseEntity<>(quickRoomReservationService.findAll(), HttpStatus.OK);
 	}
 	
-	// @PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')")
 	@DeleteMapping(value = "/{qrrId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<QuickRoomReservation>> deleteUserRoomReservation(@PathVariable("hotelId") Long hotelId, @PathVariable("qrrId") Long qrrId) {
 

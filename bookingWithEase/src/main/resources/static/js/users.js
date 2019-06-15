@@ -25,9 +25,14 @@ function getUsers() {
 		type : "GET",
 		dataType : 'json',
 		success : fillUsersTable,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -40,6 +45,10 @@ function cancelRoomReservation(userId, rrId, callback) {
 				contentType : 'application/json',
 				dataType : 'json',
 				success : callback,
+				beforeSend : function(xhr) {
+					/* Authorization header */
+					xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+				},
 				statusCode : {
 					422 : function() {
 						alertify
@@ -57,9 +66,14 @@ function getMyRoomReservations(callback) {
 		type : "GET",
 		dataType : 'json',
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong while getting room reservations! :(");
+		beforeSend : function(xhr) {
+			/* Authorization header */
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -116,9 +130,10 @@ function getMyVehicleReservations() {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : fillVehicleReservations,
-		error : function(response) {
-			alert("Something went wrong");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -245,9 +260,10 @@ function getMyProfileData() {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : fillProfileData,
-		error : function(data) {
-			alert(data);
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -324,9 +340,10 @@ function fillProfileData(data) {
 							getMyProfileData(data);
 							alertify.notify("Changes saved!")
 						},
-						error : function(data) {
-							alert(data);
+						error : function(xhr, status, error) {
+							alertify.alert("Error", xhr.responseText);
 						}
+
 					});
 				});
 	}

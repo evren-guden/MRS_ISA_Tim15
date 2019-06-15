@@ -53,13 +53,14 @@ public class HotelController {
 
 	@Autowired
 	private HotelSpecialOfferService specialOfferService;
-
+	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Hotel>> getAll() throws JsonProcessingException {
 
 		return new ResponseEntity<>(hotelService.findAll(), HttpStatus.OK);
 	}
-
+	
+	
 	@GetMapping(value = "/{hotelId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> findById(@PathVariable("hotelId") Long id) throws JsonProcessingException {
 
@@ -109,7 +110,7 @@ public class HotelController {
 		return roomService.findByHotelId(id);
 	}
 
-	// @PreAuthorize("hasRole('ADMINHOTEL')")
+	@PreAuthorize("hasRole('ADMINHOTEL')")
 	@PostMapping(value = "/{hotelId}/rooms", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Room> addRoom(@RequestBody RoomDTO roomDto) throws EntityAlreadyExistsException {
 		Room newRoom = roomService.dtoToRoom(roomDto);

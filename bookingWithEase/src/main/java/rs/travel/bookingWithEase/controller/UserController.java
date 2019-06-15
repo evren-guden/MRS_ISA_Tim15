@@ -97,7 +97,8 @@ public class UserController {
 	public Collection<User> findAll() {
 		return userService.findAll();
 	}
-
+	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> add(@RequestBody AdminUserDTO adminUserDto) throws Exception {
 
@@ -171,14 +172,14 @@ public class UserController {
 
 	// **************** RESERVATIONS *************
 
-	// @PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping(value = "/{userId}/roomReservations", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RoomReservation>> getUserRoomReservations(@PathVariable("userId") Long userId) {
 		RegisteredUser u = (RegisteredUser) userService.findOne(userId);
 		return new ResponseEntity<>(roomResService.findByUser(u), HttpStatus.OK);
 	}
 
-	// @PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')")
 	@DeleteMapping(value = "/{userId}/roomReservations/{rrId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<RoomReservation>> deleteUserRoomReservation(@PathVariable("userId") Long userId,
 			@PathVariable("rrId") Long rrId) {
