@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.controller;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,4 +69,12 @@ public class FlightReservationContoller {
 		
 		return new ResponseEntity<FlightReservation>(flightReservation, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<FlightReservation>> findByUser(@PathVariable("userId") Long userId) {
+
+		Collection<FlightReservation> flRess = flightReservationService.findByUser(userId);
+		return new ResponseEntity<Collection<FlightReservation>>(flRess, HttpStatus.OK);
+	}
+
 }

@@ -200,3 +200,6 @@ insert into vehicle_rate (id, rate, reservation_id) values(3, 2.0, 333);
 
 insert into hotel_rate (id, rate, reservation_id) values(1, 4.0, 100);
 insert into hotel_rate (id, rate, reservation_id) values(2, 3.0, 101);
+
+insert into flight_reservation (id, flight_id, f_user_id, check_in_date, check_out_date, total_price) values(1, 11, 100, '2019-07-01 00:00:00', '2019-07-05 00:00:00', 500); 
+insert into flight_reservation (id, flight_id, f_user_id, check_in_date, check_out_date, total_price) values(2, 11, 100, '2019-01-01 00:00:00', '2019-01-05 00:00:00', 500); 
