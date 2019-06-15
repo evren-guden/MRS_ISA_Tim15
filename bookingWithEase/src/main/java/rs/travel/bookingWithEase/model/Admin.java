@@ -16,6 +16,8 @@ public class Admin extends User {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Company company;
+	
+	private boolean passwordChanged;
 
 	public Admin() {
 		super();
@@ -25,7 +27,7 @@ public class Admin extends User {
 	public Admin(Long id, String username, String firstName, String lastName, String email, String password,
 			String city, String telephoneNumber, String passportNumber) {
 		super(id, username, firstName, lastName, email, password, city, telephoneNumber, passportNumber);
-
+		this.passwordChanged = false;
 	}
 
 	public Admin(Long id, String username, String firstName, String lastName, String email, String password,
@@ -33,6 +35,7 @@ public class Admin extends User {
 		super(id, username, firstName, lastName, email, password, city, telephoneNumber, passportNumber);
 		this.type = type;
 		this.company = company;
+		this.passwordChanged = false;
 		
 	}
 
@@ -50,6 +53,14 @@ public class Admin extends User {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public boolean isPasswordChanged() {
+		return passwordChanged;
+	}
+
+	public void setPasswordChanged(boolean passwordChanged) {
+		this.passwordChanged = passwordChanged;
 	}
 
 }

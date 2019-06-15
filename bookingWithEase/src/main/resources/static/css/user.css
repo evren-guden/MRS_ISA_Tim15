@@ -24,6 +24,12 @@
 	opacity: 0.95;
 }
 
+.adminProfile{
+
+	top: 30% !important;
+	bottom: 20% !important;
+}
+
 .rrDiv {
 	position: absolute;
 	top: 3%;

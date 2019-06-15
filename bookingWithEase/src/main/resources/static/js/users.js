@@ -37,7 +37,7 @@ function getUsers() {
 }
 
 function cancelRoomReservation(userId, rrId, callback) {
-	
+
 	$
 			.ajax({
 				url : "users/" + userId + "/roomReservations/" + rrId,
@@ -47,7 +47,8 @@ function cancelRoomReservation(userId, rrId, callback) {
 				success : callback,
 				beforeSend : function(xhr) {
 					/* Authorization header */
-					xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+					xhr.setRequestHeader("Authorization", "Bearer "
+							+ getJwtToken());
 				},
 				statusCode : {
 					422 : function() {
@@ -110,9 +111,10 @@ function fillRoomReservations(data) {
 		var today = new Date();
 		today.setDate(today.getDate() + 2);
 		var checkIn = new Date(reservation.checkInDate);
-		if (today.getTime() <= checkIn.getTime()){
+		if (today.getTime() <= checkIn.getTime()) {
 			reservationDiv.append('<button class="cancelRR" id="cancelRR'
-					+ reservation.id + '">Cancel reservation</button>');}
+					+ reservation.id + '">Cancel reservation</button>');
+		}
 
 		counter++;
 		rrDiv.append(reservationDiv);
@@ -123,7 +125,8 @@ function fillRoomReservations(data) {
 function getMyVehicleReservations() {
 
 	$.ajax({
-		url : "/vehicleReservations/" + JSON.parse(localStorage.getItem('currentUser')).id,
+		url : "/vehicleReservations/"
+				+ JSON.parse(localStorage.getItem('currentUser')).id,
 		type : "GET",
 		dataType : 'json',
 		beforeSend : function(xhr) {
@@ -150,14 +153,15 @@ function fillVehicleReservations(data) {
 		var reservationDiv = $('<div class="vrDiv" id="vrDiv_' + counter
 				+ '" style="bottom:' + (55 - counter * 45) + '%; top:'
 				+ (3 + counter * 45) + '%;"' + '></div>');
-		reservationDiv.append('Rent-a-car: ' + reservation.vehicle.vehicleRacName + ', '
+		reservationDiv.append('Rent-a-car: '
+				+ reservation.vehicle.vehicleRacName + ', '
 				+ reservation.vehicle.vehicleRacAddress + ' </br>');
-		reservationDiv.append('Vehicle type: ' + reservation.vehicle.vehicleType
-				+ ' </br>');
-		reservationDiv.append('Vehicle capacity: ' + reservation.vehicle.passengerNumber
-				+ ' </br>');
-		//reservationDiv.append('Reservation date: '
-		//		+ reservation.reservationDate.substring(0, 10) + ' </br>');
+		reservationDiv.append('Vehicle type: '
+				+ reservation.vehicle.vehicleType + ' </br>');
+		reservationDiv.append('Vehicle capacity: '
+				+ reservation.vehicle.passengerNumber + ' </br>');
+		// reservationDiv.append('Reservation date: '
+		// + reservation.reservationDate.substring(0, 10) + ' </br>');
 		reservationDiv.append('Check in: '
 				+ reservation.checkInDate.substring(0, 10) + ' </br>');
 		reservationDiv.append('Check out: '
@@ -169,23 +173,24 @@ function fillVehicleReservations(data) {
 		today.setDate(today.getDate() + 2);
 		var checkIn = new Date(reservation.checkInDate);
 		var checkOut = new Date(reservation.checkOutDate);
-		if (today.getTime() <= checkIn.getTime()){
+		if (today.getTime() <= checkIn.getTime()) {
 			reservationDiv.append('<button class="cancelVR" id="cancelVR'
 					+ reservation.id + '">Cancel reservation</button>');
 		}
-		if (today.getTime() >= checkOut.getTime()){
-			if(reservation.rate == null){
-			reservationDiv.append('<button class="rate" id="rate'
-					+ reservation.id + '">Rate</button>');
-			}else {
-				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate + '</h2>');
+		if (today.getTime() >= checkOut.getTime()) {
+			if (reservation.rate == null) {
+				reservationDiv.append('<button class="rate" id="rate'
+						+ reservation.id + '">Rate</button>');
+			} else {
+				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate
+						+ '</h2>');
 			}
 		}
 
 		counter++;
 		vrDiv.append(reservationDiv);
 	});
-	
+
 	$(document).on('click', '.cancelVR', function(e) {
 		var vrId = $(this).attr('id').substring(8);
 		var userId = JSON.parse(localStorage.getItem('currentUser')).id;
@@ -201,14 +206,14 @@ function fillVehicleReservations(data) {
 
 }
 
-
 function cancelVehicleReservation(vrId) {
 	$
 			.ajax({
 				url : "vehicleReservations/" + vrId,
 				type : "DELETE",
 				beforeSend : function(xhr) {
-					xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+					xhr.setRequestHeader("Authorization", "Bearer "
+							+ getJwtToken());
 				},
 				success : getMyVehicleReservations,
 				statusCode : {
@@ -219,7 +224,6 @@ function cancelVehicleReservation(vrId) {
 				}
 			});
 }
-
 
 function fillUsersTable(data) {
 	var users = data == null ? [] : (data instanceof Array ? data : [ data ]);
@@ -349,36 +353,72 @@ function fillProfileData(data) {
 	}
 }
 
-$(document).on('submit', '#changepswform', function(e) {
+$(document)
+		.on(
+				'submit',
+				'#changepswform',
+				function(e) {
 
-	e.preventDefault();
-	var formData = getFormData("#changepswform");
-	var jsonData = JSON.stringify(formData);
-	$.ajax({
-		type : 'POST',
-		url : "/auth/change-password",
-		dataType : "json",
-		contentType : "application/json",
-		data : jsonData,
-		beforeSend : function(xhr) {
-			/* Authorization header */
-			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
-		},
-		success : function() {
-			alertify.alert("Success", "Password is changed.");
-			$('#oldpsw').val("");
-			$('#newpsw').val("");
-		},
-		statusCode : {
-			403 : function() {
-				alertify.alert('Error', 'Old password is not correct!');
-			}
-		}
-	});
-});
+					e.preventDefault();
+					var formData = getFormData("#changepswform");
+					var jsonData = JSON.stringify(formData);
+					$
+							.ajax({
+								type : 'POST',
+								url : "/auth/change-password",
+								dataType : "json",
+								contentType : "application/json",
+								data : jsonData,
+								beforeSend : function(xhr) {
+									/* Authorization header */
+									xhr.setRequestHeader("Authorization",
+											"Bearer " + getJwtToken());
+								},
+								success : function() {
+									alertify.alert("Success",
+											"Password is changed.");
+									if (JSON.parse(localStorage
+											.getItem('currentUser')).passwordChanged == false) {
+										adminPswChanged();
+									}
+									$('#oldpsw').val("");
+									$('#newpsw').val("");
+								},
+								statusCode : {
+									403 : function() {
+										alertify.alert('Error',
+												'Old password is not correct!');
+									}
+								}
+							});
+				});
 
+function adminPswChanged() {
+	// ovde ide da prebaci na admin homepage
+	// izmeni currentUser da je pswchanged true
+	// izmeni u localstorage homepage
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	currentUser.passwordChanged = true;
+	localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-function showPswchangeFunction(){
+	if (currentUser.authorities[0].authority === "ROLE_ADMINRAC") {
+
+		localStorage.setItem("userHomepage", "homePageRAC.html");
+
+	} else if (currentUser.authorities[0].authority === "ROLE_ADMINHOTEL") {
+
+		localStorage.setItem("userHomepage", "homePageHotel.html");
+
+	} else if (data.authorities[0].authority === "ROLE_ADMINAIRLINE") {
+
+		localStorage.setItem("userHomepage", "homePageAirline.html");
+	}
+
+	window.location = localStorage.getItem('userHomepage');
+
+}
+
+function showPswchangeFunction() {
 	var x = document.getElementById("newpsw");
 	var y = document.getElementById("oldpsw");
 	if (x.type === "password") {

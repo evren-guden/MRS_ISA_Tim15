@@ -44,7 +44,7 @@ function companyRegistration() {
 			}
 		});
 	} else {
-		alertify.notify("Please fill in all fields");
+		alertify.notify("Please fill in all required fields");
 	}
 }
 
@@ -55,8 +55,8 @@ function validateRegistrationData(formData) {
 	var description = formData["description"];
 	var type = formData["cmpType"];
 
-	if (name === "" || address === "" || description === ""
-			|| type === undefined) {
+	if (name === "" || address === "" || 
+			 type === undefined) {
 		return false;
 	}
 

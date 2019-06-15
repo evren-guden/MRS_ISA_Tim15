@@ -41,7 +41,8 @@ function openCity(evt, cityName) {
 				" active", "");
 	}
 	$('#' + cityName).slideToggle(1000);
-	evt.currentTarget.className += " active";
+	if(evt != null && evt != undefined)
+		evt.currentTarget.className += " active";
 }
 
 const arrayToObject = (array, keyField) =>

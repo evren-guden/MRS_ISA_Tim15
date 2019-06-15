@@ -59,24 +59,50 @@ function saveToken(data) {
 							localStorage.setItem("userId", data.id);
 							localStorage.setItem("currentUser", JSON
 									.stringify(data));
-						//	alert("saved " + localStorage.getItem('currentUser'));
+							//	alert("saved " + localStorage.getItem('currentUser'));
 							if (data.company != null) {
 								localStorage.setItem("userCompanyId",
 										data.company.id);
 							}
 						}
 						if (data.authorities[0].authority === "ROLE_ADMINRAC") {
-							localStorage.setItem("userHomepage",
-									"homePageRAC.html");
-							window.location.href = "homePageRAC.html";
+
+							if (data.passwordChanged) {
+								localStorage.setItem("userHomepage",
+										"homePageRAC.html");
+								window.location.href = "homePageRAC.html";
+
+							} else {
+								localStorage.setItem("userHomepage",
+								"changePassword.html");
+								window.location.href = "changePassword.html";
+							}
 						} else if (data.authorities[0].authority === "ROLE_ADMINHOTEL") {
-							localStorage.setItem("userHomepage",
-									"homePageHotel.html");
-							window.location.href = "homePageHotel.html";
+
+							if (data.passwordChanged) {
+								localStorage.setItem("userHomepage",
+										"homePageHotel.html");
+								window.location.href = "homePageHotel.html";
+
+							} else {
+								
+								localStorage.setItem("userHomepage",
+								"changePassword.html");
+								window.location.href = "changePassword.html";
+							}
 						} else if (data.authorities[0].authority === "ROLE_ADMINAIRLINE") {
-							localStorage.setItem("userHomepage",
-									"homePageAirline.html");
-							window.location.href = "homePageAirline.html";
+
+							if (data.passwordChanged) {
+								localStorage.setItem("userHomepage",
+										"homePageAirline.html");
+								window.location.href = "homePageAirline.html";
+
+							} else {
+						
+								localStorage.setItem("userHomepage",
+								"changePassword.html");
+								window.location.href = "changePassword.html";
+							}
 						} else if (data.authorities[0].authority === "ROLE_ADMIN") {
 							localStorage.setItem("userHomepage",
 									"homePageAdmin.html");

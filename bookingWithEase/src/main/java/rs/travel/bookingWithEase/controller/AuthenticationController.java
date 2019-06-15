@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.travel.bookingWithEase.model.Admin;
 import rs.travel.bookingWithEase.model.User;
 import rs.travel.bookingWithEase.model.UserTokenState;
 import rs.travel.bookingWithEase.security.TokenUtils;
 import rs.travel.bookingWithEase.security.auth.JwtAuthenticationRequest;
 import rs.travel.bookingWithEase.service.CustomUserDetailsService;
+import rs.travel.bookingWithEase.service.UserService;
 
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +43,9 @@ public class AuthenticationController {
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
 
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) throws AuthenticationException, IOException {
@@ -95,10 +100,22 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	//@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+	public ResponseEntity<?> changePassword(HttpServletRequest request, @RequestBody PasswordChanger passwordChanger) {
 		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 		Map<String, String> result = new HashMap<>();
 		result.put("result", "success");
+		
+		String token = tokenUtils.getToken(request);
+		String username = this.tokenUtils.getUsernameFromToken(token);
+		User user = (User) this.userDetailsService.loadUserByUsername(username);
+		if(user instanceof Admin)
+		{
+			Admin admin = (Admin) user;
+			admin.setPasswordChanged(true);
+			userService.update(admin);
+
+		}
+		
 		return ResponseEntity.accepted().body(result);
 	}
 
