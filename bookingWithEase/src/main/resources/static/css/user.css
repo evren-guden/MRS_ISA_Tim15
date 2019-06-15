@@ -59,7 +59,7 @@
 	box-shadow: 0 4px 4px rgba(83, 100, 255, 0.32);
 }
 
-#vehicleReservationsDiv{
+#vehicleReservationsDiv, #flightReservationsDiv{
 	position: absolute;
 	top: 20%;
 	right: 15%;
@@ -72,7 +72,7 @@
 	opacity: 0.95;
 }
 
-.vrDiv {
+.vrDiv , .frDiv{
 	position: absolute;
 	top: 3%;
 	left: 3%;
@@ -82,7 +82,7 @@
 	color:white;
 }
 
-.cancelVR {
+.cancelVR, .cancelFR, .rate {
 	position: absolute;
 	top: 77%;
 	left: 84%;

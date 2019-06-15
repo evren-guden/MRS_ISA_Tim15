@@ -35,7 +35,9 @@
 		</div>
 		<ul id="nav_ul">
 			<li><a href="javascript:homepage()">Home</a></li>
-
+			<li><a class="tablinks"
+				href="javascript:openCity(event, 'flightReservationsDiv')">My Flight
+					Reservations</a></li>
 			<li><a class="tablinks"
 				href="javascript:openCity(event, 'roomReservationsDiv')">My Room
 					Reservations</a></li>
@@ -47,6 +49,9 @@
 		</ul>
 	</nav>
 
+	<div class="tabcontent flightReservationsDiv" id="flightReservationsDiv"
+		style="display: none"></div>
+	
 	<div class="tabcontent roomReservationsDiv" id="roomReservationsDiv"
 		style="display: none"></div>
 		
