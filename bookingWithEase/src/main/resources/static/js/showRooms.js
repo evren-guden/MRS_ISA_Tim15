@@ -192,9 +192,10 @@ function getRooms(hotelId) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : fillTableRooms,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -234,9 +235,10 @@ function searchRooms(formData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wronggg! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -263,9 +265,10 @@ function searchQrr(formData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong while getting available qrrs! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 

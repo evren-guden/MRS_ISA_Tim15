@@ -261,9 +261,10 @@ function updatePricelist(jsonData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(data) {
-			alert(data);
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -285,9 +286,10 @@ function addSpecialOffer(callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 
 }
@@ -304,9 +306,10 @@ function getSpecialOffers(hotelId, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -320,9 +323,10 @@ function deleteSpecialOffer(hotelId, soId, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -337,9 +341,10 @@ function updateSpecialOffer(hotelId, soId, jsonData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(data) {
-			alert(data);
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -355,9 +360,10 @@ function getQuickRoomReservations(hotelId, callback) {
 							+ getJwtToken());
 				},
 				success : callback,
-				error : function(response) {
-					alert("Something went wrong while getting quick room reservations! :(");
+				error : function(xhr, status, error) {
+					alertify.alert("Error", xhr.responseText);
 				}
+
 			});
 }
 
@@ -376,9 +382,10 @@ function addQuickRoomReservations(hotelId, formData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong while adding qrr! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -397,9 +404,10 @@ function updateQuickRoomReservations(hotelId, formData, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong while updating qrr! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -413,9 +421,10 @@ function deleteQuickRoomReservation(hotelId, qrrId, callback) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : callback,
-		error : function(response) {
-			alert("Something went wrong while deleting qrr! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -431,9 +440,10 @@ function getHotel(user) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : fillHotelInfo,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -495,9 +505,10 @@ function fillHotelInfo(data) {
 								+ getJwtToken());
 					},
 					success : getHotels,
-					error : function(data) {
-						alert(data);
+					error : function(xhr, status, error) {
+						alertify.alert("Error", xhr.responseText);
 					}
+
 				});
 
 				alertify.notify("Saved");

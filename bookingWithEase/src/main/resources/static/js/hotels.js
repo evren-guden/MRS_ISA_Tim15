@@ -112,9 +112,10 @@ function getHotels(successFunction) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : successFunction,
-		error : function(response) {
-			alert("Something went wrong! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -134,9 +135,10 @@ function getRooms(hotelId) {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : showRooms,
-		error : function(response) {
-			alert("Something went wrong while getting rooms! :(");
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
 		}
+
 	});
 }
 
@@ -172,7 +174,11 @@ function searchHotels()
 			/* Authorization header */
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
-		success : fillHotelsTable
+		success : fillHotelsTable,
+		error : function(xhr, status, error) {
+			alertify.alert("Error", xhr.responseText);
+		}
+
 	});
 }
 
@@ -335,9 +341,10 @@ function fillHotelsTable(data) {
 								+ getJwtToken());
 					},
 					success : getHotels,
-					error : function(data) {
-						alert(data);
+					error : function(xhr, status, error) {
+						alertify.alert("Error", xhr.responseText);
 					}
+
 				});
 
 				alertify.notify("Saved");

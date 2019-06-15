@@ -126,7 +126,7 @@ public class FlightController {
 		return new ResponseEntity<>(flights, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Flight>> search(@RequestBody FlightDTO flightDTO) {
 		Collection<Flight> services = flightService.search(flightDTO);
 		return new ResponseEntity<>(services, HttpStatus.OK);

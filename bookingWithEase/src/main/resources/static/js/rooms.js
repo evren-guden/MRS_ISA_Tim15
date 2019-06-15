@@ -41,6 +41,9 @@ function roomRegistration() {
 			contentType : "application/json",
 			data : jsonData,
 			dataType : 'json',
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+			},
 			success : function(data) {
 				alertify.notify("Room added :)");
 	

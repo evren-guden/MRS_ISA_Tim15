@@ -32,11 +32,15 @@ function companyRegistration() {
 			contentType : "application/json",
 			data : jsonData,
 			dataType : 'json',
+			beforeSend : function(xhr) {
+				/* Authorization header */
+				xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+			},
 			success : function(response) {
 				alertify.notify("Company saved :)");
 			},
-			error : function(response) {
-				alert("Something went wrong! :(");
+			error : function(xhr, status, error) {
+				alertify.alert("Error", xhr.responseText);
 			}
 		});
 	} else {
