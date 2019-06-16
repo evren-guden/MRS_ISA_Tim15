@@ -241,8 +241,8 @@ function saveUsers(data) {
 					users,
 					function(index, user) {
 
-						// alert(user.type + " " + user.username);
-						if (user.type == adminType) {
+					//	alert(user.type + " " + user.username + " company " + user.company);
+						if (user.type == adminType && user.company == null) {
 							counter++;
 							var newItem = $('<div align="left"></div');
 							newItem

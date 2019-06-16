@@ -21,7 +21,7 @@ function companyRegistration() {
 
 	formData["admins"] = adminsArray;
 
-	// alert("registration " + formData["admins"] );
+	//alert("registration " + formData["admins"] );
 	var validData = Boolean(validateRegistrationData(formData));
 	if (validData) {
 		var jsonData = JSON.stringify(formData);

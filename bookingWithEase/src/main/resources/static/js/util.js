@@ -51,6 +51,15 @@ array.reduce((obj, item) => {
   return obj
 }, {})
 
+function checkCompany()
+{	
+	// Ako adminu nije dodeljena kompanija ne moze nista da radi, sakri opcije
+	if(JSON.parse(localStorage.getItem('currentUser')).company == null)
+	{	
+		$('.tab').css("display", "none");
+	}
+}
+
 function getFormData(formId) {
 	var formData = {};
 	var s_data = $(formId).serializeArray();
