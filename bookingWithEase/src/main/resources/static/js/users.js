@@ -111,9 +111,18 @@ function fillRoomReservations(data) {
 		var today = new Date();
 		today.setDate(today.getDate() + 2);
 		var checkIn = new Date(reservation.checkInDate);
-		if (today.getTime() <= checkIn.getTime()) {
+
+		var checkOut = new Date(reservation.checkOutDate);
+		if (today.getTime() <= checkIn.getTime()){
 			reservationDiv.append('<button class="cancelRR" id="cancelRR'
-					+ reservation.id + '">Cancel reservation</button>');
+					+ reservation.id + '">Cancel reservation</button>');}
+		if (today.getTime() > checkOut.getTime()){
+			if(reservation.rate == null){
+			reservationDiv.append('<button class="rate" id="rate'
+					+ reservation.id + '">Rate</button>');
+			}else {
+				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate + '</h2>');
+			}
 		}
 
 		counter++;
@@ -223,6 +232,101 @@ function cancelVehicleReservation(vrId) {
 					}
 				}
 			});
+}
+
+function getMyFlightReservations() {
+
+	$.ajax({
+		url : "/flightReservation/" + JSON.parse(localStorage.getItem('currentUser')).id,
+		type : "GET",
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : fillFlightReservations,
+		error : function(response) {
+			alert("Something went wrong");
+		}
+	});
+}
+
+function fillFlightReservations(data) {
+
+	var reservation_list = data == null ? [] : (data instanceof Array ? data
+			: [ data ]);
+
+	var frDiv = $('#flightReservationsDiv');
+	frDiv.empty();
+	var counter = 0;
+
+	$.each(reservation_list, function(index, reservation) {
+		var reservationDiv = $('<div class="frDiv" id="frDiv_' + counter
+				+ '" style="bottom:' + (55 - counter * 45) + '%; top:'
+				+ (3 + counter * 45) + '%;"' + '></div>');
+		reservationDiv.append('Airline: ' + reservation.flight.flightAirlineName + ', '
+				+ reservation.flight.flightAirlineAddress + ' </br>');
+		//reservationDiv.append('Reservation date: '
+		//		+ reservation.reservationDate.substring(0, 10) + ' </br>');
+		reservationDiv.append('Check in: '
+				+ reservation.checkInDate.substring(0, 10) + ' </br>');
+		reservationDiv.append('Check out: '
+				+ reservation.checkOutDate.substring(0, 10) + ' </br></br>');
+		reservationDiv.append('Price: ' + reservation.totalPrice
+				+ '&#8364;</br>');
+
+		var today = new Date();
+		today.setDate(today.getDate() + 2);
+		var checkIn = new Date(reservation.checkInDate);
+		var checkOut = new Date(reservation.checkOutDate);
+		if (today.getTime() <= checkIn.getTime()){
+			reservationDiv.append('<button class="cancelFR" id="cancelFR'
+					+ reservation.id + '">Cancel reservation</button>');
+		}
+		if (today.getTime() > checkOut.getTime()){
+			if(reservation.rate == null){
+			reservationDiv.append('<button class="rate" id="rate'
+					+ reservation.id + '">Rate</button>');
+			}else {
+				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate + '</h2>');
+			}
+		}
+
+		counter++;
+		frDiv.append(reservationDiv);
+	});
+	
+	$(document).on('', '.cancelFR', function(e) {
+		var frId = $(this).attr('id').substring(8);
+		var userId = JSON.parse(localStorage.getItem('currentUser')).id;
+
+		alertify.confirm('Cancel reservation', 'Are you sure?', function() {
+			cancelFlightReservation(frId);
+			alertify.notify("Reservation canceled");
+		}, function() {
+			alertify.notify("Canceled");
+		});
+
+	});
+
+}
+
+
+function cancelFlightReservation(vrId) {
+	/*$
+			.ajax({
+				url : "vehicleReservations/" + vrId,
+				type : "DELETE",
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+				},
+				success : getMyVehicleReservations,
+				statusCode : {
+					422 : function() {
+						alertify
+								.error("The deadline for canceling the reservation has expired");
+					}
+				}
+			});*/
 }
 
 function fillUsersTable(data) {

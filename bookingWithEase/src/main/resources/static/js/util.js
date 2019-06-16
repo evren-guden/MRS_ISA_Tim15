@@ -30,6 +30,8 @@ function openCity(evt, cityName) {
 		getMyProfileData();
 	if(cityName === "vehicleReservationsDiv")
 		getMyVehicleReservations();
+	if(cityName === "flightReservationsDiv")
+		getMyFlightReservations();
 	var i, tabcontent, tablinks;
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i = 0; i < tabcontent.length; i++) {

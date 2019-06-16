@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,9 @@ public class FlightReservationService {
 
 	public FlightReservation findByFUserAndFlightId(RegisteredUser user, Long flightId) {
 		return flightReservationRepository.findByFUserAndFlightId(user, flightId);
+	}
+	
+	public List<FlightReservation> findByUser(Long userId){
+		return flightReservationRepository.findByUser(userId);
 	}
 }
