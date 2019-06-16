@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.travel.bookingWithEase.dto.QuickVehicleReservationDTO;
 import rs.travel.bookingWithEase.dto.RACUpdateDTO;
 import rs.travel.bookingWithEase.dto.RentACarSearchDTO;
+import rs.travel.bookingWithEase.dto.TimeDTO;
 import rs.travel.bookingWithEase.dto.VehicleSearchDTO;
 import rs.travel.bookingWithEase.model.Branch;
 import rs.travel.bookingWithEase.model.QuickVehicleReservation;
@@ -33,6 +34,7 @@ import rs.travel.bookingWithEase.service.QuickVehicleReservationService;
 import rs.travel.bookingWithEase.service.RACService;
 import rs.travel.bookingWithEase.service.RACSpecialOfferService;
 import rs.travel.bookingWithEase.service.VehicleRateService;
+import rs.travel.bookingWithEase.service.VehicleReservationService;
 import rs.travel.bookingWithEase.service.VehicleService;
 
 @RestController
@@ -50,6 +52,9 @@ public class RentACarController {
 	
 	@Autowired 
 	private RACSpecialOfferService racOfferService;
+	
+	@Autowired
+	private VehicleReservationService vehResService;
 	
 	@Autowired
 	private QuickVehicleReservationService quickVehService;
@@ -280,5 +285,36 @@ public class RentACarController {
 			}
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ADMINRAC')")
+	@PostMapping(value= "/{racId}/income")
+	public ResponseEntity<Double> getIncome(@PathVariable("racId") Long racId, @RequestBody TimeDTO dto){
+		
+		Double income = vehResService.findIncome(racId, dto.getStart(), dto.getEnd());
+		if(income == null) {
+			income = new Double(0);
+		}
+		return new ResponseEntity<Double>(income, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ADMINRAC')")
+	@PostMapping(value= "/{racId}/avgRate")
+	public ResponseEntity<Double> avgCompanyRate(@PathVariable("racId") Long racId){
+		Double avg = vehRateService.getAvgByCompany(racId);
+		if(avg == null) {
+			avg = new Double(-1);
+		}
+		return new ResponseEntity<Double>(avg, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ADMINRAC')")
+	@PostMapping(value= "/{racId}/avgRatePeriod")
+	public ResponseEntity<Double> avgCompanyRatePeriod(@PathVariable("racId") Long racId, @RequestBody TimeDTO dto){
+		Double avg = vehRateService.getAvgByCompanyPeriod(racId, dto);
+		if(avg == null) {
+			avg = new Double(-1);
+		}
+		return new ResponseEntity<Double>(avg, HttpStatus.OK);
 	}
 }

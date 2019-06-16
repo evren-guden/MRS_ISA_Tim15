@@ -27,4 +27,8 @@ public class VehicleRateController {
 	
 		return new ResponseEntity<VehicleRate>(rate, HttpStatus.OK);
 	}
+	
+	
+	
+	
 }

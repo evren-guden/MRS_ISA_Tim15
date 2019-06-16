@@ -968,3 +968,50 @@ function addQuickVehicleReservations(racId, formData) {
 		}
 	});
 }
+
+
+$(document).on('submit', '#reportDatesForm', function(e) {
+
+	e.preventDefault();
+
+	var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+	var racId = currentUser.company.id;
+	
+	var formData = getFormData("#reportDatesForm");
+	var jsonData = JSON.stringify(formData);
+
+	$.ajax({
+		url : "/rentacars/" + racId + "/income",
+		type : "POST",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(data){
+			$("#totalIncomeH2").html("Total income: " + data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert("Something went wrong! :( " + errorThrown);
+		}
+	});
+	
+	$.ajax({
+		url : "/rentacars/" + racId + "/avgRatePeriod",
+		type : "POST",
+		contentType : "application/json",
+		data : jsonData,
+		dataType : 'json',
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+		},
+		success : function(data){
+			$("#avgRateH2").html("Average company rate: " + data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert("Something went wrong! :( " + errorThrown);
+		}
+	});
+
+});

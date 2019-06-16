@@ -1,5 +1,6 @@
 package rs.travel.bookingWithEase.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,4 +35,8 @@ public class VehicleReservationService {
 	public List<VehicleReservation> findByUser(Long userId){
 		return vehicleReservationRepository.findByUser(userId);
 	}
+	
+	public Double findIncome(Long racId, Date start, Date end) {
+		return vehicleReservationRepository.findIncome(racId, start, end);
+	} 
 }

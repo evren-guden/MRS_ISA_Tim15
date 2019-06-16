@@ -38,13 +38,16 @@
 			info</button>
 		<button class="tablinks" onclick="openCity(event, 'editRacInfo')">Edit
 			rent-a-car info</button>
-		<button class="tablinks" id="mybranchsbtn" onclick="openDiv(event, 'allBranchesDiv')">My branchs</button>
+		<button class="tablinks" id="mybranchsbtn"
+			onclick="openDiv(event, 'allBranchesDiv')">My branchs</button>
 		<button class="tablinks" onclick="openDiv(event, 'addBranchDiv')">Add
 			branch</button>
-		<button class="tablinks" id="myvehiclesbtn" onclick="openDiv(event, 'allVehiclesDiv')">My vehicles</button>
+		<button class="tablinks" id="myvehiclesbtn"
+			onclick="openDiv(event, 'allVehiclesDiv')">My vehicles</button>
 		<button class="tablinks" onclick="openDiv(event, 'addVehicleDiv')">Add
 			vehicle</button>
-		<button class="tablinks" id="myoffersbtn" onclick="openDiv(event, 'allOffersDiv')">My offers</button>
+		<button class="tablinks" id="myoffersbtn"
+			onclick="openDiv(event, 'allOffersDiv')">My offers</button>
 		<button class="tablinks" onclick="openDiv(event, 'addOfferDiv')">Add
 			offer</button>
 
@@ -54,6 +57,8 @@
 		<button class="tablinks" id="openQvrBtn"
 			onclick="openCity(event, 'addQuickVehicleReservationDiv')">Add
 			Quick Reservation</button>
+		<button class="tablinks" id="openReportsBtn"
+			onclick="openCity(event, 'myReports')">My Reports</button>
 
 	</div>
 
@@ -65,7 +70,7 @@
 
 		</table>
 	</div>
-	
+
 	<div id="racInfo" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black; font-size: 21px;">Rent-a-car
@@ -138,7 +143,7 @@
 		<div class="container">
 			<h2>Adding Branch:</h2>
 			<form id="addBranchForm">
-				<table >
+				<table>
 					<tr>
 						<td align="left">Name:</td>
 						<td align="left"><input type="text" name="name" required></td>
@@ -190,7 +195,7 @@
 				<option></option>
 			</select>
 			<form id="addVehicleForm">
-				<table >
+				<table>
 
 					<tr>
 						<td align="left">Registration number:</td>
@@ -261,7 +266,8 @@
 		<div class="container">
 			<h2 align=center style="color: black;">All special offers</h2>
 			<table align="center" id="specialOffersTable" class="racTable"
-				border=1 style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
+				border=1
+				style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
 
 			</table>
 		</div>
@@ -339,18 +345,18 @@
 	<div id="allBranchesDiv" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black;">All Branches</h2>
-			<table align="center" id="allBranchesTable" class="racTable"
-				border=1 style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
+			<table align="center" id="allBranchesTable" class="racTable" border=1
+				style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
 
 			</table>
 		</div>
 	</div>
-	
+
 	<div id="allVehiclesDiv" class="tabcontent">
 		<div class="container">
 			<h2 align=center style="color: black;">All Vehicles</h2>
-			<table align="center" id="allVehiclesTable" class="racTable"
-				border=1 style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
+			<table align="center" id="allVehiclesTable" class="racTable" border=1
+				style="max-width: auto; max-height: auto; border-collapse: collapse; margin-bottom: 5%;">
 
 			</table>
 		</div>
@@ -418,30 +424,53 @@
 
 
 	</div>
-	
-	<div class="tabcontent adminProfile" id="myprofilediv" style="display: none;"></div>
 
-	<div id="changepswdiv" class="tabcontent adminProfile" style="display: none;">
-		<div align="center" style="padding-top:10%;">
+	<div class="tabcontent adminProfile" id="myprofilediv"
+		style="display: none;"></div>
+
+	<div id="changepswdiv" class="tabcontent adminProfile"
+		style="display: none;">
+		<div align="center" style="padding-top: 10%;">
 			<h2>Change password</h2>
 			<form action="" id="changepswform">
 				<input name="oldPassword" type="password" id="oldpsw"
 					placeholder="Old password*" required
 					oninvalid="this.setCustomValidity('Please enter old password.')"
-					oninput="setCustomValidity('')">
-					<br> 
-				<input
+					oninput="setCustomValidity('')"> <br> <input
 					type="password" name="newPassword" id="newpsw"
 					placeholder="New password*" required
 					oninvalid="this.setCustomValidity('Please enter new password.')"
-					oninput="setCustomValidity('')">
-					 <br> 
-				<input type="checkbox" id="checkbox"
-						onclick="showPswchangeFunction()">
-				<label for="checkbox">Show passwords</label>
-				<br>
-				<input type="submit" id="submitchangepsw" value="Change">
+					oninput="setCustomValidity('')"> <br> <input
+					type="checkbox" id="checkbox" onclick="showPswchangeFunction()">
+				<label for="checkbox">Show passwords</label> <br> <input
+					type="submit" id="submitchangepsw" value="Change">
 			</form>
+		</div>
+	</div>
+
+
+	<div id="myReports" class="tabcontent" align="center">
+		<div class="container">
+			<h2>Choose dates:</h2>
+			<form id="reportDatesForm">
+				<table>
+					<tr>
+						<td>Start:</td>
+						<td><input type="date" name="start"></td>
+					</tr>
+					<tr>
+						<td>End:</td>
+						<td><input type="date" name="end"></td>
+					</tr>
+					<tr>
+						<td> </td>
+						<td><input type="submit"></td>
+					</tr>
+				</table>
+			</form>
+			<br>
+			<h2 align="center" id="totalIncomeH2">Total income: </h2>
+			<h2 align="center" id="avgRateH2">Average company rate: </h2>
 		</div>
 	</div>
 
