@@ -46,7 +46,7 @@ public class VehicleReservation {
 	
 	protected Double totalPrice;
 
-	@OneToOne
+	@OneToOne(mappedBy="reservation")
 	private VehicleRate rate;
 	
 	public VehicleReservation() {
