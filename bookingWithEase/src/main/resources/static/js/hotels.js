@@ -260,7 +260,7 @@ function fillHotelsTable(data) {
 								.append('<p>'
 										+ hotel.address
 										+ '</p>'
-										+ '<a href=""><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
+										+ '<a href="javascript:showMap('+ hotel.latitude +' , '+ hotel.longitude +')"><img class="show_on_map" src="../images/show_on_map.png" height = 17 width= 18 ><div class="show_on_map">Show on map</div></a>'
 										+ '</div>');
 						hotelDiv
 								.append('<div class="guest_ratings"> Guest ratings: '

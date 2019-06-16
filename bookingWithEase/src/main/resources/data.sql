@@ -1,17 +1,17 @@
-insert into rentacar (id,name, address, description, rating) values (101,'Atlas servis', 'Novi sad', 'Najbolji rent-a-car servis',5 );
-insert into rentacar (id,name, address, description, rating) values (202,'Uni Line', 'Beograd', 'Povoljno izdavanje vozila', 4);
-insert into rentacar (id,name, address, description, rating) values (303,'DDM Rent-a-car', 'Novi Sad', 'Veliki izbor vozila', 4);
-insert into rentacar (id,name, address, description, rating) values (404,'Inex', 'Novi Sad', 'Izdavanje vozila', 4);
+insert into rentacar (id,name, address, description, rating, latitude, longitude) values (101,'Atlas servis', 'Novi sad', 'Najbolji rent-a-car servis',5, 55.76, 37.64 );
+insert into rentacar (id,name, address, description, rating, latitude, longitude) values (202,'Uni Line', 'Beograd', 'Povoljno izdavanje vozila', 4, 55.76, 37.64);
+insert into rentacar (id,name, address, description, rating, latitude, longitude) values (303,'DDM Rent-a-car', 'Novi Sad', 'Veliki izbor vozila', 4, 55.76, 37.64);
+insert into rentacar (id,name, address, description, rating, latitude, longitude) values (404,'Inex', 'Novi Sad', 'Izdavanje vozila', 4, 55.76, 37.64);
 
-insert into airline (id,name, address, description, rating) values (1000,'Aeroflot Russian Airlines', 'Russia', '', 1);
-insert into airline (id,name, address, description, rating) values (2000,'Norwegian', 'Norway', '', 1);
-insert into airline (id,name, address, description, rating) values (3000,'Ethiopian Airlines', 'Ethiopia ', '', 1);
-insert into airline (id,name, address, description, rating) values (4000,'KLM Royal Dutch Airlines', 'Germany', '', 1);
-insert into airline (id,name, address, description, rating) values (5000,'Air France', 'France', '', 1);
-insert into airline (id,name, address, description, rating) values (6000,'Austrian Airlines', 'Austria', '', 1);
-insert into airline (id,name, address, description, rating) values (7000,'Swiss International Air', 'Switzerland', '', 1);
-insert into airline (id,name, address, description, rating) values (9000,'Turkish Airlines', 'Turkey', '', 1);
-insert into airline (id,name, address, description, rating) values (10000,'Air Serbia', 'Serbia', '', 1);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (1000,'Aeroflot Russian Airlines', 'Russia', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (2000,'Norwegian', 'Norway', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (3000,'Ethiopian Airlines', 'Ethiopia ', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (4000,'KLM Royal Dutch Airlines', 'Germany', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (5000,'Air France', 'France', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (6000,'Austrian Airlines', 'Austria', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (7000,'Swiss International Air', 'Switzerland', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (9000,'Turkish Airlines', 'Turkey', '', 1, 55.76, 37.64);
+insert into airline (id,name, address, description, rating, latitude, longitude) values (10000,'Air Serbia', 'Serbia', '', 1, 55.76, 37.64);
 
 
 insert into flight (id, date_fligh, date_land, finald, information_luggage, length_travel, number, price_ticket, startd, time_travel, airline_id, final_id, start_id) values (1111,'2019-04-30','2019-05-30','Belgrade (NTesla)','da',5,5,5,'Paris (CdeGol)',1,1000,100,400);
@@ -40,11 +40,11 @@ insert into vehicle (id, registration_number, type, gear, color, branch_id) valu
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (8, 'BB-11', 'Audi A4', 'manual', 'green',400);
 insert into vehicle (id, registration_number, type, gear, color, branch_id) values (9, 'CC-11', 'Audi A4', 'automatic', 'black', 400);
 
-insert into hotel (id, name, address, description, rating, stars) values (100, 'Hotel van de Vijsel', 'Amsterdam', '',4.5, 4);
-insert into hotel (id, name, address, description, rating, service_type_prices_id,stars) values (200, 'Amsterdam Marriott Hotel', 'Amsterdam', '',4.2, 100, 5);
-insert into hotel (id, name, address, description, rating, stars) values (300, 'The Peninsula Paris', 'Paris', '',5, 5);
-insert into hotel (id, name, address, description, rating, stars) values (400, 'Hotel de Nesle', 'Paris', '',4, 3);
-insert into hotel (id, name, address, description, rating, stars) values (500, 'Red Planet Tokyo Asakusa', 'Tokyo', '',4, 3);
+insert into hotel (id, name, address, description, rating, service_type_prices_id, stars, latitude, longitude) values (100, 'Hotel van de Vijsel', 'Amsterdam', '',4.5, 200, 4, 52.379189, 4.899431);
+insert into hotel (id, name, address, description, rating, service_type_prices_id,stars, latitude, longitude) values (200, 'Amsterdam Marriott Hotel', 'Amsterdam', '',4.2, 100, 5, 52.379189, 4.899431);
+insert into hotel (id, name, address, description, rating, service_type_prices_id, stars, latitude, longitude) values (300, 'The Peninsula Paris', 'Paris', '',5, 300, 5, 55.76, 37.64);
+insert into hotel (id, name, address, description, rating, service_type_prices_id, stars, latitude, longitude) values (400, 'Hotel de Nesle', 'Paris', '',4, 400, 3, 55.76, 37.64);
+insert into hotel (id, name, address, description, rating, service_type_prices_id, stars, latitude, longitude) values (500, 'Red Planet Tokyo Asakusa', 'Tokyo', '',4, 500, 3, 55.76, 37.64);
 
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (100, 101, 1, 2, 5, 45, 100);
 insert into room (id, room_number, floor_number, capacity, rating, price_per_nigth, hotel_id) values (101, 102, 1, 2, 5, 45, 100);
@@ -102,6 +102,11 @@ insert into hotel_special_offers (hotel_id, special_offers_id) values (300, 106)
 insert into hotel_special_offers (hotel_id, special_offers_id) values (400, 107);
 
 insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (100, true, 10,  false, 0, false, 0, false, 0);
+insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (200, true, 10,  true, 12, true, 15, true, 20);
+insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (300, true, 10,  false, 0, false, 0, false, 0);
+insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (400, true, 10,  false, 0, false, 0, false, 0);
+insert into hotel_service_type_prices (id,bed_and_breakfast_enabled, bed_and_breakfast_price,half_board_enabled, half_board_price,full_board_enabled, full_board_price,all_inclusive_enabled, all_inclusive_price) values (500, true, 13,  true, 20, false, 0, false, 0);
+
 insert into discounts (id, price, points) values (1, 500, 1);
 insert into discount (id, points, discount) values (1, 15, 10);
 insert into discounts_discs(discounts_id, discs_id) values (1, 1);

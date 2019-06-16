@@ -30,6 +30,8 @@ public class Company implements Serializable{
 	protected Long id;
 	protected String name;
 	protected String address;
+	protected double latitude;
+	protected double longitude;
 	protected String description;
 	protected Double rating;
 	
@@ -56,6 +58,19 @@ public class Company implements Serializable{
 
 	public Company() {
 		super();
+	}
+	
+	public Company(Long id, String name, String address, double latitude, double longitude, String description,
+			Double rating, Set<Admin> admins) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.description = description;
+		this.rating = rating;
+		this.admins = admins;
 	}
 
 	public Company(Long id, String name, String address, String description, Double rating, Set<Admin> admins) {
@@ -186,6 +201,21 @@ public class Company implements Serializable{
 	public Set<Admin> getAdmins() {
 		return admins;
 	}
-	
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
 	
 }
