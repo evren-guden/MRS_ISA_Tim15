@@ -10,24 +10,27 @@
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript" src="js/auth.js"></script>
+<script type="text/javascript" src="js/users.js"></script>
 <script type="text/javascript" src="js/adminAirline.js"></script>
 <script type="text/javascript" src="lib/alertify/alertify.min.js"></script>
 
 <link type="text/css" rel="stylesheet" href="lib/alertify/css/alertify.min.css">
 <link type="text/css" rel="stylesheet" href="lib/alertify/css/themes/semantic.min.css">
+<link rel="stylesheet" href="css/user.css" />
 
 
 </head>
 
-<body>
+<body onload="checkCompany()">
 
 	<nav>
 		<div class="brand">
 			<h2 id="pageTitle">Booking With Ease </h2> 
 		</div>
 		<ul id="nav_ul">
-			<li><a href="javascript:homepage()">Home</li>
-			</a>
+			<li><a href="javascript:homepage()">Home</a></li>
+		    <li><a class="tablinks"
+				href="javascript:openCity(event, 'myprofilediv')">My Profile</a></li>
 		</ul>
 	</nav>
 
@@ -274,7 +277,7 @@
 <div id="eP" class="tabcontent">
 		<div class="container">
 			<h2>Editing profile:</h2>
-			<form id="editProfile">
+			<form id="editProfileForm">
 				<table>
 
 					<tr>
@@ -317,23 +320,32 @@
 			<br>
 		</div>
 	</div>	
+	
+	<div class="tabcontent adminProfile" id="myprofilediv" style="display: none;"></div>
 
-	<script>
-		function openCity(evt, cityName) {
-			var i, tabcontent, tablinks;
-			tabcontent = document.getElementsByClassName("tabcontent");
-			for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
-			}
-			tablinks = document.getElementsByClassName("tablinks");
-			for (i = 0; i < tablinks.length; i++) {
-				tablinks[i].className = tablinks[i].className.replace(
-						" active", "");
-			}
-			$('#' + cityName).slideToggle(1000);
-			evt.currentTarget.className += " active";
-		}
-	</script>
+	<div id="changepswdiv" class="tabcontent adminProfile" style="display: none;">
+		<div align="center" style="padding-top:10%;">
+			<h2>Change password</h2>
+			<form action="" id="changepswform">
+				<input name="oldPassword" type="password" id="oldpsw"
+					placeholder="Old password*" required
+					oninvalid="this.setCustomValidity('Please enter old password.')"
+					oninput="setCustomValidity('')">
+					<br> 
+				<input
+					type="password" name="newPassword" id="newpsw"
+					placeholder="New password*" required
+					oninvalid="this.setCustomValidity('Please enter new password.')"
+					oninput="setCustomValidity('')">
+					 <br> 
+				<input type="checkbox" id="checkbox"
+						onclick="showPswchangeFunction()">
+				<label for="checkbox">Show passwords</label>
+				<br>
+				<input type="submit" id="submitchangepsw" value="Change">
+			</form>
+		</div>
+	</div>
 
 </body>
 </html>

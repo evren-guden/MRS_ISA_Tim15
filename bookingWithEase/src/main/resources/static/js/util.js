@@ -43,7 +43,8 @@ function openCity(evt, cityName) {
 				" active", "");
 	}
 	$('#' + cityName).slideToggle(1000);
-	evt.currentTarget.className += " active";
+	if(evt != null && evt != undefined)
+		evt.currentTarget.className += " active";
 }
 
 const arrayToObject = (array, keyField) =>
@@ -51,6 +52,15 @@ array.reduce((obj, item) => {
   obj[item[keyField]] = item
   return obj
 }, {})
+
+function checkCompany()
+{	
+	// Ako adminu nije dodeljena kompanija ne moze nista da radi, sakri opcije
+	if(JSON.parse(localStorage.getItem('currentUser')).company == null)
+	{	
+		$('.tab').css("display", "none");
+	}
+}
 
 function getFormData(formId) {
 	var formData = {};

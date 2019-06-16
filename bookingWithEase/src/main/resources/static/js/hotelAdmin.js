@@ -167,6 +167,11 @@ $(document).on('click', '#cancelQuickRoomReservationBtn', function(e) {
 	openCity(event, '');
 });
 
+$(document).on('click', '#cancelEditQuickRoomReservationBtn', function(e) {
+	e.preventDefault();
+	openCity(event, '');
+});
+
 $(document).on('change', '.qrrDate', function(e) {
 
 	var newCheckIn = $('#qrr-checkIn').val();

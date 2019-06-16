@@ -50,7 +50,10 @@ function adminRegistrationChoosen() {
 	$('.transbox_admin_reg').css('z-index', '3');
 	$('.transbox_company_reg').css('z-index', '2');
 	$('.transbox_discounts').css('z-index', '2');
-
+	
+	$('#myprofilediv').css('display', 'none');
+	$('#changepswdiv').css('display', 'none');
+	
 	$('input:radio[name="adminType"]').change(function() {
 		if ($(this).val() == 'airline') {
 			getAirlines();
@@ -67,6 +70,14 @@ function fillAdmins(adminType) {
 
 }
 
+function myProfileChoosen()
+{
+	$('.transbox_admin_reg').css('opacity', '0');
+	$('.transbox_company_reg').css('opacity', '0');
+	$('.transbox_discounts').css('opacity', '0');
+	openCity(event, 'myprofilediv');
+}
+
 function companyRegistrationChoosen() {
 	$('.transbox_admin_reg').css('opacity', '0');
 	$('.transbox_company_reg').css('opacity', '0.9');
@@ -75,6 +86,9 @@ function companyRegistrationChoosen() {
 	$('.transbox_company_reg').css('z-index', '3');
 	$('.transbox_admin_reg').css('z-index', '2');
 	$('.transbox_discounts').css('z-index', '2');
+	
+	$('#myprofilediv').css('display', 'none');
+	$('#changepswdiv').css('display', 'none');
 
 	$('input:radio[name="cmpType"]').change(function() {
 		if ($(this).val() == 'airline') {
@@ -97,6 +111,9 @@ function discountsChoosen() {
 	$('.transbox_company_reg').css('z-index', '2');
 	$('.transbox_admin_reg').css('z-index', '2');
 	$('.transbox_discounts').css('z-index', '3');
+	
+	$('#myprofilediv').css('display', 'none');
+	$('#changepswdiv').css('display', 'none');
 	
 	getDiscounts(fillDiscounts);
 	
@@ -224,8 +241,8 @@ function saveUsers(data) {
 					users,
 					function(index, user) {
 
-						// alert(user.type + " " + user.username);
-						if (user.type == adminType) {
+					//	alert(user.type + " " + user.username + " company " + user.company);
+						if (user.type == adminType && user.company == null) {
 							counter++;
 							var newItem = $('<div align="left"></div');
 							newItem

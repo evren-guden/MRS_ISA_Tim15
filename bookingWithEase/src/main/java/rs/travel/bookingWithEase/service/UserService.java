@@ -63,8 +63,10 @@ public class UserService {
 	}
 
 	public User dtoToUser(AdminUserDTO adminUserDto) {
+		Company company =  null;
 		
-		Company company = companyService.findOne(adminUserDto.getCompanyId());
+		if(adminUserDto.getCompanyId() != null)
+			company = companyService.findOne(adminUserDto.getCompanyId());
 		
 		return new Admin(null, adminUserDto.getUsername(), adminUserDto.getFirstName(), adminUserDto.getLastName(),
 				adminUserDto.getEmail(), adminUserDto.getPassword(), "", "", "",
