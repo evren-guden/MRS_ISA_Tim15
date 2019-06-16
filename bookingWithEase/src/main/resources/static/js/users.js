@@ -116,15 +116,46 @@ function fillRoomReservations(data) {
 					+ reservation.id + '">Cancel reservation</button>');}
 		if (today.getTime() > checkOut.getTime()){
 			if(reservation.rate == null){
-			reservationDiv.append('<button class="rate" id="rate'
-					+ reservation.id + '">Rate</button>');
+				reservationDiv.append('<div align="right" class="rateRDiv" id="rateRDiv' + reservation.id + '" style="display:inline-block;float:right;"></div>');
 			}else {
-				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate + '</h2>');
+				reservationDiv.append('<h2 style="float:right;">Rate: ' + reservation.rate.rate + '</h2>');
 			}
 		}
 		counter++;
 		rrDiv.append(reservationDiv);
 	});
+	
+	$('.rateRDiv').rate();
+	
+	$(".rateRDiv").on("change", function(ev, data){
+			var iden = $(this).attr('id').substring(8);
+		    //console.log(data.from, data.to);
+			var rate = data.to;
+			var sendData = {};
+			sendData["reservationId"] = iden;
+			sendData["rate"] = rate;
+			
+			var jsonData = JSON.stringify(sendData);
+			
+			$.ajax({
+				url : "/room/rate",
+				type : "POST",
+				contentType: 'application/json',
+				data: jsonData,
+				dataType : 'json',
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+				},
+				success : function(data){
+					getMyRoomReservations(fillRoomReservations);
+				},
+				error : function(response) {
+					alert("Something went wrong");
+				}
+			});
+			
+	});
+
 
 }
 
@@ -181,18 +212,48 @@ function fillVehicleReservations(data) {
 			reservationDiv.append('<button class="cancelVR" id="cancelVR'
 					+ reservation.id + '">Cancel reservation</button>');
 		}
-		if (today.getTime() >= checkOut.getTime()){
+		if (today.getTime() > checkOut.getTime()){
 			if(reservation.rate == null){
-			reservationDiv.append('<button class="rate" id="rate'
-					+ reservation.id + '">Rate</button>');
+				reservationDiv.append('<div align="right" class="rateDiv" id="rateDiv' + reservation.id + '" style="display:inline-block;float:right;"></div>');
 			}else {
-				reservationDiv.append('<h2>Rate: ' + reservation.rate.rate + '</h2>');
+				reservationDiv.append('<h2 style="float:right;">Rate: ' + reservation.rate.rate + '</h2>');
 			}
 		}
 
 		counter++;
 		vrDiv.append(reservationDiv);
 	});
+	
+$('.rateDiv').rate();
+	
+$(".rateDiv").on("change", function(ev, data){
+		var iden = $(this).attr('id').substring(7);
+	    //console.log(data.from, data.to);
+		var rate = data.to;
+		var sendData = {};
+		sendData["reservationId"] = iden;
+		sendData["rate"] = rate;
+		
+		var jsonData = JSON.stringify(sendData);
+		
+		$.ajax({
+			url : "/vehicle/rate",
+			type : "POST",
+			contentType: 'application/json',
+			data: jsonData,
+			dataType : 'json',
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
+			},
+			success : function(data){
+				getMyVehicleReservations();
+			},
+			error : function(response) {
+				alert("Something went wrong");
+			}
+		});
+		
+});
 	
 	$(document).on('click', '.cancelVR', function(e) {
 		var vrId = $(this).attr('id').substring(8);
@@ -239,8 +300,8 @@ function getMyFlightReservations() {
 			xhr.setRequestHeader("Authorization", "Bearer " + getJwtToken());
 		},
 		success : fillFlightReservations,
-		error : function(response) {
-			alert("Something went wrong");
+		error : function(jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
 		}
 	});
 }

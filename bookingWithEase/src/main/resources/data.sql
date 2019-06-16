@@ -108,6 +108,8 @@ insert into discounts_discs(discounts_id, discs_id) values (1, 1);
 
 insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date, reservation_date, total_price ) values (100, 102, 100, '2019-11-01 00:00:00', '2019-11-15 00:00:00', '2019-05-15 00:00:00', 200);
 insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date, reservation_date, total_price ) values (101, 101, 100, '2019-11-01 00:00:00', '2019-11-15 00:00:00', '2019-05-15 00:00:00', 200);
+insert into room_reservation(id, room_id, user_id, check_in_date, check_out_date, reservation_date, total_price ) values (102, 101, 100, '2018-11-01 00:00:00', '2018-11-15 00:00:00', '2018-05-15 00:00:00', 200);
+
 insert into quick_room_reservation(id, room_id, check_in_date, check_out_date, reservation_date, total_price, discount, final_price) values (103, 102, '2019-12-01 00:00:00', '2019-12-15 00:00:00', '2019-05-15 00:00:00', 600, 10, 540);
 insert into quick_room_reservation(id, room_id, check_in_date, check_out_date, reservation_date, total_price, discount, final_price) values (104, 102, '2019-12-16 00:00:00', '2019-12-25 00:00:00', '2019-05-15 00:00:00', 600, 20, 480);
 

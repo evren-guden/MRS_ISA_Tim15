@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class VehicleRate {
 	@Id
@@ -36,6 +38,7 @@ public class VehicleRate {
 		this.rate = rate;
 	}
 
+	@JsonIgnore
 	public VehicleReservation getReservation() {
 		return reservation;
 	}

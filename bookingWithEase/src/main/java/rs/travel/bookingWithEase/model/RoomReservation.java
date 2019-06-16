@@ -16,7 +16,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -58,6 +58,9 @@ public class RoomReservation implements Serializable {
 
 	@Column(name = "totalPrice")
 	protected double totalPrice;
+	
+	@OneToOne(mappedBy="reservation")
+	private HotelRate rate;
 
 	public RoomReservation() {
 		super();
@@ -160,6 +163,14 @@ public class RoomReservation implements Serializable {
 
 	public void setSpecialOffers(Set<HotelSpecialOffer> specialOffers) {
 		this.specialOffers = specialOffers;
+	}
+
+	public HotelRate getRate() {
+		return rate;
+	}
+
+	public void setRate(HotelRate rate) {
+		this.rate = rate;
 	}
 
 }
